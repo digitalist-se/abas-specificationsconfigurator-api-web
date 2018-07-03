@@ -1,0 +1,7 @@
+.idea
+.phpintel/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+.DS_Store
+/.vscode
