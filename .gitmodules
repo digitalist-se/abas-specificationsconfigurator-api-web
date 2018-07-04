@@ -1,3 +1,4 @@
 [submodule "api/submodule"]
 	path = api/submodule
 	url = git@git.gal-digital.de:abas-software/abas-specificationsconfigurator-api-web.git
+	branch = develop
