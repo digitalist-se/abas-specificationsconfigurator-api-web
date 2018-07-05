@@ -1,0 +1,54 @@
+.toolbar {
+  @extend %dark-theme;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $toolbar-height;
+  z-index: $z-index-header;
+}
+.toolbar-container {
+  @include container;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: $toolbar-height;
+  .content-spacer {
+    flex: 1 1 auto;
+  }
+  .action {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .icon {
+      background: $toolbar-icon-background;
+      width: 38px;
+      height: 38px;
+      border-radius: 19px;
+      line-height: 38px;
+      left: 0;
+      text-align: center;
+      & > * {
+        height: 19px;
+        margin-top: 9px;
+        display: inline-block;
+      }
+    }
+    .try-icon > * {
+      margin-left: 2px;
+    }
+    .text {
+      margin-left: 1em;
+    }
+  }
+  .action + .action {
+    margin-left: 50px;
+  }
+  .action {
+    border: none;
+    background: none;
+    outline: none;
+    color: $white;
+    cursor: pointer;
+  }
+}

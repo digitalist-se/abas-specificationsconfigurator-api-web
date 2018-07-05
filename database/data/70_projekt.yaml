@@ -1,0 +1,183 @@
+project:
+    name: Projekt
+    print_name: Projekt
+    description: "Was sind die Rahmenbedingungen für Ihr ERP-Projekt: Projektziele, Meilensteine, Budget, Anzahl der Anwender, Projektteam?"
+    print_description: "Das sind die Rahmenbedingungen für unser ERP-Projekt:"
+    sort: 7
+    sections:
+        project.project:
+            headline: Projekt
+            slug_name: projekt
+            elements:
+                991:
+                    type: text
+                    content: Was ist der Auslöser für die Suche nach einem neuen ERP-System?
+                    sub_content: Ausgangssituation, Gründe, aktuelle Probleme
+                994:
+                    type: text
+                    content: "Welche Ziele verfolgen Sie mit der Einführung eines neuen ERP-Systems? Welche Erwartungen haben Sie?"
+                    sub_content: "z.B. Verbesserung der Wirtschaftlichkeit, Senkung von Verwaltungskosten, Vereinfachung und Automatisierung von Prozessen, geringere Belastung von Mitarbeitern, schnellere Bearbeitung von Kundenanfragen, Termintreue, Reduzierung von Fehlern, Voraussetzung für Zertifizierung oder Rating bei den Banken"
+                996:
+                    type: text
+                    content: |
+                        Wie ist das ERP-Projekt zeitlich dimensioniert?
+                        Welche Meilensteine gibt es im Projekt?
+                        (Angaben in MM/JJJJ)
+                    print: |
+                        Das ERP-Projekt ist mit folgenden Meilensteinen terminiert
+                        (Angaben in MM/JJJJ)
+        project.throughput-time:
+            headline: Durchlaufzeit
+            elements:
+                998:
+                    type: text
+                    content: 1. Start (intern den Auftrag erhalten)
+                1000:
+                    type: text
+                    content: a) Bildung Projektteam
+                1002:
+                    type: text
+                    content: b) Projektdefinition (Ziele, Nichtziele)
+                1004:
+                    type: text
+                    content: 2. Requirements / Anforderungskatalog
+                1006:
+                    type: text
+                    content: 3. Anbieterauswahl
+                1007:
+                    type: text
+                    content: a) Anbieterrecherche
+                1009:
+                    type: text
+                    content: b) Kennenlernen
+                1011:
+                    type: text
+                    content: c) Workshop
+                1013:
+                    type: text
+                    content: d) Angebote
+                1015:
+                    type: text
+                    content: e) Referenzen
+                1017:
+                    type: text
+                    content: f) Entscheidung
+                1019:
+                    type: text
+                    content: 4. Einführung
+                1020:
+                    type: text
+                    content: a) Kick Off
+                1022:
+                    type: text
+                    content: b) Kurzanalyse
+                1024:
+                    type: text
+                    content: c) Schulung
+                1026:
+                    type: text
+                    content: d) Organisationsgespräche / Prozessdefinition / Einführungskonzept
+                1028:
+                    type: text
+                    content: e) Realisierung
+                1030:
+                    type: text
+                    content: f) Integrationsstests
+                1032:
+                    type: text
+                    content: g) User Schulung
+                1034:
+                    type: text
+                    content: h) Go Live
+                1036:
+                    type: text
+                    content: 5. KVP (Kontinuierlicher Verbesserungsprozess)
+                1039:
+                    type: text
+                    content: |
+                        Welches Budget steht zur Verfügung?
+                        Budget in EUR
+                1041:
+                    type: text
+                    content: Wieviele Anwender sind geplant?
+                1042:
+                    type: text
+                    content: Anzahl abzubildender Unternehmen im ERP-System (= Mandanten)
+                1044:
+                    type: text
+                    content: Anzahl User
+                1046:
+                    type: text
+                    content: Anzahl BDE Terminals
+                1048:
+                    type: text
+                    content: Anzahl Scanner
+                1050:
+                    type: text
+                    content: Anzahl Mobile Clients
+                1052:
+                    type: text
+                    content: Wie setzt sich das Projektteam zusammen? Wer sind die Ansprechpartner?
+                1053:
+                    type: text
+                    content: Verantwortlich in der Geschäftsleitung
+                1055:
+                    type: text
+                    content: Vertretung
+                1057:
+                    type: text
+                    content: Projektleitung
+                1059:
+                    type: text
+                    content: Vertretung
+                1061:
+                    type: text
+                    content: Teilnehmer/in Lenkungsausschuss
+                1063:
+                    type: text
+                    content: Vertretung
+        project.key-user:
+            headline: Key User
+            elements:
+                1066:
+                    type: text
+                    content: Vertrieb / Marketing
+                1068:
+                    type: text
+                    content: Vertretung
+                1070:
+                    type: text
+                    content: Verkauf
+                1072:
+                    type: text
+                    content: Vertretung
+                1074:
+                    type: text
+                    content: Entwicklung
+                1076:
+                    type: text
+                    content: Vertretung
+                1078:
+                    type: text
+                    content: Produktion
+                1080:
+                    type: text
+                    content: Vertretung
+                1082:
+                    type: text
+                    content: Materialwirtschaft / Logistik
+                1084:
+                    type: text
+                    content: Vertretung
+                1086:
+                    type: text
+                    content: Beschaffung
+                1088:
+                    type: text
+                    content: Vertretung
+                1090:
+                    type: text
+                    content: Finanzen
+                1092:
+                    type: text
+                    content: Vertretung

@@ -1,0 +1,76 @@
+industrie:
+    name: Industrie 4.0
+    print_name: Industrie 4.0
+    description: "Die Themen Industrie 4.0 und Digitalisierung sind eine große Herausforderung - aber auch eine Chance - für mittelständische Unternehmen. Mit welchen Aspekten von Industrie 4.0 hat sich Ihr Unternehmen bereits befasst oder ist Industrie 4.0 schon im Einsatz? Eine moderne ERP-Lösung ermöglicht die Umsetzung von Industrie-4.0-Prozessen."
+    print_description: "Mit folgenden Aspekten von Industrie 4.0 haben wir uns bereits befasst bzw. setzen bereits Lösungen ein:"
+    sort: 5
+    sections:
+        industrie.smartOrganisation:
+            headline: Smart Products
+            illustration:
+                - zoom-department-production
+            elements:
+                674:
+                    type: choice
+                    choice_type: smartManufacturing
+                    content: "In unserer Produktion werden Daten und Informationen erfasst, gespeichert und zur automatischen Prozessplanung und -steuerung verwendet."
+                    print: "In unserer Produktion werden Daten und Informationen erfasst, gespeichert und zur automatischen Prozessplanung und -steuerung verwendet."
+                676:
+                    type: choice
+                    choice_type: smartManufacturing
+                    content: "Die Produktionsprozesse ermöglichen die Kommunikation der Maschinen und Geräte untereinander."
+                    print: "Die Produktionsprozesse ermöglichen die Kommunikation der Maschinen und Geräte untereinander."
+                678:
+                    type: choice
+                    choice_type: smartManufacturing
+                    content: "Wir setzen Informationstechnologie ein, um die Produktion mit anderen Geschäftsbereichen zu vernetzen."
+                    print: "Wir setzen Informationstechnologie ein, um die Produktion mit anderen Geschäftsbereichen zu vernetzen."
+                680:
+                    type: choice
+                    choice_type: smartManufacturing
+                    content: "In unserer Produktion existiert eine leistungsfähige IT- und Kommunikations-Infrastruktur."
+                    print: "In unserer Produktion existiert eine leistungsfähige IT- und Kommunikations-Infrastruktur."
+                682:
+                    type: choice
+                    choice_type: smartManufacturing
+                    content: "Unser Unternehmen setzt erweiterte und assistierte Realität in der Produktion ein."
+                    print: "Unser Unternehmen setzt erweiterte und assistierte Realität in der Produktion ein."
+                684:
+                    type: choice
+                    choice_type: smartManufacturing
+                    content: "Unser Unternehmen ist in der Lage, auch kleine Losgrößen effizient herzustellen."
+                    print: "Unser Unternehmen ist in der Lage, auch kleine Losgrößen effizient herzustellen."
+
+
+        industrie.smartTechnology:
+            headline: Smart Technology
+            illustration:
+                - zoom-department-production
+            elements:
+                694:
+                    type: choice
+                    choice_type: smartTechnology
+                    content: "Unser Unternehmen setzt Informationstechnologie ein, um sich vertikal zu integrieren, also die Produktions- mit der Geschäftsebene zu verbinden."
+                    print: "Unser Unternehmen setzt Informationstechnologie ein, um sich vertikal zu integrieren, also die Produktions- mit der Geschäftsebene zu verbinden."
+                696:
+                    type: choice
+                    choice_type: smartTechnology
+                    content: "Wir verfügen über eine Strategie zu Cyber- und Datenrisiken."
+                    print: "Wir verfügen über eine Strategie zu Cyber- und Datenrisiken."
+                698:
+                    type: choice
+                    choice_type: smartTechnology
+                    content: "Unser Unternehmen verfügt über ein strukturiertes Stammdatenmanagement, die Systemdurchgängigkeit ist sichergestellt und deren Qualität werden in einem fortwährenden Prozess kontrolliert und verbessert."
+                    print: "Unser Unternehmen verfügt über ein strukturiertes Stammdatenmanagement, die Systemdurchgängigkeit ist sichergestellt und deren Qualität werden in einem fortwährenden Prozess kontrolliert und verbessert."
+                700:
+                    type: choice
+                    choice_type: smartTechnology
+                    content: "Unser Unternehmen verfügt über eine Normenabteilung oder hat Mitarbeiter (oder auch Kontraktoren) explizit mit Normenverwaltung beauftragt."
+                    print: "Unser Unternehmen verfügt über eine Normenabteilung oder hat Mitarbeiter (oder auch Kontraktoren) explizit mit Normenverwaltung beauftragt."
+        industrie.addional-infos:
+            headline: Ergänzung
+            elements:
+                702:
+                    type: text
+                    content: "Wir beschäftigen uns darüberhinaus mit folgenden Aspekten und Fragestellungen zu Industrie 4.0:"
+                    print: "Wir beschäftigen uns darüberhinaus mit folgenden Aspekten und Fragestellungen zu Industrie 4.0:"

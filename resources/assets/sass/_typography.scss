@@ -1,0 +1,17 @@
+.content {
+  .copy, p {
+    font-size: 20px;
+    line-height: 32px;
+  }
+  .headline {
+    font-size: $headline-text-size;
+    color: $headline-color;
+    line-height: 42px;
+  }
+  .subline {
+    font-size: $subline-text-size;
+    color: $subline-color;
+    font-weight: 600;
+    line-height: $subline-text-size;
+  }
+}

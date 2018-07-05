@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Resources;
+
+use App\Models\Role;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class Text extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'key'    => $this->key,
+            'value'  => $this->value,
+            $this->when($request->user()->role->is(Role::ADMIN), function () {
+                return ['description' => $this->description];
+            }),
+        ];
+    }
+}

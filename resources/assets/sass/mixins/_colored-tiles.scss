@@ -1,0 +1,23 @@
+@mixin coloredTiles($colors: $chapter-tiles, $nestedButton: false) {
+  @for $i from 1 through 14 {
+    $i: $i % length($chapter-tiles);
+    @if $i == 0 {
+      $i: length($chapter-tiles);
+    }
+    &:nth-child(#{$i}) {
+      @if ($nestedButton) {
+        button {
+          background-color: nth($chapter-tiles, $i);
+          &:after {
+            background-color: nth($chapter-tiles, $i);
+          }
+        }
+      } @else {
+        background-color: nth($chapter-tiles, $i);
+        &:after {
+          background-color: nth($chapter-tiles, $i);
+        }
+      }
+    }
+  }
+}

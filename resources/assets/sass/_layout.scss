@@ -1,0 +1,7 @@
+#main-content {
+  margin-top: $toolbar-height;
+  min-height: calc(100vh - #{($toolbar-height + $footer-height)});
+}
+.logo {
+  height: 42px;
+}

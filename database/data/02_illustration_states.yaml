@@ -1,0 +1,88 @@
+
+build-up-departments:
+    description: Einzelne Abteilungen bauen nach einander sich auf
+
+zoom-department-management:
+    description: Hervorheben der Abteilung "Geschäftsleitung/Controlling"
+zoom-department-human-resources:
+    description: Hervorheben der Abteilung "Human Resources"
+zoom-department-service:
+    description: Hervorheben der Abteilung "Service"
+zoom-department-project-management:
+    description: Hervorheben der Abteilung "Projektmanagement"
+zoom-department-product-development:
+    description: Hervorheben der Abteilung "Produktentwicklung/Produktenstehung"
+zoom-department-purchase:
+    desciption: Hervorheben der Abteilung "Einkauf / Materialwirtschaft"
+zoom-department-financial-billing-department:
+    description: Hervorheben der Abteilung "Finanzbuchhaltung"
+zoom-department-sales:
+    description: Hervorheben der Abteilung "Vertrieb"
+zoom-department-warehouse:
+    description: Hervorheben der Abteilung "Lager"
+zoom-department-production:
+    description: Hervorheben der Abteilung "Fertigung"
+zoom-department-reception:
+
+zoom-department-aftersales:
+    description: Hervorheben der Abteilung "Aftersales"
+
+show-business:
+    description: Zeige Branchen an
+show-products:
+    description: Zeige Produkte an
+show-customers:
+    description: Zeige Kunden (= Team) an
+show-all-organisations:
+    description: Zeige alle Icon Organisation / Prozesse Wertschöpfungskette = BPM
+show-product-genesis:
+    description: Zeige alle Icons und Labels der Abteilung "Produktentstehung"
+show-sales:
+    description: Zeige alle Icons und Labels der Abteilung "Vertrieb"
+show-purchase:
+    desciption: Zeige alle Icons und Labels der Abteilung "Einkauf / Materialwirtschaft"
+show-production:
+    description: Zeige alle Icons und Labels der Abteilung "Fertigung"
+show-shipping:
+    description: Zeige alle Icons und Labels der Abteilung "Versand"
+show-aftersales:
+    description: Zeige alle Icons und Labels der Abteilung "Aftersales"
+show-financial-accounting:
+    description: Zeige alle Icons und Labels der Abteilung "Finanzbuchhaltung"
+show-controlling:
+    description: Zeige alle Icons und Labels der Abteilung "Controlling"
+
+show-infrastructure:
+    description: Zeige alle Icons und Labels zur Instrastruktur
+show-infrastructure-organisation:
+    description: Zeige Organisation in der Instrastruktur
+show-infrastructure-hardware:
+    description: Zeige Bestehende Hardware in der Instrastruktur
+show-infrastructure-os:
+    description: Zeige Betriebssysteme in der Infrastruktur
+show-infrastructure-licences:
+    description: Zeige Linzenzmodelle in der Infrastruktur
+
+show-system-use:
+    description: Zeige Systemeinz
+
+show-industrie-4-0:
+    description: Zeige Industrie 4.0 mit Icons und Leuchtstrahlen.
+
+show-requirement:
+show-requirement-sales:
+    description: Vertrieb
+show-requirement-order-processing:
+    description: Auftragsabwicklung
+show-requirement-invoicing:
+    description: Fakturierung
+show-requirement-purchase:
+    description: Einkauf
+show-requirement-materials-management:
+    description: Materialwirtschaft
+show-requirement-production:
+    description: Fertigung
+show-requirement-service:
+    description: Service
+show-requirement-calculation:
+    description: Kalkulation

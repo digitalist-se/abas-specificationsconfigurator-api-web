@@ -1,0 +1,19 @@
+.tutorial {
+  @extend %container-with-spacing;
+  min-height: calc(100% - #{($toolbar-height + $footer-height)});
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li{
+      position: relative;
+      &:before {
+        content: '\2713';
+        position: absolute;
+        left: 0;
+      }
+      margin: 0;
+      padding: 0 0 0 2em;
+    }
+  }
+}

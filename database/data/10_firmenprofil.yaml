@@ -1,0 +1,130 @@
+profile:
+    name: Firmenprofil
+    print_name: Firmenprofil
+    sort: 1
+    description: "Um Ihre Anforderungen besser verstehen und einschätzen zu können, ist es für die ERP-Anbieter wichtig, Ihr Unternehmen besser kennenzulernen. Was ist Ihr tägliches Business? Wie tickt Ihr Unternehmen?"
+    sections:
+        profile.profile:
+            headline: Firmenprofil
+            elements:
+                6:
+                    type: text
+                    content: |
+                        Firmenprofil
+                        Bitte beschreiben Sie kurz Ihr Unternehmen!
+
+                7:
+                    type: print_headline
+                    print: "Weitere Angaben zum Unternehmen:"
+
+                8:
+                    type: text
+                    content: Jahr der Firmengründung
+                    print: "Jahr der Firmengründung:"
+
+                10:
+                    type: slider
+                    content: Anzahl Mitarbeiter
+                    min: 1
+                    max: 2000
+                    print: "Anzahl Mitarbeiter:"
+
+                12:
+                    type: text
+                    content: Anzahl Standorte
+                    print: "Anzahl Standorte:"
+
+                14:
+                    type: text
+                    content: Länder mit Niederlassungen
+                    print: "Länder mit Niederlassungen:"
+
+                16:
+                    type: text
+                    content: Rechtsform Ihres Unternehmens
+                    print: "Rechtsform des Unternehmens:"
+
+                18:
+                    type: choice
+                    choice_type: yesNo
+                    content: Besteht Berichtspflicht?
+                    print: "Berichtspflichtig:"
+
+                20:
+                    type: text
+                    content: |
+                        Wenn ja, gegen wen?
+                        Bitte geben Sie den Firmennamen und Firmensitz ein.
+                    print: "Gegen:"
+
+                22:
+                    type: choice
+                    choice_type: yesNo
+                    content: Ist Ihr Unternehmen inhabergeführt?
+                    print: "Inhabergeführt:"
+
+                24:
+                    type: text
+                    content: Umsatz in TEUR
+                    print: "Umsatz in TEUR:"
+
+                26:
+                    type: text
+                    content: |
+                        Zukunftsstrategien
+                        Wo steht Ihr Unternehmen in 2-5 Jahren?
+                        Strategische Entwicklung und Ziele im Hinblick auf Märkte, Technologien, Produkte:
+                    sub_content: |
+                        z.B. Wachstums- und Umsatzprognosen, zukünftige Entwicklungen (wie z.B. Fusionierung, neue Filialen, neue Geschäftsbereiche und Services, veränderte Rahmenbedingungen, neue Produkte, Wettbewerbssituation, Branchentrends, Veränderungen im Management etc.
+                    print: |
+                        Zukunftsstrategien:
+                        Wo steht das Unternehmen in 2-5 Jahren? Strategische Entwicklung und Ziele im Hinblick auf Märkte, Technologien, Produkte:
+
+        profile.branche:
+            headline: Branche
+            elements:
+                29:
+                    type: choice
+                    choice_type: business
+                    content: In welcher Branche ist Ihr Unternehmen tätig?
+                    print: "Unser Unternehmen ist in diesen Branchen tätig:"
+
+        profile.products:
+            headline: Produkte
+            elements:
+                34:
+                    type: text
+                    content: Kurzbeschreibung Ihrer Produkte und Leistungen
+                    print: "Unsere Produkte und Leistungen:"
+
+                36:
+                    type: choice
+                    choice_type: investmentConsum
+                    content: Investitionsgut / Konsumgut
+                    print: "Dabei handelt es sich um:"
+
+        profile.customers:
+            headline: Kunden
+            elements:
+                40:
+                    type: text
+                    content: |
+                        Zielkundengruppen
+                        Bitte geben Sie an, welche Branchen zu Ihrer Zielgruppe gehören.
+                    sub_content: z.B. Maschinenbau, Elektroindustrie, Automobilindustrie, ...
+                    print: "Zu unserer Zielgruppe gehören Kunden aus folgenden Branchen:"
+
+                42:
+                    type: text
+                    content: |
+                        Wichtigste Kunden
+                        Wer sind Ihre wichtigsten Kunden?
+                    print: "Unsere wichtigsten Kunden sind:"
+
+                44:
+                    type: text
+                    content: |
+                        Möchten Sie noch weitere Angaben zu Ihrem Unternehmen ergänzen?
+                        Natürlich können Sie auch im generierten Lastenheft weitere Details hinzufügen!
+                    print: "Ergänzungen:"
+

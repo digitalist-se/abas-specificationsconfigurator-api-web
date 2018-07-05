@@ -1,0 +1,115 @@
+yesNo:
+    options:
+        choice.option.yes: Ja
+        choice.option.no: Nein
+yesNoOpen:
+    options:
+        choice.option.yes: Ja
+        choice.option.no: Nein
+        choice.option.open: offen
+
+business:
+    multiple: true
+    options:
+        branche.option.einzelfertigung: Einzelfertigung
+        branche.option.maschinen-und-anlagenbau:
+            text: Maschinen- & Anlagenbau
+            value: Maschinen- und Anlagenbau
+        branche.option.elektroindustrie:
+            text: Elektro&shy;industrie
+            value: Elektroindustrie
+        branche.option.automotive-and-supply: Automotive & Supply
+        branche.option.komponentenfertigung:
+            text: Komponenten&shy;fertigung
+            value: Komponentenfertigung
+        branche.option.handel: Handel
+        branche.option.medizintechnik:
+            text: Medizin&shy;technik
+            value: Medizintechnik
+        branche.option.metallindustrie:
+            text: Metall&shy;industrie
+            value: Metallindustrie
+        branche.option.serienfertigung:
+            text: Serien&shy;fertigung
+            value: Serienfertigung
+        branche.option.prozessindustrie:
+            text: Prozess&shy;industrie
+            value: Prozessindustrie
+        branche.option.professional-services: Professional Services
+        branche.option.other: Andere Branche
+
+levelOfIntegration:
+    options:
+        levelOfIntegration.option.no-it: keine IT Lösung im Einsatz
+        levelOfIntegration.option.no-it-integrated: nicht integrierte IT Lösung
+        levelOfIntegration.option.interface: Anbindung über Schnittstelle
+        levelOfIntegration.option.full: Voll integriert
+        levelOfIntegration.option.erp-modul: ERP Modul
+
+process:
+    options:
+        process.option.not-relevant : nicht relevant
+        process.option.outside : außer Haus
+        process.option.outside-interface : außer Haus, Schnittstelle
+        process.option.inhouse : im Haus, manuell
+        process.option.inhouse-system : im Haus, systemgestützt
+
+investmentConsum:
+    options:
+        investmentConsum.option.investment: Investitionsgut
+        investmentConsum.option.consum: Konsumgut
+
+productionType:
+    options:
+        productionType.option.kleinserienfertigung: Kleinserienfertigung
+        productionType.option.serienfertigung: Serienfertigung
+        productionType.option.einzelfertigung: Einzelfertigung
+        productionType.option.auftragsbezogene-fertigung: Auftragsbezogene Fertigung
+        productionType.option.massenfertigung: Massenfertigung
+
+manuellyElectronic:
+    options:
+        manuellyElectronic.option.manuelly: manuell
+        manuellyElectronic.option.electronic: elektronisch
+
+smartManufacturing:
+    tiles: true
+    options:
+        smartManufacturing.option.1: Findet keine Beachtung
+        smartManufacturing.option.2:
+            text: Thema bekannt bzw. darüber informiert
+            value: Thema ist uns bewusst, wir haben uns darüber informiert
+        smartManufacturing.option.3:
+            text: Planung und Konzeption beendet
+            value: Konzepte sind entwickelt, Planung ist abgeschlossen und steht vor der Realisierung
+        smartManufacturing.option.4: Realisierungs&shy;phase
+        smartManufacturing.option.5:
+            text: Umgesetzt, dem KVP zugeführt
+            value: Ist bereits umgesetzt und dem KVP zugeführt
+
+smartTechnology:
+    tiles: true
+    options:
+        smartTechnology.option.1: Findet keine Beachtung
+        smartTechnology.option.2:
+            text: Thema bekannt bzw. darüber informiert
+            value: Thema ist uns bewusst, wir haben uns darüber informiert
+        smartTechnology.option.3:
+            text: Planung und Konzeption beendet
+            value: Konzepte sind entwickelt, Planung ist abgeschlossen und steht vor der Realisierung
+        smartTechnology.option.4: Realisierungs&shy;phase
+        smartTechnology.option.5:
+            text: Umgesetzt, dem KVP zugeführt
+            value: Ist bereits umgesetzt und dem KVP zugeführt
+
+lights:
+    options:
+        lights.option.green: Muss
+        lights.option.yellow: Kann
+        lights.option.red: Nicht benötigt
+
+
+
+
+
+

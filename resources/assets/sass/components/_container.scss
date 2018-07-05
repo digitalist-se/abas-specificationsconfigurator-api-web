@@ -1,0 +1,14 @@
+.container {
+  @include container;
+}
+%container-with-spacing {
+  padding: 90px $outer-spacing;
+}
+.colored-container {
+  @extend %container-with-spacing;
+  background: #F4F4F4;
+  a {
+    text-decoration: none;
+    color: #006296;
+  }
+}

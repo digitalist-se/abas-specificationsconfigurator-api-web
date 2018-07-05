@@ -1,0 +1,108 @@
+infrastructure:
+    name: Infrastruktur
+    print_name: Infrastruktur
+    description: "In diesem Kapitel geht es um eine Bestandsaufnahme Ihrer aktuellen Situation: Wie ist der Status Quo? Welche Infrastruktur ist bereits vorhanden? Wer sind die Ansprechpartner, wenn es um die Infrastruktur geht?"
+    print_description: "Diese Infrastruktur ist in unserem Unternehmen gegeben:"
+    sort: 3
+    sections:
+        infrastructure.organisation:
+            headline: Organisation
+            elements:
+                188:
+                    type: text
+                    content: Verantwortlicher Ansprechpartner IT
+                    print: Verantwortlicher Ansprechpartner IT
+                190:
+                    type: text
+                    content: Verantwortlicher Ansprechpartner Organisation
+                    print: Verantwortlicher Ansprechpartner Organisation
+                192:
+                    type: text
+                    content: Berichtslinie IT / Organisation
+                    print: Berichtslinie IT / Organisation
+                    sub_content: z.B. CFO
+
+        infrastructure.hardware:
+            headline: Bestehende Hardware & Infrastruktur
+            elements:
+                195:
+                    type: text
+                    content: Server und Ausstattung
+                    print: Server und Ausstattung
+                197:
+                    type: text
+                    content: Beschreibung der Netzwerkausstattung, LAN-, WAN-Verbindungen usw.
+                    print: Beschreibung der Netzwerkausstattung, LAN-, WAN-Verbindungen usw.
+                199:
+                    type: text
+                    content: Datenbank
+                    print: Datenbank
+                201:
+                    type: text
+                    content: Anzahl Clients
+                    print: Anzahl Clients
+
+        infrastructure.operation-systems:
+            headline: Betriebssysteme
+            elements:
+                204:
+                    type: text
+                    content: Server-Betriebssystem
+                    print: Server-Betriebssystem
+                206:
+                    type: text
+                    content: Desktop Clients
+                    print: Desktop Clients
+                208:
+                    type: text
+                    content: Mobile Clients
+                    print: Mobile Clients
+        infrastructure.licensing-models:
+            headline: Lizenzmodelle
+            elements:
+                211:
+                    type: choice
+                    choice_type: yesNo
+                    content: IT überwiegend on premise
+                    print: IT überwiegend on premise
+                    layout_two_columns: true
+                213:
+                    type: text
+                    content: geplant ab
+                    print: geplant ab
+                    layout_two_columns: true
+                214:
+                    type: choice
+                    choice_type: yesNo
+                    content: gehostet
+                    print: gehostet
+                    layout_two_columns: true
+                216:
+                    type: text
+                    content: geplant ab
+                    print: geplant ab
+                    layout_two_columns: true
+                217:
+                    type: choice
+                    choice_type: yesNo
+                    content: Cloud
+                    print: Cloud
+                    layout_two_columns: true
+                219:
+                    type: text
+                    content: geplant ab
+                    print: geplant ab
+                    layout_two_columns: true
+                220:
+                    type: choice
+                    choice_type: yesNo
+                    content: Hybrid
+                    print: Hybrid
+                    layout_two_columns: true
+                222:
+                    type: text
+                    content: geplant ab
+                    print: geplant ab
+                    layout_two_columns: true
+
+

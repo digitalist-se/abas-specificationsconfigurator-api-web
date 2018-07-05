@@ -1,0 +1,28 @@
+.footer {
+  @extend %dark-theme;
+  height: $footer-height;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.footer-container {
+  @include container;
+  height: $footer-height;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  .navigation {
+    align-items: center;
+
+    text-align: center;
+    .action {
+      padding: 0 9.5px;
+    }
+  }
+  .content-spacer {
+    flex: 1 1 auto;
+  }
+}

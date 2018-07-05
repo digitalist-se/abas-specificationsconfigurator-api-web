@@ -1,0 +1,950 @@
+requirement:
+    name: Anforderungen
+    print_name: Anforderungen
+    description: "Nun kommen wir zum Herzstück des Lastenhefts: Ihren Anforderungen an das neue ERP-System. Bitte geben Sie für die verschiedenen Geschäftsbereiche an, welche Anforderungen Sie im Hinblick auf die Funktionen des ERP-Systems haben. Handelt es sich um eine Muss- oder eine Kann-Anforderung oder benötigen Sie eine Funktion gar nicht? Zusätzlich zu den genannten Funktionalitäten können Sie weitere benötigte Funktionen und Details später in der generierten Word-Datei ergänzen. So können Sie alle Ihre Wünsche festhalten - ganz individuell auf Ihr Unternehmen zugeschnitten."
+    print_description: "Diese Anforderungen haben wir an das neue ERP-System:"
+    sort: 6
+    sections:
+        requirement.functional:
+            headline: Funktionale Anforderungen
+            elements:
+                707:
+                    type: choice
+                    choice_type: lights
+                    content: Vertrieb
+                    print: Vertrieb
+                    illustration:
+                        - zoom-department-sales
+                709:
+                    type: choice
+                    choice_type: lights
+                    content: CRM (Customer Relationship Management)
+                    print: CRM (Customer Relationship Management)
+                    illustration:
+                        - zoom-department-sales
+                711:
+                    type: choice
+                    choice_type: lights
+                    content: Angebotserstellung
+                    print: Angebotserstellung
+                    illustration:
+                        - zoom-department-sales
+                713:
+                    type: choice
+                    choice_type: lights
+                    content: Absatzplanung
+                    print: Absatzplanung
+                    illustration:
+                        - zoom-department-sales
+                715:
+                    type: choice
+                    choice_type: lights
+                    content: Umsatzplanung
+                    print: Umsatzplanung
+                    illustration:
+                        - zoom-department-sales
+                717:
+                    type: choice
+                    choice_type: lights
+                    content: Preisermittlung
+                    print: Preisermittlung
+                    illustration:
+                        - zoom-department-sales
+                719:
+                    type: choice
+                    choice_type: lights
+                    content: Rahmenverträge
+                    print: Rahmenverträge
+                    illustration:
+                        - zoom-department-sales
+                721:
+                    type: choice
+                    choice_type: lights
+                    content: Außendienst
+                    print: Außendienst
+                    illustration:
+                        - zoom-department-sales
+                723:
+                    type: choice
+                    choice_type: lights
+                    content: Mobile Datenerfassung
+                    print: Mobile Datenerfassung
+                    illustration:
+                        - zoom-department-sales
+                725:
+                    type: choice
+                    choice_type: lights
+                    content: E-Commerce / Web-Shop
+                    print: E-Commerce / Web-Shop
+                    illustration:
+                        - zoom-department-sales
+                727:
+                    type: choice
+                    choice_type: lights
+                    content: Sanktionslistenprüfung
+                    print: Sanktionslistenprüfung
+                    illustration:
+                        - zoom-department-sales
+                729:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Vertrieb:"
+                    print: "Weitere funktionale Anforderungen im Bereich Vertrieb:"
+                    illustration:
+                        - zoom-department-sales
+                731:
+                    type: choice
+                    choice_type: lights
+                    content: "Auftragsabwicklung"
+                    print: "Auftragsabwicklung"
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                733:
+                    type: choice
+                    choice_type: lights
+                    content: Rahmenaufträge
+                    print: Rahmenaufträge
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                735:
+                    type: choice
+                    choice_type: lights
+                    content: Aufträge
+                    print: Aufträge
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                737:
+                    type: choice
+                    choice_type: lights
+                    content: Versandplanung
+                    print: Versandplanung
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                739:
+                    type: choice
+                    choice_type: lights
+                    content: Lieferscheine
+                    print: Lieferscheine
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                741:
+                    type: choice
+                    choice_type: lights
+                    content: Speditionsaufträge
+                    print: Speditionsaufträge
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                743:
+                    type: choice
+                    choice_type: lights
+                    content: Versandkostenermittlung
+                    print: Versandkostenermittlung
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                745:
+                    type: choice
+                    choice_type: lights
+                    content: Retourenverwaltung
+                    print: Retourenverwaltung
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                747:
+                    type: choice
+                    choice_type: lights
+                    content: Rücksendeverfolgung
+                    print: Rücksendeverfolgung
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                749:
+                    type: choice
+                    choice_type: lights
+                    content: Exportabwicklung
+                    print: Exportabwicklung
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                751:
+                    type: choice
+                    choice_type: lights
+                    content: Meldungen zum Warenverkehr
+                    print: Meldungen zum Warenverkehr
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                753:
+                    type: choice
+                    choice_type: lights
+                    content: Intrastat
+                    print: Intrastat
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+                755:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Auftragsabwicklung:"
+                    print: "Weitere funktionale Anforderungen im Bereich Auftragsabwicklung:"
+                    illustration:
+                        - zoom-department-sales
+                        - zoom-department-warehouse
+
+                757:
+                    type: choice
+                    choice_type: lights
+                    content: "Fakturierung"
+                    print: "Fakturierung"
+                    illustration:
+                        - zoom-department-sales
+                759:
+                    type: choice
+                    choice_type: lights
+                    content: Rechnungen
+                    print: Rechnungen
+                    illustration:
+                        - zoom-department-sales
+                761:
+                    type: choice
+                    choice_type: lights
+                    content: Elektronische Rechnungen
+                    print: Elektronische Rechnungen
+                    illustration:
+                        - zoom-department-sales
+                763:
+                    type: choice
+                    choice_type: lights
+                    content: Sammelrechnungen
+                    print: Sammelrechnungen
+                    illustration:
+                        - zoom-department-sales
+                765:
+                    type: choice
+                    choice_type: lights
+                    content: Pro-forma-Rechnung
+                    print: Pro-forma-Rechnung
+                    illustration:
+                        - zoom-department-sales
+                767:
+                    type: choice
+                    choice_type: lights
+                    content: Gutschriften
+                    print: Gutschriften
+                    illustration:
+                        - zoom-department-sales
+                769:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Fakturierung:"
+                    print: "Weitere funktionale Anforderungen im Bereich Fakturierung:"
+                    illustration:
+                        - zoom-department-sales
+                771:
+                    type: choice
+                    choice_type: lights
+                    content: "Einkauf"
+                    print: "Einkauf"
+                    illustration:
+                        - zoom-department-purchase
+                773:
+                    type: choice
+                    choice_type: lights
+                    content: Bestellvorschläge
+                    print: Bestellvorschläge
+                    illustration:
+                        - zoom-department-purchase
+                775:
+                    type: choice
+                    choice_type: lights
+                    content: Lohnfertigungsvorschläge
+                    print: Lohnfertigungsvorschläge
+                    illustration:
+                        - zoom-department-purchase
+                777:
+                    type: choice
+                    choice_type: lights
+                    content: Umlagerungsvorschläge
+                    print: Umlagerungsvorschläge
+                    illustration:
+                        - zoom-department-purchase
+                779:
+                    type: choice
+                    choice_type: lights
+                    content: Ausschreibungen
+                    print: Ausschreibungen
+                    illustration:
+                        - zoom-department-purchase
+                781:
+                    type: choice
+                    choice_type: lights
+                    content: Anfragen
+                    print: Anfragen
+                    illustration:
+                        - zoom-department-purchase
+                783:
+                    type: choice
+                    choice_type: lights
+                    content: Rahmenaufträge
+                    print: Rahmenaufträge
+                    illustration:
+                        - zoom-department-purchase
+                785:
+                    type: choice
+                    choice_type: lights
+                    content: Bestellungen
+                    print: Bestellungen
+                    illustration:
+                        - zoom-department-purchase
+                787:
+                    type: choice
+                    choice_type: lights
+                    content: Lieferantenanalyse
+                    print: Lieferantenanalyse
+                    illustration:
+                        - zoom-department-purchase
+                789:
+                    type: choice
+                    choice_type: lights
+                    content: SRM (Supplier Relationship Management)
+                    print: SRM (Supplier Relationship Management)
+                    illustration:
+                        - zoom-department-purchase
+                791:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Einkauf:"
+                    print: "Weitere funktionale Anforderungen im Bereich Einkauf:"
+                    illustration:
+                        - zoom-department-purchase
+                793:
+                    type: choice
+                    choice_type: lights
+                    content: "Materialwirtschaft"
+                    print: "Materialwirtschaft"
+                    illustration:
+                        - zoom-department-warehouse
+
+                795:
+                    type: choice
+                    choice_type: lights
+                    content: Lagerverwaltung
+                    print: Lagerverwaltung
+                    illustration:
+                        - zoom-department-warehouse
+                797:
+                    type: choice
+                    choice_type: lights
+                    content: Mehrlagerverwaltung
+                    print: Mehrlagerverwaltung
+                    illustration:
+                        - zoom-department-warehouse
+                799:
+                    type: choice
+                    choice_type: lights
+                    content: Konsignationslager
+                    print: Konsignationslager
+                    illustration:
+                        - zoom-department-warehouse
+                801:
+                    type: choice
+                    choice_type: lights
+                    content: Chargen-/Seriennummernverwaltung
+                    print: Chargen-/Seriennummernverwaltung
+                    illustration:
+                        - zoom-department-warehouse
+                803:
+                    type: choice
+                    choice_type: lights
+                    content: Inventur
+                    print: Inventur
+                    illustration:
+                        - zoom-department-warehouse
+                805:
+                    type: choice
+                    choice_type: lights
+                    content: Disposition
+                    print: Disposition
+                    illustration:
+                        - zoom-department-warehouse
+                807:
+                    type: choice
+                    choice_type: lights
+                    content: Materialbedarfsplanung
+                    print: Materialbedarfsplanung
+                    illustration:
+                        - zoom-department-warehouse
+                809:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Materialwirtschaft:"
+                    print: "Weitere funktionale Anforderungen im Bereich Materialwirtschaft:"
+                    illustration:
+                        - zoom-department-warehouse
+
+                811:
+                    type: choice
+                    choice_type: lights
+                    content: "Fertigung"
+                    print: "Fertigung"
+                    illustration:
+                        - zoom-department-production
+                813:
+                    type: choice
+                    choice_type: lights
+                    content: Produktionsplanung und -steuerung
+                    print: Produktionsplanung und -steuerung
+                    illustration:
+                        - zoom-department-production
+                815:
+                    type: choice
+                    choice_type: lights
+                    content: Kapazitätsplanung
+                    print: Kapazitätsplanung
+                    illustration:
+                        - zoom-department-production
+                817:
+                    type: choice
+                    choice_type: lights
+                    content: Engpassplanung
+                    print: Engpassplanung
+                    illustration:
+                        - zoom-department-production
+                819:
+                    type: choice
+                    choice_type: lights
+                    content: Produktkonfiguration
+                    print: Produktkonfiguration
+                    illustration:
+                        - zoom-department-production
+                821:
+                    type: choice
+                    choice_type: lights
+                    content: Variantenmanagement
+                    print: Variantenmanagement
+                    illustration:
+                        - zoom-department-production
+                823:
+                    type: choice
+                    choice_type: lights
+                    content: Fertigungslisten
+                    print: Fertigungslisten
+                    illustration:
+                        - zoom-department-production
+                825:
+                    type: choice
+                    choice_type: lights
+                    content: Fertigungsvorschläge
+                    print: Fertigungsvorschläge
+                    illustration:
+                        - zoom-department-production
+                827:
+                    type: choice
+                    choice_type: lights
+                    content: Betriebsaufträge
+                    print: Betriebsaufträge
+                    illustration:
+                        - zoom-department-production
+                829:
+                    type: choice
+                    choice_type: lights
+                    content: Rückmeldungen
+                    print: Rückmeldungen
+                    illustration:
+                        - zoom-department-production
+                831:
+                    type: choice
+                    choice_type: lights
+                    content: Lohnfertigung
+                    print: Lohnfertigung
+                    illustration:
+                        - zoom-department-production
+                833:
+                    type: choice
+                    choice_type: lights
+                    content: Verlängerte Werkbank / Fremdfertigung
+                    print: Verlängerte Werkbank / Fremdfertigung
+                    illustration:
+                        - zoom-department-production
+                835:
+                    type: choice
+                    choice_type: lights
+                    content: Kuppelproduktion
+                    print: Kuppelproduktion
+                    illustration:
+                        - zoom-department-production
+                837:
+                    type: choice
+                    choice_type: lights
+                    content: APS
+                    print: APS
+                    illustration:
+                        - zoom-department-production
+                839:
+                    type: choice
+                    choice_type: lights
+                    content: Grafische Feinplanung
+                    print: Grafische Feinplanung
+                    illustration:
+                        - zoom-department-production
+                841:
+                    type: choice
+                    choice_type: lights
+                    content: Projektmanagement
+                    print: Projektmanagement
+                    illustration:
+                        - zoom-department-production
+                843:
+                    type: choice
+                    choice_type: lights
+                    content: CAD-Integration
+                    print: CAD-Integration
+                    illustration:
+                        - zoom-department-production
+                845:
+                    type: choice
+                    choice_type: lights
+                    content: PLM-Integration
+                    print: PLM-Integration
+                    illustration:
+                        - zoom-department-production
+
+                847:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Fertigung:"
+                    print: "Weitere funktionale Anforderungen im Bereich Fertigung:"
+                    illustration:
+                        - zoom-department-production
+
+                849:
+                    type: choice
+                    choice_type: lights
+                    content: "Service"
+                    print: "Service"
+                    illustration:
+                        - zoom-department-service
+                851:
+                    type: choice
+                    choice_type: lights
+                    content: Servicemanagement
+                    print: Servicemanagement
+                    illustration:
+                        - zoom-department-service
+                853:
+                    type: choice
+                    choice_type: lights
+                    content: Vor-Ort-Service
+                    print: Vor-Ort-Service
+                    illustration:
+                        - zoom-department-service
+                855:
+                    type: choice
+                    choice_type: lights
+                    content: Regelmäßige Dienstleistungen und Wartungen
+                    print: Regelmäßige Dienstleistungen und Wartungen
+                    illustration:
+                        - zoom-department-service
+                857:
+                    type: choice
+                    choice_type: lights
+                    content: Reparaturen
+                    print: Reparaturen
+                    illustration:
+                        - zoom-department-service
+                859:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Service:"
+                    print: "Weitere funktionale Anforderungen im Bereich Service:"
+                    illustration:
+                        - zoom-department-service
+
+                861:
+                    type: choice
+                    choice_type: lights
+                    content: "Kalkulation"
+                    print: "Kalkulation"
+                    illustration:
+                        - zoom-department-sales
+                863:
+                    type: choice
+                    choice_type: lights
+                    content: Vorkalkulation
+                    print: Vorkalkulation
+                    illustration:
+                        - zoom-department-sales
+                865:
+                    type: choice
+                    choice_type: lights
+                    content: Mitlaufende Kalkulation
+                    print: Mitlaufende Kalkulation
+                    illustration:
+                        - zoom-department-sales
+                867:
+                    type: choice
+                    choice_type: lights
+                    content: Nachkalkulation
+                    print: Nachkalkulation
+                    illustration:
+                        - zoom-department-sales
+                869:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Kalkulation:"
+                    print: "Weitere funktionale Anforderungen im Bereich Kalkulation:"
+                    illustration:
+                        - zoom-department-sales
+                871:
+                    type: choice
+                    choice_type: lights
+                    content: "Finanzbuchhaltung"
+                    print: "Finanzbuchhaltung"
+                    illustration:
+                        - zoom-department-financial-billing-department
+                873:
+                    type: choice
+                    choice_type: lights
+                    content: Buchungen
+                    print: Buchungen
+                    illustration:
+                        - zoom-department-financial-billing-department
+                875:
+                    type: choice
+                    choice_type: lights
+                    content: Zahlungsverkehr
+                    print: Zahlungsverkehr
+                    illustration:
+                        - zoom-department-financial-billing-department
+                877:
+                    type: choice
+                    choice_type: lights
+                    content: Auslandszahlungsverkehr
+                    print: Auslandszahlungsverkehr
+                    illustration:
+                        - zoom-department-financial-billing-department
+                879:
+                    type: choice
+                    choice_type: lights
+                    content: Mahnwesen
+                    print: Mahnwesen
+                    illustration:
+                        - zoom-department-financial-billing-department
+                881:
+                    type: choice
+                    choice_type: lights
+                    content: Offene-Posten-Verwaltung
+                    print: Offene-Posten-Verwaltung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                883:
+                    type: choice
+                    choice_type: lights
+                    content: Umsatzsteuervoranmeldung
+                    print: Umsatzsteuervoranmeldung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                885:
+                    type: choice
+                    choice_type: lights
+                    content: Steuern
+                    print: Steuern
+                    illustration:
+                        - zoom-department-financial-billing-department
+                887:
+                    type: choice
+                    choice_type: lights
+                    content: DATEV-Schnittstelle
+                    print: DATEV-Schnittstelle
+                    illustration:
+                        - zoom-department-financial-billing-department
+                889:
+                    type: choice
+                    choice_type: lights
+                    content: ELSTER-Schnittstelle
+                    print: ELSTER-Schnittstelle
+                    illustration:
+                        - zoom-department-financial-billing-department
+                891:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Finanzbuchhaltung:"
+                    print: "Weitere funktionale Anforderungen im Bereich Finanzbuchhaltung:"
+                    illustration:
+                        - zoom-department-financial-billing-department
+                893:
+                    type: choice
+                    choice_type: lights
+                    content: "Anlagenbuchhaltung"
+                    print: "Anlagenbuchhaltung"
+                    illustration:
+                        - zoom-department-financial-billing-department
+                895:
+                    type: choice
+                    choice_type: lights
+                    content: Abschreibungen
+                    print: Abschreibungen
+                    illustration:
+                        - zoom-department-financial-billing-department
+                897:
+                    type: choice
+                    choice_type: lights
+                    content: Anlagenhistorie
+                    print: Anlagenhistorie
+                    illustration:
+                        - zoom-department-financial-billing-department
+                899:
+                    type: choice
+                    choice_type: lights
+                    content: Anlagenvermögen
+                    print: Anlagenvermögen
+                    illustration:
+                        - zoom-department-financial-billing-department
+                901:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Anlagenbuchhaltung:"
+                    print: "Weitere funktionale Anforderungen im Bereich Anlagenbuchhaltung:"
+                    illustration:
+                        - zoom-department-financial-billing-department
+                903:
+                    type: choice
+                    choice_type: lights
+                    content: "Kostenrechnung"
+                    print: "Kostenrechnung"
+                    illustration:
+                        - zoom-department-financial-billing-department
+                905:
+                    type: choice
+                    choice_type: lights
+                    content: Ist- und Plankostenverrechnung
+                    print: Ist- und Plankostenverrechnung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                907:
+                    type: choice
+                    choice_type: lights
+                    content: Voll- und Grenzkostenverrechnung
+                    print: Voll- und Grenzkostenverrechnung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                909:
+                    type: choice
+                    choice_type: lights
+                    content: Kostenartenrechnung
+                    print: Kostenartenrechnung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                911:
+                    type: choice
+                    choice_type: lights
+                    content: Kostenstellenrechnung
+                    print: Kostenstellenrechnung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                913:
+                    type: choice
+                    choice_type: lights
+                    content: Kostenträgerrechnung
+                    print: Kostenträgerrechnung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                915:
+                    type: choice
+                    choice_type: lights
+                    content: Deckungsbeitragsrechnung
+                    print: Deckungsbeitragsrechnung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                917:
+                    type: choice
+                    choice_type: lights
+                    content: Projektkostenrechnung
+                    print: Projektkostenrechnung
+                    illustration:
+                        - zoom-department-financial-billing-department
+                919:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Kostenrechnung:"
+                    print: "Weitere funktionale Anforderungen im Bereich Kostenrechnung:"
+                921:
+                    type: choice
+                    choice_type: lights
+                    content: "Controlling"
+                    print: "Controlling"
+                    illustration:
+                        - zoom-department-management
+                923:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Controlling:"
+                    print: "Weitere funktionale Anforderungen im Bereich Controlling:"
+                    illustration:
+                        - zoom-department-management
+                925:
+                    type: choice
+                    choice_type: lights
+                    content: "Business Intelligence"
+                    print: "Business Intelligence"
+                927:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Business Intelligence:"
+                    print: "Weitere funktionale Anforderungen im Bereich Business Intelligence:"
+                929:
+                    type: choice
+                    choice_type: lights
+                    content: "Konzernrechnungslegung"
+                    print: "Konzernrechnungslegung"
+                    illustration:
+                        - zoom-department-financial-billing-department
+                931:
+                    type: choice
+                    choice_type: lights
+                    content: Konsolidierung von mehreren Unternehmen
+                    print: Konsolidierung von mehreren Unternehmen
+                    illustration:
+                        - zoom-department-financial-billing-department
+                933:
+                    type: choice
+                    choice_type: lights
+                    content: Abbildung von Konzernstrukturen
+                    print: Abbildung von Konzernstrukturen
+                    illustration:
+                        - zoom-department-financial-billing-department
+                935:
+                    type: choice
+                    choice_type: lights
+                    content: Datenaustausch von Finanzdaten
+                    print: Datenaustausch von Finanzdaten
+                    illustration:
+                        - zoom-department-financial-billing-department
+                937:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Konzernrechnungslegung:"
+                    print: "Weitere funktionale Anforderungen im Bereich Konzernrechnungslegung:"
+                    illustration:
+                        - zoom-department-financial-billing-department
+                939:
+                    type: choice
+                    choice_type: lights
+                    content: "Personalwesen / HR"
+                    print: "Personalwesen / HR"
+                    illustration:
+                        - zoom-department-human-resources
+                941:
+                    type: choice
+                    choice_type: lights
+                    content: Lohn- und Gehaltsabrechnung
+                    print: Lohn- und Gehaltsabrechnung
+                    illustration:
+                        - zoom-department-human-resources
+                943:
+                    type: choice
+                    choice_type: lights
+                    content: Zeiterfassung
+                    print: Zeiterfassung
+                    illustration:
+                        - zoom-department-human-resources
+                945:
+                    type: choice
+                    choice_type: lights
+                    content: Personaleinsatzplanung
+                    print: Personaleinsatzplanung
+                    illustration:
+                        - zoom-department-human-resources
+                947:
+                    type: choice
+                    choice_type: lights
+                    content: Reiseabrechnung
+                    print: Reiseabrechnung
+                    illustration:
+                        - zoom-department-human-resources
+                949:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Personalwesen / HR:"
+                    print: "Weitere funktionale Anforderungen im Bereich Personalwesen / HR:"
+                    illustration:
+                        - zoom-department-human-resources
+
+                951:
+                    type: choice
+                    choice_type: lights
+                    content: Multisite
+                    print: Multisite
+                953:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich Multisite:"
+                    print: "Weitere funktionale Anforderungen im Bereich Multisite:"
+                955:
+                    type: choice
+                    choice_type: lights
+                    content: "EDI (Electronic Data Interchange)"
+                    print: "EDI (Electronic Data Interchange)"
+                957:
+                    type: text
+                    content: EDIFACT
+                959:
+                    type: text
+                    content: ANSI X.12
+                961:
+                    type: text
+                    content: VDA
+                963:
+                    type: text
+                    content: ODETTE
+                965:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich EDI:"
+                    print: "Weitere funktionale Anforderungen im Bereich EDI:"
+                967:
+                    type: choice
+                    choice_type: lights
+                    content: "DMS (Dokumenten-Management-System)"
+                    print: "DMS (Dokumenten-Management-System)"
+                969:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich DMS:"
+                    print: "Weitere funktionale Anforderungen im Bereich DMS:"
+
+                971:
+                    type: choice
+                    choice_type: lights
+                    content: "BPM (Business Process Management)"
+                    print: "BPM (Business Process Management)"
+                973:
+                    type: text
+                    content: "Weitere funktionale Anforderungen im Bereich BPM:"
+                    print: "Weitere funktionale Anforderungen im Bereich BPM:"
+
+        requirement.not-functional:
+            headline: "Nicht-funktionale Anforderungen"
+            elements:
+                977:
+                    type: text
+                    content: "Für welche Länder sollte das System lokalisiert sein?"
+                    print: "Das System soll für folgende Länder lokalisiert sein:"
+                979:
+                    type: text
+                    content: "In welchen Sprachen sollte das System verfügbar sein?"
+                    print: "Das System soll in folgenden Sprachen verfügbar sein:"
+                981:
+                    type: choice
+                    choice_type: yesNo
+                    content: "Mehrwährungsfähigkeit"
+                    print: "Mehrwährungsfähigkeit"
+                983:
+                    type: headline
+                    content: Customizing
+                    print: Customizing
+                984:
+                    type: choice
+                    choice_type: yesNo
+                    content: Durchführung von Anpassungen nur durch den ERP-Anbieter möglich
+                    print: Durchführung von Anpassungen nur durch den ERP-Anbieter möglich
+                986:
+                    type: choice
+                    choice_type: yesNo
+                    content: Durchführung von Anpassungen durch User möglich
+                    print: Durchführung von Anpassungen durch User möglich
+                988:
+                    type: text
+                    content: "Weitere nicht-funktionale Anforderungen:"
+                    print: "Weitere nicht-funktionale Anforderungen:"
+
+
+

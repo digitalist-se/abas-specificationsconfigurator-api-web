@@ -1,0 +1,70 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  height: 30vh;
+  @media screen and (min-width: 1024px) {
+    height: 600px;
+    height: 60vh;
+  }
+  @media screen and (min-width: 1280px) {
+    height: 681px;
+    height: 72vh;
+  }
+  overflow: hidden;
+  img {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    z-index: $z-index-hero-background;
+    @media screen and (min-width: 440px) {
+      width: 100%;
+      height: auto;
+      left: auto;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .headlines {
+    z-index: $z-index-hero-content;
+    width: 100%;
+  }
+  .headline {
+    background: $hero-headline;
+    color: $hero-headline-contrast;
+    line-height: 40px;
+    padding: 0 31px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 14px;
+    @media screen and (min-width: 1024px) {
+      padding: 0 31px;
+      line-height: 87px;
+      font-size: 34px;
+    }
+    @include scaleOnHover;
+  }
+  .subline {
+    background: $hero-subline;
+    color: $hero-subline-contrast;
+    padding: 0 31px;
+    line-height: 33px;
+    display: inline-block;
+    font-weight: 400;
+    font-size: 12px;
+    @media screen and (min-width: 1024px) {
+      padding: 0 31px;
+      line-height: 73px;
+      font-size: 30px;
+    }
+    @include scaleOnHover;
+  }
+}

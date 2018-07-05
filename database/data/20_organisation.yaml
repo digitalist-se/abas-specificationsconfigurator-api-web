@@ -1,0 +1,399 @@
+organisation:
+    name: "Organisation"
+    print_name: "Organisation / Prozesse entlang der Wertschöpfungskette"
+    description: "Bitte beschreiben Sie, wie Ihre bestehenden Prozesse entlang der Wertschöpfungskette organisiert sind und wie diese in das ERP-System integriert sind. Gerne können Sie zur Veranschaulichung auch Prozessdiagramme in der Word-Datei des für Sie generierten Lastenhefts einfügen!"
+    print_description: "Unsere bestehenden Prozesse entlang der Wertschöpfungskette sind wie folgt organisiert:"
+    sort: 2
+    sections:
+        organisation.product-creation:
+            headline: "Bereich: Produktentstehung"
+            illustration:
+                - zoom-department-product-development
+            elements:
+                49:
+                    type: choice
+                    choice_type: process
+                    content: Forschung und Entwicklung
+                    print: Forschung und Entwicklung
+                51:
+                    type: choice
+                    choice_type: process
+                    content: Konstruktion Produkt
+                    print: Konstruktion Produkt
+                53:
+                    type: choice
+                    choice_type: process
+                    content: Konstruktion Fertigungsmittel / Werkzeugbau
+                    print: Konstruktion Fertigungsmittel / Werkzeugbau
+
+                55:
+                    type: choice
+                    choice_type: process
+                    content: Produktmanagement
+                    print: Produktmanagement
+
+                57:
+                    type: choice
+                    choice_type: process
+                    content: Projekte
+                    print: Projekte
+
+                59:
+                    type: choice
+                    choice_type: yesNo
+                    content: Integration in die Auftragsabwicklung
+                    print: Integration in die Auftragsabwicklung
+                61:
+                    type: choice
+                    choice_type: yesNo
+                    content: Konstruktionsstückliste
+                    print: Konstruktionsstückliste
+                63:
+                    type: choice
+                    choice_type: yesNo
+                    content: Fertigungsstückliste
+                    print: Fertigungsstückliste
+                65:
+                    type: choice
+                    choice_type: yesNo
+                    content: Servicestückliste
+                    print: Servicestückliste
+                67:
+                    type: choice
+                    choice_type: yesNo
+                    content: Integration CAD / PDM
+                    print: Integration CAD / PDM
+
+        organisation.distribution:
+            headline: "Bereich: Vertrieb"
+            illustration:
+                - zoom-department-sales
+            elements:
+                70:
+                    type: choice
+                    choice_type: yesNo
+                    content: Online
+                    print: Online
+                72:
+                    type: choice
+                    choice_type: yesNo
+                    content: Fachhandel
+                    print: Fachhandel
+                74:
+                    type: choice
+                    choice_type: yesNo
+                    content: Großhandel
+                    print: Großhandel
+                76:
+                    type: choice
+                    choice_type: yesNo
+                    content: Vertriebspartner
+                    print: Vertriebspartner
+                78:
+                    type: choice
+                    choice_type: yesNo
+                    content: Vertriebsniederlassungen
+                    print: Vertriebsniederlassungen
+                80:
+                    type: choice
+                    choice_type: yesNo
+                    content: Direkt Vertriebsinnendienst
+                    print: Direkt Vertriebsinnendienst
+                82:
+                    type: choice
+                    choice_type: yesNo
+                    content: Direkt elektronisch (EDI)
+                    print: Direkt elektronisch (EDI)
+                84:
+                    type: choice
+                    choice_type: yesNo
+                    content: Telefonakquise (intern)
+                    print: Telefonakquise (intern)
+                86:
+                    type: choice
+                    choice_type: yesNo
+                    content: Telefonakquise (extern)
+                    print: Telefonakquise (extern)
+                88:
+                    type: choice
+                    choice_type: yesNo
+                    content: Außendienst
+                    print: Außendienst
+                90:
+                    type: choice
+                    choice_type: yesNo
+                    content: Key Account
+                    print: Key Account
+
+                92:
+                    type: slider
+                    content: Anzahl Kunden
+                    print: Anzahl Kunden
+                    min: 1
+                    max: 10000
+                94:
+                    type: slider
+                    content: Anzahl Neukunden pro Jahr
+                    print: Anzahl Neukunden pro Jahr
+                    min: 1
+                    max: 1000
+                96:
+                    type: slider
+                    content: Anzahl aktiver Verkaufsprodukte
+                    print: Anzahl aktiver Verkaufsprodukte
+                    min: 1
+                    max: 1000
+                98:
+                    type: slider
+                    content: Anzahl aktiver Produktgruppen
+                    print: Anzahl aktiver Produktgruppen
+                    min: 1
+                    max: 1000
+                100:
+                    type: slider
+                    content: Anzahl Angebote
+                    print: Anzahl Angebote
+                    min: 1
+                    max: 10000
+                102:
+                    type: slider
+                    content: Anzahl Kundenrahmenaufträge
+                    print: Anzahl Kundenrahmenaufträge
+                    min: 1
+                    max: 1000
+                104:
+                    type: slider
+                    content: Anzahl Kundenaufträge
+                    print: Anzahl Kundenaufträge
+                    min: 1
+                    max: 10000
+        organisation.purchase:
+            headline: "Bereich: Einkauf / Materialwirtschaft"
+            illustration:
+                - zoom-department-purchase
+            elements:
+                107:
+                    type: text
+                    content: Strategischer Einkauf
+                    sub_content: Wo / in welcher Abteilung ist der strategische Einkauf angesiedelt? Z.B. Geschäftsleitung, eigenständige Abteilung, …
+                    print: Strategischer Einkauf
+
+                109:
+                    type: text
+                    content: Operativer Einkauf
+                    sub_content: Welche Abteilung kümmert sich um den operativen Einkauf? Z.B. eigenständige Abteilung, Produktionsplanung…
+                    print: Operativer Einkauf
+
+                111:
+                    type: choice
+                    choice_type: manuellyElectronic
+                    content: Bestellanforderung manuell / elektronisch
+                    print: Bestellanforderung
+
+                113:
+                    type: text
+                    content: Instandhaltung
+                    sub_content: Wer / welche Abteilung ist für die Instandhaltung zuständig?
+                    print: Instandhaltung
+
+                115:
+                    type: slider
+                    content: Anzahl Lieferanten
+                    print: Anzahl Lieferanten
+                    min: 1
+                    max: 1000
+                117:
+                    type: slider
+                    content: Anzahl Einkaufteile
+                    print: Anzahl Einkaufteile
+                    min: 1
+                    max: 10000
+                119:
+                    type: slider
+                    content: Anzahl Einkaufsaufträge pro Jahr
+                    print: Anzahl Einkaufsaufträge pro Jahr
+                    min: 1
+                    max: 10000
+                121:
+                    type: slider
+                    content: Anzahl Einkaufsrahmenverträge
+                    print: Anzahl Einkaufsrahmenverträge
+                    min: 1
+                    max: 1000
+                123:
+                    type: slider
+                    content: Anzahl Lager
+                    print: Anzahl Lager
+                    min: 1
+                    max: 100
+                125:
+                    type: slider
+                    content: Anzahl Lagerzugänge pro Woche
+                    print: Anzahl Lagerzugänge pro Woche
+                    min: 1
+                    max: 1000
+
+        organisation.production:
+            headline: "Bereich: Fertigung"
+            illustration:
+                - zoom-department-production
+            elements:
+                127:
+                    type: choice
+                    choice_type: productionType
+                    content: Fertigungsart
+                    print: Fertigungsart
+
+                129:
+                   type: text
+                   content: Durchschnittliche Anzahl der Fertigungsstufen
+                   print: Durchschnittliche Anzahl der Fertigungsstufen
+
+                131:
+                   type: text
+                   content: Anteil Lohnfertigung in %
+                   print: Anteil Lohnfertigung in %
+
+                133:
+                    type: choice
+                    choice_type: yesNo
+                    content: Auftragsterminierung systemgestützt
+                    print: Auftragsterminierung systemgestützt
+                135:
+                    type: choice
+                    choice_type: yesNo
+                    content: Feinplanung
+                    print: Feinplanung
+                137:
+                    type: choice
+                    choice_type: yesNo
+                    content: Fertigungssteuerung systemgestützt
+                    print: Fertigungssteuerung systemgestützt
+
+        organisation.shipping:
+            headline: "Bereich: Versand"
+            illustration:
+                - zoom-department-warehouse
+            elements:
+                140:
+                    type: choice
+                    choice_type: yesNo
+                    content: Versand auftragsbezogen
+                    print: Versand auftragsbezogen
+                142:
+                    type: choice
+                    choice_type: yesNo
+                    content: Versand aus Fertigwarenlager
+                    print: Versand aus Fertigwarenlager
+                144:
+                    type: choice
+                    choice_type: yesNo
+                    content: Integrierte Zollabwicklung
+                    print: Integrierte Zollabwicklung
+                146:
+                    type: choice
+                    choice_type: yesNo
+                    content: Versandabwicklung
+                    print: Versandabwicklung
+                148:
+                    type: choice
+                    choice_type: yesNo
+                    content: Versandplanung
+                    print: Versandplanung
+                150:
+                    type: choice
+                    choice_type: yesNo
+                    content: Nachverfolgung der Lieferung elektronisch
+                    print: Nachverfolgung der Lieferung elektronisch
+
+        organisation.aftersales:
+            headline: "Bereich: Aftersales"
+            illustration:
+                - zoom-department-aftersales
+            elements:
+                153:
+                    type: choice
+                    choice_type: yesNo
+                    content: Service
+                    print: Service
+                155:
+                    type: choice
+                    choice_type: yesNo
+                    content: Nachverkauf
+                    print: Nachverkauf
+                157:
+                    type: choice
+                    choice_type: yesNo
+                    content: Web
+                    print: Web
+                159:
+                    type: choice
+                    choice_type: yesNo
+                    content: Hotline
+                    print: Hotline
+                161:
+                    type: choice
+                    choice_type: yesNo
+                    content: Ersatzteile
+                    print: Ersatzteile
+                163:
+                    type: choice
+                    choice_type: yesNo
+                    content: Servicegesellschaften
+                    print: Servicegesellschaften
+                165:
+                    type: choice
+                    choice_type: yesNo
+                    content: Serviceeinsatzplanung
+                    print: Serviceeinsatzplanung
+
+        organisation.financial-accounting:
+            headline: "Bereich: Finanzbuchhaltung"
+            illustration:
+                - zoom-department-financial-billing-department
+            elements:
+                168:
+                    type: choice
+                    choice_type: yesNo
+                    content: Separate Lösung
+                    print: Separate Lösung
+                170:
+                    type: choice
+                    choice_type: yesNo
+                    content: Integrierte Lösung
+                    print: Integrierte Lösung
+                172:
+                    type: text
+                    content: Schnittstellen
+                    print: Schnittstellen
+                174:
+                    type: choice
+                    choice_type: process
+                    content: Lohnbuchhaltung intern / extern
+                    print: Lohnbuchhaltung intern / extern
+                176:
+                    type: choice
+                    choice_type: yesNo
+                    content: Konzernkonsolidierung
+                    print: Konzernkonsolidierung
+
+        organisation.controlling:
+            headline: "Bereich: Controlling"
+            illustration:
+                - zoom-department-management
+            elements:
+                179:
+                    type: choice
+                    choice_type: yesNo
+                    content: Kostenrechnung integriert
+                    print: Kostenrechnung integriert
+                181:
+                    type: choice
+                    choice_type: yesNo
+                    content: Kostenstellenrechnung
+                    print: Kostenstellenrechnung
+                183:
+                    type: choice
+                    choice_type: yesNo
+                    content: Kostenträgerrechnung
+                    print: Kostenträgerrechnung

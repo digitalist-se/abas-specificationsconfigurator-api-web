@@ -1,0 +1,108 @@
+/*
+  Variables
+  -----
+  contains colors, text-sizes, spacing values
+  */
+
+/*
+ colors of evolvio (affiliated company of abas software)
+
+ not use this colors directly in components.
+ use context based variable naming.
+ example: toolbar should be dark blue. instead of using $evolvio-color-dark in component we would use $toolbar-background.
+ */
+$evolvio-color-blue: #008bd0;
+$evolvio-color-light-blue: #37abde;
+$evolvio-color-orange: #f6a800;
+$evolvio-color-dark: #2a3539;
+$evolvio-color-grey: #a3acb3;
+$evolvio-color-grey-light: #bdc4ca;
+$evolvio-color-green: #39cb66;
+$evolvio-color-red: #d84d4d;
+// application colors
+$success: $evolvio-color-green;
+$warning: $evolvio-color-orange;
+$error: $evolvio-color-red;
+$white: #fff;
+$accent: $evolvio-color-light-blue;
+$accent-contrast: $white;
+$accent-color-palette: (
+  100: $evolvio-color-light-blue,
+  500: $evolvio-color-blue,
+  700: $evolvio-color-dark,
+  contrast: (100: $white, 500: $white, 700: $white)
+);
+$primary: $evolvio-color-blue;
+$primary-color-palette: (
+  100: $evolvio-color-light-blue,
+  500: $evolvio-color-blue,
+  700: $evolvio-color-dark,
+  contrast: (100: $white, 500: $white, 700: $white)
+);
+$login-button-text: $evolvio-color-grey;
+$headline-color: $evolvio-color-blue;
+$headline-text-size: 30px;
+$subline-color: #3C4E55;
+$subline-text-size: 24px;
+$text-color: $evolvio-color-dark;
+$link-color: $evolvio-color-light-blue;
+$link-color-active: $evolvio-color-blue;
+$toolbar-icon-background: $evolvio-color-light-blue;
+$sub-navigation-background: #f4f4f4;
+$sub-navigation-text-size: 12px;
+
+%dark-theme {
+  background: $evolvio-color-dark;
+  color: $white;
+  a,
+  a:active,
+  a:visited,
+  a:hover {
+    color: $white;
+  }
+}
+
+$z-index-header: 5;
+$z-index-hero-background: 1;
+$z-index-hero-content: 2;
+$z-index-slider-background: 1;
+$z-index-slider-content: 2;
+$z-index-slider-dots: 3;
+$z-index-slider-arrows: 3;
+
+
+$default-spacing: 10px;
+$element-spacing: 22px;
+$outer-spacing: 26px;
+$main-content-spacing-vertical: $outer-spacing;
+$toolbar-height: 79px;
+$footer-height: 31px;
+$chapter-tile-text: $white;
+$chapter-tile-1: #f6a800;
+$chapter-tile-2: #d16b34;
+$chapter-tile-3: #59b7e0;
+$chapter-tile-4: #008bd0;
+$chapter-tile-5: #006296;
+$chapter-tile-6: #a0a0a0;
+$chapter-tile-7: #717171;
+
+$chapter-tiles: $chapter-tile-1 $chapter-tile-2 $chapter-tile-3 $chapter-tile-4 $chapter-tile-5 $chapter-tile-6
+$chapter-tile-7;
+$chapter-tiles-contrast: $white;
+
+$paginator-bar-background: #f0f0f0;
+$paginator-bar-active-item: $evolvio-color-light-blue;
+$paginator-bar-height: 5px;
+$paginator-button-text: $white;
+$paginator-button-background: $evolvio-color-light-blue;
+$paginator-button-background-disabled: $evolvio-color-grey;
+$font-family: 'Open Sans', sans-serif;
+
+$hero-headline: #D16B34;
+$hero-headline-contrast: $white;
+$hero-subline: $evolvio-color-orange;
+$hero-subline-contrast: $white;
+
+$slider-link-color: $evolvio-color-orange;
+$slick-dot-color: white;
+$slick-dot-color-active: $evolvio-color-orange;
