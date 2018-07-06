@@ -1,4 +1,0 @@
-# .platform/routes.yaml
-"http://{default}/":
-  type: redirect
-  to: "http://www.{default}/"
