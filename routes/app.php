@@ -10,5 +10,5 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/register')->name('register');
+Route::get('/create')->name('register');
 Route::get('/login')->name('login');
