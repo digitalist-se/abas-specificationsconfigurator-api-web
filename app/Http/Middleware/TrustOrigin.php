@@ -18,18 +18,18 @@ class TrustOrigin
      */
     public function handle($request, Closure $next)
     {
+        /**
+         * @var Response
+         */
+        $response = $next($request);
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
         if (App::environment('local')) {
-            /**
-             * @var Response
-             */
-            $response = $next($request);
-            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
             $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-
-            return $response;
+        } else {
+            $response->headers->set('Access-Control-Allow-Origin', config('app.app-url'));
         }
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
-        return $next($request);
+        return $response;
     }
 }
