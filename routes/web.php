@@ -23,7 +23,5 @@ Route::get('/datenschutz', function () {
 Route::get('/tutorial', function () {
     return view('tutorial');
 })->name('tutorial');
-Route::get('/app/register')->name('register');
-Route::get('/app/login')->name('login');
 
 Route::get('/business-illustration.svg', 'IllustrationController@get');

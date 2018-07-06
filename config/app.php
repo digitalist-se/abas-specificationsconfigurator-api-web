@@ -52,6 +52,10 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    /*
+     * angular app base url
+     */
+    'app-url' => env('APP_BASE_URL', 'http://localhost:4200'),
 
     /*
     |--------------------------------------------------------------------------

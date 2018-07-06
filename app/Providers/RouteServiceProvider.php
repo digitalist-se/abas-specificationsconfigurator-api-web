@@ -41,6 +41,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAuthorizedApiRoutes();
 
         $this->mapWebRoutes();
+        $this->mapAppRoutes();
     }
 
     protected function bindTextByKey()
@@ -81,6 +82,17 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     */
+    protected function mapAppRoutes()
+    {
+        Route::domain(config('app.app-url'))
+            ->group(base_path('routes/app.php'));
     }
 
     /**
