@@ -28,7 +28,7 @@
             </p>
             <p class="copy">
                 Rufen Sie uns einfach an unter <a href="tel:XXXXX">XXXXX</a><br>
-                oder schreiben Sie uns eine E-Mail an <a href="mailto:hello@erpplanner.de">hello@erpplanner.de</a>
+                oder schreiben Sie uns eine E-Mail an <a href="mailto:hello@erpplanner.com">hello@erpplanner.com</a>
             </p>
         </div>
     </section>

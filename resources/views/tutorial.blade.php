@@ -6,7 +6,7 @@
         <h1 class="headline">Hilfe / So funktioniert der ERP Planner</h1>
         <p class="copy">So hilft Ihnen der Lastenheft Generator bei der ERP-Auswahl:</p>
         <ul class="copy">
-            <li>Loggen Sie sich unter erpplanner.de ein.</li>
+            <li>Loggen Sie sich unter erpplanner.com ein.</li>
             <li>Der ERP Planner leitet Sie durch die verschiedenen Fragen, die zur Generierung Ihres Lastenheftes benötigt werden. Im Mittelpunkt stehen Ihre Anforderungen an das neue ERP-System.</li>
             <li>Dabei können Sie Ihren aktuellen Stand jederzeit speichern, die Beantwortung zu einem späteren Zeitpunkt fortsetzen oder das Lastenheft generieren.</li>
             <li>Als Resultat erhalten Sie Ihr Lastenheft als Word-Datei, die Sie auch im Nachhinein noch editieren und ergänzen können. Beispielsweise können Sie Prozessdiagramme zur Visualisierung hinzufügen.</li>
@@ -18,6 +18,6 @@
         <p>Starten Sie jetzt mit dem ERP Planner und generieren Sie Ihr individuelles Lastenheft!<br>
             Noch Fragen? Wir helfen Ihnen gerne weiter!<br>
             Rufen Sie uns einfach an unter <a href="tel:XXXXX">XXXXX</a><br>
-            oder schreiben Sie uns eine E-Mail an <a href="mailto:hello@erpplanner.de">hello@erpplanner.de</a></p>
+            oder schreiben Sie uns eine E-Mail an <a href="mailto:hello@erpplanner.com">hello@erpplanner.com</a></p>
     </div>
 @endsection
