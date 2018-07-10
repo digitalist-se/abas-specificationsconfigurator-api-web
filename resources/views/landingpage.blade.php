@@ -6,8 +6,7 @@
         <div class="container">
             <div class="headlines">
                 <h1 class="headline">@lang('landingpage.headline')</h1>
-                <br>
-                <h2 class="subline">@lang('landingpage.subline')</h2>
+                    <h2 class="subline">@lang('landingpage.subline')</h2>
             </div>
         </div>
     </section>

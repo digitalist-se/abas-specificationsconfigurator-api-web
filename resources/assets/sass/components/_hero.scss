@@ -4,12 +4,12 @@
   height: 300px;
   height: 30vh;
   @media screen and (min-width: 1024px) {
-    height: 600px;
-    height: 60vh;
+    height: 580px;
+    height: 58vh;
   }
   @media screen and (min-width: 1280px) {
     height: 681px;
-    height: 72vh;
+    height: 60vh;
   }
   overflow: hidden;
   img {
@@ -37,33 +37,44 @@
     z-index: $z-index-hero-content;
     width: 100%;
   }
+
+  @mixin headline-box($font-size, $line-height: 1.3) {
+    $padding-vertical: (2.5 - $line-height) * $font-size / 2;
+    $padding-horizontal: 1.6 * $font-size / 2;
+
+    padding: $padding-vertical $padding-horizontal;
+    line-height: $line-height;
+    font-size: $font-size;
+  }
+
   .headline {
     background: $hero-headline;
     color: $hero-headline-contrast;
-    line-height: 40px;
-    padding: 0 31px;
     display: inline-block;
     font-weight: 600;
-    font-size: 14px;
+
+    @include headline-box(24px);
     @media screen and (min-width: 1024px) {
-      padding: 0 31px;
-      line-height: 87px;
-      font-size: 34px;
+      @include headline-box(30px);
+    }
+    @media screen and (min-width: 1280px) {
+      @include headline-box(34px);
     }
     @include scaleOnHover;
   }
   .subline {
     background: $hero-subline;
     color: $hero-subline-contrast;
-    padding: 0 31px;
-    line-height: 33px;
     display: inline-block;
     font-weight: 400;
-    font-size: 12px;
+    margin-top: 0;
+
+    @include headline-box(20px);
     @media screen and (min-width: 1024px) {
-      padding: 0 31px;
-      line-height: 73px;
-      font-size: 30px;
+      @include headline-box(26px);
+    }
+    @media screen and (min-width: 1280px) {
+      @include headline-box(30px);
     }
     @include scaleOnHover;
   }
