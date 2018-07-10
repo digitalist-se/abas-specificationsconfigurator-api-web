@@ -1,4 +1,19 @@
 .intro {
   @extend .colored-container;
   text-align: center;
+
+  .container {
+    .headline {
+      margin-bottom: 8px;
+    }
+    .subline {
+      line-height: 1.3;
+    }
+    .copy {
+      margin: 40px auto;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
 }

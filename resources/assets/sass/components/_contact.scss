@@ -1,4 +1,9 @@
 .contact {
   @extend %container-with-spacing;
   text-align: center;
+  .container {
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
 }

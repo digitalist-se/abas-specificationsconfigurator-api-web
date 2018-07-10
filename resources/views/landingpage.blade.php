@@ -6,8 +6,7 @@
         <div class="container">
             <div class="headlines">
                 <h1 class="headline">@lang('landingpage.headline')</h1>
-                <br>
-                <h2 class="subline">@lang('landingpage.subline')</h2>
+                    <h2 class="subline">@lang('landingpage.subline')</h2>
             </div>
         </div>
     </section>
@@ -73,7 +72,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slider-mockup.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-1-screen-mockup-cockpit.png')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide1.headline')</p>
@@ -84,7 +83,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slider-mockup.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-2-ampel.jpg')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide2.headline')</p>
@@ -95,7 +94,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slider-mockup.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-3-kategorie-uebersicht.jpg')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide3.headline')</p>
@@ -106,7 +105,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slider-mockup.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-4-frageseite.jpg')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide4.headline')</p>
