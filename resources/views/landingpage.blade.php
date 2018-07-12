@@ -1,5 +1,10 @@
 @extends('layout.default')
 
+@php
+    $contactMail = config('app.contact.mail', '');
+    $contactPhone= config('app.contact.phone', '');
+@endphp
+
 @section('content')
     <section class="hero">
         <img src="{{asset('images/hero.jpg')}}" />
@@ -26,8 +31,8 @@
                 Noch Fragen? Wir helfen Ihnen gerne weiter!
             </p>
             <p class="copy">
-                Rufen Sie uns einfach an unter <a href="tel:XXXXX">XXXXX</a><br>
-                oder schreiben Sie uns eine E-Mail an <a href="mailto:hello@erpplanner.com">hello@erpplanner.com</a>
+                Rufen Sie uns einfach an unter <a href="tel:{{$contactPhone}}">{{$contactPhone}}</a><br>
+                oder schreiben Sie uns eine E-Mail an <a href="mailto:{{$contactMail}}">{{$contactMail}}</a>
             </p>
         </div>
     </section>
