@@ -1,13 +1,17 @@
 @extends('layout.default')
 
+@php
+    $contactMail = config('app.contact.mail', '');
+    $contactPhone= config('app.contact.phone', '');
+@endphp
+
 @section('content')
     <section class="hero">
         <img src="{{asset('images/hero.jpg')}}" />
         <div class="container">
             <div class="headlines">
                 <h1 class="headline">@lang('landingpage.headline')</h1>
-                <br>
-                <h2 class="subline">@lang('landingpage.subline')</h2>
+                    <h2 class="subline">@lang('landingpage.subline')</h2>
             </div>
         </div>
     </section>
@@ -27,8 +31,8 @@
                 Noch Fragen? Wir helfen Ihnen gerne weiter!
             </p>
             <p class="copy">
-                Rufen Sie uns einfach an unter <a href="tel:XXXXX">XXXXX</a><br>
-                oder schreiben Sie uns eine E-Mail an <a href="mailto:hello@erpplanner.de">hello@erpplanner.de</a>
+                Rufen Sie uns einfach an unter <a href="tel:{{$contactPhone}}">{{$contactPhone}}</a><br>
+                oder schreiben Sie uns eine E-Mail an <a href="mailto:{{$contactMail}}">{{$contactMail}}</a>
             </p>
         </div>
     </section>
@@ -73,7 +77,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slider-mockup.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-1-screen-mockup-cockpit.png')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide1.headline')</p>
@@ -84,7 +88,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slider-mockup.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-2-ampel.jpg')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide2.headline')</p>
@@ -95,7 +99,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slider-mockup.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-3-kategorie-uebersicht.jpg')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide3.headline')</p>
@@ -106,7 +110,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slider-mockup.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-4-frageseite.jpg')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide4.headline')</p>
