@@ -18,6 +18,9 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'resources/assets/images/**/*.png',
         'resources/assets/images/**/*.svg',
     ], 'public/images/')
+    .copy([
+        'resources/assets/favicons/*.*',
+    ], 'public/favicons/')
     .combine([
         'node_modules/normalize.css/normalize.css',
     ], 'public/css/vendor.css')
