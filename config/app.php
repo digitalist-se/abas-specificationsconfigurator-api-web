@@ -56,6 +56,7 @@ return [
      * angular app base url
      */
     'app-url' => env('APP_BASE_URL', 'http://localhost:4200'),
+    'domain'  => env('APP_DOMAIN', 'erpplanner.de'),
 
     /*
     |--------------------------------------------------------------------------

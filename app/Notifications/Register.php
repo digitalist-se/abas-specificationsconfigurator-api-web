@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Lang;
 
-class ResetPassword extends Notification
+class Register extends Notification
 {
     use Queueable;
 
@@ -18,22 +18,13 @@ class ResetPassword extends Notification
     public $user;
 
     /**
-     * The password reset token.
+     * Create a new notification instance.
      *
-     * @var string
+     * @param User $user
      */
-    public $token;
-
-    /**
-     * Create a notification instance.
-     *
-     * @param User   $user
-     * @param string $token
-     */
-    public function __construct($user, $token)
+    public function __construct(User $user)
     {
-        $this->user  = $user;
-        $this->token = $token;
+        $this->user = $user;
     }
 
     /**
@@ -59,10 +50,9 @@ class ResetPassword extends Notification
     {
         $mail = new MailMessage();
 
-        return $mail->subject(Lang::get('email.password.reset.subject'))
-            ->markdown('email.password-reset', [
-            'user'   => $this->user,
-            'action' => url(config('app.backend_url').'/password/reset/'.$this->token),
+        return $mail->subject(Lang::get('email.register.subject'))
+            ->markdown('email.register', [
+            'user' => $this->user,
         ]);
     }
 
@@ -76,8 +66,7 @@ class ResetPassword extends Notification
     public function toArray($notifiable)
     {
         return [
-            'token'      => $this->token,
-            'name'       => $this->user->name,
+            //
         ];
     }
 }

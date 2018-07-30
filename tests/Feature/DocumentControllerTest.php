@@ -64,7 +64,7 @@ class DocumentControllerTest extends PassportTestCase
         $this->assertStatus($response, 200);
 
         $user = $this->user;
-        Mail::assertSent(DocumentGeneratedMail::class, function ($mail) use ($user) {
+        Mail::assertQueued(DocumentGeneratedMail::class, function ($mail) use ($user) {
             /*
              * @var DocumentGeneratedMail $mail
              */

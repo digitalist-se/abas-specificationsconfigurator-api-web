@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\Register;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Facades\Hash;
@@ -42,7 +43,9 @@ class UserController extends Controller
         $this->mapToInputData($request, self::UPDATE_FIELDS, $data);
         $data['password'] = Hash::make($request->input('password'));
         $data['role']     = Role::USER;
-        User::create($data);
+        $newUser          = User::create($data);
+
+        $newUser->notify(new Register($newUser));
 
         return response('', 204);
     }

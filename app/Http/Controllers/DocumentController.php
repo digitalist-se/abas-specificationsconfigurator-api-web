@@ -32,7 +32,8 @@ class DocumentController extends Controller
         $specificationDocument->save();
         $mail = new DocumentGeneratedMail($request->user());
         $mail->attach($filename);
-        Mail::to(config('mail.recipient.lead.address'))->send($mail);
+        Mail::to(config('mail.recipient.lead.address'))
+            ->sendNow($mail);
 
         return $specificationDocument->toResponse($request);
     }

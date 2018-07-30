@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class CreateUserTest extends TestCase
@@ -11,6 +13,7 @@ class CreateUserTest extends TestCase
 
     public function testCreateUser()
     {
+        Notification::fake();
         $requestBody      = [
             'name'                  => 'Max Muster',
             'email'                 => 'max.muster@company.com',
@@ -30,6 +33,10 @@ class CreateUserTest extends TestCase
         ];
         $response = $this->postJson('/api/user', $requestBody);
         $this->assertStatus($response, 204);
+        $user = User::where('email', '=', $requestBody['email'])->first();
+        Notification::assertSentTo($user, \App\Notifications\Register::class, function ($notification) use ($user) {
+            return $notification->user->id === $user->id;
+        });
         // user was already created.
         // retry creating user, that request should fail
         $response = $this->postJson('/api/user', $requestBody);

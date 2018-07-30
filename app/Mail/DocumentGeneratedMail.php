@@ -2,15 +2,15 @@
 
 namespace App\Mail;
 
-//use Illuminate\Bus\Queueable;
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-//use Illuminate\Queue\SerializesModels;
-//use Illuminate\Contracts\Queue\ShouldQueue;
-
-class DocumentGeneratedMail extends Mailable
+class DocumentGeneratedMail extends Mailable implements ShouldQueue
 {
-//    use Queueable, SerializesModels;
+    use Queueable, SerializesModels;
     public $user;
 
     /**
@@ -32,6 +32,7 @@ class DocumentGeneratedMail extends Mailable
     {
         return $this
             ->markdown('email.document-generated')
-            ->with('user', $this->user);
+            ->with('user', $this->user)
+            ->subject(Lang::get('email.specification.subject'));
     }
 }
