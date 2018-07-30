@@ -110,6 +110,10 @@ class User extends Authenticatable
 
     public function getSalutationAttribute()
     {
-        return Lang::get('email.salutation.'.$this->sex);
+        if ($this->sex) {
+            return Lang::get('email.salutation.'.$this->sex);
+        } else {
+            return '';
+        }
     }
 }
