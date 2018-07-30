@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Tests\PassportTestCase;
 
 class UpdatePasswordTest extends PassportTestCase
@@ -15,6 +16,17 @@ class UpdatePasswordTest extends PassportTestCase
     {
         parent::setUp();
         $this->user->update(['password' => Hash::make(self::CURRENT_PASSWORD)]);
+    }
+
+    public function testSendResetPassword()
+    {
+        Notification::fake();
+        $response = $this->postJson('/api/password/email', ['email' => $this->user->email]);
+        $user     = $this->user;
+        $this->assertStatus($response, 204);
+        Notification::assertSentTo($user, \App\Notifications\ResetPassword::class, function ($notification) use ($user) {
+            return $notification->user->id === $user->id;
+        });
     }
 
     public function testUpdatePasswordWithoutConfirmAndOld()

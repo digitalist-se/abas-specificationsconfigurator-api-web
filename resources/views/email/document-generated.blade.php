@@ -1,41 +1,30 @@
 @component('mail::message')
 
-@lang('email.specification.content')
+@lang('email.specification.content')  
 
-*@lang('email.specification.informationHeadline')*
+# @lang('email.specification.informationHeadline')  
 
-@lang('email.specification.email')
-    {{$user->email}}<br>
-@lang('email.specification.name')
-{{$user->name}}<br>
-@lang('email.specification.salutation')
-{{$user->salutation}}<br>
+@lang('email.specification.email') {{$user->email}}  
+@lang('email.specification.name') {{$user->name}}  
+@lang('email.specification.salutation') {{$user->salutation}}  
 
-@lang('email.specification.company')
-    {{$user->company_name}}<br>
-@lang('email.specification.website')
-{{$user->website}}<br>
-@lang('email.specification.zipcode')
-{{$user->zipcode}}<br>
-@lang('email.specification.location')
-{{$user->city}}<br>
-@lang('email.specification.street')
-{{$user->street}}<br>
-{{$user->additional_street_info}}<br>
-
+@lang('email.specification.company') {{$user->company_name}}  
+@lang('email.specification.website') {{$user->website}}  
+@lang('email.specification.zipcode') {{$user->zipcode}}  
+@lang('email.specification.location') {{$user->city}}  
+@lang('email.specification.street') {{$user->street}}  
+{{$user->additional_street_info}}  
 
 @if(!empty($user->contact))
-@lang('email.specification.contact')
-{{$user->contact}}<br>
+@lang('email.specification.contact') {{$user->contact}}  
 @if(!empty($user->contact_function))
-@lang('email.specification.contactFunction')
-{{$user->contact_function}}<br>
+@lang('email.specification.contactFunction') {{$user->contact_function}}  
 @endif
 @endif
 @if(!empty($user->phone))
-    @lang('email.specification.phone')
-    {{$user->phone}}<br>
+@lang('email.specification.phone') {{$user->phone}}  
 @endif
+
 @include('email.signature')
 @endcomponent
 
