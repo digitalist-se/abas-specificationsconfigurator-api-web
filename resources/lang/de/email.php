@@ -61,4 +61,15 @@ ein User hat ein neues Lastenheft generiert.
 :phone',
         ],
     ],
+    'lead' => [
+        'register' => [
+        'subject' => 'Registrierung auf ERP Planner',
+        'content' => 'Hallo ERP Planner Team,  
+
+ein neuer User hat sich registriert. ',
+        'email'               => 'E-Mail:',
+        'name'                => 'Name:',
+        'informationHeadline' => 'Kurzinfo:',
+        ],
+    ],
 ];
