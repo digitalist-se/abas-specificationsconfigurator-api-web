@@ -55,8 +55,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name'    => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@erpplanner.com'),
+        'name'    => env('MAIL_FROM_NAME', 'erpplanner.com'),
     ],
 
     /*
@@ -69,7 +69,7 @@ return [
      */
     'recipient' => [
         'lead' => [
-            'address' => env('MAIL_RECIPIENT_LEAD_ADDRESS', 'hello@example.com'),
+            'address' => env('MAIL_RECIPIENT_LEAD_ADDRESS', 'hello@erpplanner.com'),
         ],
     ],
 
