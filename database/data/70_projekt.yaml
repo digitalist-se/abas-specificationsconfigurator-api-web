@@ -17,6 +17,50 @@ project:
                     type: text
                     content: "Welche Ziele verfolgen Sie mit der Einführung eines neuen ERP-Systems? Welche Erwartungen haben Sie?"
                     sub_content: "z.B. Verbesserung der Wirtschaftlichkeit, Senkung von Verwaltungskosten, Vereinfachung und Automatisierung von Prozessen, geringere Belastung von Mitarbeitern, schnellere Bearbeitung von Kundenanfragen, Termintreue, Reduzierung von Fehlern, Voraussetzung für Zertifizierung oder Rating bei den Banken"
+                1039:
+                    type: text
+                    content: |
+                        Welches Budget steht zur Verfügung?
+                        Budget in EUR
+                1041:
+                    type: text
+                    content: Wieviele Anwender sind geplant?
+                1042:
+                    type: text
+                    content: Anzahl abzubildender Unternehmen im ERP-System (= Mandanten)
+                1044:
+                    type: text
+                    content: Anzahl User
+                1046:
+                    type: text
+                    content: Anzahl BDE Terminals
+                1048:
+                    type: text
+                    content: Anzahl Scanner
+                1050:
+                    type: text
+                    content: Anzahl Mobile Clients
+                1052:
+                    type: text
+                    content: Wie setzt sich das Projektteam zusammen? Wer sind die Ansprechpartner?
+                1053:
+                    type: text
+                    content: Verantwortlich in der Geschäftsleitung
+                1055:
+                    type: text
+                    content: Vertretung
+                1057:
+                    type: text
+                    content: Projektleitung
+                1059:
+                    type: text
+                    content: Vertretung
+                1061:
+                    type: text
+                    content: Teilnehmer/in Lenkungsausschuss
+                1063:
+                    type: text
+                    content: Vertretung
 
         project.throughput-time:
             headline: Durchlaufzeit
@@ -93,50 +137,6 @@ project:
                 1036:
                     type: text
                     content: 5. KVP (Kontinuierlicher Verbesserungsprozess)
-                1039:
-                    type: text
-                    content: |
-                        Welches Budget steht zur Verfügung?
-                        Budget in EUR
-                1041:
-                    type: text
-                    content: Wieviele Anwender sind geplant?
-                1042:
-                    type: text
-                    content: Anzahl abzubildender Unternehmen im ERP-System (= Mandanten)
-                1044:
-                    type: text
-                    content: Anzahl User
-                1046:
-                    type: text
-                    content: Anzahl BDE Terminals
-                1048:
-                    type: text
-                    content: Anzahl Scanner
-                1050:
-                    type: text
-                    content: Anzahl Mobile Clients
-                1052:
-                    type: text
-                    content: Wie setzt sich das Projektteam zusammen? Wer sind die Ansprechpartner?
-                1053:
-                    type: text
-                    content: Verantwortlich in der Geschäftsleitung
-                1055:
-                    type: text
-                    content: Vertretung
-                1057:
-                    type: text
-                    content: Projektleitung
-                1059:
-                    type: text
-                    content: Vertretung
-                1061:
-                    type: text
-                    content: Teilnehmer/in Lenkungsausschuss
-                1063:
-                    type: text
-                    content: Vertretung
         project.key-user:
             headline: Key User
             elements:
