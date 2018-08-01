@@ -31,6 +31,7 @@
                 Noch Fragen? Wir helfen Ihnen gerne weiter!
             </p>
             <p class="copy">
+                Der Lastenheft-Generator ERP Planner ist ein gemeinsames Projekt der Evolvio GmbH und des ERP-Spezialisten abas Software AG. <br>
                 Rufen Sie uns einfach an unter <a href="tel:{{$contactPhone}}">{{$contactPhone}}</a><br>
                 oder schreiben Sie uns eine E-Mail an <a href="mailto:{{$contactMail}}">{{$contactMail}}</a>
             </p>
