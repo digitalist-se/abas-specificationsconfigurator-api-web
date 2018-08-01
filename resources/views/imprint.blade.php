@@ -1,5 +1,11 @@
 @extends('layout.default')
 
+@php
+    $contactMail = config('app.contact.mail', '');
+    $contactPhone = config('app.contact.phone', '');
+    $appURL = config('app.url', '');
+@endphp
+
 @section('content')
 <div class="container content imprint">
     <h1 class="headline">Impressum</h1>
@@ -12,11 +18,12 @@
         <b>Vertreten durch:</b><br>
         Christian Eich, Geschäftsführer
     </p>
+    <p>Der Lastenheft-Generator ERP Planner ist ein gemeinsames Projekt der Evolvio GmbH und des ERP- Spezialisten abas Software AG.</p>
     <p>
         <b>Kontakt:</b><br>
-        Telefon: (+49) 0721 / 2 76 66 88-0<br>
-        E-Mail: info@evolvio.de<br>
-        Internetadresse: www.evolvio.de<br>
+        Telefon: {{$contactPhone}}<br>
+        E-Mail: {{$contactMail}}<br>
+        Internetadresse: <a href="{{$appURL}}">{{$appURL}}</a><br>
     </p>
     <p>
         <b>Registereintrag:</b><br>
