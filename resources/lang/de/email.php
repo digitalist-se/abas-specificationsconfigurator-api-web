@@ -29,7 +29,7 @@ ein User hat ein neues Lastenheft generiert.
     ],
     'register' => [
         'subject'  => 'ERP Planner: Freischaltung Ihrer E-Mail-Adresse ',
-        'greeting' => 'Guten Tag :salutation :name, ',
+        'greeting' => 'Guten Tag :name, ',
         'content'  => 'vielen Dank für Ihr Interesse am ERP Planner, der Ihnen dabei hilft, Ihr individuelles Lastenheft zu generieren. Das Lastenheft ist das Herzstück des ERP-Auswahlprozesses und somit entscheidend für den Erfolg Ihres ERP-Projektes!',
         'features' => [
             'headline' => 'So hilft Ihnen der Lastenheft Generator bei der ERP-Auswahl:',
@@ -51,7 +51,7 @@ ein User hat ein neues Lastenheft generiert.
     'password' => [
         'reset' => [
             'subject'     => 'Passwortänderung ERP Planner',
-            'greeting'    => 'Guten Tag :salutation :name, ',
+            'greeting'    => 'Guten Tag :name, ',
             'content'     => 'Sie haben ein neues Passwort für :domain angefordert.',
             'description' => 'Bitte folgen Sie dem Link und ändern Ihr Passwort dort.',
             'action'      => 'Passwort ändern',
@@ -59,6 +59,17 @@ ein User hat ein neues Lastenheft generiert.
             'generate-now' => 'Generieren Sie jetzt mit dem ERP Planner Ihr individuelles Lastenheft!',
             'contact'      => 'Noch Fragen? Schicken Sie uns einfach eine Mail an :email oder rufen Sie uns an:  
 :phone',
+        ],
+    ],
+    'lead' => [
+        'register' => [
+        'subject' => 'Registrierung auf ERP Planner',
+        'content' => 'Hallo ERP Planner Team,  
+
+ein neuer User hat sich registriert. ',
+        'email'               => 'E-Mail:',
+        'name'                => 'Name:',
+        'informationHeadline' => 'Kurzinfo:',
         ],
     ],
 ];

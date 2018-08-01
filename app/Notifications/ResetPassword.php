@@ -62,7 +62,7 @@ class ResetPassword extends Notification
         return $mail->subject(Lang::get('email.password.reset.subject'))
             ->markdown('email.password-reset', [
             'user'   => $this->user,
-            'action' => url(config('app.backend_url').'/password/reset/'.$this->token),
+            'action' => route('app-pw-reset').'/'.$this->token,
         ]);
     }
 

@@ -51,12 +51,12 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://erpplanner.com'),
     /*
      * angular app base url
      */
-    'app-url' => env('APP_BASE_URL', 'http://localhost:4200'),
-    'domain'  => env('APP_DOMAIN', 'erpplanner.de'),
+    'app-url' => env('APP_BASE_URL', 'https://app.erpplanner.com'),
+    'domain'  => env('APP_DOMAIN', 'erpplanner.com'),
 
     /*
     |--------------------------------------------------------------------------
