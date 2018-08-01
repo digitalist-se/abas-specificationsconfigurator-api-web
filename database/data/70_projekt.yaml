@@ -17,8 +17,12 @@ project:
                     type: text
                     content: "Welche Ziele verfolgen Sie mit der Einführung eines neuen ERP-Systems? Welche Erwartungen haben Sie?"
                     sub_content: "z.B. Verbesserung der Wirtschaftlichkeit, Senkung von Verwaltungskosten, Vereinfachung und Automatisierung von Prozessen, geringere Belastung von Mitarbeitern, schnellere Bearbeitung von Kundenanfragen, Termintreue, Reduzierung von Fehlern, Voraussetzung für Zertifizierung oder Rating bei den Banken"
+
+        project.throughput-time:
+            headline: Durchlaufzeit
+            elements:
                 996:
-                    type: text
+                    type: content
                     content: |
                         Wie ist das ERP-Projekt zeitlich dimensioniert?
                         Welche Meilensteine gibt es im Projekt?
@@ -26,9 +30,6 @@ project:
                     print: |
                         Das ERP-Projekt ist mit folgenden Meilensteinen terminiert
                         (Angaben in MM/JJJJ)
-        project.throughput-time:
-            headline: Durchlaufzeit
-            elements:
                 998:
                     type: text
                     content: 1. Start (intern den Auftrag erhalten)
