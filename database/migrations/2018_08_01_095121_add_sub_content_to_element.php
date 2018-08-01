@@ -12,7 +12,7 @@ class AddSubContentToElement extends Migration
     public function up()
     {
         Schema::table('elements', function (Blueprint $table) {
-            $table->string('sub_content');
+            $table->string('sub_content')->nullable();
         });
     }
 

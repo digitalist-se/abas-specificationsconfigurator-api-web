@@ -75,6 +75,36 @@ manuellyElectronic:
         manuellyElectronic.option.manuelly: manuell
         manuellyElectronic.option.electronic: elektronisch
 
+smartProducts:
+    tiles: true
+    options:
+        smartProducts.option.1: Findet keine Beachtung
+        smartProducts.option.2:
+            text: Thema bekannt bzw. darüber informiert
+            value: Thema ist uns bewusst, wir haben uns darüber informiert
+        smartProducts.option.3:
+            text: Planung und Konzeption beendet
+            value: Konzepte sind entwickelt, Planung ist abgeschlossen und steht vor der Realisierung
+        smartProducts.option.4: Realisierungs&shy;phase
+        smartProducts.option.5:
+            text: Umgesetzt, dem KVP zugeführt
+            value: Ist bereits umgesetzt und dem KVP zugeführt
+
+smartOrganisation:
+    tiles: true
+    options:
+        smartOrganisation.option.1: Findet keine Beachtung
+        smartOrganisation.option.2:
+            text: Thema bekannt bzw. darüber informiert
+            value: Thema ist uns bewusst, wir haben uns darüber informiert
+        smartOrganisation.option.3:
+            text: Planung und Konzeption beendet
+            value: Konzepte sind entwickelt, Planung ist abgeschlossen und steht vor der Realisierung
+        smartOrganisation.option.4: Realisierungs&shy;phase
+        smartOrganisation.option.5:
+            text: Umgesetzt, dem KVP zugeführt
+            value: Ist bereits umgesetzt und dem KVP zugeführt
+
 smartManufacturing:
     tiles: true
     options:
