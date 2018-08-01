@@ -876,17 +876,25 @@ requirement:
                     content: "EDI (Electronic Data Interchange)"
                     print: "EDI (Electronic Data Interchange)"
                 957:
-                    type: text
+                    type: choice
+                    choice_type: lights
                     content: EDIFACT
+                    print: EDIFACT
                 959:
-                    type: text
+                    type: choice
+                    choice_type: lights
                     content: ANSI X.12
+                    print: ANSI X.12
                 961:
-                    type: text
+                    type: choice
+                    choice_type: lights
                     content: VDA
+                    print: VDA
                 963:
-                    type: text
+                    type: choice
+                    choice_type: lights
                     content: ODETTE
+                    print: ODETTE
                 965:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich EDI:"
