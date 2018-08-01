@@ -215,6 +215,10 @@ class SpecificationDocument extends WordResource
                             $options       = $answer->value->options;
                             $parsedOptions = [];
                             foreach ($options as $option) {
+                                if ('branche.option.other.value' === $option) {
+                                    // other is enabled.
+                                    continue;
+                                }
                                 $parsedOptions[] = $this->localizedText($option);
                             }
                             $parsedAnswerValue = join(', ', $parsedOptions);
@@ -223,6 +227,17 @@ class SpecificationDocument extends WordResource
                                 continue;
                             }
                             $parsedAnswerValue = $this->localizedText($answer->value->option);
+                        }
+                        if (isset($answer->value->otherEnabled)
+                            && $answer->value->otherEnabled
+                            && isset($answer->value->otherValue)
+                            && !empty($answer->value->otherValue)
+                        ) {
+                            if (empty($parsedAnswerValue)) {
+                                $parsedAnswerValue = $answer->value->otherValue;
+                            } else {
+                                $parsedAnswerValue .= ', '.htmlspecialchars($answer->value->otherValue);
+                            }
                         }
                         break;
                 }

@@ -12,14 +12,14 @@ class ChoiceTypeSeeder extends Seeder
         $choiceTypes = Yaml::parse(file_get_contents(database_path('/data/00_choices.yaml')));
 
         foreach ($choiceTypes as $type => $choiceType) {
-            /**
+            /*
              * @var \App\Models\ChoiceType
              */
             $newChoiceType = \App\Models\ChoiceType::updateOrCreate(
                 ['type' => $type],
                 [
                     'tiles'    => $choiceType['tiles'] ?? false,
-                    'multiple' => $choiceType['mulitple'] ?? false,
+                    'multiple' => $choiceType['multiple'] ?? false,
                 ]
             );
             $options = $choiceType['options'];
