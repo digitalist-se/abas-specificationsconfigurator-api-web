@@ -30,7 +30,7 @@ class ElementSeeder extends Seeder
 
     protected function preparePresets()
     {
-        $this->presets       = Yaml::parse(file_get_contents(database_path('/data/01_element_presets.yaml')));
+        $this->presets = Yaml::parse(file_get_contents(database_path('/data/01_element_presets.yaml')));
     }
 
     protected function import($fileName)
