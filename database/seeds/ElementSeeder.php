@@ -143,7 +143,7 @@ class ElementSeeder extends Seeder
             if (isset($element['sub_content'])) {
                 $subContentKey = $this->createKeyName($i18nId, $id, 'sub_content');
                 $this->text($subContentKey, $element['sub_content']);
-                $data['sub_content'] = $contentKey;
+                $data['sub_content'] = $subContentKey;
             }
             if (isset($element['print'])) {
                 $printKey = $this->createKeyName($i18nId, $id, 'print');
