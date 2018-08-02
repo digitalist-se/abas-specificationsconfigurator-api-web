@@ -11,12 +11,14 @@ project:
             elements:
                 991:
                     type: text
-                    content: Was ist der Auslöser für die Suche nach einem neuen ERP-System?
-                    sub_content: Ausgangssituation, Gründe, aktuelle Probleme
+                    content: Auslöser
+                    sub_content: Was ist der Auslöser für die Suche nach einem neuen ERP-System? Ausgangssituation, Gründe, aktuelle Probleme
                 994:
                     type: text
-                    content: "Welche Ziele verfolgen Sie mit der Einführung eines neuen ERP-Systems? Welche Erwartungen haben Sie?"
-                    sub_content: "z.B. Verbesserung der Wirtschaftlichkeit, Senkung von Verwaltungskosten, Vereinfachung und Automatisierung von Prozessen, geringere Belastung von Mitarbeitern, schnellere Bearbeitung von Kundenanfragen, Termintreue, Reduzierung von Fehlern, Voraussetzung für Zertifizierung oder Rating bei den Banken"
+                    content: "Ziele"
+                    sub_content: |
+                        Welche Ziele verfolgen Sie mit der Einführung eines neuen ERP-Systems? Welche Erwartungen haben Sie?
+                        z.B. Verbesserung der Wirtschaftlichkeit, Senkung von Verwaltungskosten, Vereinfachung und Automatisierung von Prozessen, geringere Belastung von Mitarbeitern, schnellere Bearbeitung von Kundenanfragen, Termintreue, Reduzierung von Fehlern, Voraussetzung für Zertifizierung oder Rating bei den Banken
                 1039:
                     type: text
                     content: |
@@ -77,66 +79,87 @@ project:
                 998:
                     type: text
                     content: 1. Start (intern den Auftrag erhalten)
+                    sub_content: Angaben in MM/JJJJ
                 1000:
                     type: text
                     content: a) Bildung Projektteam
+                    sub_content: Angaben in MM/JJJJ
                 1002:
                     type: text
                     content: b) Projektdefinition (Ziele, Nichtziele)
+                    sub_content: Angaben in MM/JJJJ
                 1004:
                     type: text
                     content: 2. Requirements / Anforderungskatalog
+                    sub_content: Angaben in MM/JJJJ
                 1006:
                     type: text
                     content: 3. Anbieterauswahl
+                    sub_content: Angaben in MM/JJJJ
                 1007:
                     type: text
                     content: a) Anbieterrecherche
+                    sub_content: Angaben in MM/JJJJ
                 1009:
                     type: text
                     content: b) Kennenlernen
+                    sub_content: Angaben in MM/JJJJ
                 1011:
                     type: text
                     content: c) Workshop
+                    sub_content: Angaben in MM/JJJJ
                 1013:
                     type: text
                     content: d) Angebote
+                    sub_content: Angaben in MM/JJJJ
                 1015:
                     type: text
                     content: e) Referenzen
+                    sub_content: Angaben in MM/JJJJ
                 1017:
                     type: text
                     content: f) Entscheidung
+                    sub_content: Angaben in MM/JJJJ
                 1019:
                     type: text
                     content: 4. Einführung
+                    sub_content: Angaben in MM/JJJJ
                 1020:
                     type: text
                     content: a) Kick Off
+                    sub_content: Angaben in MM/JJJJ
                 1022:
                     type: text
                     content: b) Kurzanalyse
+                    sub_content: Angaben in MM/JJJJ
                 1024:
                     type: text
                     content: c) Schulung
+                    sub_content: Angaben in MM/JJJJ
                 1026:
                     type: text
                     content: d) Organisationsgespräche / Prozessdefinition / Einführungskonzept
+                    sub_content: Angaben in MM/JJJJ
                 1028:
                     type: text
                     content: e) Realisierung
+                    sub_content: Angaben in MM/JJJJ
                 1030:
                     type: text
                     content: f) Integrationsstests
+                    sub_content: Angaben in MM/JJJJ
                 1032:
                     type: text
                     content: g) User Schulung
+                    sub_content: Angaben in MM/JJJJ
                 1034:
                     type: text
                     content: h) Go Live
+                    sub_content: Angaben in MM/JJJJ
                 1036:
                     type: text
                     content: 5. KVP (Kontinuierlicher Verbesserungsprozess)
+                    sub_content: Angaben in MM/JJJJ
         project.key-user:
             headline: Key User
             elements:

@@ -129,5 +129,6 @@ industrie:
             elements:
                 702:
                     type: text
-                    content: "Wir beschäftigen uns darüberhinaus mit folgenden Aspekten und Fragestellungen zu Industrie 4.0:"
+                    content: "Ergänzung"
+                    sub_content: "Wir beschäftigen uns darüberhinaus mit folgenden Aspekten und Fragestellungen zu Industrie 4.0:"
                     print: "Wir beschäftigen uns darüberhinaus mit folgenden Aspekten und Fragestellungen zu Industrie 4.0:"

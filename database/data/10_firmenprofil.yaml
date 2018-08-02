@@ -52,9 +52,8 @@ profile:
 
                 20:
                     type: text
-                    content: |
-                        Wenn ja, gegen wen?
-                        Bitte geben Sie den Firmennamen und Firmensitz ein.
+                    content: Wenn ja, gegen wen?
+                    sub_content: Bitte geben Sie den Firmennamen und Firmensitz ein.
                     print: "Gegen:"
 
                 22:
@@ -70,12 +69,8 @@ profile:
 
                 26:
                     type: text
-                    content: |
-                        Zukunftsstrategien
-                        Wo steht Ihr Unternehmen in 2-5 Jahren?
-                        Strategische Entwicklung und Ziele im Hinblick auf Märkte, Technologien, Produkte:
-                    sub_content: |
-                        z.B. Wachstums- und Umsatzprognosen, zukünftige Entwicklungen (wie z.B. Fusionierung, neue Filialen, neue Geschäftsbereiche und Services, veränderte Rahmenbedingungen, neue Produkte, Wettbewerbssituation, Branchentrends, Veränderungen im Management etc.
+                    content: Zukunftsstrategien
+                    sub_content: Wo steht Ihr Unternehmen in 2-5 Jahren? Strategische Entwicklung und Ziele im Hinblick auf Märkte, Technologien, Produkte:
                     print: |
                         Zukunftsstrategien:
                         Wo steht das Unternehmen in 2-5 Jahren? Strategische Entwicklung und Ziele im Hinblick auf Märkte, Technologien, Produkte:
@@ -108,22 +103,20 @@ profile:
             elements:
                 40:
                     type: text
-                    content: |
-                        Zielkundengruppen
-                        Bitte geben Sie an, welche Branchen zu Ihrer Zielgruppe gehören.
-                    sub_content: z.B. Maschinenbau, Elektroindustrie, Automobilindustrie, ...
+                    content: "Zielkundengruppen"
+                    sub_content: Bitte geben Sie an, welche Branchen zu Ihrer Zielgruppe gehören.
                     print: "Zu unserer Zielgruppe gehören Kunden aus folgenden Branchen:"
 
                 42:
                     type: text
-                    content: |
-                        Wichtigste Kunden
-                        Wer sind Ihre wichtigsten Kunden?
+                    content: "Wichtigste Kunden"
+                    sub_content: Wer sind Ihre wichtigsten Kunden?
                     print: "Unsere wichtigsten Kunden sind:"
 
                 44:
                     type: text
-                    content: |
+                    content: "Weitere Angaben / Ergänzungen"
+                    sub_content: |
                         Möchten Sie noch weitere Angaben zu Ihrem Unternehmen ergänzen?
                         Natürlich können Sie auch im generierten Lastenheft weitere Details hinzufügen!
                     print: "Ergänzungen:"
