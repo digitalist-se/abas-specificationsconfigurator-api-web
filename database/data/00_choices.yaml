@@ -39,7 +39,8 @@ business:
         branche.option.other:
             text: Andere Branche
             value: Andere Branche
-            other: Bitte tragen Sie hier ein, wenn Sie in einer anderen Branche tätig sind
+            other: Andere Branche
+            otherhint: Bitte tragen Sie hier ein, wenn Sie in einer anderen Branche tätig sind
 
 levelOfIntegration:
     options:

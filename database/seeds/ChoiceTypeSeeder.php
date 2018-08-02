@@ -65,11 +65,19 @@ class ChoiceTypeSeeder extends Seeder
                     ]
                 );
                 if (isset($option['other'])) {
-                    $textId = $i18nId.'.other';
+                    $textId = $i18nId.'.other.content';
                     \App\Models\Text::updateOrCreate([
                         'key'   => $textId,
                     ], [
                         'value' => $option['other'],
+                    ]);
+                }
+                if (isset($option['otherhint'])) {
+                    $textId = $i18nId.'.other.sub_content';
+                    \App\Models\Text::updateOrCreate([
+                        'key'   => $textId,
+                    ], [
+                        'value' => $option['otherhint'],
                     ]);
                 }
                 ++$sorting;
