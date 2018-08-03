@@ -5,8 +5,9 @@ industrie:
     print_description: "Mit folgenden Aspekten von Industrie 4.0 haben wir uns bereits befasst bzw. setzen bereits Lösungen ein:"
     sort: 5
     sections:
-        industrie.smartOrganisation:
-            headline: Smart Products
+        industrie.smartManufacturing:
+            headline: Smart Manufacturing
+            sort: 1
             illustration:
                 - zoom-department-production
             elements:
@@ -42,10 +43,29 @@ industrie:
                     print: "Unser Unternehmen ist in der Lage, auch kleine Losgrößen effizient herzustellen."
 
 
+        industrie.smartOrganisation:
+            headline: Smart Organization
+            sort: 2
+            elements:
+                687:
+                    type: choice
+                    choice_type: smartOrganisation
+                    content: "Unsere internen Geschäftsprozesse im Unternehmen sind eng mit der Produktion vernetzt und an den Erfordernissen des Markts ausgerichtet."
+                    print: "Unsere internen Geschäftsprozesse im Unternehmen sind eng mit der Produktion vernetzt und an den Erfordernissen des Markts ausgerichtet."
+                689:
+                    type: choice
+                    choice_type: smartOrganisation
+                    content: "Unsere Kundenkontakte und -beziehungen (Vertrieb, Support, Post-Sales-Services) sind an den Bedürfnissen unserer Kunden ausgerichtet."
+                    print: "Unsere Kundenkontakte und -beziehungen (Vertrieb, Support, Post-Sales-Services) sind an den Bedürfnissen unserer Kunden ausgerichtet."
+                691:
+                    type: choice
+                    choice_type: smartOrganisation
+                    content: "Unser Personalwesen (HR) und die Führungskultur in unserem Unternehmen sind auf Industrie 4.0 vorbereitet."
+                    print: "Unser Personalwesen (HR) und die Führungskultur in unserem Unternehmen sind auf Industrie 4.0 vorbereitet."
+
         industrie.smartTechnology:
             headline: Smart Technology
-            illustration:
-                - zoom-department-production
+            sort: 3
             elements:
                 694:
                     type: choice
@@ -67,10 +87,48 @@ industrie:
                     choice_type: smartTechnology
                     content: "Unser Unternehmen verfügt über eine Normenabteilung oder hat Mitarbeiter (oder auch Kontraktoren) explizit mit Normenverwaltung beauftragt."
                     print: "Unser Unternehmen verfügt über eine Normenabteilung oder hat Mitarbeiter (oder auch Kontraktoren) explizit mit Normenverwaltung beauftragt."
+        industrie.smartProducts:
+            headline: Smart Products
+            sort: 0
+            illustration:
+                - zoom-department-production
+            elements:
+                661:
+                    type: choice
+                    choice_type: smartProducts
+                    content: "Unsere Produkte verfügen über eine Integration von Sensoren und Aktoren."
+                    print: "Unsere Produkte verfügen über eine Integration von Sensoren und Aktoren."
+                663:
+                    type: choice
+                    choice_type: smartProducts
+                    content: "Unsere Produkte können kommunizieren oder sind mit anderen Systemen verbunden."
+                    print: "Unsere Produkte können kommunizieren oder sind mit anderen Systemen verbunden."
+                665:
+                    type: choice
+                    choice_type: smartProducts
+                    content: "Die Produkte verfügen über Funktionalitäten zu Datenspeicherung und Informationsaustausch."
+                    print: "Die Produkte verfügen über Funktionalitäten zu Datenspeicherung und Informationsaustausch."
+                667:
+                    type: choice
+                    choice_type: smartProducts
+                    content: "Das Monitoring der Funktionalität unserer Produkte ist möglich."
+                    print: "Das Monitoring der Funktionalität unserer Produkte ist möglich."
+                669:
+                    type: choice
+                    choice_type: smartProducts
+                    content: "Wir bieten zu unseren Produkten neue oder weitere produktbezogene IT-Dienstleistungen an."
+                    print: "Wir bieten zu unseren Produkten neue oder weitere produktbezogene IT-Dienstleistungen an."
+                671:
+                    type: choice
+                    choice_type: smartProducts
+                    content: "Die Geschäftsmodelle rund um unsere Produkte schließen ausführliche Beratung, Anpassungen an Kundenwünsche und produktbezogene Dienstleitung ein."
+                    print: "Die Geschäftsmodelle rund um unsere Produkte schließen ausführliche Beratung, Anpassungen an Kundenwünsche und produktbezogene Dienstleitung ein."
+
         industrie.addional-infos:
             headline: Ergänzung
             elements:
                 702:
                     type: text
-                    content: "Wir beschäftigen uns darüberhinaus mit folgenden Aspekten und Fragestellungen zu Industrie 4.0:"
+                    content: "Ergänzung"
+                    sub_content: "Wir beschäftigen uns darüberhinaus mit folgenden Aspekten und Fragestellungen zu Industrie 4.0:"
                     print: "Wir beschäftigen uns darüberhinaus mit folgenden Aspekten und Fragestellungen zu Industrie 4.0:"

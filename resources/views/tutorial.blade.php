@@ -1,6 +1,7 @@
 @extends('layout.default')
 
 @php
+    $loginURL = route('login');
     $contactMail = config('app.contact.mail', '');
     $contactPhone= config('app.contact.phone', '');
 @endphp
@@ -11,7 +12,7 @@
         <h1 class="headline">Hilfe / So funktioniert der ERP Planner</h1>
         <p class="copy">So hilft Ihnen der Lastenheft Generator bei der ERP-Auswahl:</p>
         <ul class="copy">
-            <li>Loggen Sie sich unter config('app.url', '') ein.</li>
+            <li>Loggen Sie sich unter <a href="{{$loginURL}}">{{$loginURL}}</a> ein.</li>
             <li>Der ERP Planner leitet Sie durch die verschiedenen Fragen, die zur Generierung Ihres Lastenheftes benötigt werden. Im Mittelpunkt stehen Ihre Anforderungen an das neue ERP-System.</li>
             <li>Dabei können Sie Ihren aktuellen Stand jederzeit speichern, die Beantwortung zu einem späteren Zeitpunkt fortsetzen oder das Lastenheft generieren.</li>
             <li>Als Resultat erhalten Sie Ihr Lastenheft als Word-Datei, die Sie auch im Nachhinein noch editieren und ergänzen können. Beispielsweise können Sie Prozessdiagramme zur Visualisierung hinzufügen.</li>

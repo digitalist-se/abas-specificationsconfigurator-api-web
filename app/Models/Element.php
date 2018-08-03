@@ -13,6 +13,7 @@ class Element extends BaseModel
         'type',
 
         'content', // content or question
+        'sub_content', // additional content of question
         'print', // print only. content pre answer
         'sort',
 

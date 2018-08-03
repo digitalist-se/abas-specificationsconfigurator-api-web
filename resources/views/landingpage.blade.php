@@ -31,6 +31,7 @@
                 Noch Fragen? Wir helfen Ihnen gerne weiter!
             </p>
             <p class="copy">
+                Der Lastenheft-Generator ERP Planner ist ein gemeinsames Projekt der Evolvio GmbH und des ERP-Spezialisten abas Software AG. <br>
                 Rufen Sie uns einfach an unter <a href="tel:{{$contactPhone}}">{{$contactPhone}}</a><br>
                 oder schreiben Sie uns eine E-Mail an <a href="mailto:{{$contactMail}}">{{$contactMail}}</a>
             </p>
@@ -77,7 +78,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slide-1-screen-mockup-cockpit.png')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-kategorie-uebersicht.png')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide1.headline')</p>
@@ -88,7 +89,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slide-2-ampel.jpg')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-ampel.png')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide2.headline')</p>
@@ -99,7 +100,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slide-3-kategorie-uebersicht.jpg')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-frageseite.png')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide3.headline')</p>
@@ -110,7 +111,7 @@
         <div class="slide">
             <div class="container">
                 <div class="image">
-                    <img src="{{asset('images/slide-4-frageseite.jpg')}}" alt="" title="" height="600px" />
+                    <img src="{{asset('images/slide-cockpit.png')}}" alt="" title="" height="600px" />
                 </div>
                 <div class="text">
                     <p class="headline">@lang('landingpage.slider.slide4.headline')</p>

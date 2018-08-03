@@ -7,9 +7,8 @@ erp-provider:
     sections:
         erp-provider.general:
             headline: Informationen zum Softwarehersteller
-            print_description: |
-                Das Lastenheft soll Ihnen auch ermöglichen, in Frage kommende Softwareanbieter besser kennenzulernen und einschätzen zu können. Dazu sollten Ihnen Softwareanbieter eine Reihe von Informationen liefern, z.B. zum Softwareanbieter, Produkt, Leistungsangebot, zur Einführungsmethodik, zu Referenzen und Zukunftsstrategien. Diese Angaben komplettieren das Lastenheft. Daher werden sie stichwortartig in dem für Sie generierten Lastenheft mit ausgegeben.
-                z.B. Gründungsjahr, Anzahl Mitarbeiter, Anzahl Kunden, Umsatz, Eigenkapitalquote, etc.
+            description: Das Lastenheft soll Ihnen auch ermöglichen, in Frage kommende Softwareanbieter besser kennenzulernen und einschätzen zu können. Dazu sollten Ihnen Softwareanbieter eine Reihe von Informationen liefern, z.B. zum Softwareanbieter, Produkt, Leistungsangebot, zur Einführungsmethodik, zu Referenzen und Zukunftsstrategien. Diese Angaben komplettieren das Lastenheft. Daher werden sie stichwortartig in dem für Sie generierten Lastenheft mit ausgegeben.
+            print_description: z.B. Gründungsjahr, Anzahl Mitarbeiter, Anzahl Kunden, Umsatz, Eigenkapitalquote, etc.
         erp-provider.partners:
             headline: "Informationen zum Dienstleister / Implementierungspartner"
             print_description: "z.B. Gründungsjahr, Anzahl Mitarbeiter, Anzahl Kunden, Umsatz, etc."

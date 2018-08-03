@@ -11,7 +11,7 @@ class DocumentTextsSeeder extends Seeder
     {
         $this->text('document.title', 'LASTENHEFT');
         $this->text('document.subtitle', 'zur Auswahl eines ERP-Systems');
-        $this->text('document.copyright', 'powered by Evolvio GmbH');
+        $this->text('document.copyright', 'Erpplanner.com - powered by Evolvio GmbH & abas Software AG');
         $this->text('document.logoPlaceholder', '[Ihr Logo]');
         $this->text('document.tocTitle', 'Inhaltsverzeichnis');
     }

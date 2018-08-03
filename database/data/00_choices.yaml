@@ -36,7 +36,11 @@ business:
             text: Prozess&shy;industrie
             value: Prozessindustrie
         branche.option.professional-services: Professional Services
-        branche.option.other: Andere Branche
+        branche.option.other:
+            text: Andere Branche
+            value: Andere Branche
+            other: Andere Branche
+            otherhint: Bitte tragen Sie hier ein, wenn Sie in einer anderen Branche tätig sind
 
 levelOfIntegration:
     options:
@@ -72,6 +76,40 @@ manuellyElectronic:
         manuellyElectronic.option.manuelly: manuell
         manuellyElectronic.option.electronic: elektronisch
 
+smartProducts:
+    tiles: true
+    options:
+        smartProducts.option.1: Findet keine Beachtung
+        smartProducts.option.2:
+            text: Thema bekannt bzw. darüber informiert
+            value: Thema ist uns bewusst, wir haben uns darüber informiert
+        smartProducts.option.3:
+            text: Planung und Konzeption beendet
+            value: Konzepte sind entwickelt, Planung ist abgeschlossen und steht vor der Realisierung
+        smartProducts.option.4:
+            text: Realisierungs&shy;phase
+            value: Realisierungsphase
+        smartProducts.option.5:
+            text: Umgesetzt, dem KVP zugeführt
+            value: Ist bereits umgesetzt und dem KVP zugeführt
+
+smartOrganisation:
+    tiles: true
+    options:
+        smartOrganisation.option.1: Findet keine Beachtung
+        smartOrganisation.option.2:
+            text: Thema bekannt bzw. darüber informiert
+            value: Thema ist uns bewusst, wir haben uns darüber informiert
+        smartOrganisation.option.3:
+            text: Planung und Konzeption beendet
+            value: Konzepte sind entwickelt, Planung ist abgeschlossen und steht vor der Realisierung
+        smartOrganisation.option.4:
+            text: Realisierungs&shy;phase
+            value: Realisierungsphase
+        smartOrganisation.option.5:
+            text: Umgesetzt, dem KVP zugeführt
+            value: Ist bereits umgesetzt und dem KVP zugeführt
+
 smartManufacturing:
     tiles: true
     options:
@@ -82,7 +120,9 @@ smartManufacturing:
         smartManufacturing.option.3:
             text: Planung und Konzeption beendet
             value: Konzepte sind entwickelt, Planung ist abgeschlossen und steht vor der Realisierung
-        smartManufacturing.option.4: Realisierungs&shy;phase
+        smartManufacturing.option.4:
+            text: Realisierungs&shy;phase
+            value: Realisierungsphase
         smartManufacturing.option.5:
             text: Umgesetzt, dem KVP zugeführt
             value: Ist bereits umgesetzt und dem KVP zugeführt
@@ -97,7 +137,9 @@ smartTechnology:
         smartTechnology.option.3:
             text: Planung und Konzeption beendet
             value: Konzepte sind entwickelt, Planung ist abgeschlossen und steht vor der Realisierung
-        smartTechnology.option.4: Realisierungs&shy;phase
+        smartTechnology.option.4:
+            text: Realisierungs&shy;phase
+            value: Realisierungsphase
         smartTechnology.option.5:
             text: Umgesetzt, dem KVP zugeführt
             value: Ist bereits umgesetzt und dem KVP zugeführt

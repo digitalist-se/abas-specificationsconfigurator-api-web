@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Chapter;
 use App\Models\Element;
+use App\Models\Section;
 use Illuminate\Database\Seeder;
 
 class ElementSeeder extends Seeder
@@ -30,7 +32,7 @@ class ElementSeeder extends Seeder
 
     protected function preparePresets()
     {
-        $this->presets       = Yaml::parse(file_get_contents(database_path('/data/01_element_presets.yaml')));
+        $this->presets = Yaml::parse(file_get_contents(database_path('/data/01_element_presets.yaml')));
     }
 
     protected function import($fileName)
@@ -65,6 +67,9 @@ class ElementSeeder extends Seeder
             $printDescriptionKey = null;
         }
         $sort       = $chapter['sort'] ?? 0;
+        /**
+         * @var Chapter
+         */
         $newChapter = \App\Models\Chapter::updateOrCreate(
             ['name' => $i18nId],
             [
@@ -78,11 +83,16 @@ class ElementSeeder extends Seeder
             ]
         );
         $sectionSorting = 0;
+        $sectionIds     = [];
         foreach ($chapter['sections'] as $i18nId => $section) {
             $section['sort'] = $sectionSorting;
-            $this->importSection($newChapter, $i18nId, $section);
+            $newSection      = $this->importSection($newChapter, $i18nId, $section);
             ++$sectionSorting;
+            if ($newSection) {
+                $sectionIds[] = $newSection->id;
+            }
         }
+        $newChapter->sections()->whereNotIn('id', $sectionIds);
     }
 
     protected function importSection($chapter, $i18nId, $section)
@@ -106,6 +116,9 @@ class ElementSeeder extends Seeder
             $sectionPrintDescriptionKey = '';
         }
         $sectionSorting = $section['sort'] ?? 0;
+        /**
+         * @var Section
+         */
         $newSection     = \App\Models\Section::updateOrCreate(
             [
                 'headline' => $sectionHeadlineKey,
@@ -121,10 +134,11 @@ class ElementSeeder extends Seeder
             ]
         );
         if (!isset($section['elements'])) {
-            return;
+            return null;
         }
-        $elements       = $section['elements'];
-        $sorting        = 0;
+        $elementsIds = [];
+        $elements    = $section['elements'];
+        $sorting     = 0;
         foreach ($elements as $id => $element) {
             if (is_string($element)) {
                 // element is an preset
@@ -138,12 +152,12 @@ class ElementSeeder extends Seeder
                 $this->text($contentKey, $element['content']);
                 $data['content'] = $contentKey;
             } elseif ('print_headline' !== $element['type']) {
-                return;
+                return null;
             }
             if (isset($element['sub_content'])) {
                 $subContentKey = $this->createKeyName($i18nId, $id, 'sub_content');
                 $this->text($subContentKey, $element['sub_content']);
-                // TODO                    $data['sub_content'] = $contentKey;
+                $data['sub_content'] = $subContentKey;
             }
             if (isset($element['print'])) {
                 $printKey = $this->createKeyName($i18nId, $id, 'print');
@@ -163,9 +177,13 @@ class ElementSeeder extends Seeder
             $data['section_id']          = $newSection->id;
             $data['layout_two_columns']  = $element['layout_two_columns'] ?? false;
             $data['illustration_states'] = $element['illustration'] ?? null;
-            Element::updateOrCreate(['content' => $contentKey], $data);
+            $newElement                  = Element::updateOrCreate(['content' => $contentKey], $data);
             ++$sorting;
+            $elementsIds[] = $newElement->id;
         }
+        $newSection->elements()->whereNotIn('id', $elementsIds)->delete();
+
+        return $newSection;
     }
 
     protected function text($key, $value)

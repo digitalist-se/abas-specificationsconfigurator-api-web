@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Mail\DocumentGeneratedMail;
 use App\Models\Answer;
+use App\Models\ChoiceType;
 use App\Models\Element;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,6 +28,17 @@ class DocumentControllerTest extends PassportTestCase
                 'user_id'    => $this->user->id,
             ]);
         }
+        $choiceType      = ChoiceType::where('multiple', '=', 1)->get()->first();
+        $branchesElement = Element::where('choice_type_id', '=', $choiceType->id)->get()->first();
+        Answer::create([
+            'value'      => [
+                'options'      => ['branche.option.maschinen-und-anlagenbau.text'],
+                'otherEnabled' => true,
+                'otherValue'   => 'this is a other value',
+            ],
+            'element_id' => $branchesElement->id,
+            'user_id'    => $this->user->id,
+        ]);
     }
 
     protected function tearDown()

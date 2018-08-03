@@ -61,6 +61,9 @@
         <footer class="footer">
             <div class="footer-container">
                 <span class="navigation">
+                  <a class="action" href="{{route('tutorial')}}">
+                      @lang('navigation.tutorial')
+                  </a>
                   <a class="action" href="{{route('imprint')}}">
                       @lang('navigation.imprint')
                   </a>

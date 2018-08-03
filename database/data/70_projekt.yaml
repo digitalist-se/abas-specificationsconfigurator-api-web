@@ -11,14 +11,22 @@ project:
             elements:
                 991:
                     type: text
-                    content: Was ist der Auslöser für die Suche nach einem neuen ERP-System?
-                    sub_content: Ausgangssituation, Gründe, aktuelle Probleme
+                    content: Auslöser
+                    print: "Auslöser:"
+                    sub_content: Was ist der Auslöser für die Suche nach einem neuen ERP-System? Ausgangssituation, Gründe, aktuelle Probleme
                 994:
                     type: text
-                    content: "Welche Ziele verfolgen Sie mit der Einführung eines neuen ERP-Systems? Welche Erwartungen haben Sie?"
-                    sub_content: "z.B. Verbesserung der Wirtschaftlichkeit, Senkung von Verwaltungskosten, Vereinfachung und Automatisierung von Prozessen, geringere Belastung von Mitarbeitern, schnellere Bearbeitung von Kundenanfragen, Termintreue, Reduzierung von Fehlern, Voraussetzung für Zertifizierung oder Rating bei den Banken"
+                    content: "Ziele"
+                    print: "Ziele:"
+                    sub_content: |
+                        Welche Ziele verfolgen Sie mit der Einführung eines neuen ERP-Systems? Welche Erwartungen haben Sie?
+                        z.B. Verbesserung der Wirtschaftlichkeit, Senkung von Verwaltungskosten, Vereinfachung und Automatisierung von Prozessen, geringere Belastung von Mitarbeitern, schnellere Bearbeitung von Kundenanfragen, Termintreue, Reduzierung von Fehlern, Voraussetzung für Zertifizierung oder Rating bei den Banken
+
+        project.throughput-time:
+            headline: Durchlaufzeit
+            elements:
                 996:
-                    type: text
+                    type: content
                     content: |
                         Wie ist das ERP-Projekt zeitlich dimensioniert?
                         Welche Meilensteine gibt es im Projekt?
@@ -26,158 +34,236 @@ project:
                     print: |
                         Das ERP-Projekt ist mit folgenden Meilensteinen terminiert
                         (Angaben in MM/JJJJ)
-        project.throughput-time:
-            headline: Durchlaufzeit
-            elements:
                 998:
                     type: text
                     content: 1. Start (intern den Auftrag erhalten)
+                    print: 1. Start (intern den Auftrag erhalten)
+                    sub_content: Angaben in MM/JJJJ
                 1000:
                     type: text
                     content: a) Bildung Projektteam
+                    print: a) Bildung Projektteam
+                    sub_content: Angaben in MM/JJJJ
                 1002:
                     type: text
                     content: b) Projektdefinition (Ziele, Nichtziele)
+                    print: b) Projektdefinition (Ziele, Nichtziele)
+                    sub_content: Angaben in MM/JJJJ
                 1004:
                     type: text
                     content: 2. Requirements / Anforderungskatalog
+                    print: 2. Requirements / Anforderungskatalog
+                    sub_content: Angaben in MM/JJJJ
                 1006:
                     type: text
                     content: 3. Anbieterauswahl
+                    print: 3. Anbieterauswahl
+                    sub_content: Angaben in MM/JJJJ
                 1007:
                     type: text
                     content: a) Anbieterrecherche
+                    print: a) Anbieterrecherche
+                    sub_content: Angaben in MM/JJJJ
                 1009:
                     type: text
                     content: b) Kennenlernen
+                    print: b) Kennenlernen
+                    sub_content: Angaben in MM/JJJJ
                 1011:
                     type: text
                     content: c) Workshop
+                    print: c) Workshop
+                    sub_content: Angaben in MM/JJJJ
                 1013:
                     type: text
                     content: d) Angebote
+                    print: d) Angebote
+                    sub_content: Angaben in MM/JJJJ
                 1015:
                     type: text
                     content: e) Referenzen
+                    print: e) Referenzen
+                    sub_content: Angaben in MM/JJJJ
                 1017:
                     type: text
                     content: f) Entscheidung
+                    print: f) Entscheidung
+                    sub_content: Angaben in MM/JJJJ
                 1019:
                     type: text
                     content: 4. Einführung
+                    print: 4. Einführung
+                    sub_content: Angaben in MM/JJJJ
                 1020:
                     type: text
                     content: a) Kick Off
+                    print: a) Kick Off
+                    sub_content: Angaben in MM/JJJJ
                 1022:
                     type: text
                     content: b) Kurzanalyse
+                    print: b) Kurzanalyse
+                    sub_content: Angaben in MM/JJJJ
                 1024:
                     type: text
                     content: c) Schulung
+                    print: c) Schulung
+                    sub_content: Angaben in MM/JJJJ
                 1026:
                     type: text
                     content: d) Organisationsgespräche / Prozessdefinition / Einführungskonzept
+                    print: d) Organisationsgespräche / Prozessdefinition / Einführungskonzept
+                    sub_content: Angaben in MM/JJJJ
                 1028:
                     type: text
                     content: e) Realisierung
+                    print: e) Realisierung
+                    sub_content: Angaben in MM/JJJJ
                 1030:
                     type: text
                     content: f) Integrationsstests
+                    print: f) Integrationsstests
+                    sub_content: Angaben in MM/JJJJ
                 1032:
                     type: text
                     content: g) User Schulung
+                    print: g) User Schulung
+                    sub_content: Angaben in MM/JJJJ
                 1034:
                     type: text
                     content: h) Go Live
+                    print: h) Go Live
+                    sub_content: Angaben in MM/JJJJ
                 1036:
                     type: text
                     content: 5. KVP (Kontinuierlicher Verbesserungsprozess)
+                    print: 5. KVP (Kontinuierlicher Verbesserungsprozess)
+                    sub_content: Angaben in MM/JJJJ
+        project.budget:
+            headline: Budget und Anzahl der Anwender
+            elements:
                 1039:
                     type: text
                     content: |
                         Welches Budget steht zur Verfügung?
                         Budget in EUR
+                    print: Folgendes Budget steht zur Verfügung (EUR):
                 1041:
                     type: text
                     content: Wieviele Anwender sind geplant?
+                    print: Anzahl der geplanten Anwender:
                 1042:
                     type: text
                     content: Anzahl abzubildender Unternehmen im ERP-System (= Mandanten)
+                    print: "Anzahl abzubildender Unternehmen (=Mandanten):"
                 1044:
                     type: text
                     content: Anzahl User
+                    print: Anzahl User:
                 1046:
                     type: text
                     content: Anzahl BDE Terminals
+                    print: Anzahl BDE Terminals:
                 1048:
                     type: text
                     content: Anzahl Scanner
+                    print: Anzahl Scanner:
                 1050:
                     type: text
                     content: Anzahl Mobile Clients
+                    print: Anzahl Mobile Clients:
+        project.projectteam:
+            headline: Projektteam
+            elements:
                 1052:
                     type: text
                     content: Wie setzt sich das Projektteam zusammen? Wer sind die Ansprechpartner?
+                    print: "Angaben zum Projektteam:"
                 1053:
                     type: text
                     content: Verantwortlich in der Geschäftsleitung
+                    print: "Verantwortlich in der Geschäftsleitung:"
                 1055:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
                 1057:
                     type: text
                     content: Projektleitung
+                    print: "Projektleitung:"
                 1059:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
                 1061:
                     type: text
                     content: Teilnehmer/in Lenkungsausschuss
+                    print: "Teilnehmer/in Lenkungsausschuss:"
                 1063:
                     type: text
                     content: Vertretung
-        project.key-user:
-            headline: Key User
-            elements:
+                    print: "Vertretung:"
+                1002:
+                    type: headline
+                    content: Key User
+                    print: Key User
+                1002a:
+                    type: print_headline
+                    content: Key User
+                    print: Key User
                 1066:
                     type: text
                     content: Vertrieb / Marketing
+                    print: "Vertrieb / Marketing:"
                 1068:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
                 1070:
                     type: text
                     content: Verkauf
+                    print: "Verkauf:"
                 1072:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
                 1074:
                     type: text
                     content: Entwicklung
+                    print: "Entwicklung:"
                 1076:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
                 1078:
                     type: text
                     content: Produktion
+                    print: "Produktion:"
                 1080:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
                 1082:
                     type: text
                     content: Materialwirtschaft / Logistik
+                    print: "Materialwirtschaft / Logistik:"
                 1084:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
                 1086:
                     type: text
                     content: Beschaffung
+                    print: "Beschaffung:"
                 1088:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
                 1090:
                     type: text
                     content: Finanzen
+                    print: "Finanzen:"
                 1092:
                     type: text
                     content: Vertretung
+                    print: "Vertretung:"
