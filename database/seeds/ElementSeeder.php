@@ -92,7 +92,7 @@ class ElementSeeder extends Seeder
                 $sectionIds[] = $newSection->id;
             }
         }
-        $newChapter->sections()->whereNotIn('id', $sectionIds);
+        $newChapter->sections()->whereNotIn('id', $sectionIds)->delete();
     }
 
     protected function importSection($chapter, $i18nId, $section)
