@@ -1,0 +1,191 @@
+<?php
+namespace App\Http\Resources;
+
+use App\Models\Text;
+
+class SpecificationDocumentExcel extends ExcelResource
+{
+    protected $template = 'excel/specification_configurator_template.xlsx';
+
+    protected $userInfoMap = [
+        'B2' => 'company_name',
+        'B3' => 'street',
+        'B4' => 'zipcode_and_city',
+        'B5' => 'country',// not available
+        'B6' => 'phone',
+        'B7' => 'email',
+        'B8' => 'website',
+        'B9' => 'contact',
+        'B10' => 'contact_function',
+    ];
+
+    private $answersMap;
+    /**
+     * @var \App\Models\User $user
+     */
+    private $user;
+
+    /**
+     * SpecificationDocument constructor.
+     *
+     * @param $filename
+     * @param $user
+     * @param \App\Models\Answer[] $answers
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     */
+    public function __construct($filename, $user, $answers)
+    {
+        $this->user = $user;
+        $this->answersMap = [];
+        foreach ($answers as $answer) {
+            $this->answersMap[$answer->element_id] = $answer;
+        }
+        parent::__construct($filename);
+    }
+
+    protected function localizedText($key)
+    {
+        $text = Text::where('key', '=', $key)
+            ->where('locale', '=', 'de')
+            ->first();
+        if ($text instanceof Text) {
+            return htmlspecialchars($text->value);
+        }
+
+        return $key;
+    }
+
+    protected function renderDocument()
+    {
+        $this->renderUserInfoValues();
+        $this->renderContentValues();
+    }
+
+    private function renderUserInfoValues()
+    {
+        $firstSheet = $this->document->getSheet(0);
+        foreach ($this->userInfoMap as $cellId => $keyValue) {
+            $firstSheet->getCell($cellId)->setValue(object_get($this->user, $keyValue, ''));
+        }
+    }
+
+
+    protected function renderContentValues()
+    {
+        $chapters        = \App\Models\Chapter::orderBy('sort')->get();
+        foreach ($chapters as $chapter) {
+            /**
+             * @var \App\Models\Chapter $chapter
+             */
+            $worksheet = $chapter->worksheet;
+            $contentSections = $chapter->sections;
+            foreach ($contentSections as $contentSection) {
+                $contentElements = $contentSection->printableElements;
+                foreach ($contentElements as $contentElement) {
+                    $this->addContentElement($worksheet, $contentElement);
+                }
+            }
+        }
+    }
+
+    protected function addLocalizedText(int $worksheet, String $cellId, $textKey)
+    {
+        if (!$cellId || !$textKey) {
+            return;
+        }
+        $value = $this->localizedText($textKey);
+        $this->addText($worksheet, $cellId, $value);
+    }
+
+    protected function addText(int $worksheet, String $cellId, $text)
+    {
+        if (!$cellId || !$text) {
+            return;
+        }
+        $this->document->getSheet($worksheet)
+            ->getCell($cellId)
+            ->setValue($text);
+    }
+
+    protected function addContentElement(int $worksheet, \App\Models\Element $contentElement)
+    {
+        if (!isset($this->answersMap[$contentElement->id])) {
+            return;
+        }
+        $answer = $this->answersMap[$contentElement->id];
+        if ($answer && isset($answer->value)) {
+            $parsedAnswerValue = '';
+            switch ($contentElement->type) {
+                case 'text':
+                    $parsedAnswerValue = htmlspecialchars($answer->value->text);
+                    break;
+                case 'choice':
+                    if ($contentElement->choiceType->type === 'lights') {
+                        if (!isset($answer->value->option)) {
+                            return;
+                        }
+                        $column = $this->getColumnOfLightChoiceOption($answer->value->option);
+                        if (!$column) {
+                            return;
+                        }
+                        $this->addText($worksheet, $column.$contentElement->document_row, 'x');
+                        return;
+                    }
+                    if ($contentElement->choiceType->multiple) {
+                        if (!is_array($answer->value->options)) {
+                            continue;
+                        }
+                        $options       = $answer->value->options;
+                        $parsedOptions = [];
+                        foreach ($options as $option) {
+                            if ('branche.option.other.value' === $option) {
+                                // other is enabled.
+                                continue;
+                            }
+                            $parsedOptions[] = $this->localizedText($option);
+                        }
+                        $parsedAnswerValue = join(', ', $parsedOptions);
+                    } else {
+                        if (!isset($answer->value->option)) {
+                            continue;
+                        }
+                        $parsedAnswerValue = $this->localizedText($answer->value->option);
+                    }
+                    if (isset($answer->value->otherEnabled)
+                        && $answer->value->otherEnabled
+                        && isset($answer->value->otherValue)
+                        && !empty($answer->value->otherValue)
+                    ) {
+                        if (empty($parsedAnswerValue)) {
+                            $parsedAnswerValue = $answer->value->otherValue;
+                        } else {
+                            $parsedAnswerValue .= ', '.htmlspecialchars($answer->value->otherValue);
+                        }
+                    }
+                    break;
+            }
+            if (!empty($parsedAnswerValue)) {
+                $cellId = $contentElement->document_cell;
+                if (!$cellId) {
+                    dd($contentElement);
+                    return;
+                }
+                $this->addText($worksheet, $cellId, $parsedAnswerValue);
+            }
+        }
+    }
+
+    protected function getColumnOfLightChoiceOption($value)
+    {
+        switch ($value) {
+            case 'lights.option.green':
+                return 'C';
+            case 'lights.option.yellow':
+                return 'D';
+            case 'lights.option.red':
+                return 'E';
+        }
+        return null;
+    }
+}

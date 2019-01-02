@@ -4,6 +4,7 @@ requirement:
     description: "Nun kommen wir zum Herzstück des Lastenhefts: Ihren Anforderungen an das neue ERP-System. Bitte geben Sie für die verschiedenen Geschäftsbereiche an, welche Anforderungen Sie im Hinblick auf die Funktionen des ERP-Systems haben. Handelt es sich um eine Muss- oder eine Kann-Anforderung oder benötigen Sie eine Funktion gar nicht? Zusätzlich zu den genannten Funktionalitäten können Sie weitere benötigte Funktionen und Details später in der generierten Word-Datei ergänzen. So können Sie alle Ihre Wünsche festhalten - ganz individuell auf Ihr Unternehmen zugeschnitten."
     print_description: "Diese Anforderungen haben wir an das neue ERP-System:"
     sort: 6
+    worksheet: 5
     sections:
         requirement.functional:
             headline: Funktionale Anforderungen
@@ -13,6 +14,7 @@ requirement:
                     choice_type: lights
                     content: Vertrieb
                     print: Vertrieb
+                    document_row: 4
                     illustration:
                         - zoom-department-sales
                 709:
@@ -20,6 +22,7 @@ requirement:
                     choice_type: lights
                     content: CRM (Customer Relationship Management)
                     print: CRM (Customer Relationship Management)
+                    document_row: 5
                     illustration:
                         - zoom-department-sales
                 711:
@@ -27,6 +30,7 @@ requirement:
                     choice_type: lights
                     content: Angebotserstellung
                     print: Angebotserstellung
+                    document_row: 6
                     illustration:
                         - zoom-department-sales
                 713:
@@ -34,6 +38,7 @@ requirement:
                     choice_type: lights
                     content: Absatzplanung
                     print: Absatzplanung
+                    document_row: 7
                     illustration:
                         - zoom-department-sales
                 715:
@@ -41,6 +46,7 @@ requirement:
                     choice_type: lights
                     content: Umsatzplanung
                     print: Umsatzplanung
+                    document_row: 8
                     illustration:
                         - zoom-department-sales
                 717:
@@ -48,6 +54,7 @@ requirement:
                     choice_type: lights
                     content: Preisermittlung
                     print: Preisermittlung
+                    document_row: 9
                     illustration:
                         - zoom-department-sales
                 719:
@@ -55,6 +62,7 @@ requirement:
                     choice_type: lights
                     content: Rahmenverträge
                     print: Rahmenverträge
+                    document_row: 10
                     illustration:
                         - zoom-department-sales
                 721:
@@ -62,6 +70,7 @@ requirement:
                     choice_type: lights
                     content: Außendienst
                     print: Außendienst
+                    document_row: 11
                     illustration:
                         - zoom-department-sales
                 723:
@@ -69,6 +78,7 @@ requirement:
                     choice_type: lights
                     content: Mobile Datenerfassung
                     print: Mobile Datenerfassung
+                    document_row: 12
                     illustration:
                         - zoom-department-sales
                 725:
@@ -76,6 +86,7 @@ requirement:
                     choice_type: lights
                     content: E-Commerce / Web-Shop
                     print: E-Commerce / Web-Shop
+                    document_row: 13
                     illustration:
                         - zoom-department-sales
                 727:
@@ -83,12 +94,14 @@ requirement:
                     choice_type: lights
                     content: Sanktionslistenprüfung
                     print: Sanktionslistenprüfung
+                    document_row: 14
                     illustration:
                         - zoom-department-sales
                 729:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Vertrieb:"
                     print: "Weitere funktionale Anforderungen im Bereich Vertrieb:"
+                    document_row: 15
                     illustration:
                         - zoom-department-sales
                 731:
@@ -96,6 +109,7 @@ requirement:
                     choice_type: lights
                     content: "Auftragsabwicklung"
                     print: "Auftragsabwicklung"
+                    document_row: 17
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -104,6 +118,7 @@ requirement:
                     choice_type: lights
                     content: Rahmenaufträge
                     print: Rahmenaufträge
+                    document_row: 18
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -112,6 +127,7 @@ requirement:
                     choice_type: lights
                     content: Aufträge
                     print: Aufträge
+                    document_row: 19
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -120,6 +136,7 @@ requirement:
                     choice_type: lights
                     content: Versandplanung
                     print: Versandplanung
+                    document_row: 20
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -128,6 +145,7 @@ requirement:
                     choice_type: lights
                     content: Lieferscheine
                     print: Lieferscheine
+                    document_row: 21
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -136,6 +154,7 @@ requirement:
                     choice_type: lights
                     content: Speditionsaufträge
                     print: Speditionsaufträge
+                    document_row: 22
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -144,6 +163,7 @@ requirement:
                     choice_type: lights
                     content: Versandkostenermittlung
                     print: Versandkostenermittlung
+                    document_row: 23
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -152,6 +172,7 @@ requirement:
                     choice_type: lights
                     content: Retourenverwaltung
                     print: Retourenverwaltung
+                    document_row: 24
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -160,6 +181,7 @@ requirement:
                     choice_type: lights
                     content: Rücksendeverfolgung
                     print: Rücksendeverfolgung
+                    document_row: 25
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -168,6 +190,7 @@ requirement:
                     choice_type: lights
                     content: Exportabwicklung
                     print: Exportabwicklung
+                    document_row: 26
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -176,6 +199,7 @@ requirement:
                     choice_type: lights
                     content: Meldungen zum Warenverkehr
                     print: Meldungen zum Warenverkehr
+                    document_row: 27
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -184,6 +208,7 @@ requirement:
                     choice_type: lights
                     content: Intrastat
                     print: Intrastat
+                    document_row: 28
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -191,6 +216,7 @@ requirement:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Auftragsabwicklung:"
                     print: "Weitere funktionale Anforderungen im Bereich Auftragsabwicklung:"
+                    document_row: 29
                     illustration:
                         - zoom-department-sales
                         - zoom-department-warehouse
@@ -200,6 +226,7 @@ requirement:
                     choice_type: lights
                     content: "Fakturierung"
                     print: "Fakturierung"
+                    document_row: 31
                     illustration:
                         - zoom-department-sales
                 759:
@@ -207,6 +234,7 @@ requirement:
                     choice_type: lights
                     content: Rechnungen
                     print: Rechnungen
+                    document_row: 32
                     illustration:
                         - zoom-department-sales
                 761:
@@ -214,6 +242,7 @@ requirement:
                     choice_type: lights
                     content: Elektronische Rechnungen
                     print: Elektronische Rechnungen
+                    document_row: 33
                     illustration:
                         - zoom-department-sales
                 763:
@@ -221,6 +250,7 @@ requirement:
                     choice_type: lights
                     content: Sammelrechnungen
                     print: Sammelrechnungen
+                    document_row: 34
                     illustration:
                         - zoom-department-sales
                 765:
@@ -228,6 +258,7 @@ requirement:
                     choice_type: lights
                     content: Pro-forma-Rechnung
                     print: Pro-forma-Rechnung
+                    document_row: 35
                     illustration:
                         - zoom-department-sales
                 767:
@@ -235,12 +266,14 @@ requirement:
                     choice_type: lights
                     content: Gutschriften
                     print: Gutschriften
+                    document_row: 36
                     illustration:
                         - zoom-department-sales
                 769:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Fakturierung:"
                     print: "Weitere funktionale Anforderungen im Bereich Fakturierung:"
+                    document_row: 37
                     illustration:
                         - zoom-department-sales
                 771:
@@ -248,6 +281,7 @@ requirement:
                     choice_type: lights
                     content: "Einkauf"
                     print: "Einkauf"
+                    document_row: 39
                     illustration:
                         - zoom-department-purchase
                 773:
@@ -255,6 +289,7 @@ requirement:
                     choice_type: lights
                     content: Bestellvorschläge
                     print: Bestellvorschläge
+                    document_row: 40
                     illustration:
                         - zoom-department-purchase
                 775:
@@ -262,6 +297,7 @@ requirement:
                     choice_type: lights
                     content: Lohnfertigungsvorschläge
                     print: Lohnfertigungsvorschläge
+                    document_row: 41
                     illustration:
                         - zoom-department-purchase
                 777:
@@ -269,6 +305,7 @@ requirement:
                     choice_type: lights
                     content: Umlagerungsvorschläge
                     print: Umlagerungsvorschläge
+                    document_row: 42
                     illustration:
                         - zoom-department-purchase
                 779:
@@ -276,6 +313,7 @@ requirement:
                     choice_type: lights
                     content: Ausschreibungen
                     print: Ausschreibungen
+                    document_row: 43
                     illustration:
                         - zoom-department-purchase
                 781:
@@ -283,6 +321,7 @@ requirement:
                     choice_type: lights
                     content: Anfragen
                     print: Anfragen
+                    document_row: 44
                     illustration:
                         - zoom-department-purchase
                 783:
@@ -290,6 +329,7 @@ requirement:
                     choice_type: lights
                     content: Rahmenaufträge
                     print: Rahmenaufträge
+                    document_row: 45
                     illustration:
                         - zoom-department-purchase
                 785:
@@ -297,6 +337,7 @@ requirement:
                     choice_type: lights
                     content: Bestellungen
                     print: Bestellungen
+                    document_row: 46
                     illustration:
                         - zoom-department-purchase
                 787:
@@ -304,6 +345,7 @@ requirement:
                     choice_type: lights
                     content: Lieferantenanalyse
                     print: Lieferantenanalyse
+                    document_row: 47
                     illustration:
                         - zoom-department-purchase
                 789:
@@ -311,12 +353,14 @@ requirement:
                     choice_type: lights
                     content: SRM (Supplier Relationship Management)
                     print: SRM (Supplier Relationship Management)
+                    document_row: 48
                     illustration:
                         - zoom-department-purchase
                 791:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Einkauf:"
                     print: "Weitere funktionale Anforderungen im Bereich Einkauf:"
+                    document_row: 49
                     illustration:
                         - zoom-department-purchase
                 793:
@@ -324,6 +368,7 @@ requirement:
                     choice_type: lights
                     content: "Materialwirtschaft"
                     print: "Materialwirtschaft"
+                    document_row: 51
                     illustration:
                         - zoom-department-warehouse
 
@@ -332,6 +377,7 @@ requirement:
                     choice_type: lights
                     content: Lagerverwaltung
                     print: Lagerverwaltung
+                    document_row: 52
                     illustration:
                         - zoom-department-warehouse
                 797:
@@ -339,6 +385,7 @@ requirement:
                     choice_type: lights
                     content: Mehrlagerverwaltung
                     print: Mehrlagerverwaltung
+                    document_row: 53
                     illustration:
                         - zoom-department-warehouse
                 799:
@@ -346,6 +393,7 @@ requirement:
                     choice_type: lights
                     content: Konsignationslager
                     print: Konsignationslager
+                    document_row: 54
                     illustration:
                         - zoom-department-warehouse
                 801:
@@ -353,6 +401,7 @@ requirement:
                     choice_type: lights
                     content: Chargen-/Seriennummernverwaltung
                     print: Chargen-/Seriennummernverwaltung
+                    document_row: 55
                     illustration:
                         - zoom-department-warehouse
                 803:
@@ -360,6 +409,7 @@ requirement:
                     choice_type: lights
                     content: Inventur
                     print: Inventur
+                    document_row: 56
                     illustration:
                         - zoom-department-warehouse
                 805:
@@ -367,6 +417,7 @@ requirement:
                     choice_type: lights
                     content: Disposition
                     print: Disposition
+                    document_row: 57
                     illustration:
                         - zoom-department-warehouse
                 807:
@@ -374,12 +425,14 @@ requirement:
                     choice_type: lights
                     content: Materialbedarfsplanung
                     print: Materialbedarfsplanung
+                    document_row: 58
                     illustration:
                         - zoom-department-warehouse
                 809:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Materialwirtschaft:"
                     print: "Weitere funktionale Anforderungen im Bereich Materialwirtschaft:"
+                    document_row: 59
                     illustration:
                         - zoom-department-warehouse
 
@@ -388,6 +441,7 @@ requirement:
                     choice_type: lights
                     content: "Fertigung"
                     print: "Fertigung"
+                    document_row: 61
                     illustration:
                         - zoom-department-production
                 813:
@@ -395,6 +449,7 @@ requirement:
                     choice_type: lights
                     content: Produktionsplanung und -steuerung
                     print: Produktionsplanung und -steuerung
+                    document_row: 62
                     illustration:
                         - zoom-department-production
                 815:
@@ -402,6 +457,7 @@ requirement:
                     choice_type: lights
                     content: Kapazitätsplanung
                     print: Kapazitätsplanung
+                    document_row: 63
                     illustration:
                         - zoom-department-production
                 817:
@@ -409,6 +465,7 @@ requirement:
                     choice_type: lights
                     content: Engpassplanung
                     print: Engpassplanung
+                    document_row: 64
                     illustration:
                         - zoom-department-production
                 819:
@@ -416,6 +473,7 @@ requirement:
                     choice_type: lights
                     content: Produktkonfiguration
                     print: Produktkonfiguration
+                    document_row: 65
                     illustration:
                         - zoom-department-production
                 821:
@@ -423,6 +481,7 @@ requirement:
                     choice_type: lights
                     content: Variantenmanagement
                     print: Variantenmanagement
+                    document_row: 66
                     illustration:
                         - zoom-department-production
                 823:
@@ -430,6 +489,7 @@ requirement:
                     choice_type: lights
                     content: Fertigungslisten
                     print: Fertigungslisten
+                    document_row: 67
                     illustration:
                         - zoom-department-production
                 825:
@@ -437,6 +497,7 @@ requirement:
                     choice_type: lights
                     content: Fertigungsvorschläge
                     print: Fertigungsvorschläge
+                    document_row: 68
                     illustration:
                         - zoom-department-production
                 827:
@@ -444,6 +505,7 @@ requirement:
                     choice_type: lights
                     content: Betriebsaufträge
                     print: Betriebsaufträge
+                    document_row: 69
                     illustration:
                         - zoom-department-production
                 829:
@@ -451,6 +513,7 @@ requirement:
                     choice_type: lights
                     content: Rückmeldungen
                     print: Rückmeldungen
+                    document_row: 70
                     illustration:
                         - zoom-department-production
                 831:
@@ -458,6 +521,7 @@ requirement:
                     choice_type: lights
                     content: Lohnfertigung
                     print: Lohnfertigung
+                    document_row: 71
                     illustration:
                         - zoom-department-production
                 833:
@@ -465,6 +529,7 @@ requirement:
                     choice_type: lights
                     content: Verlängerte Werkbank / Fremdfertigung
                     print: Verlängerte Werkbank / Fremdfertigung
+                    document_row: 72
                     illustration:
                         - zoom-department-production
                 835:
@@ -472,6 +537,7 @@ requirement:
                     choice_type: lights
                     content: Kuppelproduktion
                     print: Kuppelproduktion
+                    document_row: 73
                     illustration:
                         - zoom-department-production
                 837:
@@ -479,6 +545,7 @@ requirement:
                     choice_type: lights
                     content: APS
                     print: APS
+                    document_row: 74
                     illustration:
                         - zoom-department-production
                 839:
@@ -486,6 +553,7 @@ requirement:
                     choice_type: lights
                     content: Grafische Feinplanung
                     print: Grafische Feinplanung
+                    document_row: 75
                     illustration:
                         - zoom-department-production
                 841:
@@ -493,6 +561,7 @@ requirement:
                     choice_type: lights
                     content: Projektmanagement
                     print: Projektmanagement
+                    document_row: 76
                     illustration:
                         - zoom-department-production
                 843:
@@ -500,6 +569,7 @@ requirement:
                     choice_type: lights
                     content: CAD-Integration
                     print: CAD-Integration
+                    document_row: 77
                     illustration:
                         - zoom-department-production
                 845:
@@ -507,6 +577,7 @@ requirement:
                     choice_type: lights
                     content: PLM-Integration
                     print: PLM-Integration
+                    document_row: 78
                     illustration:
                         - zoom-department-production
 
@@ -514,6 +585,7 @@ requirement:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Fertigung:"
                     print: "Weitere funktionale Anforderungen im Bereich Fertigung:"
+                    document_row: 79
                     illustration:
                         - zoom-department-production
 
@@ -522,6 +594,7 @@ requirement:
                     choice_type: lights
                     content: "Service"
                     print: "Service"
+                    document_row: 81
                     illustration:
                         - zoom-department-service
                 851:
@@ -529,6 +602,7 @@ requirement:
                     choice_type: lights
                     content: Servicemanagement
                     print: Servicemanagement
+                    document_row: 82
                     illustration:
                         - zoom-department-service
                 853:
@@ -536,6 +610,7 @@ requirement:
                     choice_type: lights
                     content: Vor-Ort-Service
                     print: Vor-Ort-Service
+                    document_row: 83
                     illustration:
                         - zoom-department-service
                 855:
@@ -543,6 +618,7 @@ requirement:
                     choice_type: lights
                     content: Regelmäßige Dienstleistungen und Wartungen
                     print: Regelmäßige Dienstleistungen und Wartungen
+                    document_row: 84
                     illustration:
                         - zoom-department-service
                 857:
@@ -550,12 +626,14 @@ requirement:
                     choice_type: lights
                     content: Reparaturen
                     print: Reparaturen
+                    document_row: 85
                     illustration:
                         - zoom-department-service
                 859:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Service:"
                     print: "Weitere funktionale Anforderungen im Bereich Service:"
+                    document_row: 86
                     illustration:
                         - zoom-department-service
 
@@ -564,6 +642,7 @@ requirement:
                     choice_type: lights
                     content: "Kalkulation"
                     print: "Kalkulation"
+                    document_row: 88
                     illustration:
                         - zoom-department-sales
                 863:
@@ -571,6 +650,7 @@ requirement:
                     choice_type: lights
                     content: Vorkalkulation
                     print: Vorkalkulation
+                    document_row: 89
                     illustration:
                         - zoom-department-sales
                 865:
@@ -578,6 +658,7 @@ requirement:
                     choice_type: lights
                     content: Mitlaufende Kalkulation
                     print: Mitlaufende Kalkulation
+                    document_row: 90
                     illustration:
                         - zoom-department-sales
                 867:
@@ -585,12 +666,14 @@ requirement:
                     choice_type: lights
                     content: Nachkalkulation
                     print: Nachkalkulation
+                    document_row: 91
                     illustration:
                         - zoom-department-sales
                 869:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Kalkulation:"
                     print: "Weitere funktionale Anforderungen im Bereich Kalkulation:"
+                    document_row: 91
                     illustration:
                         - zoom-department-sales
                 871:
@@ -598,6 +681,7 @@ requirement:
                     choice_type: lights
                     content: "Finanzbuchhaltung"
                     print: "Finanzbuchhaltung"
+                    document_row: 94
                     illustration:
                         - zoom-department-financial-billing-department
                 873:
@@ -605,6 +689,7 @@ requirement:
                     choice_type: lights
                     content: Buchungen
                     print: Buchungen
+                    document_row: 95
                     illustration:
                         - zoom-department-financial-billing-department
                 875:
@@ -612,6 +697,7 @@ requirement:
                     choice_type: lights
                     content: Zahlungsverkehr
                     print: Zahlungsverkehr
+                    document_row: 96
                     illustration:
                         - zoom-department-financial-billing-department
                 877:
@@ -619,6 +705,7 @@ requirement:
                     choice_type: lights
                     content: Auslandszahlungsverkehr
                     print: Auslandszahlungsverkehr
+                    document_row: 97
                     illustration:
                         - zoom-department-financial-billing-department
                 879:
@@ -626,6 +713,7 @@ requirement:
                     choice_type: lights
                     content: Mahnwesen
                     print: Mahnwesen
+                    document_row: 98
                     illustration:
                         - zoom-department-financial-billing-department
                 881:
@@ -633,6 +721,7 @@ requirement:
                     choice_type: lights
                     content: Offene-Posten-Verwaltung
                     print: Offene-Posten-Verwaltung
+                    document_row: 99
                     illustration:
                         - zoom-department-financial-billing-department
                 883:
@@ -640,6 +729,7 @@ requirement:
                     choice_type: lights
                     content: Umsatzsteuervoranmeldung
                     print: Umsatzsteuervoranmeldung
+                    document_row: 100
                     illustration:
                         - zoom-department-financial-billing-department
                 885:
@@ -647,6 +737,7 @@ requirement:
                     choice_type: lights
                     content: Steuern
                     print: Steuern
+                    document_row: 101
                     illustration:
                         - zoom-department-financial-billing-department
                 887:
@@ -654,6 +745,7 @@ requirement:
                     choice_type: lights
                     content: DATEV-Schnittstelle
                     print: DATEV-Schnittstelle
+                    document_row: 102
                     illustration:
                         - zoom-department-financial-billing-department
                 889:
@@ -661,12 +753,14 @@ requirement:
                     choice_type: lights
                     content: ELSTER-Schnittstelle
                     print: ELSTER-Schnittstelle
+                    document_row: 103
                     illustration:
                         - zoom-department-financial-billing-department
                 891:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Finanzbuchhaltung:"
                     print: "Weitere funktionale Anforderungen im Bereich Finanzbuchhaltung:"
+                    document_row: 104
                     illustration:
                         - zoom-department-financial-billing-department
                 893:
@@ -674,6 +768,7 @@ requirement:
                     choice_type: lights
                     content: "Anlagenbuchhaltung"
                     print: "Anlagenbuchhaltung"
+                    document_row: 106
                     illustration:
                         - zoom-department-financial-billing-department
                 895:
@@ -681,6 +776,7 @@ requirement:
                     choice_type: lights
                     content: Abschreibungen
                     print: Abschreibungen
+                    document_row: 107
                     illustration:
                         - zoom-department-financial-billing-department
                 897:
@@ -688,6 +784,7 @@ requirement:
                     choice_type: lights
                     content: Anlagenhistorie
                     print: Anlagenhistorie
+                    document_row: 108
                     illustration:
                         - zoom-department-financial-billing-department
                 899:
@@ -695,12 +792,14 @@ requirement:
                     choice_type: lights
                     content: Anlagenvermögen
                     print: Anlagenvermögen
+                    document_row: 109
                     illustration:
                         - zoom-department-financial-billing-department
                 901:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Anlagenbuchhaltung:"
                     print: "Weitere funktionale Anforderungen im Bereich Anlagenbuchhaltung:"
+                    document_row: 110
                     illustration:
                         - zoom-department-financial-billing-department
                 903:
@@ -708,6 +807,7 @@ requirement:
                     choice_type: lights
                     content: "Kostenrechnung"
                     print: "Kostenrechnung"
+                    document_row: 112
                     illustration:
                         - zoom-department-financial-billing-department
                 905:
@@ -715,6 +815,7 @@ requirement:
                     choice_type: lights
                     content: Ist- und Plankostenverrechnung
                     print: Ist- und Plankostenverrechnung
+                    document_row: 113
                     illustration:
                         - zoom-department-financial-billing-department
                 907:
@@ -722,6 +823,7 @@ requirement:
                     choice_type: lights
                     content: Voll- und Grenzkostenverrechnung
                     print: Voll- und Grenzkostenverrechnung
+                    document_row: 114
                     illustration:
                         - zoom-department-financial-billing-department
                 909:
@@ -729,6 +831,7 @@ requirement:
                     choice_type: lights
                     content: Kostenartenrechnung
                     print: Kostenartenrechnung
+                    document_row: 115
                     illustration:
                         - zoom-department-financial-billing-department
                 911:
@@ -736,6 +839,7 @@ requirement:
                     choice_type: lights
                     content: Kostenstellenrechnung
                     print: Kostenstellenrechnung
+                    document_row: 116
                     illustration:
                         - zoom-department-financial-billing-department
                 913:
@@ -743,6 +847,7 @@ requirement:
                     choice_type: lights
                     content: Kostenträgerrechnung
                     print: Kostenträgerrechnung
+                    document_row: 117
                     illustration:
                         - zoom-department-financial-billing-department
                 915:
@@ -750,6 +855,7 @@ requirement:
                     choice_type: lights
                     content: Deckungsbeitragsrechnung
                     print: Deckungsbeitragsrechnung
+                    document_row: 118
                     illustration:
                         - zoom-department-financial-billing-department
                 917:
@@ -757,23 +863,27 @@ requirement:
                     choice_type: lights
                     content: Projektkostenrechnung
                     print: Projektkostenrechnung
+                    document_row: 119
                     illustration:
                         - zoom-department-financial-billing-department
                 919:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Kostenrechnung:"
                     print: "Weitere funktionale Anforderungen im Bereich Kostenrechnung:"
+                    document_row: 120
                 921:
                     type: choice
                     choice_type: lights
                     content: "Controlling"
                     print: "Controlling"
+                    document_row: 122
                     illustration:
                         - zoom-department-management
                 923:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Controlling:"
                     print: "Weitere funktionale Anforderungen im Bereich Controlling:"
+                    document_row: 123
                     illustration:
                         - zoom-department-management
                 925:
@@ -781,8 +891,10 @@ requirement:
                     choice_type: lights
                     content: "Business Intelligence"
                     print: "Business Intelligence"
+                    document_row: 125
                 927:
                     type: text
+                    document_row: 126
                     content: "Weitere funktionale Anforderungen im Bereich Business Intelligence:"
                     print: "Weitere funktionale Anforderungen im Bereich Business Intelligence:"
                 929:
@@ -790,6 +902,7 @@ requirement:
                     choice_type: lights
                     content: "Konzernrechnungslegung"
                     print: "Konzernrechnungslegung"
+                    document_row: 128
                     illustration:
                         - zoom-department-financial-billing-department
                 931:
@@ -797,6 +910,7 @@ requirement:
                     choice_type: lights
                     content: Konsolidierung von mehreren Unternehmen
                     print: Konsolidierung von mehreren Unternehmen
+                    document_row: 129
                     illustration:
                         - zoom-department-financial-billing-department
                 933:
@@ -804,6 +918,7 @@ requirement:
                     choice_type: lights
                     content: Abbildung von Konzernstrukturen
                     print: Abbildung von Konzernstrukturen
+                    document_row: 130
                     illustration:
                         - zoom-department-financial-billing-department
                 935:
@@ -811,12 +926,14 @@ requirement:
                     choice_type: lights
                     content: Datenaustausch von Finanzdaten
                     print: Datenaustausch von Finanzdaten
+                    document_row: 131
                     illustration:
                         - zoom-department-financial-billing-department
                 937:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Konzernrechnungslegung:"
                     print: "Weitere funktionale Anforderungen im Bereich Konzernrechnungslegung:"
+                    document_row: 132
                     illustration:
                         - zoom-department-financial-billing-department
                 939:
@@ -824,6 +941,7 @@ requirement:
                     choice_type: lights
                     content: "Personalwesen / HR"
                     print: "Personalwesen / HR"
+                    document_row: 134
                     illustration:
                         - zoom-department-human-resources
                 941:
@@ -831,6 +949,7 @@ requirement:
                     choice_type: lights
                     content: Lohn- und Gehaltsabrechnung
                     print: Lohn- und Gehaltsabrechnung
+                    document_row: 135
                     illustration:
                         - zoom-department-human-resources
                 943:
@@ -838,6 +957,7 @@ requirement:
                     choice_type: lights
                     content: Zeiterfassung
                     print: Zeiterfassung
+                    document_row: 136
                     illustration:
                         - zoom-department-human-resources
                 945:
@@ -845,6 +965,7 @@ requirement:
                     choice_type: lights
                     content: Personaleinsatzplanung
                     print: Personaleinsatzplanung
+                    document_row: 137
                     illustration:
                         - zoom-department-human-resources
                 947:
@@ -852,12 +973,14 @@ requirement:
                     choice_type: lights
                     content: Reiseabrechnung
                     print: Reiseabrechnung
+                    document_row: 138
                     illustration:
                         - zoom-department-human-resources
                 949:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Personalwesen / HR:"
                     print: "Weitere funktionale Anforderungen im Bereich Personalwesen / HR:"
+                    document_row: 139
                     illustration:
                         - zoom-department-human-resources
 
@@ -866,58 +989,70 @@ requirement:
                     choice_type: lights
                     content: Multisite
                     print: Multisite
+                    document_row: 141
                 953:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich Multisite:"
                     print: "Weitere funktionale Anforderungen im Bereich Multisite:"
+                    document_row: 142
                 955:
                     type: choice
                     choice_type: lights
                     content: "EDI (Electronic Data Interchange)"
                     print: "EDI (Electronic Data Interchange)"
+                    document_row: 144
                 957:
                     type: choice
                     choice_type: lights
                     content: EDIFACT
                     print: EDIFACT
+                    document_row: 145
                 959:
                     type: choice
                     choice_type: lights
                     content: ANSI X.12
                     print: ANSI X.12
+                    document_row: 146
                 961:
                     type: choice
                     choice_type: lights
                     content: VDA
                     print: VDA
+                    document_row: 147
                 963:
                     type: choice
                     choice_type: lights
                     content: ODETTE
                     print: ODETTE
+                    document_row: 148
                 965:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich EDI:"
                     print: "Weitere funktionale Anforderungen im Bereich EDI:"
+                    document_row: 149
                 967:
                     type: choice
                     choice_type: lights
                     content: "DMS (Dokumenten-Management-System)"
                     print: "DMS (Dokumenten-Management-System)"
+                    document_row: 151
                 969:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich DMS:"
                     print: "Weitere funktionale Anforderungen im Bereich DMS:"
+                    document_row: 152
 
                 971:
                     type: choice
                     choice_type: lights
                     content: "BPM (Business Process Management)"
                     print: "BPM (Business Process Management)"
+                    document_row: 154
                 973:
                     type: text
                     content: "Weitere funktionale Anforderungen im Bereich BPM:"
                     print: "Weitere funktionale Anforderungen im Bereich BPM:"
+                    document_row: 155
 
         requirement.not-functional:
             headline: "Nicht-funktionale Anforderungen"
@@ -926,33 +1061,40 @@ requirement:
                     type: text
                     content: "Für welche Länder sollte das System lokalisiert sein?"
                     print: "Das System soll für folgende Länder lokalisiert sein:"
+                    document_row: 165
                 979:
                     type: text
                     content: "In welchen Sprachen sollte das System verfügbar sein?"
                     print: "Das System soll in folgenden Sprachen verfügbar sein:"
+                    document_row: 166
                 981:
                     type: choice
                     choice_type: yesNo
                     content: "Mehrwährungsfähigkeit"
                     print: "Mehrwährungsfähigkeit"
+                    document_row: 167
                 983:
                     type: headline
                     content: Customizing
                     print: Customizing
+                    document_row: 168
                 984:
                     type: choice
                     choice_type: yesNo
                     content: Durchführung von Anpassungen nur durch den ERP-Anbieter möglich
                     print: Durchführung von Anpassungen nur durch den ERP-Anbieter möglich
+                    document_row: 169
                 986:
                     type: choice
                     choice_type: yesNo
                     content: Durchführung von Anpassungen durch User möglich
                     print: Durchführung von Anpassungen durch User möglich
+                    document_row: 170
                 988:
                     type: text
                     content: "Weitere nicht-funktionale Anforderungen:"
                     print: "Weitere nicht-funktionale Anforderungen:"
+                    document_row: 171
 
 
 

@@ -4,9 +4,11 @@ system-use:
     description: "Bestandsaufnahme: Welche IT-Systeme setzen Sie zusätzlich zu ERP bereits ein? Sollen diese weiter genutzt und integriert werden oder ist eine Neuinvestition geplant?"
     print_description: "Diese IT-Systeme setzen wir derzeit ein:"
     sort: 4
+    worksheet: 3
     sections:
         system-use.erp:
             headline: ERP (Enterprise Resource Planning)
+            document_offset_row: 3
             elements:
                 227: system-use.main
                 229: system-use.integration
@@ -15,6 +17,7 @@ system-use:
                 235: system-use.replaced-by
         system-use.crm:
             headline: CRM (Customer Relationship Management)
+            document_offset_row: 9
             illustration:
                 - zoom-department-sales
             elements:
@@ -25,6 +28,7 @@ system-use:
                 246: system-use.replaced-by
         system-use.projectmanagement:
             headline: "Projektmanagement"
+            document_offset_row: 15
             illustration:
                 - zoom-department-project-management
             elements:
@@ -35,6 +39,7 @@ system-use:
                 257: system-use.replaced-by
         system-use.workflow:
             headline: "Workflow / Business Process Management"
+            document_offset_row: 21
             elements:
                 260: system-use.main
                 262: system-use.integration
@@ -43,6 +48,7 @@ system-use:
                 268: system-use.replaced-by
         system-use.dms:
             headline: "DMS (Dokumentenmanagement)"
+            document_offset_row: 27
             elements:
                 271: system-use.main
                 273: system-use.integration
@@ -51,6 +57,7 @@ system-use:
                 279: system-use.replaced-by
         system-use.cad:
             headline: "Konstruktion / CAD"
+            document_offset_row: 33
             illustration:
                 - zoom-department-construction
             elements:
@@ -61,6 +68,7 @@ system-use:
                 290: system-use.replaced-by
         system-use.pdm:
             headline: "Produktdatenmanagement (PDM)"
+            document_offset_row: 39
             illustration:
                 - zoom-department-construction
             elements:
@@ -71,6 +79,7 @@ system-use:
                 301: system-use.replaced-by
         system-use.offeredit:
             headline: "Angebotsbearbeitung"
+            document_offset_row: 45
             illustration:
                 - zoom-department-sales
             elements:
@@ -81,6 +90,7 @@ system-use:
                 312: system-use.replaced-by
         system-use.order-processing:
             headline: "Auftragsbearbeitung (Vertrieb) (Auftragszentrum)"
+            document_offset_row: 51
             illustration:
                 - zoom-department-sales
             elements:
@@ -91,6 +101,7 @@ system-use:
                 323: system-use.replaced-by
         system-use.calc-offer:
             headline: "Kalkulation / Angebotskalkulation"
+            document_offset_row: 57
             illustration:
                 - zoom-department-sales
             elements:
@@ -101,6 +112,7 @@ system-use:
                 334: system-use.replaced-by
         system-use.shipping:
             headline: "Versand (auch Auftragszentrum)"
+            document_offset_row: 63
             illustration:
                 - zoom-department-warehouse
             elements:
@@ -111,6 +123,7 @@ system-use:
                 345: system-use.replaced-by
         system-use.product-config:
             headline: "Produktkonfigurator"
+            document_offset_row: 69
             illustration:
                 - zoom-department-sales
             elements:
@@ -121,6 +134,7 @@ system-use:
                 356: system-use.replaced-by
         system-use.sales-planning:
             headline: "Absatzplanung / Produktionsprogrammplanung"
+            document_offset_row: 75
             illustration:
                 - zoom-department-sales
             elements:
@@ -132,6 +146,7 @@ system-use:
 
         system-use.shopping:
             headline: "Einkauf"
+            document_offset_row: 81
             illustration:
                 - zoom-department-purchase
             elements:
@@ -143,6 +158,7 @@ system-use:
 
         system-use.disposition:
             headline: "Materialwirtschaft / Disposition"
+            document_offset_row: 87
             illustration:
                 - zoom-department-purchase
             elements:
@@ -153,6 +169,7 @@ system-use:
                 389: system-use.replaced-by
         system-use.order-center:
             headline: "Auftragszentrum / Werkzeugbau"
+            document_offset_row: 93
             illustration:
                 - zoom-department-purchase
             elements:
@@ -163,6 +180,7 @@ system-use:
                 400: system-use.replaced-by
         system-use.warehouse-management:
             headline: "Lagerverwaltung"
+            document_offset_row: 99
             illustration:
                 - zoom-department-warehouse
             elements:
@@ -173,6 +191,7 @@ system-use:
                 411: system-use.replaced-by
         system-use.inventory-control:
             headline: "Lagersteuerung"
+            document_offset_row: 105
             illustration:
                 - zoom-department-warehouse
             elements:
@@ -183,6 +202,7 @@ system-use:
                 422: system-use.replaced-by
         system-use.production-plan:
             headline: "Produktionsplanung"
+            document_offset_row: 111
             illustration:
                 - zoom-department-production
             elements:
@@ -193,6 +213,7 @@ system-use:
                 433: system-use.replaced-by
         system-use.production-control:
             headline: "Produktionssteuerung"
+            document_offset_row: 117
             elements:
                 436: system-use.main
                 438: system-use.integration
@@ -201,6 +222,7 @@ system-use:
                 444: system-use.replaced-by
         system-use.simulation:
             headline: "Simulation"
+            document_offset_row: 123
             illustration:
                 - zoom-department-production
             elements:
@@ -211,6 +233,7 @@ system-use:
                 455: system-use.replaced-by
         system-use.detail-plan:
             headline: "Feinplanung"
+            document_offset_row: 129
             illustration:
                 - zoom-department-production
             elements:
@@ -221,6 +244,7 @@ system-use:
                 466: system-use.replaced-by
         system-use.bde:
             headline: "BDE (Betriebsdatenerfassung)"
+            document_offset_row: 135
             illustration:
                 - zoom-department-production
             elements:
@@ -231,6 +255,7 @@ system-use:
                 477: system-use.replaced-by
         system-use.qa:
             headline: "Qualitätssicherung"
+            document_offset_row: 141
             illustration:
                 - zoom-department-production
             elements:
@@ -241,6 +266,7 @@ system-use:
                 488: system-use.replaced-by
         system-use.maintenance:
             headline: "Instandhaltung"
+            document_offset_row: 147
             illustration:
                 - zoom-department-production
             elements:
@@ -251,6 +277,7 @@ system-use:
                 499: system-use.replaced-by
         system-use.services:
             headline: "Service, Reparaturen, Ersatzteile"
+            document_offset_row: 153
             illustration:
                 - zoom-department-service
             elements:
@@ -261,6 +288,7 @@ system-use:
                 510: system-use.replaced-by
         system-use.financial-accounting:
             headline: "Finanzbuchhaltung"
+            document_offset_row: 159
             illustration:
                 - zoom-department-financial-billing-department
             elements:
@@ -271,6 +299,7 @@ system-use:
                 521: system-use.replaced-by
         system-use.asset-accounting:
             headline: "Anlagenbuchhaltung"
+            document_offset_row: 165
             illustration:
                 - zoom-department-financial-billing-department
             elements:
@@ -281,6 +310,7 @@ system-use:
                 532: system-use.replaced-by
         system-use.costs:
             headline: "Kostenrechnung"
+            document_offset_row: 171
             illustration:
                 - zoom-department-financial-billing-department
             elements:
@@ -291,6 +321,7 @@ system-use:
                 543: system-use.replaced-by
         system-use.hr:
             headline: "Personalwesen (HR / Personalverwaltung)"
+            document_offset_row: 177
             illustration:
                 - zoom-department-human-resources
             elements:
@@ -301,6 +332,7 @@ system-use:
                 554: system-use.replaced-by
         system-use.payroll:
             headline: "Entgeltabrechnung (Lohnbuchhaltung)"
+            document_offset_row: 183
             illustration:
                 - zoom-department-human-resources
             elements:
@@ -311,6 +343,7 @@ system-use:
                 565: system-use.replaced-by
         system-use.pze:
             headline: "PZE (Personalzeiterfassung)"
+            document_offset_row: 189
             elements:
                 568: system-use.main
                 570: system-use.integration
@@ -319,6 +352,7 @@ system-use:
                 576: system-use.replaced-by
         system-use.controlling:
             headline: "Controlling"
+            document_offset_row: 195
             illustration:
                 - zoom-department-management
             elements:
@@ -329,6 +363,7 @@ system-use:
                 587: system-use.replaced-by
         system-use.bi:
             headline: "BI (Business Intelligence)"
+            document_offset_row: 201
             elements:
                 590: system-use.main
                 592: system-use.integration
@@ -337,6 +372,7 @@ system-use:
                 598: system-use.replaced-by
         system-use.corp-plan:
             headline: "Unternehmensplanung (ggf. innerhalb der BI-Lösung)"
+            document_offset_row: 207
             elements:
                 601: system-use.main
                 603: system-use.integration
@@ -345,6 +381,7 @@ system-use:
                 609: system-use.replaced-by
         system-use.mde:
             headline: "MDE (Maschinendatenerfassung)"
+            document_offset_row: 213
             illustration:
                 - zoom-department-production
             elements:
@@ -355,6 +392,7 @@ system-use:
                 620: system-use.replaced-by
         system-use.print-generator:
             headline: "Druck-/Formulargenerator"
+            document_offset_row: 219
             elements:
                 623: system-use.main
                 625: system-use.integration
@@ -363,6 +401,7 @@ system-use:
                 631: system-use.replaced-by
         system-use.export:
             headline: "Export"
+            document_offset_row: 225
             illustration:
                 - zoom-department-warehouse
             elements:
@@ -373,6 +412,7 @@ system-use:
                 642: system-use.replaced-by
         system-use.edi:
             headline: "EDI (Electronic Data Interchange)"
+            document_offset_row: 231
             elements:
                 645: system-use.main
                 647: system-use.integration
@@ -385,3 +425,4 @@ system-use:
                 655:
                     type: text
                     content: "Bitte ergänzen Sie weitere IT-Systeme, die Sie im Einsatz haben."
+                    document_row: 238

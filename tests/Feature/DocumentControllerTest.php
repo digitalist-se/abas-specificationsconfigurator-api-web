@@ -8,6 +8,7 @@ use App\Models\ChoiceType;
 use App\Models\Element;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Tests\PassportTestCase;
 
@@ -43,17 +44,13 @@ class DocumentControllerTest extends PassportTestCase
 
     protected function tearDown()
     {
-        $this->deleteAllExportFilesOfUser();
+//        $this->deleteAllExportFilesOfUser();
         parent::tearDown();
     }
 
     protected function deleteAllExportFilesOfUser()
     {
         $files = storage_path('app/export').'/'.$this->user->id.'_*';
-        foreach (glob($files) as $filename) {
-            unlink($filename);
-        }
-        $files = storage_path('app/tmp/PhpWord*');
         foreach (glob($files) as $filename) {
             unlink($filename);
         }
@@ -74,7 +71,6 @@ class DocumentControllerTest extends PassportTestCase
         Mail::fake();
         $response = $this->get('/api/document/generate');
         $this->assertStatus($response, 200);
-
         $user = $this->user;
         Mail::assertQueued(DocumentGeneratedMail::class, function ($mail) use ($user) {
             /*

@@ -117,4 +117,9 @@ class User extends Authenticatable
             return '';
         }
     }
+
+    public function getZipcodeAndCityAttribute()
+    {
+        return $this->zipcode.', '.$this->city;
+    }
 }

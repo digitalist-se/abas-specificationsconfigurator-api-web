@@ -4,6 +4,11 @@ namespace App\Models;
 
 use App\Responsibilities\HasIllustrationStates;
 
+/**
+ * Class Chapter
+ * @package App\Models
+ * @property int $worksheet
+ */
 class Chapter extends BaseModel
 {
     use HasIllustrationStates;
@@ -15,6 +20,7 @@ class Chapter extends BaseModel
         'description',
         'print_description',
         'illustration_states',
+        'worksheet'
     ];
 
     protected $attributes = [
