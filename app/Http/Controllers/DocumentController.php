@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\SpecificationDocument;
+use App\Http\Resources\SpecificationDocumentWord;
 use App\Mail\DocumentGeneratedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -28,7 +28,7 @@ class DocumentController extends Controller
         }
         $filename              = $outputDir.DIRECTORY_SEPARATOR.uniqid($request->user()->id.'_').'.docx';
         $answers               = $request->user()->answers()->get();
-        $specificationDocument = new SpecificationDocument($filename, $answers);
+        $specificationDocument = new SpecificationDocumentWord($filename, $answers);
         $specificationDocument->save();
         $mail = new DocumentGeneratedMail($request->user());
         $mail->attach($filename);

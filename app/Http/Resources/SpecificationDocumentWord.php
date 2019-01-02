@@ -11,7 +11,7 @@ use PhpOffice\PhpWord\Style\TOC;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Style\Line as LineStyle;
 
-class SpecificationDocument extends WordResource
+class SpecificationDocumentWord extends WordResource
 {
     protected $template              = 'word/specification_configurator_template.docx';
     protected $templateTextVariables = [
