@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\SpecificationDocumentExcel;
+use App\Http\Resources\SpecificationDocument;
 use App\Mail\DocumentGeneratedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -28,7 +28,7 @@ class DocumentController extends Controller
         }
         $filename              = $outputDir.DIRECTORY_SEPARATOR.uniqid($user->id.'_').'.xlsx';
         $answers               = $user->answers()->get();
-        $specificationDocument = new SpecificationDocumentexcel($filename, $user, $answers);
+        $specificationDocument = new SpecificationDocument($filename, $user, $answers);
         $specificationDocument->save();
         $mail = new DocumentGeneratedMail($user);
         $mail->attach($filename);

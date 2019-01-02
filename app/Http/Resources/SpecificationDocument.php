@@ -3,7 +3,7 @@ namespace App\Http\Resources;
 
 use App\Models\Text;
 
-class SpecificationDocumentExcel extends ExcelResource
+class SpecificationDocument extends ExcelResource
 {
     protected $template = 'excel/specification_configurator_template.xlsx';
 
