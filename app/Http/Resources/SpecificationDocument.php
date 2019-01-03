@@ -2,6 +2,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Text;
+use Illuminate\Support\Facades\Log;
 
 class SpecificationDocument extends ExcelResource
 {
@@ -21,7 +22,7 @@ class SpecificationDocument extends ExcelResource
 
     private $answersMap;
     /**
-     * @var \App\Models\User $user
+     * @var \App\Models\User
      */
     private $user;
 
@@ -168,7 +169,8 @@ class SpecificationDocument extends ExcelResource
             if (!empty($parsedAnswerValue)) {
                 $cellId = $contentElement->document_cell;
                 if (!$cellId) {
-                    dd($contentElement);
+                    Log::error('missing cellId for content element: '.$contentElement->id);
+
                     return;
                 }
                 $this->addText($worksheet, $cellId, $parsedAnswerValue);
