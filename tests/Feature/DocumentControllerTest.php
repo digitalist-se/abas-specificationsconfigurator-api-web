@@ -8,7 +8,6 @@ use App\Models\ChoiceType;
 use App\Models\Element;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Tests\PassportTestCase;
 
@@ -44,7 +43,7 @@ class DocumentControllerTest extends PassportTestCase
 
     protected function tearDown()
     {
-//        $this->deleteAllExportFilesOfUser();
+        $this->deleteAllExportFilesOfUser();
         parent::tearDown();
     }
 
