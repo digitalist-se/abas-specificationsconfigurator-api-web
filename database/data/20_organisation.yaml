@@ -1,7 +1,7 @@
 organisation:
     name: "Organisation"
     print_name: "Organisation / Prozesse entlang der Wertschöpfungskette"
-    description: "Bitte beschreiben Sie, wie Ihre bestehenden Prozesse entlang der Wertschöpfungskette organisiert sind und wie diese in das ERP-System integriert sind. Gerne können Sie zur Veranschaulichung auch Prozessdiagramme in der Word-Datei des für Sie generierten Lastenhefts einfügen!"
+    description: "Bitte beschreiben Sie, wie Ihre bestehenden Prozesse entlang der Wertschöpfungskette organisiert sind und wie diese in das ERP-System integriert sind."
     print_description: "Unsere bestehenden Prozesse entlang der Wertschöpfungskette sind wie folgt organisiert:"
     sort: 2
     worksheet: 1

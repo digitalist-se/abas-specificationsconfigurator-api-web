@@ -28,7 +28,7 @@ return [
         ],
         'slide2' => [
             'headline' => 'Bearbeitung in Ihrem Tempo',
-            'text'     => 'Sie können den aktuellen Stand Ihrer Bearbeitung jederzeit speichern und zu einem späteren Zeitpunkt fortsetzen, z.B. um Rücksprache mit den Kollegen oder Fachabteilungen zu halten. Oder Sie generieren einfach das teilausgefüllte Lastenheft – denn Sie erhalten eine Word-Datei, die Sie auch später noch offline editieren können.',
+            'text'     => 'Sie können den aktuellen Stand Ihrer Bearbeitung jederzeit speichern und zu einem späteren Zeitpunkt fortsetzen, z.B. um Rücksprache mit den Kollegen oder Fachabteilungen zu halten. Oder Sie generieren einfach das teilausgefüllte Lastenheft Sie auch später noch offline editieren können.',
         ],
         'slide3' => [
             'headline' => 'Eigenständige Lastenheft-Erstellung ohne ERP-Berater',

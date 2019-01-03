@@ -1,7 +1,7 @@
 requirement:
     name: Anforderungen
     print_name: Anforderungen
-    description: "Nun kommen wir zum Herzstück des Lastenhefts: Ihren Anforderungen an das neue ERP-System. Bitte geben Sie für die verschiedenen Geschäftsbereiche an, welche Anforderungen Sie im Hinblick auf die Funktionen des ERP-Systems haben. Handelt es sich um eine Muss- oder eine Kann-Anforderung oder benötigen Sie eine Funktion gar nicht? Zusätzlich zu den genannten Funktionalitäten können Sie weitere benötigte Funktionen und Details später in der generierten Word-Datei ergänzen. So können Sie alle Ihre Wünsche festhalten - ganz individuell auf Ihr Unternehmen zugeschnitten."
+    description: "Nun kommen wir zum Herzstück des Lastenhefts: Ihren Anforderungen an das neue ERP-System. Bitte geben Sie für die verschiedenen Geschäftsbereiche an, welche Anforderungen Sie im Hinblick auf die Funktionen des ERP-Systems haben. Handelt es sich um eine Muss- oder eine Kann-Anforderung oder benötigen Sie eine Funktion gar nicht? Zusätzlich zu den genannten Funktionalitäten können Sie weitere benötigte Funktionen und Details später im generierten Lastenheft ergänzen. So können Sie alle Ihre Wünsche festhalten - ganz individuell auf Ihr Unternehmen zugeschnitten."
     print_description: "Diese Anforderungen haben wir an das neue ERP-System:"
     sort: 6
     worksheet: 5
