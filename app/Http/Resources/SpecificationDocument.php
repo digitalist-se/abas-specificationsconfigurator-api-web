@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use App\Models\Text;
@@ -9,14 +10,14 @@ class SpecificationDocument extends ExcelResource
     protected $template = 'excel/specification_configurator_template.xlsx';
 
     protected $userInfoMap = [
-        'B2' => 'company_name',
-        'B3' => 'street',
-        'B4' => 'zipcode_and_city',
-        'B5' => 'country',// not available
-        'B6' => 'phone',
-        'B7' => 'email',
-        'B8' => 'website',
-        'B9' => 'contact',
+        'B2'  => 'company_name',
+        'B3'  => 'street',
+        'B4'  => 'zipcode_and_city',
+        'B5'  => 'country', // not available
+        'B6'  => 'phone',
+        'B7'  => 'email',
+        'B8'  => 'website',
+        'B9'  => 'contact',
         'B10' => 'contact_function',
     ];
 
@@ -37,7 +38,7 @@ class SpecificationDocument extends ExcelResource
      */
     public function __construct($filename, $user, $answers)
     {
-        $this->user = $user;
+        $this->user       = $user;
         $this->answersMap = [];
         foreach ($answers as $answer) {
             $this->answersMap[$answer->element_id] = $answer;
@@ -71,15 +72,14 @@ class SpecificationDocument extends ExcelResource
         }
     }
 
-
     protected function renderContentValues()
     {
         $chapters        = \App\Models\Chapter::orderBy('sort')->get();
         foreach ($chapters as $chapter) {
             /**
-             * @var \App\Models\Chapter $chapter
+             * @var \App\Models\Chapter
              */
-            $worksheet = $chapter->worksheet;
+            $worksheet       = $chapter->worksheet;
             $contentSections = $chapter->sections;
             foreach ($contentSections as $contentSection) {
                 $contentElements = $contentSection->printableElements;
@@ -122,7 +122,7 @@ class SpecificationDocument extends ExcelResource
                     $parsedAnswerValue = htmlspecialchars($answer->value->text);
                     break;
                 case 'choice':
-                    if ($contentElement->choiceType->type === 'lights') {
+                    if ('lights' === $contentElement->choiceType->type) {
                         if (!isset($answer->value->option)) {
                             return;
                         }
@@ -131,6 +131,7 @@ class SpecificationDocument extends ExcelResource
                             return;
                         }
                         $this->addText($worksheet, $column.$contentElement->document_row, 'x');
+
                         return;
                     }
                     if ($contentElement->choiceType->multiple) {
@@ -188,6 +189,7 @@ class SpecificationDocument extends ExcelResource
             case 'lights.option.red':
                 return 'E';
         }
+
         return null;
     }
 }

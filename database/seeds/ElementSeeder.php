@@ -80,7 +80,7 @@ class ElementSeeder extends Seeder
                 'print_description'   => $printDescriptionKey,
                 'visible'             => $chapter['visible'] ?? true,
                 'illustration_states' => $chapter['illustration'] ?? null,
-                'worksheet'           => (int) $chapter['worksheet']
+                'worksheet'           => (int) $chapter['worksheet'],
             ]
         );
         $sectionSorting = 0;
@@ -137,9 +137,9 @@ class ElementSeeder extends Seeder
         if (!isset($section['elements'])) {
             return null;
         }
-        $elementsIds = [];
-        $elements    = $section['elements'];
-        $sorting     = 0;
+        $elementsIds       = [];
+        $elements          = $section['elements'];
+        $sorting           = 0;
         $documentRowOffset = $section['document_offset_row'] ?? 0;
         foreach ($elements as $id => $element) {
             if (is_string($element)) {
@@ -180,7 +180,7 @@ class ElementSeeder extends Seeder
             $data['layout_two_columns']  = $element['layout_two_columns'] ?? false;
             $data['illustration_states'] = $element['illustration'] ?? null;
             if (isset($element['document_row'])) {
-                $data['document_row'] = $documentRowOffset + (int)$element['document_row'];
+                $data['document_row'] = $documentRowOffset + (int) $element['document_row'];
             }
             $newElement                  = Element::updateOrCreate(['content' => $contentKey], $data);
             ++$sorting;

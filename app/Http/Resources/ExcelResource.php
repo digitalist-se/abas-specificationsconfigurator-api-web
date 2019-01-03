@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Contracts\Support\Responsable;
@@ -11,7 +12,7 @@ abstract class ExcelResource implements Responsable
      */
     protected $document;
     protected $filename;
-    private $saved = false;
+    private $saved      = false;
     protected $template = null;
 
     /**
@@ -59,8 +60,9 @@ abstract class ExcelResource implements Responsable
     }
 
     /**
-     * @param String $key
+     * @param string $key
      * @param $value
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function replaceTemplateMarker(String $key, $value)
@@ -90,7 +92,7 @@ abstract class ExcelResource implements Responsable
     public function save()
     {
         if (!$this->saved) {
-            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->document, "Xlsx");
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->document, 'Xlsx');
             $writer->save($this->filename);
             $this->saved = true;
         }
