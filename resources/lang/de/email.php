@@ -36,7 +36,7 @@ ein User hat ein neues Lastenheft generiert.
             'items'    => '✓ Loggen Sie sich unter [:domain](:url) ein.  
 ✓ Der ERP Planner leitet Sie durch die verschiedenen Fragen, die zur Generierung Ihres Lastenheftes benötigt werden. Im Mittelpunkt stehen Ihre Anforderungen an das neue ERP-System.  
 ✓ Dabei können Sie Ihren aktuellen Stand jederzeit speichern, die Beantwortung zu einem späteren Zeitpunkt fortsetzen oder das Lastenheft generieren.  
-✓ Als Resultat erhalten Sie Ihr Lastenheft das Sie auch im Nachhinein noch editieren und ergänzen können.  
+✓ Als Resultat erhalten Sie Ihr Lastenheft, das Sie auch im Nachhinein noch editieren und ergänzen können.  
 ✓ Von der Long List zur Short List: Ihr Lastenheft schicken Sie an in Frage kommende ERP-Anbieter und beginnen mit der Vorauswahl der potenziell geeigneten Lösungen.  
 ✓ In Workshops mit den ERP-Anbietern betrachten Sie die Prozesse und Anforderungen aus dem Lastenheft detailliert.  
 ✓ Alles passt und auch die Chemie stimmt? Dann folgt das Pflichtenheft, in dem der ERP-Anbieter darstellt, wie seine Lösung der Anforderungen aussieht.  
