@@ -4,6 +4,7 @@ project:
     description: "Was sind die Rahmenbedingungen für Ihr ERP-Projekt: Projektziele, Meilensteine, Budget, Anzahl der Anwender, Projektteam?"
     print_description: "Das sind die Rahmenbedingungen für unser ERP-Projekt:"
     sort: 7
+    worksheet: 6
     sections:
         project.project:
             headline: Projekt
@@ -13,11 +14,13 @@ project:
                     type: text
                     content: Auslöser
                     print: "Auslöser:"
+                    document_row: 4
                     sub_content: Was ist der Auslöser für die Suche nach einem neuen ERP-System? Ausgangssituation, Gründe, aktuelle Probleme
                 994:
                     type: text
                     content: "Ziele"
                     print: "Ziele:"
+                    document_row: 5
                     sub_content: |
                         Welche Ziele verfolgen Sie mit der Einführung eines neuen ERP-Systems? Welche Erwartungen haben Sie?
                         z.B. Verbesserung der Wirtschaftlichkeit, Senkung von Verwaltungskosten, Vereinfachung und Automatisierung von Prozessen, geringere Belastung von Mitarbeitern, schnellere Bearbeitung von Kundenanfragen, Termintreue, Reduzierung von Fehlern, Voraussetzung für Zertifizierung oder Rating bei den Banken
@@ -34,111 +37,133 @@ project:
                     print: |
                         Das ERP-Projekt ist mit folgenden Meilensteinen terminiert
                         (Angaben in MM/JJJJ)
+                    document_row: 7
                 998:
                     type: text
                     content: 1. Start (intern den Auftrag erhalten)
                     print: 1. Start (intern den Auftrag erhalten)
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 8
                 1000:
                     type: text
                     content: a) Bildung Projektteam
                     print: a) Bildung Projektteam
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 9
                 1002:
                     type: text
                     content: b) Projektdefinition (Ziele, Nichtziele)
                     print: b) Projektdefinition (Ziele, Nichtziele)
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 10
                 1004:
                     type: text
                     content: 2. Requirements / Anforderungskatalog
                     print: 2. Requirements / Anforderungskatalog
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 11
                 1006:
                     type: text
                     content: 3. Anbieterauswahl
                     print: 3. Anbieterauswahl
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 12
                 1007:
                     type: text
                     content: a) Anbieterrecherche
                     print: a) Anbieterrecherche
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 13
                 1009:
                     type: text
                     content: b) Kennenlernen
                     print: b) Kennenlernen
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 14
                 1011:
                     type: text
                     content: c) Workshop
                     print: c) Workshop
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 15
                 1013:
                     type: text
                     content: d) Angebote
                     print: d) Angebote
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 16
                 1015:
                     type: text
                     content: e) Referenzen
                     print: e) Referenzen
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 17
                 1017:
                     type: text
                     content: f) Entscheidung
                     print: f) Entscheidung
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 18
                 1019:
                     type: text
                     content: 4. Einführung
                     print: 4. Einführung
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 19
                 1020:
                     type: text
                     content: a) Kick Off
                     print: a) Kick Off
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 20
                 1022:
                     type: text
                     content: b) Kurzanalyse
                     print: b) Kurzanalyse
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 21
                 1024:
                     type: text
                     content: c) Schulung
                     print: c) Schulung
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 22
                 1026:
                     type: text
                     content: d) Organisationsgespräche / Prozessdefinition / Einführungskonzept
                     print: d) Organisationsgespräche / Prozessdefinition / Einführungskonzept
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 23
                 1028:
                     type: text
                     content: e) Realisierung
                     print: e) Realisierung
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 24
                 1030:
                     type: text
                     content: f) Integrationsstests
                     print: f) Integrationsstests
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 25
                 1032:
                     type: text
                     content: g) User Schulung
                     print: g) User Schulung
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 26
                 1034:
                     type: text
                     content: h) Go Live
                     print: h) Go Live
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 27
                 1036:
                     type: text
                     content: 5. KVP (Kontinuierlicher Verbesserungsprozess)
                     print: 5. KVP (Kontinuierlicher Verbesserungsprozess)
                     sub_content: Angaben in MM/JJJJ
+                    document_row: 28
         project.budget:
             headline: Budget und Anzahl der Anwender
             elements:
@@ -147,31 +172,38 @@ project:
                     content: |
                         Welches Budget steht zur Verfügung?
                         Budget in EUR
-                    print: Folgendes Budget steht zur Verfügung (EUR):
+                    print: "Folgendes Budget steht zur Verfügung (EUR):"
+                    document_row: 31
                 1041:
                     type: text
                     content: Wieviele Anwender sind geplant?
-                    print: Anzahl der geplanten Anwender:
+                    print: "Anzahl der geplanten Anwender:"
+                    document_row: 32
                 1042:
                     type: text
                     content: Anzahl abzubildender Unternehmen im ERP-System (= Mandanten)
                     print: "Anzahl abzubildender Unternehmen (=Mandanten):"
+                    document_row: 33
                 1044:
                     type: text
                     content: Anzahl User
-                    print: Anzahl User:
+                    print: "Anzahl User:"
+                    document_row: 34
                 1046:
                     type: text
                     content: Anzahl BDE Terminals
-                    print: Anzahl BDE Terminals:
+                    print: "Anzahl BDE Terminals:"
+                    document_row: 35
                 1048:
                     type: text
                     content: Anzahl Scanner
-                    print: Anzahl Scanner:
+                    print: "Anzahl Scanner:"
+                    document_row: 36
                 1050:
                     type: text
                     content: Anzahl Mobile Clients
-                    print: Anzahl Mobile Clients:
+                    print: "Anzahl Mobile Clients:"
+                    document_row: 37
         project.projectteam:
             headline: Projektteam
             elements:
@@ -179,34 +211,42 @@ project:
                     type: text
                     content: Wie setzt sich das Projektteam zusammen? Wer sind die Ansprechpartner?
                     print: "Angaben zum Projektteam:"
+                    document_row: 39
                 1053:
                     type: text
                     content: Verantwortlich in der Geschäftsleitung
                     print: "Verantwortlich in der Geschäftsleitung:"
+                    document_row: 40
                 1055:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 41
                 1057:
                     type: text
                     content: Projektleitung
                     print: "Projektleitung:"
+                    document_row: 42
                 1059:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 43
                 1061:
                     type: text
                     content: Teilnehmer/in Lenkungsausschuss
                     print: "Teilnehmer/in Lenkungsausschuss:"
+                    document_row: 44
                 1063:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 45
                 1002:
                     type: headline
                     content: Key User
                     print: Key User
+                    document_row: 46
                 1002a:
                     type: print_headline
                     content: Key User
@@ -215,55 +255,69 @@ project:
                     type: text
                     content: Vertrieb / Marketing
                     print: "Vertrieb / Marketing:"
+                    document_row: 47
                 1068:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 48
                 1070:
                     type: text
                     content: Verkauf
                     print: "Verkauf:"
+                    document_row: 49
                 1072:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 50
                 1074:
                     type: text
                     content: Entwicklung
                     print: "Entwicklung:"
+                    document_row: 51
                 1076:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 52
                 1078:
                     type: text
                     content: Produktion
                     print: "Produktion:"
+                    document_row: 53
                 1080:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 54
                 1082:
                     type: text
                     content: Materialwirtschaft / Logistik
                     print: "Materialwirtschaft / Logistik:"
+                    document_row: 55
                 1084:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 56
                 1086:
                     type: text
                     content: Beschaffung
                     print: "Beschaffung:"
+                    document_row: 57
                 1088:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 58
                 1090:
                     type: text
                     content: Finanzen
                     print: "Finanzen:"
+                    document_row: 59
                 1092:
                     type: text
                     content: Vertretung
                     print: "Vertretung:"
+                    document_row: 60

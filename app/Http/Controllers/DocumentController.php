@@ -13,24 +13,24 @@ class DocumentController extends Controller
      * @param Request $request
      *
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
-     *
-     * @throws \PhpOffice\PhpWord\Exception\CopyFileException
-     * @throws \PhpOffice\PhpWord\Exception\CreateTemporaryFileException
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function generate(Request $request)
     {
-        if (!$request->user()->hasAllRequiredFieldsForSpecificationDocument()) {
+        $user = $request->user();
+        if (!$user->hasAllRequiredFieldsForSpecificationDocument()) {
             return response('', 428);
         }
         $outputDir = storage_path('app/export');
         if (!is_dir($outputDir)) {
             mkdir($outputDir);
         }
-        $filename              = $outputDir.DIRECTORY_SEPARATOR.uniqid($request->user()->id.'_').'.docx';
-        $answers               = $request->user()->answers()->get();
-        $specificationDocument = new SpecificationDocument($filename, $answers);
+        $filename              = $outputDir.DIRECTORY_SEPARATOR.uniqid($user->id.'_').'.xlsx';
+        $answers               = $user->answers()->get();
+        $specificationDocument = new SpecificationDocument($filename, $user, $answers);
         $specificationDocument->save();
-        $mail = new DocumentGeneratedMail($request->user());
+        $mail = new DocumentGeneratedMail($user);
         $mail->attach($filename);
         Mail::to(config('mail.recipient.lead.address'))
             ->sendNow($mail);

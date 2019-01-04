@@ -3,6 +3,7 @@ erp-provider:
     print_name: Angaben der Softwareanbieter
     print_description: Diese Fragen sollten ERP-Anbieter beantworten:
     sort: 8
+    worksheet: 7
     visible: false
     sections:
         erp-provider.general:
