@@ -46,6 +46,7 @@ class User extends Authenticatable
         'city',
         'contact',
         'contact_function',
+        'partner_tracking',
     ];
 
     /**

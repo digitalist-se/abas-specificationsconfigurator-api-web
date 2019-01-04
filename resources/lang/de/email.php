@@ -70,6 +70,7 @@ ein neuer User hat sich registriert. ',
         'email'               => 'E-Mail:',
         'name'                => 'Name:',
         'informationHeadline' => 'Kurzinfo:',
+        'partnerTracking'     => 'PartnerID:',
         ],
     ],
 ];

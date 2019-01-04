@@ -27,6 +27,7 @@ class UserController extends Controller
         'city'                   => 'city',
         'contact'                => 'contact',
         'contact_function'       => 'contact_function',
+        'partner_tracking'       => 'partner_tracking',
     ];
     const UPDATE_FIELDS = self::CREATE_FIELDS;
 
