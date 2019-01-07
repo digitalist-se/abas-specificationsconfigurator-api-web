@@ -39,19 +39,6 @@
                 </a>
                 <span class="content-spacer"></span>
 
-                @php
-                    $get = '';
-                    // Laravel Cookie sets the cookie instantly, but "knows" the cookie not until the second request after setting it
-                    // to conquer the delay, the get parameter will be prioritized (and will automatically set as cookie)
-                    if (is_null(app('request')->input('pid'))) {
-                        if(!is_null(app('request')->cookie('partnerTracking'))) {
-                            $get = '?pid'.app('request')->cookie('partnerTracking');
-                        }
-                    } else {
-                        $get = '?pid='.app('request')->input('pid');
-                    }
-                @endphp
-
                 <a class="action" href="{{route('register').$get}}" title="@lang('navigation.register')">
                     <span class="icon"><img src="{{asset('images/login.svg')}}" title="@lang('navigation.register')"> </span>
                     <span class="text">
