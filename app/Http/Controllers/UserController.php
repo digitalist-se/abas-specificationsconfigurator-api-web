@@ -28,6 +28,9 @@ class UserController extends Controller
         'contact'                => 'contact',
         'contact_function'       => 'contact_function',
         'partner_tracking'       => 'partner_tracking',
+        'company'                => 'user_company',
+        'role'                   => 'user_role',
+        'url'                    => 'user_url',
     ];
     const UPDATE_FIELDS = self::CREATE_FIELDS;
 

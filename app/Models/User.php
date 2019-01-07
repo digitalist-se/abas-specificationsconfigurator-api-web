@@ -47,6 +47,9 @@ class User extends Authenticatable
         'contact',
         'contact_function',
         'partner_tracking',
+        'user_company',
+        'user_role',
+        'user_url'
     ];
 
     /**
