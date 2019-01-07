@@ -25,8 +25,12 @@ class AddPartnerTrackingToUser extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        if (Schema::hasColumn('users', 'partner_tracking')) {
+
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('partner_tracking');
+            });
+            
+        }
     }
 }

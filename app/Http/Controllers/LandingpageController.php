@@ -12,14 +12,14 @@ class LandingpageController extends Controller
     {
         $pid = Input::get('pid');
 
-        $get = '';
+        $pidTracking = null;
         if (!is_null($pid)) {
             Cookie::queue('partnerTracking', $pid);
-            $get = '?pid='.$pid;
+            $pidTracking = ['pid' => $pid ];
         } else {
-            $get = (Cookie::get('partnerTracking')) ? '?pid='.Cookie::get('partnerTracking')  : '';
+            $pidTracking = (Cookie::get('partnerTracking')) ? ['pid' => Cookie::get('partnerTracking')]  : null;
         }
 
-        return view('landingpage')->with('get', $get);
+        return view('landingpage')->with('pidTracking', $pidTracking);
     }
 }

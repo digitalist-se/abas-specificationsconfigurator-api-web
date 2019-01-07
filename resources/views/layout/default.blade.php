@@ -39,7 +39,7 @@
                 </a>
                 <span class="content-spacer"></span>
 
-                <a class="action" href="{{route('register').$get}}" title="@lang('navigation.register')">
+                <a class="action" href="{{route('register', $pidTracking)}}" title="@lang('navigation.register')">
                     <span class="icon"><img src="{{asset('images/login.svg')}}" title="@lang('navigation.register')"> </span>
                     <span class="text">
                         @lang('navigation.register')

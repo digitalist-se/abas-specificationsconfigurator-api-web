@@ -21,7 +21,7 @@
             <p class="subline">@lang('landingpage.intro.subline')</p>
             <p class="copy">@lang('landingpage.intro.copy')</p>
             <p><a href="{{route('tutorial')}}" class="button">@lang('landingpage.intro.tutorial')</a></p>
-            <p><a href="{{route('register')}}" class="button">@lang('landingpage.intro.register')</a></p>
+            <p><a href="{{route('register', $pidTracking)}}" class="button">@lang('landingpage.intro.register')</a></p>
             <p><a href="{{route('login')}}">@lang('landingpage.intro.login')</a></p>
         </div>
     </section>
