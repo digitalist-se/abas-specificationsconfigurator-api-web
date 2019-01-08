@@ -22,6 +22,10 @@ ein User hat ein neues Lastenheft generiert.
         'zipcode'             => 'PLZ:',
         'location'            => 'Ort:',
         'street'              => 'Straße:',
+        'partnerTracking'     => 'PartnerID:',
+        'userCompany'         => 'Firma:',
+        'userRole'            => 'Rolle:',
+        'userUrl'             => 'URL:',
     ],
     'salutation' => [
         'm' => 'Herr',
