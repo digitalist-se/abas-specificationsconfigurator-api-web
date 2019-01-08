@@ -12,7 +12,7 @@ variables:
     MYSQL_USER: homestead # depends on what is set in .env.example
     MYSQL_PASSWORD: secret # depends on what is set in .env.example
     DB_DATABASE: homestead_test # override default .env.example value
-    DB_HOST: mysql # docker service hostname.
+    DB_HOST: mariadb # docker service hostname.
 
 before_script:
     - composer config cache-files-dir cache-composer
