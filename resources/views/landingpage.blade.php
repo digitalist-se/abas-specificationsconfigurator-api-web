@@ -21,20 +21,14 @@
             <p class="subline">@lang('landingpage.intro.subline')</p>
             <p class="copy">@lang('landingpage.intro.copy')</p>
             <p><a href="{{route('tutorial')}}" class="button">@lang('landingpage.intro.tutorial')</a></p>
-            <p><a href="{{route('register')}}" class="button">@lang('landingpage.intro.register')</a></p>
+            <p><a href="{{route('register', $pidTracking)}}" class="button">@lang('landingpage.intro.register')</a></p>
             <p><a href="{{route('login')}}">@lang('landingpage.intro.login')</a></p>
         </div>
     </section>
     <section class="content contact">
         <div class="container">
-            <p class="headline">
-                Noch Fragen? Wir helfen Ihnen gerne weiter!
-            </p>
-            <p class="copy">
-                Der Lastenheft-Generator ERP Planner ist ein gemeinsames Projekt der Evolvio GmbH und des ERP-Spezialisten abas Software AG. <br>
-                Rufen Sie uns einfach an unter <a href="tel:{{$contactPhone}}">{{$contactPhone}}</a><br>
-                oder schreiben Sie uns eine E-Mail an <a href="mailto:{{$contactMail}}">{{$contactMail}}</a>
-            </p>
+            <p class="headline">@lang('landingpage.contact.headline')</p>
+            <p class="copy">@lang('landingpage.contact.copy', ['contactPhone' => $contactPhone, 'contactMail' => $contactMail])</p>
         </div>
     </section>
     <section class="content features">
