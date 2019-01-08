@@ -42,6 +42,8 @@ test:
     script:
         - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
         - php artisan key:generate
+        - cp storage/oauth-private.cikey storage/oauth-private.key
+        - cp storage/oauth-public.cikey storage/oauth-public.key
         - vendor/bin/phpunit -v --colors=never --stderr --stop-on-error --stop-on-failure
     except:
         variables:
