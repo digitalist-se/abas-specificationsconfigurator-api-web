@@ -45,6 +45,10 @@ test:
         - cp storage/oauth-private.cikey storage/oauth-private.key
         - cp storage/oauth-public.cikey storage/oauth-public.key
         - vendor/bin/phpunit -v --colors=never --stderr --stop-on-error --stop-on-failure
+    only:
+        - master
+        - develop
+        - merge_requests
     except:
         variables:
             - $CI_COMMIT_MESSAGE =~ /DOCS|NO-TEST/
