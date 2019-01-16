@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('landingpage');
-})->name('landingpage');
+Route::get('/', 'LandingpageController@index')->name('landingpage');
 Route::get('/impressum', function () {
     return view('imprint');
 })->name('imprint');

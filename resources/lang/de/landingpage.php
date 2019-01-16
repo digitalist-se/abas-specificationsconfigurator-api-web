@@ -11,6 +11,10 @@ return [
         'register' => 'Jetzt kostenlos registrieren',
         'login'    => 'oder anmelden',
     ],
+    'contact' => [
+        'headline' => 'Noch Fragen? Wir helfen Ihnen gerne weiter!',
+        'copy' => 'Der Lastenheft-Generator ERP Planner ist ein gemeinsames Projekt der Evolvio GmbH und des ERP-Spezialisten abas Software AG.<br>Rufen Sie uns einfach an unter <a href="tel::contactPhone">:contactPhone</a><br>oder schreiben Sie uns eine E-Mail an <a href="mailto::contactMail">:contactMail</a>',
+    ],
     'features' => [
         'headline' => 'Warum Sie den kostenlosen ERP Planner nutzen sollten, um Ihr Lastenheft zu generieren',
         'copy'     => 'Welche strategischen und fachbereichsbezogenen Ziele verfolgt Ihr Unternehmen mit dem ERP-Projekt? Was sind die konkreten Anforderungen an eine neue Unternehmenssoftware? Und vor allem: Welche Prozesse sollen optimiert werden? Die Erstellung eines Lastenhefts ist alles andere als trivial, insbesondere wenn es um die Informationstiefe geht. Im Optimalfall ist das Lastenheft prozessorientiert, strukturiert, lösungsneutral und bietet einen geeigneten Detailgrad.',
@@ -28,7 +32,7 @@ return [
         ],
         'slide2' => [
             'headline' => 'Bearbeitung in Ihrem Tempo',
-            'text'     => 'Sie können den aktuellen Stand Ihrer Bearbeitung jederzeit speichern und zu einem späteren Zeitpunkt fortsetzen, z.B. um Rücksprache mit den Kollegen oder Fachabteilungen zu halten. Oder Sie generieren einfach das teilausgefüllte Lastenheft – denn Sie erhalten eine Word-Datei, die Sie auch später noch offline editieren können.',
+            'text'     => 'Sie können den aktuellen Stand Ihrer Bearbeitung jederzeit speichern und zu einem späteren Zeitpunkt fortsetzen, z.B. um Rücksprache mit den Kollegen oder Fachabteilungen zu halten. Oder Sie generieren einfach das teilausgefüllte Lastenheft, das Sie auch später noch offline editieren können.',
         ],
         'slide3' => [
             'headline' => 'Eigenständige Lastenheft-Erstellung ohne ERP-Berater',

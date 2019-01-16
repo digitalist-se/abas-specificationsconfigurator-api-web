@@ -4,9 +4,16 @@ namespace App\Models;
 
 use App\Responsibilities\HasIllustrationStates;
 
+/**
+ * Class Element
+ * @package App\Models
+ * @property string $document_cell
+ * @property integer $document_row
+ */
 class Element extends BaseModel
 {
     use HasIllustrationStates;
+    const DOCUMENT_COLUMN_OFFSET = 'C';
     protected $fillable = [
         'id',
         'section_id',
@@ -25,6 +32,7 @@ class Element extends BaseModel
         'min',
         'max',
         'illustration_states',
+        'document_row'
     ];
 
     protected $hidden = [
@@ -37,5 +45,10 @@ class Element extends BaseModel
     public function choiceType()
     {
         return $this->belongsTo('App\Models\ChoiceType');
+    }
+
+    public function getDocumentCellAttribute()
+    {
+        return self::DOCUMENT_COLUMN_OFFSET.$this->document_row;
     }
 }

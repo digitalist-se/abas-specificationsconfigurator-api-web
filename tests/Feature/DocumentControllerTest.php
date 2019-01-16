@@ -53,10 +53,6 @@ class DocumentControllerTest extends PassportTestCase
         foreach (glob($files) as $filename) {
             unlink($filename);
         }
-        $files = storage_path('app/tmp/PhpWord*');
-        foreach (glob($files) as $filename) {
-            unlink($filename);
-        }
     }
 
     public function testGenerateDocumentWithoutPhone()
@@ -74,7 +70,6 @@ class DocumentControllerTest extends PassportTestCase
         Mail::fake();
         $response = $this->get('/api/document/generate');
         $this->assertStatus($response, 200);
-
         $user = $this->user;
         Mail::assertQueued(DocumentGeneratedMail::class, function ($mail) use ($user) {
             /*

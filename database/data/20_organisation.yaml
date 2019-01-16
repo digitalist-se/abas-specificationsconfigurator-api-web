@@ -1,9 +1,10 @@
 organisation:
     name: "Organisation"
     print_name: "Organisation / Prozesse entlang der Wertschöpfungskette"
-    description: "Bitte beschreiben Sie, wie Ihre bestehenden Prozesse entlang der Wertschöpfungskette organisiert sind und wie diese in das ERP-System integriert sind. Gerne können Sie zur Veranschaulichung auch Prozessdiagramme in der Word-Datei des für Sie generierten Lastenhefts einfügen!"
+    description: "Bitte beschreiben Sie, wie Ihre bestehenden Prozesse entlang der Wertschöpfungskette organisiert sind und wie diese in das ERP-System integriert sind."
     print_description: "Unsere bestehenden Prozesse entlang der Wertschöpfungskette sind wie folgt organisiert:"
     sort: 2
+    worksheet: 1
     sections:
         organisation.product-creation:
             headline: "Bereich: Produktentstehung"
@@ -15,54 +16,64 @@ organisation:
                     choice_type: process
                     content: Forschung und Entwicklung
                     print: Forschung und Entwicklung
+                    document_row: 4
                 51:
                     type: choice
                     choice_type: process
                     content: Konstruktion Produkt
                     print: Konstruktion Produkt
+                    document_row: 5
                 53:
                     type: choice
                     choice_type: process
                     content: Konstruktion Fertigungsmittel / Werkzeugbau
                     print: Konstruktion Fertigungsmittel / Werkzeugbau
+                    document_row: 6
 
                 55:
                     type: choice
                     choice_type: process
                     content: Produktmanagement
                     print: Produktmanagement
+                    document_row: 7
 
                 57:
                     type: choice
                     choice_type: process
                     content: Projekte
                     print: Projekte
+                    document_row: 8
 
                 59:
                     type: choice
                     choice_type: yesNo
                     content: Integration in die Auftragsabwicklung
                     print: Integration in die Auftragsabwicklung
+                    document_row: 9
                 61:
                     type: choice
                     choice_type: yesNo
                     content: Konstruktionsstückliste
                     print: Konstruktionsstückliste
+                    document_row: 10
                 63:
                     type: choice
                     choice_type: yesNo
                     content: Fertigungsstückliste
                     print: Fertigungsstückliste
+                    document_row: 11
                 65:
                     type: choice
                     choice_type: yesNo
                     content: Servicestückliste
                     print: Servicestückliste
+                    document_row: 12
                 67:
                     type: choice
                     choice_type: yesNo
                     content: Integration CAD / PDM
                     print: Integration CAD / PDM
+                    document_row: 13
 
         organisation.distribution:
             headline: "Bereich: Vertrieb"
@@ -74,56 +85,67 @@ organisation:
                     choice_type: yesNo
                     content: Online
                     print: Online
+                    document_row: 15
                 72:
                     type: choice
                     choice_type: yesNo
                     content: Fachhandel
                     print: Fachhandel
+                    document_row: 16
                 74:
                     type: choice
                     choice_type: yesNo
                     content: Großhandel
                     print: Großhandel
+                    document_row: 17
                 76:
                     type: choice
                     choice_type: yesNo
                     content: Vertriebspartner
                     print: Vertriebspartner
+                    document_row: 18
                 78:
                     type: choice
                     choice_type: yesNo
                     content: Vertriebsniederlassungen
                     print: Vertriebsniederlassungen
+                    document_row: 19
                 80:
                     type: choice
                     choice_type: yesNo
                     content: Direkt Vertriebsinnendienst
                     print: Direkt Vertriebsinnendienst
+                    document_row: 20
                 82:
                     type: choice
                     choice_type: yesNo
                     content: Direkt elektronisch (EDI)
                     print: Direkt elektronisch (EDI)
+                    document_row: 21
                 84:
                     type: choice
                     choice_type: yesNo
                     content: Telefonakquise (intern)
                     print: Telefonakquise (intern)
+                    document_row: 22
                 86:
                     type: choice
                     choice_type: yesNo
                     content: Telefonakquise (extern)
                     print: Telefonakquise (extern)
+                    document_row: 23
                 88:
                     type: choice
                     choice_type: yesNo
                     content: Außendienst
                     print: Außendienst
+                    document_row: 24
                 90:
                     type: choice
                     choice_type: yesNo
                     content: Key Account
                     print: Key Account
+                    document_row: 25
 
                 92:
                     type: slider
@@ -131,42 +153,49 @@ organisation:
                     print: Anzahl Kunden
                     min: 1
                     max: 10000
+                    document_row: 26
                 94:
                     type: slider
                     content: Anzahl Neukunden pro Jahr
                     print: Anzahl Neukunden pro Jahr
                     min: 1
                     max: 1000
+                    document_row: 27
                 96:
                     type: slider
                     content: Anzahl aktiver Verkaufsprodukte
                     print: Anzahl aktiver Verkaufsprodukte
                     min: 1
                     max: 1000
+                    document_row: 28
                 98:
                     type: slider
                     content: Anzahl aktiver Produktgruppen
                     print: Anzahl aktiver Produktgruppen
                     min: 1
                     max: 1000
+                    document_row: 29
                 100:
                     type: slider
                     content: Anzahl Angebote
                     print: Anzahl Angebote
                     min: 1
                     max: 10000
+                    document_row: 30
                 102:
                     type: slider
                     content: Anzahl Kundenrahmenaufträge
                     print: Anzahl Kundenrahmenaufträge
                     min: 1
                     max: 1000
+                    document_row: 31
                 104:
                     type: slider
                     content: Anzahl Kundenaufträge
                     print: Anzahl Kundenaufträge
                     min: 1
                     max: 10000
+                    document_row: 32
         organisation.purchase:
             headline: "Bereich: Einkauf / Materialwirtschaft"
             illustration:
@@ -177,24 +206,28 @@ organisation:
                     content: Strategischer Einkauf
                     sub_content: Wo / in welcher Abteilung ist der strategische Einkauf angesiedelt? Z.B. Geschäftsleitung, eigenständige Abteilung, …
                     print: Strategischer Einkauf
+                    document_row: 34
 
                 109:
                     type: text
                     content: Operativer Einkauf
                     sub_content: Welche Abteilung kümmert sich um den operativen Einkauf? Z.B. eigenständige Abteilung, Produktionsplanung…
                     print: Operativer Einkauf
+                    document_row: 35
 
                 111:
                     type: choice
                     choice_type: manuellyElectronic
                     content: Bestellanforderung manuell / elektronisch
                     print: Bestellanforderung
+                    document_row: 36
 
                 113:
                     type: text
                     content: Instandhaltung
                     sub_content: Wer / welche Abteilung ist für die Instandhaltung zuständig?
                     print: Instandhaltung
+                    document_row: 37
 
                 115:
                     type: slider
@@ -202,36 +235,42 @@ organisation:
                     print: Anzahl Lieferanten
                     min: 1
                     max: 1000
+                    document_row: 38
                 117:
                     type: slider
                     content: Anzahl Einkaufteile
                     print: Anzahl Einkaufteile
                     min: 1
                     max: 10000
+                    document_row: 39
                 119:
                     type: slider
                     content: Anzahl Einkaufsaufträge pro Jahr
                     print: Anzahl Einkaufsaufträge pro Jahr
                     min: 1
                     max: 10000
+                    document_row: 40
                 121:
                     type: slider
                     content: Anzahl Einkaufsrahmenverträge
                     print: Anzahl Einkaufsrahmenverträge
                     min: 1
                     max: 1000
+                    document_row: 41
                 123:
                     type: slider
                     content: Anzahl Lager
                     print: Anzahl Lager
                     min: 1
                     max: 100
+                    document_row: 42
                 125:
                     type: slider
                     content: Anzahl Lagerzugänge pro Woche
                     print: Anzahl Lagerzugänge pro Woche
                     min: 1
                     max: 1000
+                    document_row: 43
 
         organisation.production:
             headline: "Bereich: Fertigung"
@@ -243,32 +282,38 @@ organisation:
                     choice_type: productionType
                     content: Fertigungsart
                     print: Fertigungsart
+                    document_row: 45
 
                 129:
                    type: text
                    content: Durchschnittliche Anzahl der Fertigungsstufen
                    print: Durchschnittliche Anzahl der Fertigungsstufen
+                   document_row: 46
 
                 131:
                    type: text
                    content: Anteil Lohnfertigung in %
                    print: Anteil Lohnfertigung in %
+                   document_row: 47
 
                 133:
                     type: choice
                     choice_type: yesNo
                     content: Auftragsterminierung systemgestützt
                     print: Auftragsterminierung systemgestützt
+                    document_row: 48
                 135:
                     type: choice
                     choice_type: yesNo
                     content: Feinplanung
                     print: Feinplanung
+                    document_row: 49
                 137:
                     type: choice
                     choice_type: yesNo
                     content: Fertigungssteuerung systemgestützt
                     print: Fertigungssteuerung systemgestützt
+                    document_row: 50
 
         organisation.shipping:
             headline: "Bereich: Versand"
@@ -280,31 +325,37 @@ organisation:
                     choice_type: yesNo
                     content: Versand auftragsbezogen
                     print: Versand auftragsbezogen
+                    document_row: 52
                 142:
                     type: choice
                     choice_type: yesNo
                     content: Versand aus Fertigwarenlager
                     print: Versand aus Fertigwarenlager
+                    document_row: 53
                 144:
                     type: choice
                     choice_type: yesNo
                     content: Integrierte Zollabwicklung
                     print: Integrierte Zollabwicklung
+                    document_row: 54
                 146:
                     type: choice
                     choice_type: yesNo
                     content: Versandabwicklung
                     print: Versandabwicklung
+                    document_row: 55
                 148:
                     type: choice
                     choice_type: yesNo
                     content: Versandplanung
                     print: Versandplanung
+                    document_row: 56
                 150:
                     type: choice
                     choice_type: yesNo
                     content: Nachverfolgung der Lieferung elektronisch
                     print: Nachverfolgung der Lieferung elektronisch
+                    document_row: 57
 
         organisation.aftersales:
             headline: "Bereich: Aftersales"
@@ -316,36 +367,43 @@ organisation:
                     choice_type: yesNo
                     content: Service
                     print: Service
+                    document_row: 59
                 155:
                     type: choice
                     choice_type: yesNo
                     content: Nachverkauf
                     print: Nachverkauf
+                    document_row: 60
                 157:
                     type: choice
                     choice_type: yesNo
                     content: Web
                     print: Web
+                    document_row: 61
                 159:
                     type: choice
                     choice_type: yesNo
                     content: Hotline
                     print: Hotline
+                    document_row: 62
                 161:
                     type: choice
                     choice_type: yesNo
                     content: Ersatzteile
                     print: Ersatzteile
+                    document_row: 63
                 163:
                     type: choice
                     choice_type: yesNo
                     content: Servicegesellschaften
                     print: Servicegesellschaften
+                    document_row: 64
                 165:
                     type: choice
                     choice_type: yesNo
                     content: Serviceeinsatzplanung
                     print: Serviceeinsatzplanung
+                    document_row: 65
 
         organisation.financial-accounting:
             headline: "Bereich: Finanzbuchhaltung"
@@ -357,25 +415,30 @@ organisation:
                     choice_type: yesNo
                     content: Separate Lösung
                     print: Separate Lösung
+                    document_row: 67
                 170:
                     type: choice
                     choice_type: yesNo
                     content: Integrierte Lösung
                     print: Integrierte Lösung
+                    document_row: 68
                 172:
                     type: text
                     content: Schnittstellen
                     print: Schnittstellen
+                    document_row: 69
                 174:
                     type: choice
                     choice_type: process
                     content: Lohnbuchhaltung intern / extern
                     print: Lohnbuchhaltung intern / extern
+                    document_row: 70
                 176:
                     type: choice
                     choice_type: yesNo
                     content: Konzernkonsolidierung
                     print: Konzernkonsolidierung
+                    document_row: 71
 
         organisation.controlling:
             headline: "Bereich: Controlling"
@@ -387,13 +450,16 @@ organisation:
                     choice_type: yesNo
                     content: Kostenrechnung integriert
                     print: Kostenrechnung integriert
+                    document_row: 73
                 181:
                     type: choice
                     choice_type: yesNo
                     content: Kostenstellenrechnung
                     print: Kostenstellenrechnung
+                    document_row: 74
                 183:
                     type: choice
                     choice_type: yesNo
                     content: Kostenträgerrechnung
                     print: Kostenträgerrechnung
+                    document_row: 75

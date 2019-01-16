@@ -46,6 +46,10 @@ class User extends Authenticatable
         'city',
         'contact',
         'contact_function',
+        'partner_tracking',
+        'user_company',
+        'user_role',
+        'user_url'
     ];
 
     /**
@@ -116,5 +120,10 @@ class User extends Authenticatable
         } else {
             return '';
         }
+    }
+
+    public function getZipcodeAndCityAttribute()
+    {
+        return $this->zipcode.', '.$this->city;
     }
 }
