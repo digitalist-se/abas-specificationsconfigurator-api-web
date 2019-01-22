@@ -75,5 +75,29 @@
             </div>
         </footer>
         <script src="{{ mix('/js/app.js') }}"></script>
+        <script>
+            window.addEventListener("load", function() {
+                window.cookieconsent.initialise({
+                    "palette": {
+                        "popup": {
+                            "background": "#2a3539"
+                        },
+                        "button": {
+                            "background": "#008bd0"
+                        }
+                    },
+                    "position": "bottom-right",
+                    "cookie": {
+                        "domain": "{{ config('app.domain') }}"
+                    },
+                    "content": {
+                        "message": "@lang("cookieconsent.message")",
+                        "dismiss": "@lang("cookieconsent.dismiss")",
+                        "link":    "@lang("cookieconsent.link")",
+                        "href":    "{{ route('data-privacy') }}"
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

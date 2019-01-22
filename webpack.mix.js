@@ -23,6 +23,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     ], 'public/favicons/')
     .combine([
         'node_modules/normalize.css/normalize.css',
+        'node_modules/cookieconsent/build/cookieconsent.min.css'
     ], 'public/css/vendor.css')
     .sourceMaps()
     .setPublicPath('public')

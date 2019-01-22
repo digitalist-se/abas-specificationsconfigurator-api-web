@@ -1,4 +1,6 @@
+require('cookieconsent');
 require('slick-carousel');
+
 global.$ = global.jquery = global.jQuery = require('jquery');
 $(() => {
     $('.slider').slick({
@@ -9,3 +11,4 @@ $(() => {
         appendArrows: '.nav-arrows'
     });
 });
+
