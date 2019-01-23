@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'FrontendController@landingpage')->name('landingpage');
+Route::get('/', 'FrontendController@index')->name('landingpage');
 Route::get('/impressum', 'FrontendController@imprint')->name('imprint');
 Route::get('/datenschutz', 'FrontendController@dataPrivacy')->name('data-privacy');
 Route::get('/tutorial', 'FrontendController@tutorial')->name('tutorial');
