@@ -25,3 +25,8 @@ Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail
  * reset password
  */
 Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
+
+/*
+ * get cookie consent config
+ */
+Route::get('/cookieconsent', 'CookieConsentController@get')->name('cookieconsent');

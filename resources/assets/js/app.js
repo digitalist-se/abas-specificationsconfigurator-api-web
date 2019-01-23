@@ -1,6 +1,6 @@
-require('cookieconsent');
-require('slick-carousel');
-
+import 'cookieconsent';
+import 'slick-carousel';
+import axios from 'axios';
 global.$ = global.jquery = global.jQuery = require('jquery');
 $(() => {
     $('.slider').slick({
@@ -12,3 +12,8 @@ $(() => {
     });
 });
 
+axios.get('/api/cookieconsent').then(({ data }) => {
+    $(() => {
+        window.cookieconsent.initialise(data);
+    });
+});
