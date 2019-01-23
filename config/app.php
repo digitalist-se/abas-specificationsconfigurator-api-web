@@ -58,6 +58,7 @@ return [
     'app-url' => env('APP_BASE_URL', 'https://app.erpplanner.com'),
     'domain'  => env('APP_DOMAIN', 'erpplanner.com'),
 
+    'google-analytics-id' => env('GOOGLE_ANALYTICS_ID', null),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
