@@ -1,5 +1,4 @@
 @if( config('app.google-analytics-id') )
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{config('app.google-analytics-id')}}"></script>
     <script>
 
         var gaProperty = '{{config('app.google-analytics-id')}}';
