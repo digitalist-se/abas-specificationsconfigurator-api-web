@@ -11,15 +11,9 @@
 |
 */
 
-Route::get('/', 'LandingpageController@index')->name('landingpage');
-Route::get('/impressum', function () {
-    return view('imprint');
-})->name('imprint');
-Route::get('/datenschutz', function () {
-    return view('data-privacy');
-})->name('data-privacy');
-Route::get('/tutorial', function () {
-    return view('tutorial');
-})->name('tutorial');
+Route::get('/', 'FrontendController@index')->name('landingpage');
+Route::get('/impressum', 'FrontendController@imprint')->name('imprint');
+Route::get('/datenschutz', 'FrontendController@dataPrivacy')->name('data-privacy');
+Route::get('/tutorial', 'FrontendController@tutorial')->name('tutorial');
 
 Route::get('/business-illustration.svg', 'IllustrationController@get');

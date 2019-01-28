@@ -75,5 +75,6 @@
             </div>
         </footer>
         <script src="{{ mix('/js/app.js') }}"></script>
+        @include('module.google-analytics')
     </body>
 </html>
