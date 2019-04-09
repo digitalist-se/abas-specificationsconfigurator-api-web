@@ -29,6 +29,7 @@ class User extends JsonResource
             'city'                   => $this->city,
             'contact'                => $this->contact,
             'contact_function'       => $this->contact_function,
+            'country'                => $this->country,
         ];
     }
 }

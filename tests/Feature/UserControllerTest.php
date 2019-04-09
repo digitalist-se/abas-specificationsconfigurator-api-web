@@ -38,6 +38,7 @@ class UserControllerTest extends PassportTestCase
             'city'                   => $this->faker->city,
             'contact'                => $this->faker->name,
             'contact_function'       => 'Geschäftsführer',
+            'country'                => 'Deutschland',
         ];
         $response = $this->putJson('/api/user', $requestBody);
         $this->assertStatus($response, 204);
