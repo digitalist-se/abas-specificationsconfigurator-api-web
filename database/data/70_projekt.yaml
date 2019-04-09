@@ -175,10 +175,8 @@ project:
                     print: "Folgendes Budget steht zur Verfügung (EUR):"
                     document_row: 31
                 1041:
-                    type: text
-                    content: Wieviele Anwender sind geplant?
-                    print: "Anzahl der geplanten Anwender:"
-                    document_row: 32
+                    type: headline
+                    content: Wie viele Anwender sind geplant?
                 1042:
                     type: text
                     content: Anzahl abzubildender Unternehmen im ERP-System (= Mandanten)
