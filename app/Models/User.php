@@ -44,12 +44,13 @@ class User extends Authenticatable
         'additional_street_info',
         'zipcode',
         'city',
+        'country',
         'contact',
         'contact_function',
         'partner_tracking',
         'user_company',
         'user_role',
-        'user_url'
+        'user_url',
     ];
 
     /**

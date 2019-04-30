@@ -278,9 +278,9 @@ organisation:
                 - zoom-department-production
             elements:
                 127:
-                    type: choice
-                    choice_type: productionType
-                    content: Fertigungsart
+                    type: text
+                    content: Fertigungsart 
+                    sub_content: (z.B. Kleinserienfertigung, Serienfertigung, Einzelfertigung, Auftragsfertigung, Massenfertigung etc.)
                     print: Fertigungsart
                     document_row: 45
 

@@ -25,6 +25,7 @@ class UserController extends Controller
         'additional_street_info' => 'additional_street_info',
         'zipcode'                => 'zipcode',
         'city'                   => 'city',
+        'country'                => 'country',
         'contact'                => 'contact',
         'contact_function'       => 'contact_function',
         'partner_tracking'       => 'partner_tracking',
