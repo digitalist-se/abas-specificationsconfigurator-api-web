@@ -62,6 +62,7 @@ class SpecificationDocument extends ExcelResource
     {
         $this->renderUserInfoValues();
         $this->renderContentValues();
+        $this->document->setActiveSheetIndex($this->document->getFirstSheetIndex());
     }
 
     private function renderUserInfoValues()
