@@ -145,6 +145,7 @@ abstract class ExcelResource implements Responsable
             try {
                 $this->saveDocument();
                 $this->zipDocument();
+                unlink($this->outputExcelFilename());
                 $this->saved = true;
             } catch (\Exception $exception) {
                 throw new GenerateExcelException($exception);
