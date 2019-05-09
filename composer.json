@@ -15,7 +15,8 @@
         "phpoffice/phpspreadsheet": "^1.6",
         "platformsh/laravel-bridge": "^1.0",
         "predis/predis": "^1.1",
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "^4.0",
+        "ext-zip": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",
