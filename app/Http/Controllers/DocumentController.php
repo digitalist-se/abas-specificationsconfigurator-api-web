@@ -13,6 +13,7 @@ class DocumentController extends Controller
      * @param Request $request
      *
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
@@ -26,12 +27,11 @@ class DocumentController extends Controller
         if (!is_dir($outputDir)) {
             mkdir($outputDir);
         }
-        $filename              = $outputDir.DIRECTORY_SEPARATOR.uniqid($user->id.'_').'.xlsx';
         $answers               = $user->answers()->get();
-        $specificationDocument = new SpecificationDocument($filename, $user, $answers);
+        $specificationDocument = new SpecificationDocument($outputDir, $user, $answers);
         $specificationDocument->save();
         $mail = new DocumentGeneratedMail($user);
-        $mail->attach($filename);
+        $mail->attach($specificationDocument->outputZipFilename());
         Mail::to(config('mail.recipient.lead.address'))
             ->sendNow($mail);
 

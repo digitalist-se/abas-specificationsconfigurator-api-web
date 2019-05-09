@@ -30,20 +30,22 @@ class SpecificationDocument extends ExcelResource
     /**
      * SpecificationDocument constructor.
      *
-     * @param $filename
+     * @param $outputDir
      * @param $user
      * @param \App\Models\Answer[] $answers
      *
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
-    public function __construct($filename, $user, $answers)
+    public function __construct($outputDir, $user, $answers)
     {
         $this->user       = $user;
         $this->answersMap = [];
         foreach ($answers as $answer) {
             $this->answersMap[$answer->element_id] = $answer;
         }
-        parent::__construct($filename);
+        $filename              = uniqid($user->id.'_');
+        $localDocumentFilename = 'lastenheft'.self::EXTENSION_XLSX;
+        parent::__construct($outputDir, $filename, $localDocumentFilename);
     }
 
     protected function localizedText($key)
