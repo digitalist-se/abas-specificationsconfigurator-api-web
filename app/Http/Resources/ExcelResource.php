@@ -100,6 +100,20 @@ abstract class ExcelResource implements Responsable
         }
     }
 
+    /**
+     * @param string $key
+     * @param $value
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    protected function replaceHeaderMarker(String $key, $value)
+    {
+        foreach ($this->document->getWorksheetIterator() as $worksheet) {
+            $headerFooter = $worksheet->getHeaderFooter();
+            $headerFooter->setOddHeader(str_replace($key, $value, $headerFooter->getOddHeader()));
+        }
+    }
+
     abstract protected function renderDocument();
 
     public function outputExcelFilename()

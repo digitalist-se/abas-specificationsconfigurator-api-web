@@ -65,6 +65,8 @@ class SpecificationDocument extends ExcelResource
         $this->renderUserInfoValues();
         $this->renderContentValues();
         $this->document->setActiveSheetIndex($this->document->getFirstSheetIndex());
+        $headerFooter = $this->document->getActiveSheet()->getHeaderFooter();
+        $this->replaceHeaderMarker('[IHR FIRMENNAME]', $this->user->company_name, $headerFooter->getOddHeader());
     }
 
     private function renderUserInfoValues()
