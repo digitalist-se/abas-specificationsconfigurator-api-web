@@ -23,7 +23,7 @@ class DocumentControllerTest extends PassportTestCase
         $allElements = Element::where('type', '=', 'text')->get();
         foreach ($allElements as $element) {
             Answer::create([
-                'value'      => ['text' => $this->faker->text()],
+                'value'      => ['text' => $this->faker->text(40)],
                 'element_id' => $element->id,
                 'user_id'    => $this->user->id,
             ]);
