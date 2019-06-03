@@ -58,7 +58,6 @@ return [
     'app-url' => env('APP_BASE_URL', 'https://app.erpplanner.com'),
     'domain'  => env('APP_DOMAIN', 'erpplanner.com'),
 
-    'google-analytics-id' => env('GOOGLE_ANALYTICS_ID', null),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -227,4 +226,20 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'Yaml'         => Symfony\Component\Yaml\Yaml::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tracking Extensions
+    |--------------------------------------------------------------------------
+    |
+    | The following Configuration Options are needed to add Tracking to the
+    | webpage. Tracking only included if Environment Variables are set.
+    |
+    | Currently there are only Tracking possibilities throug:
+    | - Google Analytics (Google Tag Manager)
+    | - LinkedIn Partner Tracking
+    | - Facebook Pixel
+    |
+    */
+    'google-analytics-id' => env('GOOGLE_ANALYTICS_ID', null),
 ];
