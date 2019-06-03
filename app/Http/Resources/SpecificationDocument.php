@@ -124,7 +124,14 @@ class SpecificationDocument extends ExcelResource
             $parsedAnswerValue = '';
             switch ($contentElement->type) {
                 case 'text':
-                    $parsedAnswerValue = htmlspecialchars($answer->value->text);
+                    if (isset($answer->value) && isset($answer->value->text)) {
+                        $parsedAnswerValue = htmlspecialchars($answer->value->text);
+                    }
+                    break;
+                case 'slider':
+                    if (isset($answer->value) && isset($answer->value->value)) {
+                        $parsedAnswerValue = htmlspecialchars($answer->value->value);
+                    }
                     break;
                 case 'choice':
                     if ('lights' === $contentElement->choiceType->type) {
