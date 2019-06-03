@@ -243,4 +243,5 @@ return [
     */
     'google-analytics-id' => env('GOOGLE_ANALYTICS_ID', null),
     'linkedin-partner-id' => env('LINKEDIN_PARTNER_ID', null),
+    'facebook-pixel-id' => env('FACEBOOK_PIXEL_ID', null),
 ];
