@@ -76,5 +76,7 @@
         </footer>
         <script src="{{ mix('/js/app.js') }}"></script>
         @include('module.google-analytics')
+        @include('module.linkedin-pixel')
+        @include('module.facebook-pixel')
     </body>
 </html>
