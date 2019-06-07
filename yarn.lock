@@ -4817,6 +4817,11 @@ node-sass@^4.7.2:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
+node-snackbar@^0.1.15:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/node-snackbar/-/node-snackbar-0.1.15.tgz#e64397b255c88014785037162953ecc30bba07e9"
+  integrity sha512-d0dRnIvqNx28lrawdEj91W4vAfz/0lmRmHIr3HHdqjOIGb4zq2vhVoGI/tOnobUFNkNrvlYGVLxsFex02MHmFA==
+
 node-status-codes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/node-status-codes/-/node-status-codes-1.0.0.tgz#5ae5541d024645d32a58fcddc9ceecea7ae3ac2f"
