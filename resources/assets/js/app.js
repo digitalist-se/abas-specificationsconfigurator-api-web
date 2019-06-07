@@ -1,7 +1,8 @@
+global.$ = global.jquery = global.jQuery = require('jquery');
 import 'cookieconsent';
 import 'slick-carousel';
 import axios from 'axios';
-global.$ = global.jquery = global.jQuery = require('jquery');
+import './mobile-screen-notification';
 $(() => {
     $('.slider').slick({
         rows: 0,
