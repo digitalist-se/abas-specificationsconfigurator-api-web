@@ -5,8 +5,8 @@ import { CookieService } from "./cookie-service";
 import 'node-snackbar';
 
 const isMobile = () => {
-    const MAX_MOBILE_DEVICE_WIDTH = 640;
-    return window.innerWidth < MAX_MOBILE_DEVICE_WIDTH;
+    const MAX_MOBILE_DEVICE_WIDTH = 800;
+    return window.innerWidth <= MAX_MOBILE_DEVICE_WIDTH;
 };
 
 $(() => {
@@ -24,6 +24,7 @@ $(() => {
             actionText: 'OK',
             onActionClick: () => {
                 cookie.set(showedMobileDeviceInfoCookieKey, 'true');
+                Snackbar.close();
             }
         });
     }
