@@ -22,6 +22,6 @@ Route::domain(config('app.app-www-url'))
     ->group(function () {
         Route::get('/')->name('landingpage');
         Route::get('/impressum')->name('imprint');
-        Route::get('/datenschutz')->name('data-privacy');
+        Route::get('/datenschutzerklaerung')->name('data-privacy');
         Route::get('/tutorial')->name('tutorial');
     });
