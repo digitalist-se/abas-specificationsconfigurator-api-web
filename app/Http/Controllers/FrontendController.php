@@ -6,6 +6,7 @@ use Cookie;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 
 class FrontendController extends Controller
 {
@@ -31,7 +32,7 @@ class FrontendController extends Controller
      */
     private function redirect($routeName)
     {
-        return $this->redirect(route($routeName, $this->getPartnerTracking()));
+        return Redirect::away(route($routeName, $this->getPartnerTracking()));
     }
 
     public function index()
