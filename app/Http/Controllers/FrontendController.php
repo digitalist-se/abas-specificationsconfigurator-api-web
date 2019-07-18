@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Cookie;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 
 class FrontendController extends Controller
@@ -22,23 +24,49 @@ class FrontendController extends Controller
         return $pidTracking;
     }
 
+    /**
+     * @param $routeName
+     *
+     * @return RedirectResponse
+     */
+    private function redirect($routeName)
+    {
+        return $this->redirect(route($routeName, $this->getPartnerTracking()));
+    }
+
     public function index()
     {
-        return view('landingpage')->with('pidTracking', $this->getPartnerTracking());
+        if (App::environment('local')) {
+            return view('landingpage')->with('pidTracking', $this->getPartnerTracking());
+        }
+
+        return $this->redirect('landingpage');
     }
 
     public function imprint()
     {
-        return view('imprint')->with('pidTracking', $this->getPartnerTracking());
+        if (App::environment('local')) {
+            return view('imprint')->with('pidTracking', $this->getPartnerTracking());
+        }
+
+        return $this->redirect('imprint');
     }
 
     public function dataPrivacy()
     {
-        return view('data-privacy')->with('pidTracking', $this->getPartnerTracking());
+        if (App::environment('local')) {
+            return view('data-privacy')->with('pidTracking', $this->getPartnerTracking());
+        }
+
+        return $this->redirect('data-privacy');
     }
 
     public function tutorial()
     {
-        return view('tutorial')->with('pidTracking', $this->getPartnerTracking());
+        if (App::environment('local')) {
+            return view('tutorial')->with('pidTracking', $this->getPartnerTracking());
+        }
+
+        return $this->redirect('tutorial');
     }
 }

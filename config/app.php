@@ -53,6 +53,10 @@ return [
 
     'url' => env('APP_URL', 'https://erpplanner.com'),
     /*
+     * www/contao app base url
+     */
+    'app-www-url' => env('APP_WWW_URL', 'https://www.erpplanner.com'),
+    /*
      * angular app base url
      */
     'app-url' => env('APP_BASE_URL', 'https://app.erpplanner.com'),
@@ -243,5 +247,5 @@ return [
     */
     'google-analytics-id' => env('GOOGLE_ANALYTICS_ID', null),
     'linkedin-partner-id' => env('LINKEDIN_PARTNER_ID', null),
-    'facebook-pixel-id' => env('FACEBOOK_PIXEL_ID', null),
+    'facebook-pixel-id'   => env('FACEBOOK_PIXEL_ID', null),
 ];
