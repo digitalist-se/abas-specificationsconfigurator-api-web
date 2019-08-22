@@ -98,6 +98,9 @@ return [
     |
     */
     'custom' => [
+        'email' => [
+            'checkdomains' => 'Bitte verwenden Sie eine andere E-Mail',
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

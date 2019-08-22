@@ -124,6 +124,9 @@ return [
     */
 
     'custom' => [
+        'email' => [
+            'checkdomains' => 'Please use another email',
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
