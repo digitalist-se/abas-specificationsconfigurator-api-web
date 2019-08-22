@@ -43,7 +43,7 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'email'    => 'required|email|unique:users',
+            'email'    => 'required|email|unique:users|checkdomains',
             'password' => 'required|confirmed|min:6',
         ]);
         $data = [];
@@ -66,6 +66,7 @@ class UserController extends Controller
             'email'    => [
                 'email',
                 Rule::unique('users', 'email')->ignore($user->id),
+                'checkdomains',
             ],
         ]);
         if ($request->input('password')) {
