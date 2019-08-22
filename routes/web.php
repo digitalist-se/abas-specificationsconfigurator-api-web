@@ -11,9 +11,17 @@
 |
 */
 
-Route::get('/', 'FrontendController@index')->name('landingpage');
-Route::get('/impressum', 'FrontendController@imprint')->name('imprint');
-Route::get('/datenschutz', 'FrontendController@dataPrivacy')->name('data-privacy');
-Route::get('/tutorial', 'FrontendController@tutorial')->name('tutorial');
+Route::get('/', 'FrontendController@index');
+Route::get('/impressum', 'FrontendController@imprint');
+Route::get('/datenschutz', 'FrontendController@dataPrivacy');
+Route::get('/tutorial', 'FrontendController@tutorial');
 
 Route::get('/business-illustration.svg', 'IllustrationController@get');
+
+Route::domain(config('app.app-www-url'))
+    ->group(function () {
+        Route::get('/')->name('landingpage');
+        Route::get('/impressum')->name('imprint');
+        Route::get('/datenschutzerklaerung')->name('data-privacy');
+        Route::get('/tutorial')->name('tutorial');
+    });
