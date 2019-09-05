@@ -125,7 +125,7 @@ return [
 
     'custom' => [
         'email' => [
-            'checkdomains' => 'Please use another email',
+            'checkdomains' => 'Please use a valid Business-E-Mail',
         ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
