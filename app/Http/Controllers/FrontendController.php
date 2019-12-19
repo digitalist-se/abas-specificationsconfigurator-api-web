@@ -32,7 +32,7 @@ class FrontendController extends Controller
      */
     private function redirect($routeName)
     {
-        return Redirect::away(route($routeName, $this->getPartnerTracking()));
+        return Redirect::away(route($routeName, $this->getPartnerTracking()), 301);
     }
 
     public function index()
