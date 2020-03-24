@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Mail;
 
 class DocumentController extends Controller
 {
+    const EXPORT_PATH = 'app/export';
+
     /**
-     * @param Request $request
-     *
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
      *
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
@@ -23,7 +23,7 @@ class DocumentController extends Controller
         if (!$user->hasAllRequiredFieldsForSpecificationDocument()) {
             return response('', 428);
         }
-        $outputDir = storage_path('app/export');
+        $outputDir = storage_path(self::EXPORT_PATH);
         if (!is_dir($outputDir)) {
             mkdir($outputDir);
         }
