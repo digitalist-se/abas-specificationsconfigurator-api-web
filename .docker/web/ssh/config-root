@@ -1,0 +1,5 @@
+Host git.gal-digital.de
+	HostName git.gal-digital.de
+	User git
+	Port 22
+	IdentityFile /root/.ssh/git_id_rsa

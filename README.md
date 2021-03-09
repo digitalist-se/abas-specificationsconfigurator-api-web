@@ -1,19 +1,20 @@
 Abas ERP Lastenheftgenerator - API
 ==================================
 
-[homestead-config]: ./Homestead.yaml
 [docs]: ./docs/index.md
-[laravel-homestead]: (https://laravel.com/docs/5.6/homestead)
-[laravel-passport]: (https://laravel.com/docs/5.6/passport)
-[virtualbox]: (https://www.virtualbox.org/)
-[vagrant]: (https://www.vagrantup.com/)
-[ide-helper]: (https://github.com/barryvdh/laravel-ide-helper)
-[ps-laravel-plugin]: (https://plugins.jetbrains.com/plugin/7532-laravel-plugin)
+[dotenv]: ./.env
+[lldocker]: https://git.gal-digital.de/dimitri.pfaffenrodt/lldocker
+[lldocker-readme]: ./README[lldocker].md
+[laravel-passport]: https://laravel.com/docs/5.6/passport
+[docker]: https://www.docker.com/
+[vagrant]: https://www.vagrantup.com/
+[ide-helper]: https://github.com/barryvdh/laravel-ide-helper
+[ps-laravel-plugin]: https://plugins.jetbrains.com/plugin/7532-laravel-plugin
 
 ## Setup
 
-The project uses [Laravel/Homestead][laravel-homestead] as the development environment, 
-therefore you have to install [virtualbox][virtualbox] and [vagrant][vagrant].
+The project uses [lldocker][lldocker] as the development environment, 
+therefore you have to install [Docker][docker.
 
 ### First Install
 
@@ -27,81 +28,25 @@ cd abas-specificationsconfigurator-api-web
 and initialize project 
 
 ```bash
-# init will run composer install and 
-# copy after.sh and
-# copy Homestead.yaml from Homestead.yaml.example and
-# copy .env from .env.example
+make init-env
 make init
 ```
 
+Adapt your [.env][dotenv]
 
-Adapt your [homestead configuration][homestead-config]
-
-* add the the paths to your vagrant ssh keys:
-    
-    ```
-        authorize: path/to/homestead/public/key.pub` 
-        keys:     
-            - path/to/homestead/private/key
-     ```
-             
-* if you use `macos` see additional hints under Troubleshooting 
+* add your ssh key to DOCKER_GIT_SSH_KEY
+* add mailtrap credentials MAIL_USERNAME, MAIL_PASSWORD 
 
 
-To access the API from your host system via `http://lastenheft.api`
+To access the API from your host system via `https://erpplanner.test`
 add the following to your `hosts` file
 
 ```
-192.168.10.10 lastenheft.api
+127.0.0.1 erpplanner.test
 ```
-
-Finally generate an app-key, run the migrations and generate oauth2 encryption keys (see [Laravel/Passport][laravel-passport])
-
-```bash
-php artisan key:generate
-php artisan migrate
-php artisan passport:install
-```
-
 ### Use the development environment
 
-Bring up vagrant/homestead
-
-```bash
-# vagrant up
-make up
-```
-
-Enter environment via ssh
-```bash
-# vagrant ssh
-make ssh
-```
-
-Pause you machine
-```bash
-# vagrant halt
-make halt
-```
-
-### Troubleshooting
-
-#### macos
-
-If you have problems to bring up vagrant/homestead with nfs under `macos` try the following
-
-* Ensure to have the following vagrant plugins installed
-    * vagrant-bindfs 
-    * vagrant-env 
-    * vagrant-gatling
-    * vagrant-share 
-    * vagrant-vbguest 
-* Add a private network to your [homestead configuration][homestead-config]
-    ```
-    network:
-        - type: "private_network"
-          ip: "192.168.10.10"
-    ```
+See [REDMAE of lldocker][lldocker-readme].
 
 ## Testing
 
@@ -111,8 +56,6 @@ If you have problems to bring up vagrant/homestead with nfs under `macos` try th
 ./vendor/bin/phpunit
 #or
 make test
-#or (you just call your global phpunit, but there is no guarantee for same phpunit versions) 
-phpunit
 ``` 
 
 ## Development
