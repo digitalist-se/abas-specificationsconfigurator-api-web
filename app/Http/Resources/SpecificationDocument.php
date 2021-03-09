@@ -43,7 +43,7 @@ class SpecificationDocument extends ExcelResource
         foreach ($answers as $answer) {
             $this->answersMap[$answer->element_id] = $answer;
         }
-        $filename              = uniqid($user->id.'_');
+        $filename              = uniqid($user->id.'_', true);
         $localDocumentFilename = 'lastenheft'.self::EXTENSION_XLSX;
         parent::__construct($outputDir, $filename, $localDocumentFilename);
     }
@@ -148,7 +148,7 @@ class SpecificationDocument extends ExcelResource
                     }
                     if ($contentElement->choiceType->multiple) {
                         if (!is_array($answer->value->options)) {
-                            continue;
+                            break;
                         }
                         $options       = $answer->value->options;
                         $parsedOptions = [];
@@ -162,7 +162,7 @@ class SpecificationDocument extends ExcelResource
                         $parsedAnswerValue = join(', ', $parsedOptions);
                     } else {
                         if (!isset($answer->value->option)) {
-                            continue;
+                            break;
                         }
                         $parsedAnswerValue = $this->localizedText($answer->value->option);
                     }
