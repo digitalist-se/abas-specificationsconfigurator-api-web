@@ -20,7 +20,9 @@ $factory->define(App\Models\Section::class, function (Faker $faker) {
 });
 
 $factory->define(App\Models\Element::class, function (Faker $faker) {
-    $text = factory(\App\Models\Text::class)->create();
+    $text = factory(\App\Models\Text::class)->create(
+        ['value'       => $faker->text(150)]
+    );
     $chapter = \App\Models\Chapter::create([
         'name'            => $text->key,
         'print_name'      => $text->key,
