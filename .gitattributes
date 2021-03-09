@@ -1,6 +1,10 @@
 *.sh eol=lf
 * text=auto
+*.php text eol=lf
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored
 CHANGELOG.md export-ignore
+crontab text eol=lf
+entrypoint text eol=lf
+Makefile text eol=lf
