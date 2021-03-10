@@ -52,6 +52,9 @@ return [
     */
 
     'url' => env('APP_URL', 'https://erpplanner.com'),
+
+    'asset_url' => env('ASSET_URL', null),
+
     /*
      * angular app base url
      */
@@ -96,6 +99,19 @@ return [
     */
 
     'fallback_locale' => 'en',
+
+    /*
+   |--------------------------------------------------------------------------
+   | Faker Locale
+   |--------------------------------------------------------------------------
+   |
+   | This locale will be used by the Faker PHP library when generating fake
+   | data for your database seeds. For example, this will be used to get
+   | localized telephone numbers, street address information and more.
+   |
+   */
+
+    'faker_locale' => 'de_DE',
 
     /*
     |--------------------------------------------------------------------------
@@ -243,5 +259,5 @@ return [
     */
     'google-analytics-id' => env('GOOGLE_ANALYTICS_ID', null),
     'linkedin-partner-id' => env('LINKEDIN_PARTNER_ID', null),
-    'facebook-pixel-id' => env('FACEBOOK_PIXEL_ID', null),
+    'facebook-pixel-id'   => env('FACEBOOK_PIXEL_ID', null),
 ];

@@ -78,12 +78,11 @@
     top: 0;
     right: 0;
   }
-}
-@media (max-width: 640px) {
-  .snackbar-pos
+  @media (max-width: 640px) {
     &.bottom-center,
     &.top-center {
       left: 0;
       transform: none;
+    }
   }
 }

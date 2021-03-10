@@ -19,9 +19,8 @@ $finder = Finder::create()
 $rules = [
     '@Symfony'               => true,
     'binary_operator_spaces' => [
-        'default' => 'align_single_space_minimal',
         'align_double_arrow' => true,
-        'align_equals' => true,
+        'align_equals'       => true,
     ],
     'braces' => [
         'allow_single_line_closure' => true,
