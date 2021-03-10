@@ -106,7 +106,7 @@ ide-helper: ## Runs all php artisan ide-helper tasks
 	@make -s art "ide-helper:eloquent -n"
 	@make -s art "ide-helper:generate -n"
 	@make -s art "ide-helper:meta -n"
-	@make -s art "ide-helper:models -nN"
+	@make -s art "ide-helper:models -nM"
 
 ## Builds Assets / Node commands
 #################################

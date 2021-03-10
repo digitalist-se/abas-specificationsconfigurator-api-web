@@ -6,9 +6,11 @@ use App\Responsibilities\HasIllustrationStates;
 
 /**
  * Class Element
+ *
  * @package App\Models
  * @property string $document_cell
  * @property integer $document_row
+ * @mixin IdeHelperElement
  */
 class Element extends BaseModel
 {

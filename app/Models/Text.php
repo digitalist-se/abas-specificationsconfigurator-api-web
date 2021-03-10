@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+/**
+ * @mixin IdeHelperText
+ */
 class Text extends BaseModel
 {
     protected $fillable = [

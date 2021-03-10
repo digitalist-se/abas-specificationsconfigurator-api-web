@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Cookie;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 
 class FrontendController extends Controller
 {
     protected function getPartnerTracking()
     {
-        $pid = Input::get('pid');
+        $pid = Request::input('pid');
 
         $pidTracking = null;
         if (!is_null($pid)) {

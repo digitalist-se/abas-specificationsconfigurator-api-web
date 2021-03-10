@@ -6,6 +6,7 @@ namespace App\Models;
  * Class Answer.
  *
  * @property object $value
+ * @mixin IdeHelperAnswer
  */
 class Answer extends BaseModel
 {

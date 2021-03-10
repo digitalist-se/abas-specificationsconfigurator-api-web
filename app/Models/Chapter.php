@@ -6,8 +6,10 @@ use App\Responsibilities\HasIllustrationStates;
 
 /**
  * Class Chapter
+ *
  * @package App\Models
  * @property int $worksheet
+ * @mixin IdeHelperChapter
  */
 class Chapter extends BaseModel
 {

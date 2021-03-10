@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Responsibilities\HasIllustrationStates;
 
+/**
+ * @mixin IdeHelperSection
+ */
 class Section extends BaseModel
 {
     use HasIllustrationStates;
