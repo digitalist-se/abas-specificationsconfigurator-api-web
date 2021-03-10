@@ -1,9 +1,13 @@
 <?php
 
 use App\Models\Chapter;
+use App\Models\ChoiceType;
 use App\Models\Element;
 use App\Models\Section;
+use App\Models\Text;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class ElementSeeder extends Seeder
 {
@@ -70,11 +74,11 @@ class ElementSeeder extends Seeder
         /**
          * @var Chapter
          */
-        $newChapter = \App\Models\Chapter::updateOrCreate(
+        $newChapter = Chapter::updateOrCreate(
             ['name' => $i18nId],
             [
                 'print_name'          => $printNameKey,
-                'slug_name'           => str_slug($chapter['name']),
+                'slug_name'           => Str::slug($chapter['name']),
                 'sort'                => $sort,
                 'description'         => $descriptionKey,
                 'print_description'   => $printDescriptionKey,
@@ -85,9 +89,9 @@ class ElementSeeder extends Seeder
         );
         $sectionSorting = 0;
         $sectionIds     = [];
-        foreach ($chapter['sections'] as $i18nId => $section) {
+        foreach ($chapter['sections'] as $sectionI18nId => $section) {
             $section['sort'] = $sectionSorting;
-            $newSection      = $this->importSection($newChapter, $i18nId, $section);
+            $newSection      = $this->importSection($newChapter, $sectionI18nId, $section);
             ++$sectionSorting;
             if ($newSection) {
                 $sectionIds[] = $newSection->id;
@@ -120,12 +124,12 @@ class ElementSeeder extends Seeder
         /**
          * @var Section
          */
-        $newSection     = \App\Models\Section::updateOrCreate(
+        $newSection     = Section::updateOrCreate(
             [
                 'headline' => $sectionHeadlineKey,
             ],
             [
-                'slug_name'           => str_slug($section['slug_name'] ?? $section['headline']),
+                'slug_name'           => Str::slug($section['slug_name'] ?? $section['headline']),
                 'description'         => $sectionDescriptionKey,
                 'print_description'   => $sectionPrintDescriptionKey,
                 'sort'                => $sectionSorting,
@@ -145,7 +149,7 @@ class ElementSeeder extends Seeder
             if (is_string($element)) {
                 // element is an preset
                 // use element as key of preset
-                $element = array_get($this->presets, $element);
+                $element = Arr::get($this->presets, $element);
             }
             $data         = [];
             $data['type'] = $element['type'];
@@ -172,7 +176,7 @@ class ElementSeeder extends Seeder
             $this->optionalValue('min', $element, $data);
             $this->optionalValue('max', $element, $data);
             if (isset($element['choice_type'])) {
-                $choiceType             = \App\Models\ChoiceType::where('type', '=', $element['choice_type'])->get(['id'])->first();
+                $choiceType             = ChoiceType::where('type', '=', $element['choice_type'])->get(['id'])->first();
                 $data['choice_type_id'] = $choiceType->id;
             }
             $data['sort']                = $sorting;
@@ -193,7 +197,7 @@ class ElementSeeder extends Seeder
 
     protected function text($key, $value)
     {
-        \App\Models\Text::updateOrCreate(
+        Text::updateOrCreate(
             ['key' => $key],
             ['value' => $value]
         );

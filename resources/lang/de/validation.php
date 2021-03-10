@@ -37,6 +37,7 @@ return [
     'dimensions'     => ':attribute hat ungültige Bildabmessungen.',
     'distinct'       => 'Das Feld :attribute beinhaltet einen bereits vorhandenen Wert.',
     'email'          => ':attribute muss eine gültige E-Mail-Adresse sein.',
+    'ends_with'      => 'Das Feld :attribute muss mit folgenden Werten enden: :values',
     'exists'         => 'Der gewählte Wert für :attribute ist ungültig.',
     'file'           => ':attribute muss eine Datei sein.',
     'filled'         => ':attribute muss ausgefüllt sein.',

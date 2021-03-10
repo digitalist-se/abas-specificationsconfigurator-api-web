@@ -1,6 +1,12 @@
 <?php
 
+use App\Models\Answer;
+use App\Models\Chapter;
+use App\Models\Element;
+use App\Models\Section;
+use App\Models\Text;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,26 +19,27 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\Chapter::class, function (Faker $faker) {
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(Chapter::class, function (Faker $faker) {
 });
 
-$factory->define(App\Models\Section::class, function (Faker $faker) {
+$factory->define(Section::class, function (Faker $faker) {
 });
 
-$factory->define(App\Models\Element::class, function (Faker $faker) {
-    $text = factory(\App\Models\Text::class)->create(
+$factory->define(Element::class, function (Faker $faker) {
+    $text = factory(Text::class)->create(
         ['value'       => $faker->text(150)]
     );
-    $chapter = \App\Models\Chapter::create([
+    $chapter = Chapter::create([
         'name'            => $text->key,
         'print_name'      => $text->key,
-        'slug_name'       => str_slug($text->value),
+        'slug_name'       => Str::slug($text->value),
         'sort'            => 0,
     ]);
-    $section = \App\Models\Section::create([
+    $section = Section::create([
         'headline'    => $text->key,
         'description' => $text->key,
-        'slug_name'   => str_slug($text->value),
+        'slug_name'   => Str::slug($text->value),
         'sort'        => 0,
         'chapter_id'  => $chapter->id,
     ]);
@@ -54,8 +61,8 @@ $factory->define(App\Models\Element::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Answer::class, function (Faker $faker) {
-    $element = factory(App\Models\Element::class)->create();
+$factory->define(Answer::class, function (Faker $faker) {
+    $element = factory(Element::class)->create();
 
     return [
         'element_id' => $element,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Text;
 use Faker\Generator as Faker;
 
 /*
@@ -12,8 +13,8 @@ use Faker\Generator as Faker;
 | model instances for testing / seeding your application's database.
 |
 */
-
-$factory->define(App\Models\Text::class, function (Faker $faker) {
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(Text::class, function (Faker $faker) {
     return [
         'key'         => $faker->uuid,
         'locale'      => 'de',

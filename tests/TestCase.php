@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\TestResponse;
@@ -11,14 +12,15 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, RefreshDatabase;
+    use CreatesApplication;
+    use RefreshDatabase;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         // Seed Database
-        $this->seed(\DatabaseSeeder::class);
+        $this->seed(DatabaseSeeder::class);
     }
 
     public function assertStatus(TestResponse $response, $status)

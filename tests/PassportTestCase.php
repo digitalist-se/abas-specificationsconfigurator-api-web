@@ -5,6 +5,8 @@ namespace Tests;
 use App\Models\Role;
 use App\Models\User;
 use DateTime;
+use DB;
+use Illuminate\Support\Arr;
 use Laravel\Passport\ClientRepository;
 
 class PassportTestCase extends TestCase
@@ -19,7 +21,7 @@ class PassportTestCase extends TestCase
     protected $role = Role::ADMIN;
     protected $texts;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -28,7 +30,7 @@ class PassportTestCase extends TestCase
         $client           = $clientRepository->createPersonalAccessClient(
             null, 'Test Personal Access Client', '/'
         );
-        \DB::table('oauth_personal_access_clients')->insert([
+        DB::table('oauth_personal_access_clients')->insert([
             'client_id'  => $client->id,
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
@@ -113,14 +115,14 @@ class PassportTestCase extends TestCase
         if ($optional && !isset($object[$key])) {
             return;
         }
-        $this->assertTrue(is_string($object[$key]));
-        $this->assertNotEmpty($object[$key]);
+        static::assertTrue(is_string($object[$key]));
+        static::assertNotEmpty($object[$key]);
         $textKey = $object[$key];
         if (!$this->texts) {
             $this->initTexts();
         }
-        if (!array_has($this->texts, $textKey)) {
-            $this->fail('expecting that text with key:"'.$textKey.'"" is given');
+        if (!Arr::has($this->texts, $textKey)) {
+            static::fail('expecting that text with key:"'.$textKey.'"" is given');
         }
     }
 }
