@@ -98,6 +98,16 @@ laravel: ## forward laravel installer command to container
 php-cs-fixer: ## forward csfixer command to container, pass file path relative to project root dir
 	docker-compose exec -T -u www-data web bash -c 'php /var/www/html/vendor/bin/php-cs-fixer fix /var/www/html/${ARGS} --config "/var/www/html/.php_cs"'
 
+## IDE Helper
+#################################
+ide-helper: ## Runs all php artisan ide-helper tasks
+	@make -s art "clear-compiled"
+	@make -s composer "dumpauto -o"
+	@make -s art "ide-helper:eloquent -n"
+	@make -s art "ide-helper:generate -n"
+	@make -s art "ide-helper:meta -n"
+	@make -s art "ide-helper:models -nN"
+
 ## Builds Assets / Node commands
 #################################
 
