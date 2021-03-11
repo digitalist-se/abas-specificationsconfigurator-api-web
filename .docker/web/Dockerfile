@@ -120,6 +120,35 @@ RUN mkdir -p $NVM_DIR \
 RUN echo | tee -a /etc/skel/.bashrc >> /etc/bash.bashrc \
     && echo ". \$NVM_DIR/nvm.sh" | tee -a /etc/skel/.bashrc >> /etc/bash.bashrc \
     && echo | tee -a /etc/skel/.bashrc >> /etc/bash.bashrc
+
+# Setup zsh & oh-my-zsh
+RUN apt-get update && apt-get install -y zsh
+RUN sh -c "$(curl -L https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
+    -p git \
+    -p ssh-agent \
+    -p laravel -p laravel5 \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions \
+    -p 'history-substring-search' \
+    -a 'bindkey "^[OA" history-substring-search-up' \
+    -a 'bindkey "^[OB" history-substring-search-down' \
+    -a 'bindkey "^[OC" forward-char' \
+    -a 'bindkey "^[OD" backward-char' \
+    -a 'bindkey "^[OF" end-of-line' \
+    -a 'bindkey "^[OH" beginning-of-line' \
+    -a 'bindkey "^[[1~" beginning-of-line' \
+    -a 'bindkey "^[[3~" delete-char' \
+    -a 'bindkey "^[[4~" end-of-line' \
+    -a 'bindkey "^[[5~" up-line-or-history' \
+    -a 'bindkey "^[[6~" down-line-or-history' \
+    -a 'bindkey "^?" backward-delete-char' \
+    -a ". \$NVM_DIR/nvm.sh"
+RUN cp -r /root/.oh-my-zsh /var/www/.oh-my-zsh \
+    && chown -R www-data: /var/www/.oh-my-zsh \
+    && cp /root/.zshrc /var/www/.zshrc \
+    && sed -i 's+/root/.oh-my-zsh+/var/www/.oh-my-zsh+g' /var/www/.zshrc \
+    && chown www-data: /var/www/.zshrc
+
 RUN touch /var/www/.yarnrc \
     && chown www-data: /var/www/.yarnrc
 

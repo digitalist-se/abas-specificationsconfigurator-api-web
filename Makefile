@@ -70,6 +70,12 @@ bash-root: ## open docker bash via ssh as root
 bash-db: ## open docker bash via ssh as root
 	bash -c "docker-compose exec db bash"
 
+zsh: ## open docker zsh with oh-my-zsh via ssh
+	bash -c "docker-compose exec -u www-data web zsh"
+
+zsh-root: ## open docker zsh with oh-my-zsh via ssh as root
+	bash -c "docker-compose exec -u root web zsh"
+
 ## Forwarding commands
 #################################
 php: ## forward php command to container
