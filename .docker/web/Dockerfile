@@ -58,6 +58,7 @@ RUN apt-get update && apt-get install zlib1g-dev -y \
     && docker-php-ext-configure mbstring --enable-mbstring \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
     && docker-php-ext-install -j$(nproc) \
+        bcmath \
         curl \
         pdo \
         pdo_mysql \
@@ -67,6 +68,7 @@ RUN apt-get update && apt-get install zlib1g-dev -y \
         intl \
         iconv \
         pcntl \
+        tokenizer \
         xsl
 
 ## REDIS
