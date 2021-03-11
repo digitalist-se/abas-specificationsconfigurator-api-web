@@ -4,7 +4,10 @@ namespace App\Http\Resources;
 
 use App\Exceptions\GenerateExcelException;
 use Illuminate\Contracts\Support\Responsable;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use RuntimeException;
+use ZipArchive;
 
 abstract class ExcelResource implements Responsable
 {
@@ -62,26 +65,23 @@ abstract class ExcelResource implements Responsable
     }
 
     /**
-     * @return Spreadsheet
-     *
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
     protected function createDocument(): Spreadsheet
     {
         if ($this->template) {
-            return \PhpOffice\PhpSpreadsheet\IOFactory::load(resource_path($this->template));
+            return IOFactory::load(resource_path($this->template));
         }
 
         return new Spreadsheet();
     }
 
     /**
-     * @param string $key
      * @param $value
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    protected function replaceTemplateMarker(String $key, $value)
+    protected function replaceTemplateMarker(string $key, $value)
     {
         $markerKey = '{'.$key.'}';
         foreach ($this->document->getWorksheetIterator() as $worksheet) {
@@ -101,12 +101,11 @@ abstract class ExcelResource implements Responsable
     }
 
     /**
-     * @param string $key
      * @param $value
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    protected function replaceHeaderMarker(String $key, $value)
+    protected function replaceHeaderMarker(string $key, $value)
     {
         foreach ($this->document->getWorksheetIterator() as $worksheet) {
             $headerFooter = $worksheet->getHeaderFooter();
@@ -128,23 +127,23 @@ abstract class ExcelResource implements Responsable
 
     protected function saveDocument()
     {
-        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($this->document, 'Xlsx');
+        $writer = IOFactory::createWriter($this->document, 'Xlsx');
         $writer->save($this->outputExcelFilename());
         if (!file_exists($this->outputExcelFilename())) {
-            throw \Exception('document was not generated');
+            throw new RuntimeException('document was not generated');
         }
     }
 
     protected function zipDocument()
     {
-        $zip        = new \ZipArchive();
-        $openResult = $zip->open($this->outputZipFilename(), \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip        = new ZipArchive();
+        $openResult = $zip->open($this->outputZipFilename(), ZipArchive::CREATE | ZipArchive::OVERWRITE);
         if (true !== $openResult) {
-            throw new \Exception('could not open zip archive');
+            throw new RuntimeException('could not open zip archive');
         }
         $addFileResult = $zip->addFile($this->outputExcelFilename(), $this->localDocumentFilename);
         if (true !== $addFileResult) {
-            throw new \Exception('could not add document ('.$this->outputExcelFilename().' to zip archive');
+            throw new RuntimeException('could not add document ('.$this->outputExcelFilename().' to zip archive');
         }
         $zip->close();
     }

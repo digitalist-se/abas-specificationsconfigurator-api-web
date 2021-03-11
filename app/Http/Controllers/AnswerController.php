@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Element;
-use App\Models\Answer;
 use App\Http\Resources\Answer as AnswerResource;
+use App\Models\Answer;
+use App\Models\Element;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
@@ -27,7 +27,7 @@ class AnswerController extends Controller
     {
         $answer = $this->getAnswer($request, $element);
         if (!$answer) {
-            return abort(404);
+            abort(404);
         }
 
         return new AnswerResource($answer);

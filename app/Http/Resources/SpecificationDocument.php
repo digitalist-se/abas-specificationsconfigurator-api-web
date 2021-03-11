@@ -95,7 +95,7 @@ class SpecificationDocument extends ExcelResource
         }
     }
 
-    protected function addLocalizedText(int $worksheet, String $cellId, $textKey)
+    protected function addLocalizedText(int $worksheet, string $cellId, $textKey)
     {
         if (!$cellId || !$textKey) {
             return;
@@ -104,7 +104,7 @@ class SpecificationDocument extends ExcelResource
         $this->addText($worksheet, $cellId, $value);
     }
 
-    protected function addText(int $worksheet, String $cellId, $text)
+    protected function addText(int $worksheet, string $cellId, $text)
     {
         if (!$cellId || !$text) {
             return;

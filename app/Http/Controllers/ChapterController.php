@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Chapter;
 use App\Http\Resources\Chapter as ChapterResource;
+use App\Models\Chapter;
 
 class ChapterController extends Controller
 {

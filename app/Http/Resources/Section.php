@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Element as ElementResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class Section extends JsonResource
 {

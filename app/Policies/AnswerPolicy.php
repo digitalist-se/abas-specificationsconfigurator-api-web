@@ -11,8 +11,6 @@ class AnswerPolicy
     /**
      * Determine if the given answer can be updated by the user.
      *
-     * @param \App\Models\User $user
-     *
      * @return bool
      */
     public function create(User $user)
@@ -23,9 +21,6 @@ class AnswerPolicy
     /**
      * Determine if the given answer can be updated by the user.
      *
-     * @param \App\Models\User   $user
-     * @param \App\Models\Answer $answer
-     *
      * @return bool
      */
     public function update(User $user, Answer $answer)
@@ -35,9 +30,6 @@ class AnswerPolicy
 
     /**
      * Determine if the given answer can be viewed by the user.
-     *
-     * @param \App\Models\User   $user
-     * @param \App\Models\Answer $answer
      *
      * @return bool
      */

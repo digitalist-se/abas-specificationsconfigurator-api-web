@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
 class Register extends Notification
@@ -19,8 +19,6 @@ class Register extends Notification
 
     /**
      * Create a new notification instance.
-     *
-     * @param User $user
      */
     public function __construct(User $user)
     {

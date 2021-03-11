@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Lang;
 use Laravel\Passport\HasApiTokens;
 
 /**
+ * @property \App\Models\Role $role
  * @mixin IdeHelperUser
  */
 class User extends Authenticatable
