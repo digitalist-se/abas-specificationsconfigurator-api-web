@@ -2,17 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Text;
+use App\Models\Answer;
+use App\Models\Element;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TextFactory extends Factory
+class AnswerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Text::class;
+    protected $model = Answer::class;
 
     /**
      * Define the model's default state.
@@ -21,12 +22,11 @@ class TextFactory extends Factory
      */
     public function definition()
     {
+        $element = Element::factory()->create();
+
         return [
-            'key'         => $this->faker->uuid,
-            'locale'      => 'de',
-            'value'       => $this->faker->text,
-            'description' => '',
-            'public'      => 1,
+            'element_id' => $element,
+            'value'      => $this->faker->text,
         ];
     }
 }

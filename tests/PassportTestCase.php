@@ -44,7 +44,7 @@ class PassportTestCase extends TestCase
 
     public function generateUser($role = Role::USER)
     {
-        return factory(User::class)->create(['role' => $role]);
+        return User::factory()->create(['role' => $role]);
     }
 
     public function get($uri, array $headers = [])
@@ -110,12 +110,12 @@ class PassportTestCase extends TestCase
         $this->texts = $this->getJson('/api/texts')->json();
     }
 
-    public function assertTextWithKeyIsGiven($object, $key, $optional = false)
+    public function assertTextWithKeyIsGiven($object, $key, $optional = false): void
     {
         if ($optional && !isset($object[$key])) {
             return;
         }
-        static::assertTrue(is_string($object[$key]));
+        static::assertIsString($object[$key]);
         static::assertNotEmpty($object[$key]);
         $textKey = $object[$key];
         if (!$this->texts) {

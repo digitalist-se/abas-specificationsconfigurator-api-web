@@ -6,10 +6,10 @@ use Tests\PassportTestCase;
 
 class ChoiceTypeControllerByUserTest extends PassportTestCase
 {
-    public function testGetListOfChoiceTypes()
+    public function test_get_list_of_choice_types()
     {
         $response = $this->getJson('/api/choice-types');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJsonStructure([
             '*' => [
                 'id',

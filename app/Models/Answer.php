@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 /**
  * Class Answer.
  *
@@ -10,6 +12,8 @@ namespace App\Models;
  */
 class Answer extends BaseModel
 {
+    use HasFactory;
+
     protected $fillable = [
         'value',
         'user_id',

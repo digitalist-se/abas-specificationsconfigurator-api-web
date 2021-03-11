@@ -24,7 +24,7 @@ class UpdatePasswordTest extends PassportTestCase
         Notification::fake();
         $response = $this->postJson('/api/password/email', ['email' => $this->user->email]);
         $user     = $this->user;
-        $this->assertStatus($response, 204);
+        static::assertStatus($response, 204);
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
             return $notification->user->id === $user->id;
         });
@@ -36,7 +36,7 @@ class UpdatePasswordTest extends PassportTestCase
             'password' => 'test1234',
         ];
         $response = $this->putJson('/api/password', $requestBody);
-        $this->assertStatus($response, 422);
+        static::assertStatus($response, 422);
         $this->user->refresh();
         static::assertTrue(Hash::check(self::CURRENT_PASSWORD, $this->user->password));
     }
@@ -48,7 +48,7 @@ class UpdatePasswordTest extends PassportTestCase
             'password_confirmation' => 'test1234',
         ];
         $response = $this->putJson('/api/password', $requestBody);
-        $this->assertStatus($response, 422);
+        static::assertStatus($response, 422);
         $this->user->refresh();
         static::assertTrue(Hash::check(self::CURRENT_PASSWORD, $this->user->password));
     }
@@ -60,7 +60,7 @@ class UpdatePasswordTest extends PassportTestCase
             'password_old' => self::CURRENT_PASSWORD,
         ];
         $response = $this->putJson('/api/password', $requestBody);
-        $this->assertStatus($response, 422);
+        static::assertStatus($response, 422);
         $this->user->refresh();
         static::assertTrue(Hash::check(self::CURRENT_PASSWORD, $this->user->password));
     }
@@ -73,7 +73,7 @@ class UpdatePasswordTest extends PassportTestCase
             'password_old'          => self::CURRENT_PASSWORD,
         ];
         $response = $this->putJson('/api/password', $requestBody);
-        $this->assertStatus($response, 204);
+        static::assertStatus($response, 204);
         $this->user->refresh();
         static::assertTrue(Hash::check('test1234', $this->user->password));
     }

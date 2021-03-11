@@ -6,10 +6,10 @@ use Tests\TestCase;
 
 class CookieConsentTest extends TestCase
 {
-    public function testGetConfig()
+    public function test_get_config()
     {
         $response = $this->getJson('api/cookieconsent');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJsonStructure([
             'palette' => [
                 'popup' => [

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Lang;
@@ -15,6 +16,7 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     use Notifiable;
+    use HasFactory;
 
     const REQUIRED_FIELDS_FOR_SPECIFICATION = [
         'name',

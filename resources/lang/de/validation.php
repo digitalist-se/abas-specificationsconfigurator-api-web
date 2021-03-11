@@ -63,6 +63,7 @@ return [
         'string'  => ':attribute muss mindestens :min Zeichen lang sein.',
         'array'   => ':attribute muss mindestens :min Elemente haben.',
     ],
+    'multiple_of'          => ':attribute muss ein Vielfaches sein von :value.',
     'not_in'               => 'Der gewählte Wert für :attribute ist ungültig.',
     'not_regex'            => 'Das Format für :attribute ist ungültig.',
     'numeric'              => ':attribute muss eine Zahl sein.',
@@ -76,6 +77,8 @@ return [
     'required_with_all'    => ':attribute muss angegeben werden, wenn :values ausgefüllt wurde.',
     'required_without'     => ':attribute muss angegeben werden, wenn :values nicht ausgefüllt wurde.',
     'required_without_all' => ':attribute muss angegeben werden, wenn keines der Felder :values ausgefüllt wurde.',
+    'prohibited_if'        => 'The :attribute field is prohibited when :other is :value.',
+    'prohibited_unless'    => 'The :attribute field is prohibited unless :other is in :values.',
     'same'                 => ':attribute und :other müssen übereinstimmen.',
     'size'                 => [
         'numeric' => ':attribute muss gleich :size sein.',

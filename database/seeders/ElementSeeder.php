@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Chapter;
 use App\Models\ChoiceType;
 use App\Models\Element;
@@ -8,6 +10,7 @@ use App\Models\Text;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Yaml;
 
 class ElementSeeder extends Seeder
 {

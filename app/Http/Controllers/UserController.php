@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\User as UserResource;
 use App\Mail\LeadRegisterMail;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\Register;
 use Illuminate\Http\Request;
-use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
@@ -54,7 +54,7 @@ class UserController extends Controller
 
         $newUser->notify(new Register($newUser));
         Mail::to(config('mail.recipient.lead.address'))
-            ->sendNow(new LeadRegisterMail($newUser));
+            ->send(new LeadRegisterMail($newUser));
 
         return response('', 204);
     }

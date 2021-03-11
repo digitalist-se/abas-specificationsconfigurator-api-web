@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 /**
  * @mixin IdeHelperText
  */
 class Text extends BaseModel
 {
+    use HasFactory;
+
     protected $fillable = [
         'key',
         'locale',

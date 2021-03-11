@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use DatabaseSeeder;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Testing\TestResponse;
@@ -23,7 +23,7 @@ abstract class TestCase extends BaseTestCase
         $this->seed(DatabaseSeeder::class);
     }
 
-    public function assertStatus(TestResponse $response, $status)
+    public static function assertStatus(TestResponse $response, $status)
     {
         $actual = $response->getStatusCode();
         if ($response->baseResponse instanceof StreamedResponse) {

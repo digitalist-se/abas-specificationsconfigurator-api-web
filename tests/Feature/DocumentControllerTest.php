@@ -62,14 +62,14 @@ class DocumentControllerTest extends PassportTestCase
             'phone' => '',
         ]);
         $response = $this->get('/api/document/generate');
-        $this->assertStatus($response, 428);
+        static::assertStatus($response, 428);
     }
 
     public function test_generate_document()
     {
         Mail::fake();
         $response = $this->get('/api/document/generate');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $user = $this->user;
         Mail::assertQueued(DocumentGeneratedMail::class, function ($mail) use ($user) {
             /*

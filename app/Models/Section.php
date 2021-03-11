@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Responsibilities\HasIllustrationStates;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @mixin IdeHelperSection
@@ -10,6 +11,8 @@ use App\Responsibilities\HasIllustrationStates;
 class Section extends BaseModel
 {
     use HasIllustrationStates;
+    use HasFactory;
+
     protected $fillable = [
         'slug_name',
         'headline',
