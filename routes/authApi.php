@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 
 Route::get('/user', 'UserController@get');
 Route::put('/user', 'UserController@update');

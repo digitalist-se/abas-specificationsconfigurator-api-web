@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +12,8 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-/**
+
+/*
  * create new user.
  */
 Route::post('/user', 'UserController@create');
