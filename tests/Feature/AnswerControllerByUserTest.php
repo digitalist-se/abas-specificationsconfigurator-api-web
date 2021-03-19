@@ -11,11 +11,11 @@ class AnswerControllerByUserTest extends PassportTestCase
 {
     protected $role = Role::USER;
 
-    public function testGetList()
+    public function test_get_list()
     {
-        factory(Answer::class, 10)->create(['user_id' => $this->user->id]);
+        Answer::factory()->count(10)->create(['user_id' => $this->user->id]);
         $response = $this->getJson('/api/answers');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJsonCount(10);
         $response->assertJsonStructure(
             [
@@ -27,11 +27,11 @@ class AnswerControllerByUserTest extends PassportTestCase
         );
     }
 
-    public function testGetAnswer()
+    public function test_get_answer()
     {
-        $answer   = factory(Answer::class)->create(['user_id' => $this->user->id]);
+        $answer   = Answer::factory()->create(['user_id' => $this->user->id]);
         $response = $this->getJson('/api/answers/'.$answer->element_id);
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
 
         $response->assertJsonStructure(
             [
@@ -40,30 +40,30 @@ class AnswerControllerByUserTest extends PassportTestCase
         );
     }
 
-    public function testCreateAnswer()
+    public function test_create_answer()
     {
-        $element  = factory(Element::class)->create();
+        $element  = Element::factory()->create();
         $response = $this->putJson('/api/answers/'.$element->id, [
             'value' => ['text' => 'Das ist ein Test'],
         ]);
-        $this->assertStatus($response, 204);
+        static::assertStatus($response, 204);
         $response = $this->getJson('/api/answers/'.$element->id);
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJson([
             'value' => ['text' => 'Das ist ein Test'],
         ]);
     }
 
-    public function testStartFresh()
+    public function test_start_fresh()
     {
-        factory(Answer::class, 10)->create(['user_id' => $this->user->id]);
+        Answer::factory()->count(10)->create(['user_id' => $this->user->id]);
         $response = $this->getJson('/api/answers');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJsonCount(10);
         $response = $this->postJson('/api/answers/reset');
-        $this->assertStatus($response, 204);
+        static::assertStatus($response, 204);
         $response = $this->getJson('/api/answers');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJsonCount(0);
     }
 }

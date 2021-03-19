@@ -10,48 +10,48 @@ class TextControllerByAdminTest extends PassportTestCase
 {
     protected $role = Role::ADMIN;
 
-    public function testGetList()
+    public function test_get_list()
     {
         $response = $this->getJson('/api/texts');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJson([]);
         $texts = $response->json();
-        $this->assertNotEmpty($texts);
+        static::assertNotEmpty($texts);
         foreach ($texts as $key => $textObject) {
-            $this->assertTrue(is_string($key));
-            $this->assertTrue(is_string($textObject['key']));
-            $this->assertTrue(is_string($textObject['value']));
-            $this->assertNotEmpty($key);
-            $this->assertNotEmpty($textObject['key']);
-            $this->assertNotEmpty($textObject['value']);
+            static::assertTrue(is_string($key));
+            static::assertTrue(is_string($textObject['key']));
+            static::assertTrue(is_string($textObject['value']));
+            static::assertNotEmpty($key);
+            static::assertNotEmpty($textObject['key']);
+            static::assertNotEmpty($textObject['value']);
         }
     }
 
-    public function testUpdate()
+    public function test_update()
     {
-        $text          = factory(Text::class)->create();
+        $text          = Text::factory()->create();
         $newValue      = 'new Value';
         $response      = $this->putJson('/api/texts/'.$text->key, ['value' => $newValue]);
-        $this->assertStatus($response, 204);
+        static::assertStatus($response, 204);
 
         $response = $this->getJson('/api/texts');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJson([
             $text->key => ['value' => $newValue],
         ]);
     }
 
-    public function testCreate()
+    public function test_create()
     {
         $data      = [
             'key'   => 'random key',
             'value' => 'random value',
         ];
         $response = $this->postJson('/api/texts', $data);
-        $this->assertStatus($response, 204);
+        static::assertStatus($response, 204);
 
         $response = $this->getJson('/api/texts');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJson([
             $data['key'] => ['value' => $data['value']],
         ]);

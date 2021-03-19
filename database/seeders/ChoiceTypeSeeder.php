@@ -1,6 +1,12 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\ChoiceType;
+use App\Models\Text;
 use Illuminate\Database\Seeder;
+use RuntimeException;
+use Yaml;
 
 class ChoiceTypeSeeder extends Seeder
 {
@@ -15,7 +21,7 @@ class ChoiceTypeSeeder extends Seeder
             /*
              * @var \App\Models\ChoiceType
              */
-            $newChoiceType = \App\Models\ChoiceType::updateOrCreate(
+            $newChoiceType = ChoiceType::updateOrCreate(
                 ['type' => $type],
                 [
                     'tiles'    => $choiceType['tiles'] ?? false,
@@ -28,7 +34,7 @@ class ChoiceTypeSeeder extends Seeder
                 $textId  = null;
                 $valueId = null;
                 if (is_string($option)) {
-                    \App\Models\Text::updateOrCreate([
+                    Text::updateOrCreate([
                         'key'   => $i18nId,
                         ], [
                         'value' => $option,
@@ -37,13 +43,13 @@ class ChoiceTypeSeeder extends Seeder
                     $valueId = $i18nId;
                 } elseif (is_array($option)) {
                     $textId = $i18nId.'.text';
-                    \App\Models\Text::updateOrCreate([
+                    Text::updateOrCreate([
                         'key'   => $textId,
                     ], [
                         'value' => $option['text'],
                     ]);
                     $valueId = $i18nId.'.value';
-                    \App\Models\Text::updateOrCreate([
+                    Text::updateOrCreate([
                         'key'   => $valueId,
                     ], [
                         'value'  => $option['value'],
@@ -51,7 +57,7 @@ class ChoiceTypeSeeder extends Seeder
                     ]);
                 }
                 if (!$textId || !$valueId) {
-                    throw new \RuntimeException('invalid choice option config');
+                    throw new RuntimeException('invalid choice option config');
                 }
                 $newChoiceType->options()->updateOrCreate(
                     [
@@ -66,7 +72,7 @@ class ChoiceTypeSeeder extends Seeder
                 );
                 if (isset($option['other'])) {
                     $textId = $i18nId.'.other.content';
-                    \App\Models\Text::updateOrCreate([
+                    Text::updateOrCreate([
                         'key'   => $textId,
                     ], [
                         'value' => $option['other'],
@@ -74,7 +80,7 @@ class ChoiceTypeSeeder extends Seeder
                 }
                 if (isset($option['otherhint'])) {
                     $textId = $i18nId.'.other.sub_content';
-                    \App\Models\Text::updateOrCreate([
+                    Text::updateOrCreate([
                         'key'   => $textId,
                     ], [
                         'value' => $option['otherhint'],

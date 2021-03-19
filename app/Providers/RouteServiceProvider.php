@@ -6,42 +6,55 @@ use App\Models\Chapter;
 use App\Models\Element;
 use App\Models\Section;
 use App\Models\Text;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to your controller routes.
+     * The path to the "home" route for your application.
      *
-     * In addition, it is set as the URL generator's root namespace.
+     * This is used by Laravel authentication to redirect users after login.
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    public const HOME = '/home';
+
+    /**
+     * The controller namespace for the application.
+     *
+     * When present, controller route declarations will automatically be prefixed with this namespace.
+     *
+     * @var string|null
+     */
+    // protected $namespace = 'App\\Http\\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
+     *
+     * @return void
      */
     public function boot()
     {
         parent::boot();
+
+        $this->configureRateLimiting();
+
         $this->bindTextByKey();
         $this->bindChapterById();
         $this->bindSectionById();
         $this->bindElementById();
-    }
 
-    /**
-     * Define the routes for the application.
-     */
-    public function map()
-    {
-        $this->mapApiRoutes();
-        $this->mapAuthorizedApiRoutes();
+        $this->routes(function () {
+            $this->mapApiRoutes();
+            $this->mapAuthorizedApiRoutes();
 
-        $this->mapWebRoutes();
-        $this->mapAppRoutes();
+            $this->mapWebRoutes();
+            $this->mapAppRoutes();
+        });
     }
 
     protected function bindTextByKey()
@@ -119,5 +132,17 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware(['api', 'auth:api'])
             ->namespace($this->namespace)
             ->group(base_path('routes/authApi.php'));
+    }
+
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * @return void
+     */
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
     }
 }

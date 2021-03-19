@@ -16,7 +16,7 @@ class PasswordController extends Controller
             return Hash::check($value, current($parameters));
         });
         $this->validate($request, [
-            'password'     => 'required|confirmed|min:6',
+            'password'     => 'required|confirmed|min:8',
             'password_old' => 'required|password_old:'.$user->password,
         ]);
         if ($request->input('password')) {

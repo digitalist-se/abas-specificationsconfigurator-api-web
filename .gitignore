@@ -21,17 +21,19 @@
 .env
 .env.backup
 .phpunit.result.cache
+docker-compose.override.yml
 .env.production
 .env.staging
 
 npm-debug.log
 yarn-error.log
 _ide_helper.php
+_ide_helper_models.php
+.phpstorm.meta.php
 .php_cs.cache
 .phpintel/
 .sass-cache/
 puphpet/config-custom.yaml
-.phpstorm.meta.php
 aliases
 auth.json
 database.sqlite

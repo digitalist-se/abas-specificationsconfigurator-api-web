@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\IllustrationController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,9 +15,9 @@
 |
 */
 
-Route::get('/', 'FrontendController@index')->name('landingpage');
-Route::get('/impressum', 'FrontendController@imprint')->name('imprint');
-Route::get('/datenschutz', 'FrontendController@dataPrivacy')->name('data-privacy');
-Route::get('/tutorial', 'FrontendController@tutorial')->name('tutorial');
+Route::get('/', [FrontendController::class, 'index'])->name('landingpage');
+Route::get('/impressum', [FrontendController::class, 'imprint'])->name('imprint');
+Route::get('/datenschutz', [FrontendController::class, 'dataPrivacy'])->name('data-privacy');
+Route::get('/tutorial', [FrontendController::class, 'tutorial'])->name('tutorial');
 
-Route::get('/business-illustration.svg', 'IllustrationController@get');
+Route::get('/business-illustration.svg', [IllustrationController::class, 'get']);

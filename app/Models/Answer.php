@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 /**
  * Class Answer.
  *
  * @property object $value
+ * @mixin IdeHelperAnswer
  */
 class Answer extends BaseModel
 {
+    use HasFactory;
+
     protected $fillable = [
         'value',
         'user_id',

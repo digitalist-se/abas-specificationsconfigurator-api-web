@@ -2,15 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Lang;
 use Laravel\Passport\HasApiTokens;
-use App\Notifications\ResetPassword as ResetPasswordNotification;
 
+/**
+ * @property \App\Models\Role $role
+ * @mixin IdeHelperUser
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens;
+    use Notifiable;
+    use HasFactory;
 
     const REQUIRED_FIELDS_FOR_SPECIFICATION = [
         'name',
@@ -35,7 +42,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-
         'sex',
         'company_name',
         'phone',
@@ -68,7 +74,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'role' => 'int',
+        'role'              => 'int',
+        'email_verified_at' => 'datetime',
     ];
 
     /**
@@ -118,9 +125,9 @@ class User extends Authenticatable
     {
         if ($this->sex) {
             return Lang::get('email.salutation.'.$this->sex);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     public function getZipcodeAndCityAttribute()

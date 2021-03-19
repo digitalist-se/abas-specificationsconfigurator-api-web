@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\Text;
 use Illuminate\Database\Seeder;
 
 class DocumentTextsSeeder extends Seeder
@@ -13,7 +16,7 @@ class DocumentTextsSeeder extends Seeder
 
     protected function text($key, $value)
     {
-        \App\Models\Text::updateOrCreate(
+        Text::updateOrCreate(
             ['key' => $key],
             ['value' => $value]
         );
