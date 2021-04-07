@@ -4,6 +4,7 @@ use Database\Seeders\BlacklistedEmailDomainSeeder;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use \Illuminate\Support\Facades\App;
 
 
 class CreateBlacklistedEmailDomainsTable extends Migration
@@ -21,9 +22,10 @@ class CreateBlacklistedEmailDomainsTable extends Migration
             $table->string('name', 100)->unique();
         });
 
-        $seeder = new BlacklistedEmailDomainSeeder();
-        $seeder->run();
-
+        if (!App::environment('testing')) {
+            $seeder = new BlacklistedEmailDomainSeeder();
+            $seeder->run();
+        }
     }
 
     /**
