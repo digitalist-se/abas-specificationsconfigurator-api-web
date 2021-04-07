@@ -15,13 +15,12 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Seed Database
-        $this->seed(DatabaseSeeder::class);
-    }
+    /**
+     * Indicates whether the default seeder should run before each test.
+     *
+     * @var bool
+     */
+    protected $seed = true;
 
     public static function assertStatus(TestResponse $response, $status)
     {
