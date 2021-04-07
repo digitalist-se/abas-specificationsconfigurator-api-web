@@ -67,14 +67,17 @@ bash: ## open docker bash via ssh
 bash-root: ## open docker bash via ssh as root
 	bash -c "docker-compose exec -u root web bash"
 
-bash-db: ## open docker bash via ssh as root
-	bash -c "docker-compose exec db bash"
-
 zsh: ## open docker zsh with oh-my-zsh via ssh
 	bash -c "docker-compose exec -u www-data web zsh"
 
 zsh-root: ## open docker zsh with oh-my-zsh via ssh as root
 	bash -c "docker-compose exec -u root web zsh"
+
+bash-db: ## open docker bash via ssh as root
+	bash -c "docker-compose exec db bash"
+
+mysql: ## Go into mysql bash console as $(DB_USERNAME) user
+	bash -c "docker-compose exec db bash -c \"mysql -u$(DB_USERNAME) -p$(DB_PASSWORD)\""
 
 ## Forwarding commands
 #################################
