@@ -20,10 +20,13 @@ class BlacklistedEmailDomainSeeder extends Seeder
 
         $fd = fopen($fileName, 'r');
         if ($fd) {
+            $data = [];
             while (($line = fgets($fd)) !== false) {
                 $domainName = strtolower(trim($line));
-                BlacklistedEmailDomain::firstOrCreate(['name' => $domainName]);
+                $data[] = ['name' => $domainName];
             }
+
+            BlacklistedEmailDomain::upsert($data, ['name'], ['name']);
 
             fclose($fd);
         } else {
