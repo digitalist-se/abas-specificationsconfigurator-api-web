@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="bd1173d3-f941-410f-9fdf-7c539f8334ce" name="docker" url="http://localhost">
-        <fileTransfer accessType="SFTP" sshConfigId="add8aca3-a74a-4c3d-8770-0ded11211da1" sshConfig="docker">
+      <webServer id="bd1173d3-f941-410f-9fdf-7c539f8334ce" name="Docker" url="http://localhost">
+        <fileTransfer accessType="SFTP" host="localhost" port="2222" sshConfigId="7e7c2b3e-862e-4aec-bb6c-196dfb8456ea" sshConfig="Docker" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

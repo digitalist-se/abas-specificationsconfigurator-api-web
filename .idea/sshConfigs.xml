@@ -2,7 +2,9 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig host="localhost" id="3134c47b-374c-4c72-95db-9e3abe93806e" keyPath="$PROJECT_DIR$/.docker/web/ssh/insecure_id_rsa" port="2222" customName="docker" nameFormat="CUSTOM" username="tester" />
+      <sshConfig host="localhost" id="7e7c2b3e-862e-4aec-bb6c-196dfb8456ea" keyPath="$PROJECT_DIR$/.docker/web/ssh/insecure_id_rsa" port="2222" customName="Docker" nameFormat="CUSTOM" username="tester">
+        <option name="customName" value="Docker" />
+      </sshConfig>
     </configs>
   </component>
 </project>
