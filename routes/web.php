@@ -15,9 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [FrontendController::class, 'index'])->name('landingpage');
-Route::get('/impressum', [FrontendController::class, 'imprint'])->name('imprint');
-Route::get('/datenschutz', [FrontendController::class, 'dataPrivacy'])->name('data-privacy');
-Route::get('/tutorial', [FrontendController::class, 'tutorial'])->name('tutorial');
+Route::get('/', [FrontendController::class, 'index']);
+Route::get('/impressum', [FrontendController::class, 'imprint']);
+Route::get('/datenschutz', [FrontendController::class, 'dataPrivacy']);
+Route::get('/tutorial', [FrontendController::class, 'tutorial']);
 
 Route::get('/business-illustration.svg', [IllustrationController::class, 'get']);
+
+Route::domain(config('app.app-www-url'))
+    ->group(function () {
+        Route::get('/')->name('landingpage');
+        Route::get('/impressum')->name('imprint');
+        Route::get('/datenschutzerklaerung')->name('data-privacy');
+        Route::get('/tutorial')->name('tutorial');
+    });

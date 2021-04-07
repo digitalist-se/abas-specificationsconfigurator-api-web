@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ChoiceTypeSeeder::class);
         $this->call(ElementSeeder::class);
         $this->call(DemoUserSeeder::class);
+        $this->call(BlacklistedEmailDomainSeeder::class);
     }
 }

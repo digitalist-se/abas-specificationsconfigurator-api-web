@@ -10,6 +10,8 @@ use RuntimeException;
 
 class DocumentController extends Controller
 {
+    const EXPORT_PATH = 'app/export';
+
     /**
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
      *
@@ -22,7 +24,7 @@ class DocumentController extends Controller
         if (!$user->hasAllRequiredFieldsForSpecificationDocument()) {
             return response('', 428);
         }
-        $outputDir = storage_path('app/export');
+        $outputDir = storage_path(self::EXPORT_PATH);
         if (!is_dir($outputDir)) {
             if (!mkdir($outputDir) && !is_dir($outputDir)) {
                 throw new RuntimeException("Directory '{$outputDir}' was not created");

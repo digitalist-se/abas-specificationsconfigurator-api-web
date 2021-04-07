@@ -104,6 +104,9 @@ return [
     |
     */
     'custom' => [
+        'email' => [
+            'checkdomains' => 'Bitte verwenden Sie eine Business-E-Mail',
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

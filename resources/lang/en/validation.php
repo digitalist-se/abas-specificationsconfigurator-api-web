@@ -130,6 +130,9 @@ return [
     */
 
     'custom' => [
+        'email' => [
+            'checkdomains' => 'Please use a valid Business-E-Mail',
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
