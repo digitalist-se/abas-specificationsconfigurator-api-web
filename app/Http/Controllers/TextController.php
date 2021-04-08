@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Text as TextResource;
 use App\Models\Role;
 use App\Models\Text;
 use Illuminate\Http\Request;
-use App\Http\Resources\Text as TextResource;
 
 class TextController extends Controller
 {

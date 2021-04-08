@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+/**
+ * @mixin IdeHelperChoiceType
+ */
 class ChoiceType extends BaseModel
 {
     protected $fillable = [

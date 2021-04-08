@@ -3,15 +3,19 @@
 namespace App\Models;
 
 use App\Responsibilities\HasIllustrationStates;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class Chapter
- * @package App\Models
+ * Class Chapter.
+ *
  * @property int $worksheet
+ * @mixin IdeHelperChapter
  */
 class Chapter extends BaseModel
 {
     use HasIllustrationStates;
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'print_name',
@@ -20,7 +24,7 @@ class Chapter extends BaseModel
         'description',
         'print_description',
         'illustration_states',
-        'worksheet'
+        'worksheet',
     ];
 
     protected $attributes = [

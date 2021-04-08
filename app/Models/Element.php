@@ -3,18 +3,20 @@
 namespace App\Models;
 
 use App\Responsibilities\HasIllustrationStates;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class Element
- * @package App\Models
- * @property string $document_cell
- * @property integer $document_row
+ * Class Element.
+ *
+ * @mixin IdeHelperElement
  */
 class Element extends BaseModel
 {
     use HasIllustrationStates;
+    use HasFactory;
+
     const DOCUMENT_COLUMN_OFFSET = 'C';
-    protected $fillable = [
+    protected $fillable          = [
         'id',
         'section_id',
         'type',
@@ -32,7 +34,7 @@ class Element extends BaseModel
         'min',
         'max',
         'illustration_states',
-        'document_row'
+        'document_row',
     ];
 
     protected $hidden = [

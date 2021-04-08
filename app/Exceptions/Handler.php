@@ -2,9 +2,10 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -15,39 +16,18 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         ValidationException::class,
-        \League\OAuth2\Server\Exception\OAuthServerException::class,
+        OAuthServerException::class,
     ];
 
     /**
-     * A list of the inputs that are never flashed for validation exceptions.
+     * Register the exception handling callbacks for the application.
      *
-     * @var array
+     * @return void
      */
-    protected $dontFlash = [
-        'password',
-        'password_confirmation',
-    ];
-
-    /**
-     * Report or log an exception.
-     *
-     * @param \Exception $exception
-     */
-    public function report(Exception $exception)
+    public function register()
     {
-        parent::report($exception);
-    }
-
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $exception)
-    {
-        return parent::render($request, $exception);
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 }

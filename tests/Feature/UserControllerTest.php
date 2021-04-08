@@ -8,13 +8,13 @@ use Tests\PassportTestCase;
 
 class UserControllerTest extends PassportTestCase
 {
-    protected $role = Role::USER;
     use WithFaker;
+    protected $role = Role::USER;
 
-    public function testGetUser()
+    public function test_get_user()
     {
         $response = $this->getJson('/api/user');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJson([
             'name'  => $this->user->name,
             'email' => $this->user->email,
@@ -22,7 +22,7 @@ class UserControllerTest extends PassportTestCase
         ]);
     }
 
-    public function testUpdateWholeUser()
+    public function test_update_whole_user()
     {
         $requestBody = [
             'name'                  => 'Max Muster',
@@ -41,23 +41,23 @@ class UserControllerTest extends PassportTestCase
             'country'                => 'Deutschland',
         ];
         $response = $this->putJson('/api/user', $requestBody);
-        $this->assertStatus($response, 204);
+        static::assertStatus($response, 204);
         $response = $this->getJson('/api/user');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $expectingResponse         = $requestBody;
         $expectingResponse['role'] = Role::USER;
         $response->assertJson($expectingResponse);
     }
 
-    public function testUpdateEmailOfUser()
+    public function test_update_email_of_user()
     {
         $requestBody = [
             'email'                 => 'max.muster@company.com',
         ];
         $response = $this->putJson('/api/user', $requestBody);
-        $this->assertStatus($response, 204);
+        static::assertStatus($response, 204);
         $response = $this->getJson('/api/user');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $expectingResponse         = $requestBody;
         $expectingResponse['role'] = Role::USER;
         $response->assertJson($requestBody);

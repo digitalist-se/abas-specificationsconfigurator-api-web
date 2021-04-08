@@ -1,47 +1,34 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+use App\Models\Element;
+use App\Models\Section;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(App\Models\Chapter::class, function (Faker $faker) {
-});
+class ElementFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Element::class;
 
-$factory->define(App\Models\Section::class, function (Faker $faker) {
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $section = Section::factory()->create();
 
-$factory->define(App\Models\Element::class, function (Faker $faker) {
-    $text = factory(\App\Models\Text::class)->create();
-    $chapter = \App\Models\Chapter::create([
-        'name'            => $text->key,
-        'print_name'      => $text->key,
-        'slug_name'       => str_slug($text->value),
-        'sort'            => 0,
-    ]);
-    $section = \App\Models\Section::create([
-        'headline'    => $text->key,
-        'description' => $text->key,
-        'slug_name'   => str_slug($text->value),
-        'sort'        => 0,
-        'chapter_id'  => $chapter->id,
-    ]);
-
-    return [
-        'section_id' => $section->id,
-        'type'       => 'text',
-
-        'content' => $text->key,
-        'sort'    => 0,
-
+        return [
+            'section_id' => $section->id,
+            'type'       => 'text',
+            'content'    => $section->headline,
+            'sort'       => 0,
 //        // choice type values:
 //        'choice_type_id',
 //
@@ -49,14 +36,6 @@ $factory->define(App\Models\Element::class, function (Faker $faker) {
 //        'steps',
 //        'min',
 //        'max',
-    ];
-});
-
-$factory->define(App\Models\Answer::class, function (Faker $faker) {
-    $element = factory(App\Models\Element::class)->create();
-
-    return [
-        'element_id' => $element,
-        'value'      => $faker->text,
-    ];
-});
+        ];
+    }
+}

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Chapter;
 use App\Http\Resources\Section as SectionResource;
+use App\Models\Chapter;
 
 class SectionController extends Controller
 {

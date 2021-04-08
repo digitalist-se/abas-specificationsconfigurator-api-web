@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,15 +11,15 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css')
+mix.js('resources/js/app.js', 'public/js')
+   .sass('resources/sass/app.scss', 'public/css')
     .copy([
-        'resources/assets/images/**/*.jpg',
-        'resources/assets/images/**/*.png',
-        'resources/assets/images/**/*.svg',
+        'resources/images/**/*.jpg',
+        'resources/images/**/*.png',
+        'resources/images/**/*.svg',
     ], 'public/images/')
     .copy([
-        'resources/assets/favicons/*.*',
+        'resources/favicons/*.*',
     ], 'public/favicons/')
     .combine([
         'node_modules/normalize.css/normalize.css',

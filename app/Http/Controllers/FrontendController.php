@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Cookie;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 class FrontendController extends Controller
 {
     protected function getPartnerTracking()
     {
-        $pid = Input::get('pid');
+        $pid = Request::input('pid');
 
         $pidTracking = null;
         if (!is_null($pid)) {

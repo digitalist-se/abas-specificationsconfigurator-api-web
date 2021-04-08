@@ -6,6 +6,7 @@ use App\Http\Resources\SpecificationDocument;
 use App\Mail\DocumentGeneratedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use RuntimeException;
 
 class DocumentController extends Controller
 {
@@ -25,7 +26,9 @@ class DocumentController extends Controller
         }
         $outputDir = storage_path(self::EXPORT_PATH);
         if (!is_dir($outputDir)) {
-            mkdir($outputDir);
+            if (!mkdir($outputDir) && !is_dir($outputDir)) {
+                throw new RuntimeException("Directory '{$outputDir}' was not created");
+            }
         }
         $answers               = $user->answers()->get();
         $specificationDocument = new SpecificationDocument($outputDir, $user, $answers);
@@ -33,7 +36,7 @@ class DocumentController extends Controller
         $mail = new DocumentGeneratedMail($user);
         $mail->attach($specificationDocument->outputZipFilename());
         Mail::to(config('mail.recipient.lead.address'))
-            ->sendNow($mail);
+            ->send($mail);
 
         return $specificationDocument->toResponse($request);
     }

@@ -9,13 +9,13 @@ class SectionControllerByUserTest extends PassportTestCase
 {
     protected $role = Role::USER;
 
-    public function testGetList()
+    public function test_get_list()
     {
         $response = $this->getJson('/api/chapters');
         $chapters = $response->json();
         foreach ($chapters as $chapter) {
             $response = $this->getJson('/api/sections/'.$chapter['id']);
-            $this->assertStatus($response, 200);
+            static::assertStatus($response, 200);
             $response->assertJsonStructure([
                 '*' => [
                     'id',
@@ -25,7 +25,7 @@ class SectionControllerByUserTest extends PassportTestCase
             ]);
 
             $sections = $response->json();
-            $this->assertNotEmpty($chapters);
+            static::assertNotEmpty($chapters);
             foreach ($sections as $section) {
                 if ($section['has_headline']) {
                     $this->assertTextWithKeyIsGiven($section, 'headline');

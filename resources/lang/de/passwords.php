@@ -12,6 +12,6 @@ return [
     |
     */
 
-    'password' => 'Passwörter müssen mindestens 6 Zeichen lang sein und korrekt bestätigt werden.',
+    'password' => 'Passwörter müssen mindestens 8 Zeichen lang sein und korrekt bestätigt werden.',
     'token'    => 'Der Passwort-Wiederherstellungs-Schlüssel ist ungültig oder abgelaufen.',
 ];

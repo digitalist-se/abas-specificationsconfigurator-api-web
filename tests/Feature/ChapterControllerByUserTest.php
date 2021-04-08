@@ -9,10 +9,10 @@ class ChapterControllerByUserTest extends PassportTestCase
 {
     protected $role = Role::USER;
 
-    public function testGetList()
+    public function test_get_list()
     {
         $response = $this->getJson('/api/chapters');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $response->assertJsonStructure([
             '*' => [
                 'id',
@@ -20,7 +20,7 @@ class ChapterControllerByUserTest extends PassportTestCase
             ],
         ]);
         $chapters = $response->json();
-        $this->assertNotEmpty($chapters);
+        static::assertNotEmpty($chapters);
         foreach ($chapters as $chapter) {
             $this->assertTextWithKeyIsGiven($chapter, 'name');
         }

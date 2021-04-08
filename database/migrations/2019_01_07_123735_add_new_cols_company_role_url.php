@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddNewColsCompanyRoleUrl extends Migration
 {
@@ -28,27 +28,21 @@ class AddNewColsCompanyRoleUrl extends Migration
     public function down()
     {
         if (Schema::hasColumn('users', 'user_company')) {
-
             Schema::table('users', function (Blueprint $table) {
                 $table->dropColumn('user_company');
             });
-            
         }
 
         if (Schema::hasColumn('users', 'user_role')) {
-
             Schema::table('users', function (Blueprint $table) {
                 $table->dropColumn('user_role');
             });
-            
         }
 
         if (Schema::hasColumn('users', 'user_url')) {
-
             Schema::table('users', function (Blueprint $table) {
                 $table->dropColumn('user_url');
             });
-            
         }
     }
 }

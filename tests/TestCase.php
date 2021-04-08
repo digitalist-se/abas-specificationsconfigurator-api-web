@@ -2,26 +2,27 @@
 
 namespace Tests;
 
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Foundation\Testing\TestResponse;
+use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, RefreshDatabase;
+    use CreatesApplication;
+    use RefreshDatabase;
 
-    protected function setUp()
-    {
-        parent::setUp();
+    /**
+     * Indicates whether the default seeder should run before each test.
+     *
+     * @var bool
+     */
+    protected $seed = true;
 
-        // Seed Database
-        $this->seed(\DatabaseSeeder::class);
-    }
-
-    public function assertStatus(TestResponse $response, $status)
+    public static function assertStatus(TestResponse $response, $status)
     {
         $actual = $response->getStatusCode();
         if ($response->baseResponse instanceof StreamedResponse) {

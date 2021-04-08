@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\IllustrationController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,12 +15,12 @@
 |
 */
 
-Route::get('/', 'FrontendController@index');
-Route::get('/impressum', 'FrontendController@imprint');
-Route::get('/datenschutz', 'FrontendController@dataPrivacy');
-Route::get('/tutorial', 'FrontendController@tutorial');
+Route::get('/', [FrontendController::class, 'index']);
+Route::get('/impressum', [FrontendController::class, 'imprint']);
+Route::get('/datenschutz', [FrontendController::class, 'dataPrivacy']);
+Route::get('/tutorial', [FrontendController::class, 'tutorial']);
 
-Route::get('/business-illustration.svg', 'IllustrationController@get');
+Route::get('/business-illustration.svg', [IllustrationController::class, 'get']);
 
 Route::domain(config('app.app-www-url'))
     ->group(function () {

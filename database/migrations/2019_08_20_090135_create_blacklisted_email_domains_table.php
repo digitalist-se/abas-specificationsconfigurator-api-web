@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-
 class CreateBlacklistedEmailDomainsTable extends Migration
 {
     /**
@@ -19,10 +18,6 @@ class CreateBlacklistedEmailDomainsTable extends Migration
             $table->timestamps();
             $table->string('name', 100)->unique();
         });
-
-        $seeder = new BlacklistedEmailDomainSeeder();
-        $seeder->run();
-
     }
 
     /**

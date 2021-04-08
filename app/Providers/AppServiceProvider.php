@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -14,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Resource::withoutWrapping();
+        JsonResource::withoutWrapping();
 
         // Reduce default string length to avoid mysql 5.6.x innodb errors
         // due to maximal string index length of 767 bytes with mb4 encoding
@@ -30,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         if ('local' === $this->app->environment()) {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            $this->app->register(IdeHelperServiceProvider::class);
         }
     }
 }

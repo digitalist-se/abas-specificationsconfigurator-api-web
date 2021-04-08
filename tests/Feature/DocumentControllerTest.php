@@ -16,7 +16,7 @@ class DocumentControllerTest extends PassportTestCase
     use WithFaker;
     protected $role = Role::USER;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->deleteAllExportFilesOfUser();
@@ -41,7 +41,7 @@ class DocumentControllerTest extends PassportTestCase
         ]);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->deleteAllExportFilesOfUser();
         parent::tearDown();
@@ -55,21 +55,21 @@ class DocumentControllerTest extends PassportTestCase
         }
     }
 
-    public function testGenerateDocumentWithoutPhone()
+    public function test_generate_document_without_phone()
     {
         Mail::fake();
         $this->user->update([
             'phone' => '',
         ]);
         $response = $this->get('/api/document/generate');
-        $this->assertStatus($response, 428);
+        static::assertStatus($response, 428);
     }
 
-    public function testGenerateDocument()
+    public function test_generate_document()
     {
         Mail::fake();
         $response = $this->get('/api/document/generate');
-        $this->assertStatus($response, 200);
+        static::assertStatus($response, 200);
         $user = $this->user;
         Mail::assertQueued(DocumentGeneratedMail::class, function ($mail) use ($user) {
             /*
