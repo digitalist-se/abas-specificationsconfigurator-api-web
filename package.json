@@ -1,13 +1,13 @@
 {
   "private": true,
   "scripts": {
-    "dev": "yarn run development",
-    "development": "yarn mix",
-    "watch": "yarn mix watch",
-    "watch-poll": "yarn mix watch -- --watch-options-poll=1000",
-    "hot": "yarn mix watch --hot",
-    "prod": "yarn run production",
-    "production": "yarn mix --production"
+    "dev": "yarn development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "yarn production",
+    "production": "mix --production"
   },
   "devDependencies": {
     "axios": "^0.21",
