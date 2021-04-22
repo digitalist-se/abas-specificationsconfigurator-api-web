@@ -12,6 +12,8 @@ return [
     |
     */
 
-    'password' => 'Passwörter müssen mindestens 8 Zeichen lang sein und korrekt bestätigt werden.',
+    'reset'    => 'Your password has been reset!',
+    'sent'     => 'We have emailed your password reset link!',
     'token'    => 'Der Passwort-Wiederherstellungs-Schlüssel ist ungültig oder abgelaufen.',
+    'user'     => "We can't find a user with that email address.",
 ];

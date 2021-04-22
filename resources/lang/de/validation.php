@@ -11,6 +11,7 @@ return [
     | as the size rules. Feel free to tweak each of these messages.
     |
     */
+
     'accepted'        => ':attribute muss akzeptiert werden.',
     'active_url'      => ':attribute ist keine gültige Internet-Adresse.',
     'after'           => ':attribute muss ein Datum nach dem :date sein.',
@@ -41,6 +42,18 @@ return [
     'exists'         => 'Der gewählte Wert für :attribute ist ungültig.',
     'file'           => ':attribute muss eine Datei sein.',
     'filled'         => ':attribute muss ausgefüllt sein.',
+    'gt'                   => [
+        'numeric' => 'The :attribute must be greater than :value.',
+        'file'    => 'The :attribute must be greater than :value kilobytes.',
+        'string'  => 'The :attribute must be greater than :value characters.',
+        'array'   => 'The :attribute must have more than :value items.',
+    ],
+    'gte'                  => [
+        'numeric' => 'The :attribute must be greater than or equal :value.',
+        'file'    => 'The :attribute must be greater than or equal :value kilobytes.',
+        'string'  => 'The :attribute must be greater than or equal :value characters.',
+        'array'   => 'The :attribute must have :value items or more.',
+    ],
     'image'          => ':attribute muss ein Bild sein.',
     'in'             => 'Der gewählte Wert für :attribute ist ungültig.',
     'in_array'       => 'Der gewählte Wert für :attribute kommt nicht in :other vor.',
@@ -49,6 +62,18 @@ return [
     'ipv4'           => ':attribute muss eine gültige IPv4-Adresse sein.',
     'ipv6'           => ':attribute muss eine gültige IPv6-Adresse sein.',
     'json'           => ':attribute muss ein gültiger JSON-String sein.',
+    'lt'                   => [
+        'numeric' => 'The :attribute must be less than :value.',
+        'file'    => 'The :attribute must be less than :value kilobytes.',
+        'string'  => 'The :attribute must be less than :value characters.',
+        'array'   => 'The :attribute must have less than :value items.',
+    ],
+    'lte'                  => [
+        'numeric' => 'The :attribute must be less than or equal :value.',
+        'file'    => 'The :attribute must be less than or equal :value kilobytes.',
+        'string'  => 'The :attribute must be less than or equal :value characters.',
+        'array'   => 'The :attribute must not have more than :value items.',
+    ],
     'max'            => [
         'numeric' => ':attribute darf maximal :max sein.',
         'file'    => ':attribute darf maximal :max Kilobytes groß sein.',
@@ -68,7 +93,10 @@ return [
     'not_regex'            => 'Das Format für :attribute ist ungültig.',
     'numeric'              => ':attribute muss eine Zahl sein.',
     'password'             => 'Das Password entpricht nicht den Passwortregeln.',
+    'password_old'         => ':attribute stimmt nicht mit dem alten Password überein.',
     'present'              => 'Das Feld :attribute muss vorhanden sein.',
+    'prohibited_if'        => 'The :attribute field is prohibited when :other is :value.',
+    'prohibited_unless'    => 'The :attribute field is prohibited unless :other is in :values.',
     'regex'                => ':attribute Format ist ungültig.',
     'required'             => ':attribute muss ausgefüllt sein.',
     'required_if'          => ':attribute muss ausgefüllt sein, wenn :other :value ist.',
@@ -77,8 +105,6 @@ return [
     'required_with_all'    => ':attribute muss angegeben werden, wenn :values ausgefüllt wurde.',
     'required_without'     => ':attribute muss angegeben werden, wenn :values nicht ausgefüllt wurde.',
     'required_without_all' => ':attribute muss angegeben werden, wenn keines der Felder :values ausgefüllt wurde.',
-    'prohibited_if'        => 'The :attribute field is prohibited when :other is :value.',
-    'prohibited_unless'    => 'The :attribute field is prohibited unless :other is in :values.',
     'same'                 => ':attribute und :other müssen übereinstimmen.',
     'size'                 => [
         'numeric' => ':attribute muss gleich :size sein.',
@@ -92,7 +118,6 @@ return [
     'unique'       => ':attribute ist schon vergeben.',
     'uploaded'     => 'Der :attribute konnte nicht hochgeladen werden.',
     'url'          => 'Das Format von :attribute ist ungültig.',
-    'password_old' => ':attribute stimmt nicht mit dem alten Password überein.',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -103,6 +128,7 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
+
     'custom' => [
         'email' => [
             'checkdomains' => 'Bitte verwenden Sie eine Business-E-Mail',
@@ -111,6 +137,7 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes
