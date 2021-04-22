@@ -8,7 +8,7 @@ return [
     |
     | The following language lines contain the default error messages used by
     | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
+    | as the size rules. Feel free to tweak each of these messages.
     |
     */
 
@@ -93,7 +93,10 @@ return [
     'not_regex'            => 'The :attribute format is invalid.',
     'numeric'              => 'The :attribute must be a number.',
     'password'             => 'The password is incorrect.',
+    'password_old'         => ':attribute stimmt nicht mit dem alten Password überein.',
     'present'              => 'The :attribute field must be present.',
+    'prohibited_if'        => 'The :attribute field is prohibited when :other is :value.',
+    'prohibited_unless'    => 'The :attribute field is prohibited unless :other is in :values.',
     'regex'                => 'The :attribute format is invalid.',
     'required'             => 'The :attribute field is required.',
     'required_if'          => 'The :attribute field is required when :other is :value.',
@@ -102,8 +105,6 @@ return [
     'required_with_all'    => 'The :attribute field is required when :values is present.',
     'required_without'     => 'The :attribute field is required when :values is not present.',
     'required_without_all' => 'The :attribute field is required when none of :values are present.',
-    'prohibited_if'        => 'The :attribute field is prohibited when :other is :value.',
-    'prohibited_unless'    => 'The :attribute field is prohibited unless :other is in :values.',
     'same'                 => 'The :attribute and :other must match.',
     'size'                 => [
         'numeric' => 'The :attribute must be :size.',
@@ -148,6 +149,36 @@ return [
     | of "email". This simply helps us make messages a little cleaner.
     |
     */
-
-    'attributes' => [],
+    'attributes' => [
+        'name'                  => 'Name',
+        'username'              => 'Benutzername',
+        'email'                 => 'E-Mail-Adresse',
+        'first_name'            => 'Vorname',
+        'last_name'             => 'Nachname',
+        'password'              => 'Passwort',
+        'password_old'          => 'Passwort',
+        'password_confirmation' => 'Passwort-Bestätigung',
+        'city'                  => 'Stadt',
+        'country'               => 'Land',
+        'address'               => 'Adresse',
+        'phone'                 => 'Telefonnummer',
+        'mobile'                => 'Handynummer',
+        'age'                   => 'Alter',
+        'sex'                   => 'Geschlecht',
+        'gender'                => 'Geschlecht',
+        'day'                   => 'Tag',
+        'month'                 => 'Monat',
+        'year'                  => 'Jahr',
+        'hour'                  => 'Stunde',
+        'minute'                => 'Minute',
+        'second'                => 'Sekunde',
+        'title'                 => 'Titel',
+        'content'               => 'Inhalt',
+        'description'           => 'Beschreibung',
+        'excerpt'               => 'Auszug',
+        'date'                  => 'Datum',
+        'time'                  => 'Uhrzeit',
+        'available'             => 'verfügbar',
+        'size'                  => 'Größe',
+    ],
 ];
