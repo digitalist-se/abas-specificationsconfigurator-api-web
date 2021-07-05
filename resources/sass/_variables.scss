@@ -5,54 +5,54 @@
   */
 
 /*
- colors of evolvio (affiliated company of abas software)
+ colors of abas (affiliated company of abas software)
 
  not use this colors directly in components.
  use context based variable naming.
- example: toolbar should be dark blue. instead of using $evolvio-color-dark in component we would use $toolbar-background.
+ example: toolbar should be dark blue. instead of using $abas-color-dark in component we would use $toolbar-background.
  */
-$evolvio-color-blue: #008bd0;
-$evolvio-color-light-blue: #37abde;
-$evolvio-color-orange: #f6a800;
-$evolvio-color-dark: #2a3539;
-$evolvio-color-grey: #a3acb3;
-$evolvio-color-grey-light: #bdc4ca;
-$evolvio-color-green: #39cb66;
-$evolvio-color-red: #d84d4d;
+$abas-color-blue: #008bd0;
+$abas-color-light-blue: #37abde;
+$abas-color-orange: #f6a800;
+$abas-color-dark: #2a3539;
+$abas-color-grey: #a3acb3;
+$abas-color-grey-light: #bdc4ca;
+$abas-color-green: #39cb66;
+$abas-color-red: #d84d4d;
 // application colors
-$success: $evolvio-color-green;
-$warning: $evolvio-color-orange;
-$error: $evolvio-color-red;
+$success: $abas-color-green;
+$warning: $abas-color-orange;
+$error: $abas-color-red;
 $white: #fff;
-$accent: $evolvio-color-light-blue;
+$accent: $abas-color-light-blue;
 $accent-contrast: $white;
 $accent-color-palette: (
-  100: $evolvio-color-light-blue,
-  500: $evolvio-color-blue,
-  700: $evolvio-color-dark,
+  100: $abas-color-light-blue,
+  500: $abas-color-blue,
+  700: $abas-color-dark,
   contrast: (100: $white, 500: $white, 700: $white)
 );
-$primary: $evolvio-color-blue;
+$primary: $abas-color-blue;
 $primary-color-palette: (
-  100: $evolvio-color-light-blue,
-  500: $evolvio-color-blue,
-  700: $evolvio-color-dark,
+  100: $abas-color-light-blue,
+  500: $abas-color-blue,
+  700: $abas-color-dark,
   contrast: (100: $white, 500: $white, 700: $white)
 );
-$login-button-text: $evolvio-color-grey;
-$headline-color: $evolvio-color-blue;
+$login-button-text: $abas-color-grey;
+$headline-color: $abas-color-blue;
 $headline-text-size: 30px;
 $subline-color: #3C4E55;
 $subline-text-size: 24px;
-$text-color: $evolvio-color-dark;
-$link-color: $evolvio-color-light-blue;
-$link-color-active: $evolvio-color-blue;
-$toolbar-icon-background: $evolvio-color-light-blue;
+$text-color: $abas-color-dark;
+$link-color: $abas-color-light-blue;
+$link-color-active: $abas-color-blue;
+$toolbar-icon-background: $abas-color-light-blue;
 $sub-navigation-background: #f4f4f4;
 $sub-navigation-text-size: 12px;
 
 %dark-theme {
-  background: $evolvio-color-dark;
+  background: $abas-color-dark;
   color: $white;
   a,
   a:active,
@@ -91,18 +91,18 @@ $chapter-tile-7;
 $chapter-tiles-contrast: $white;
 
 $paginator-bar-background: #f0f0f0;
-$paginator-bar-active-item: $evolvio-color-light-blue;
+$paginator-bar-active-item: $abas-color-light-blue;
 $paginator-bar-height: 5px;
 $paginator-button-text: $white;
-$paginator-button-background: $evolvio-color-light-blue;
-$paginator-button-background-disabled: $evolvio-color-grey;
+$paginator-button-background: $abas-color-light-blue;
+$paginator-button-background-disabled: $abas-color-grey;
 $font-family: 'Open Sans', sans-serif;
 
 $hero-headline: #D16B34;
 $hero-headline-contrast: $white;
-$hero-subline: $evolvio-color-orange;
+$hero-subline: $abas-color-orange;
 $hero-subline-contrast: $white;
 
-$slider-link-color: $evolvio-color-orange;
+$slider-link-color: $abas-color-orange;
 $slick-dot-color: white;
-$slick-dot-color-active: $evolvio-color-orange;
+$slick-dot-color-active: $abas-color-orange;

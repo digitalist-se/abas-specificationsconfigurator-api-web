@@ -10,15 +10,15 @@
 <div class="container content imprint">
     <h1 class="headline">Impressum</h1>
     <p><b>Angaben gemäß §5 TMG</b><br>
-        Evolvio GmbH<br>
+        abas Software GmbH<br>
         Gartenstraße 67<br>
         76135 Karlsruhe<br>
     </p>
     <p>
         <b>Vertreten durch:</b><br>
-        Christian Eich, Geschäftsführer
+        Richard Furby & Paul Smolinski, Geschäftsführung
     </p>
-    <p>Der Lastenheft-Generator ERP Planner ist ein gemeinsames Projekt der Evolvio GmbH und des ERP- Spezialisten abas Software AG.</p>
+    <p>Der Lastenheft-Generator ERP Planner ist ein Projekt abas Software GmbH.</p>
     <p>
         <b>Kontakt:</b><br>
         Telefon: {{$contactPhone}}<br>
@@ -28,8 +28,8 @@
     <p>
         <b>Registereintrag:</b><br>
         Eintragung im Handelsregister<br>
-        Registernummer: HRB 724532<br>
-        Registergericht: Karlsruhe
+        Registernummer: HRB 734651<br>
+        Registergericht: Amtsgericht Mannheim
     </p>
     <p><b>Haftungsausschluss:</b>
         Haftung für Inhalte

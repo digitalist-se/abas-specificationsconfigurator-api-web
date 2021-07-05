@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Lastenheftgenerator Evolvio GmbH'),
+    'name' => env('APP_NAME', 'Lastenheftgenerator abas Software GmbH '),
 
     /*
     |--------------------------------------------------------------------------
