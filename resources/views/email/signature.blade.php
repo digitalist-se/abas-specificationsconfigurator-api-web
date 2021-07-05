@@ -1,7 +1,7 @@
 ---  
 ERP Planner – Ihr Lastenheft Generator  
-{{config('app.domain')}}  
+{{config('app.domain')}}
 
-Evolvio GmbH | Gartenstraße 67 | 76135 Karlsruhe | {{config('app.contact.mail')}} | Tel.nr. {{config('app.contact.phone')}}  
-Geschäftsführer: Christian Eich  
-Handelsregister: HRB 724532 | Registergericht: Karlsruhe  
+abas Software GmbH  | Gartenstraße 67 | 76135 Karlsruhe | {{config('app.contact.mail')}} | Tel.nr. {{config('app.contact.phone')}}
+Geschäftsführung: Richard Furby, Paul Smolinski
+Handelsregister: HRB 734651 | Registergericht: Amtsgericht Mannheim 
