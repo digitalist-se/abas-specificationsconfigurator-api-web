@@ -70,4 +70,13 @@ class FrontendController extends Controller
 
         return $this->redirect('tutorial');
     }
+
+    public function faq()
+    {
+        if (App::environment('local')) {
+            return view('faq')->with('pidTracking', $this->getPartnerTracking());
+        }
+
+        return $this->redirect('faq');
+    }
 }

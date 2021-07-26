@@ -19,6 +19,7 @@ Route::get('/', [FrontendController::class, 'index']);
 Route::get('/impressum', [FrontendController::class, 'imprint']);
 Route::get('/datenschutz', [FrontendController::class, 'dataPrivacy']);
 Route::get('/tutorial', [FrontendController::class, 'tutorial']);
+Route::get('/faq', [FrontendController::class, 'faq']);
 
 Route::get('/business-illustration.svg', [IllustrationController::class, 'get']);
 
@@ -28,4 +29,5 @@ Route::domain(config('app.app-www-url'))
         Route::get('/impressum')->name('imprint');
         Route::get('/datenschutzerklaerung')->name('data-privacy');
         Route::get('/tutorial')->name('tutorial');
+        Route::get('/faq')->name('faq');
     });
