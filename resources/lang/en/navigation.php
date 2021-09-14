@@ -3,7 +3,7 @@
 return [
     'tutorial'     => 'Tutorial',
     'imprint'      => 'Impressum',
-    'data-privacy' => 'Datenschutz',
-    'register'     => 'Registrieren',
+    'data-privacy' => 'Data Privacy',
+    'register'     => 'Register',
     'login'        => 'Login',
 ];

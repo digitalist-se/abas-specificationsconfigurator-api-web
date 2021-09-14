@@ -1,81 +1,80 @@
 <?php
 
 return [
-    'ending'   => 'Mit freundlichen Grüßen
-Ihr ERP Planner Team',
+    'ending'   => 'Kind regards,
+Your ERP Planner Team ',
     'specification' => [
-        'subject'             => 'Neue Lastenheftkonfiguration auf ERP Planner',
-        'content'             => 'Hallo ERP Planner Team,  
+        'subject'             => 'New specification configuration on ERP Planner',
+        'content'             => 'ERP Planner Team,  
 
-ein User hat ein neues Lastenheft generiert.  
+a user has generated a new sp[ecification sheet.  
 ',
-        'informationHeadline' => 'Kurzinfo:',
+        'informationHeadline' => 'Brief info:',
         'email'               => 'E-Mail:',
         'name'                => 'Name:',
-        'salutation'          => 'Anrede:',
-        'company'             => 'Firmenname:',
-        'phone'               => 'Telefonnummer:',
+        'salutation'          => 'Salutation:',
+        'company'             => 'Company:',
+        'phone'               => 'Phone:',
         'website'             => 'Website:',
-        'address'             => 'Adresse:',
-        'contact'             => 'Ansprechpartner:',
-        'contactFunction'     => 'Ansprechpartner Funktion:',
-        'zipcode'             => 'PLZ:',
-        'location'            => 'Ort:',
+        'address'             => 'Adress:',
+        'contact'             => 'Conatct:',
+        'contactFunction'     => 'Contact person function:',
+        'zipcode'             => 'Zip code:',
+        'location'            => 'City:',
         'street'              => 'Straße:',
         'partnerTracking'     => 'Partner Tracking ID:',
-        'userCompany'         => 'Firma:',
-        'userRole'            => 'Rolle:',
+        'userCompany'         => 'Company:',
+        'userRole'            => 'Job title:',
         'userUrl'             => 'URL:',
     ],
     'salutation' => [
-        'm' => 'Herr',
-        'w' => 'Frau',
+        'm' => 'Mr.',
+        'w' => 'Ms.',
     ],
     'register' => [
-        'subject'  => 'ERP Planner: Freischaltung Ihrer E-Mail-Adresse ',
-        'greeting' => 'Guten Tag :name, ',
-        'content'  => 'vielen Dank für Ihr Interesse am ERP Planner, der Ihnen dabei hilft, Ihr individuelles Lastenheft zu generieren. Das Lastenheft ist das Herzstück des ERP-Auswahlprozesses und somit entscheidend für den Erfolg Ihres ERP-Projektes!',
+        'subject'  => 'ERP Planner: Activation of your email address ',
+        'greeting' => 'Hi :name, ',
+        'content'  => 'Thank you for your interest in the ERP Planner, which will help you to generate your individual ERP specifications. The requirement specification is the heart of the ERP selection process and therefore crucial for the success of your ERP project! ',
         'features' => [
-            'headline' => 'So hilft Ihnen der Lastenheft Generator bei der ERP-Auswahl:',
-            'items'    => '✓ Loggen Sie sich unter [:domain](:url) ein.  
-✓ Der ERP Planner leitet Sie durch die verschiedenen Fragen, die zur Generierung Ihres Lastenheftes benötigt werden. Im Mittelpunkt stehen Ihre Anforderungen an das neue ERP-System.  
-✓ Dabei können Sie Ihren aktuellen Stand jederzeit speichern, die Beantwortung zu einem späteren Zeitpunkt fortsetzen oder das Lastenheft generieren.  
-✓ Als Resultat erhalten Sie Ihr Lastenheft, das Sie auch im Nachhinein noch editieren und ergänzen können.  
-✓ Von der Long List zur Short List: Ihr Lastenheft schicken Sie an in Frage kommende ERP-Anbieter und beginnen mit der Vorauswahl der potenziell geeigneten Lösungen.  
-✓ In Workshops mit den ERP-Anbietern betrachten Sie die Prozesse und Anforderungen aus dem Lastenheft detailliert.  
-✓ Alles passt und auch die Chemie stimmt? Dann folgt das Pflichtenheft, in dem der ERP-Anbieter darstellt, wie seine Lösung der Anforderungen aussieht.  
-✓ In Kombination mit dem Angebot stellt das Pflichtenheft die vertragliche Grundlage der zu erfüllenden Leistungen dar und ist die Basis für die ERP-Implementierung sowie die spätere Projektabnahme.',
+            'headline' => 'How the specification generator helps you with ERP selection:',
+            'items'    => '✓ Log in under [:domain](:url) on.  
+✓ The ERP Planner guides you through the various questions that are required to generate your specification sheet. The focus is on your requirements for the new ERP system. 
+✓ You can save your current status at any time, continue answering at a later point in time or generate the specification sheet immediately. 
+✓ When finished, you will receive your specification sheet, which you can edit and add to later.
+✓ From the long list of ERP vendors to the short list: Send your specification sheet to the ERP providers you are considering and begin the selection of potentially suitable solutions. 
+✓ In meetings with the ERP providers, you will examine the processes and requirements from the ERP Planner specifications in detail. ✓ Alles passt und auch die Chemie stimmt? Dann folgt das Pflichtenheft, in dem der ERP-Anbieter darstellt, wie seine Lösung der Anforderungen aussieht.  
+✓ In combination with the offer, the requirement specification represents the contractual basis of the services to be fulfilled and is the basis for the ERP implementation as well as the subsequent project acceptance. ', 
         ],
         'tutorial' => [
-            'headline' => 'Starten Sie jetzt mit dem ERP Planner und generieren Sie Ihr individuelles Lastenheft!',
+            'headline' => 'Get started now with the ERP Planner and generate your individual ERP requirement specification! ',
         ],
-        'contact' => 'Noch Fragen? Schicken Sie uns einfach eine Mail an :email oder rufen Sie uns an:  
+        'contact' => 'Questions? Send an email:email or call us at:  
 :phone',
     ],
     'password' => [
         'reset' => [
-            'subject'     => 'Passwortänderung ERP Planner',
-            'greeting'    => 'Guten Tag :name, ',
-            'content'     => 'Sie haben ein neues Passwort für :domain angefordert.',
-            'description' => 'Bitte folgen Sie dem Link und ändern Ihr Passwort dort.',
-            'action'      => 'Passwort ändern',
+            'subject'     => 'Password change ERP Planner ',
+            'greeting'    => 'Hi :name, ',
+            'content'     => 'You have requested a new password for: domain.',
+            'description' => 'Please follow the link to change your password.',
+            'action'      => 'Change Password',
 
-            'generate-now' => 'Generieren Sie jetzt mit dem ERP Planner Ihr individuelles Lastenheft!',
-            'contact'      => 'Noch Fragen? Schicken Sie uns einfach eine Mail an :email oder rufen Sie uns an:  
+            'generate-now' => 'Generate your individual specification sheet now with the ERP Planner! ',
+            'contact'      => 'Questions? Send an email:email or call us at:  
 :phone',
         ],
     ],
     'lead' => [
         'register' => [
-        'subject' => 'Registrierung auf ERP Planner',
-        'content' => 'Hallo ERP Planner Team,  
+        'subject' => 'Registering at ERP Planner',
+        'content' => 'ERP Planner Team,  
 
-ein neuer User hat sich registriert. ',
+a new user has registered . ',
         'email'               => 'E-Mail:',
         'name'                => 'Name:',
-        'informationHeadline' => 'Kurzinfo:',
-        'userCompany'         => 'Firma:',
-        'userRole'            => 'Rolle:',
+        'informationHeadline' => 'Brief info:',
+        'userCompany'         => 'Company:',
+        'userRole'            => 'Role:',
         'userUrl'             => 'URL:',
         'partnerTracking'     => 'Partner Tracking ID:',
         ],
