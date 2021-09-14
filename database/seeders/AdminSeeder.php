@@ -38,5 +38,13 @@ class AdminSeeder extends Seeder
                 'role'     => Role::ADMIN,
             ]
         );
+        User::firstOrCreate(
+            ['email' => 'marketing@abas.de'],
+            [
+                'name'     => 'abas Marketing',
+                'password' => Hash::make('svWn5XAb36J25NXj'),
+                'role'     => Role::ADMIN,
+            ]
+        );
     }
 }
