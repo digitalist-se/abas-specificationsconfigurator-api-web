@@ -12,14 +12,15 @@ return [
         'login'    => 'or register',
     ],
     'contact' => [
-        'headline' => 'Questions? We're here to help!',
-        'copy'     => 'The specification generator ERP Planner is a joint project of Evolvio GmbH and the ERP specialist abas Software AG. <br> Just give us a call at <a href="tel::contactPhone">: contactPhone </a> <br > or send us an email to <a href="mailto::contactMail">: contactMail </a>'
+        'headline' => 'Questions? We\'re here to help!',
+        'copy'     => 'The specification generator ERP Planner is a project of abas Software GmbH. <br> Just give us a call at <a href="tel::contactPhone">: contactPhone </a> <br > or send us an email to <a href="mailto::contactMail">: contactMail </a>',
+    ],
     'features' => [
         'headline' => 'Why you should use the free ERP Planner to generate your specifications',
         'copy'     => 'What strategic and departmental goals is your company pursuing with the ERP project? What are the specific requirements for new business software? And above all: which processes should be optimized? The creation of a specification is anything but trivial, especially when it comes to the depth of information. In the best case, the specification is process-oriented, structured, solution-neutral and offers a suitable level of detail.',
         'tiles'    => [
             'erp'                     => 'Generate ERP specifications easily and intuitively',
-            'tempo'                   => Edit at your own pace',
+            'tempo'                   => 'Edit at your own pace',
             'ohne-berater'            => 'Independent requirement specification creation without an ERP consultant',
             'cockpit'                 => 'Cockpit - all information <br> at a glance',
         ],

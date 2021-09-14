@@ -2,7 +2,7 @@
 
 return [
     'tutorial'     => 'Tutorial',
-    'imprint'      => 'Impressum',
+    'imprint'      => 'Imprint',
     'data-privacy' => 'Data Privacy',
     'register'     => 'Register',
     'login'        => 'Login',

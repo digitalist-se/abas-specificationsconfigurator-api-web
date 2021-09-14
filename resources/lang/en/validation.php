@@ -132,7 +132,7 @@ return [
 
     'custom' => [
         'email' => [
-            'checkdomains' => 'Please use a valid Business-E-Mail',
+            'checkdomains' => 'Please use a valid business email address',
         ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
@@ -152,7 +152,7 @@ return [
     'attributes' => [
         'name'                  => 'Name',
         'username'              => 'Username',
-        'email'                 => 'E-Mail Address',
+        'email'                 => 'Email Address',
         'first_name'            => 'First Name',
         'last_name'             => 'Last Name',
         'password'              => 'Password',
