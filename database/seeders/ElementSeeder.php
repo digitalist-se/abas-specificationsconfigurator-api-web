@@ -200,7 +200,7 @@ class ElementSeeder extends Seeder
 
     protected function text($key, $value)
     {
-        Text::updateOrCreate(
+        Text::firstOrCreate(
             ['key' => $key],
             ['value' => $value]
         );

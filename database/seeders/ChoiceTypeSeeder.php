@@ -34,27 +34,14 @@ class ChoiceTypeSeeder extends Seeder
                 $textId  = null;
                 $valueId = null;
                 if (is_string($option)) {
-                    Text::updateOrCreate([
-                        'key'   => $i18nId,
-                        ], [
-                        'value' => $option,
-                    ]);
+                    $this->text($i18nId, $option);
                     $textId  = $i18nId;
                     $valueId = $i18nId;
                 } elseif (is_array($option)) {
                     $textId = $i18nId.'.text';
-                    Text::updateOrCreate([
-                        'key'   => $textId,
-                    ], [
-                        'value' => $option['text'],
-                    ]);
+                    $this->text($textId, $option['text']);
                     $valueId = $i18nId.'.value';
-                    Text::updateOrCreate([
-                        'key'   => $valueId,
-                    ], [
-                        'value'  => $option['value'],
-                        'public' => false,
-                    ]);
+                    $this->text($valueId, $option['value'], false);
                 }
                 if (!$textId || !$valueId) {
                     throw new RuntimeException('invalid choice option config');
@@ -72,22 +59,25 @@ class ChoiceTypeSeeder extends Seeder
                 );
                 if (isset($option['other'])) {
                     $textId = $i18nId.'.other.content';
-                    Text::updateOrCreate([
-                        'key'   => $textId,
-                    ], [
-                        'value' => $option['other'],
-                    ]);
+                    $this->text($textId, $option['other']);
                 }
                 if (isset($option['otherhint'])) {
                     $textId = $i18nId.'.other.sub_content';
-                    Text::updateOrCreate([
-                        'key'   => $textId,
-                    ], [
-                        'value' => $option['otherhint'],
-                    ]);
+                    $this->text($textId, $option['otherhint']);
                 }
                 ++$sorting;
             }
         }
+    }
+
+    protected function text($key, $value, $public = true)
+    {
+        Text::firstOrCreate(
+            ['key' => $key],
+            [
+                'value' => $value,
+                'public' => $public,
+            ]
+        );
     }
 }
