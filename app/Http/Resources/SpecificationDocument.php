@@ -3,11 +3,25 @@
 namespace App\Http\Resources;
 
 use App\Models\Text;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 class SpecificationDocument extends ExcelResource
 {
-    protected $template = 'excel/specification_configurator_template.xlsx';
+
+    private function localizedTemplate() : String {
+        $locale = config('app.fallback_locale');
+        $currentLocale = App::currentLocale();
+        $supportedLocales = config('app.supported_locales');
+        if (in_array($currentLocale, $supportedLocales, true)) {
+           $locale = $currentLocale;
+        }
+
+        return "excel/{$locale}/specification_configurator_template.xlsx";
+    }
+
+    protected $template = null;
 
     protected $userInfoMap = [
         'B2'  => 'company_name',
@@ -38,6 +52,7 @@ class SpecificationDocument extends ExcelResource
      */
     public function __construct($outputDir, $user, $answers)
     {
+        $this->template   = $this->localizedTemplate();
         $this->user       = $user;
         $this->answersMap = [];
         foreach ($answers as $answer) {
