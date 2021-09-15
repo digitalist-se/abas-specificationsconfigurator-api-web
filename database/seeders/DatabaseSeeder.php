@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ElementSeeder::class);
         $this->call(DemoUserSeeder::class);
         $this->call(BlacklistedEmailDomainSeeder::class);
+        $this->call(TextSeeder::class);
     }
 }
