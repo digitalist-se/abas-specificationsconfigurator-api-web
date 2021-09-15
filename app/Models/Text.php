@@ -20,7 +20,7 @@ class Text extends BaseModel
     ];
 
     protected $attributes = [
-        'locale'      => 'de',
+        'locale'      => Locale::DE,
         'description' => '',
         'public'      => true, // public to api is default
     ];

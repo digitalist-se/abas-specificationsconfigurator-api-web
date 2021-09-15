@@ -2,23 +2,16 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Locale;
 use App\Models\Text;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 class SpecificationDocument extends ExcelResource
 {
-
     private function localizedTemplate() : String {
-        $locale = config('app.fallback_locale');
-        $currentLocale = App::currentLocale();
-        $supportedLocales = config('app.supported_locales');
-        if (in_array($currentLocale, $supportedLocales, true)) {
-           $locale = $currentLocale;
-        }
+        $locale = Locale::current();
 
-        return "excel/{$locale}/specification_configurator_template.xlsx";
+        return "excel/{$locale->getValue()}/specification_configurator_template.xlsx";
     }
 
     protected $template = null;
@@ -66,7 +59,7 @@ class SpecificationDocument extends ExcelResource
     protected function localizedText($key)
     {
         $text = Text::where('key', '=', $key)
-            ->where('locale', '=', 'de')
+            ->where('locale', '=', Locale::current()->getValue())
             ->first();
         if ($text instanceof Text) {
             return htmlspecialchars($text->value);
