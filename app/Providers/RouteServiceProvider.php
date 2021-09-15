@@ -43,7 +43,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->configureRateLimiting();
 
-        $this->bindTextByKey();
+        $this->bindTextById();
         $this->bindChapterById();
         $this->bindSectionById();
         $this->bindElementById();
@@ -57,10 +57,10 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    protected function bindTextByKey()
+    protected function bindTextById()
     {
         Route::bind('text', function ($value) {
-            return Text::where('key', '=', $value)->first() ?? abort(404);
+            return Text::findOrFail($value) ?? abort(404);
         });
     }
 

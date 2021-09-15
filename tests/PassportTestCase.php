@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Locale;
 use DateTime;
 use DB;
 use Illuminate\Support\Arr;
@@ -105,9 +106,14 @@ class PassportTestCase extends TestCase
         return parent::deleteJson($uri, $data, array_merge($this->headers, $headers));
     }
 
+    protected function locale() {
+        return Locale::current()->getValue();
+    }
+
     public function initTexts()
     {
-        $this->texts = $this->getJson('/api/texts')->json();
+        $locale = $this->locale();
+        $this->texts = $this->getJson('/api/texts?locale='.$locale)->json();
     }
 
     public function assertTextWithKeyIsGiven($object, $key, $optional = false): void
