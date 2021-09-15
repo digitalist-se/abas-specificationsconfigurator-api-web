@@ -19,8 +19,11 @@ class Text extends JsonResource
         return [
             'key'    => $this->key,
             'value'  => $this->value,
-            $this->when($request->user()->role->is(Role::ADMIN), function () {
-                return ['description' => $this->description];
+            $this->mergeWhen($request->user()->role->is(Role::ADMIN), function () {
+                return [
+                    'id' => $this->id,
+                    'description' => $this->description
+                ];
             }),
         ];
     }
