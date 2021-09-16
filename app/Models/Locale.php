@@ -27,6 +27,16 @@ class Locale extends Enum
         return $supportedLocales;
     }
 
+    /**
+     * @return \MabeEnum\EnumSet
+     */
+    public static function activatedSet(): EnumSet {
+        $activatedLocales = new EnumSet(static::class);
+        $activatedLocales->attach(static::DE());
+        $activatedLocales->attach(static::EN());
+        return $activatedLocales->intersect(static::supportedSet());
+    }
+
     public static function current() {
         $locale = config('app.fallback_locale');
         $currentLocale = App::currentLocale();

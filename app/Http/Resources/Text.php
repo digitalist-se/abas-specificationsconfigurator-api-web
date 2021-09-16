@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use App\Models\Role;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ *  @mixin \App\Models\Text
+ */
 class Text extends JsonResource
 {
     /**
@@ -22,6 +25,7 @@ class Text extends JsonResource
             $this->mergeWhen($request->user()->role->is(Role::ADMIN), function () {
                 return [
                     'id' => $this->id,
+                    'locale' => $this->locale,
                     'description' => $this->description
                 ];
             }),

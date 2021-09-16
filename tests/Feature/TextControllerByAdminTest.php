@@ -27,10 +27,13 @@ class TextControllerByAdminTest extends PassportTestCase
             static::assertIsString($key);
             static::assertIsString($textObject['key']);
             static::assertIsString($textObject['value']);
+            static::assertIsString($textObject['locale']);
             static::assertIsString($textObject['id']);
             static::assertNotEmpty($key);
             static::assertNotEmpty($textObject['key']);
             static::assertNotEmpty($textObject['value']);
+            static::assertNotEmpty($textObject['locale']);
+            static::assertNotEmpty($textObject['id']);
         }
     }
 
