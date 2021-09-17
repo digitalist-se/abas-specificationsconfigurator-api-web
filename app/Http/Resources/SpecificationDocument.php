@@ -29,6 +29,7 @@ class SpecificationDocument extends ExcelResource
     ];
 
     private $answersMap;
+
     /**
      * @var \App\Models\User
      */
@@ -52,7 +53,7 @@ class SpecificationDocument extends ExcelResource
             $this->answersMap[$answer->element_id] = $answer;
         }
         $filename              = uniqid($user->id.'_', true);
-        $localDocumentFilename = 'lastenheft'.self::EXTENSION_XLSX;
+        $localDocumentFilename = trans('specification.filename').self::EXTENSION_XLSX;
         parent::__construct($outputDir, $filename, $localDocumentFilename);
     }
 
@@ -68,20 +69,23 @@ class SpecificationDocument extends ExcelResource
         return $key;
     }
 
+
     protected function renderDocument()
     {
         $this->renderUserInfoValues();
         $this->renderContentValues();
         $this->document->setActiveSheetIndex($this->document->getFirstSheetIndex());
         $headerFooter = $this->document->getActiveSheet()->getHeaderFooter();
-        $this->replaceHeaderMarker('[IHR FIRMENNAME]', $this->user->company_name, $headerFooter->getOddHeader());
+        $this->replaceHeaderMarker(trans('specification.companyHeader'), $this->user->company_name, $headerFooter->getOddHeader());
     }
 
     private function renderUserInfoValues()
     {
         $firstSheet = $this->document->getSheet(0);
         foreach ($this->userInfoMap as $cellId => $keyValue) {
-            $firstSheet->getCell($cellId)->setValue(object_get($this->user, $keyValue, ''));
+            if ($cell = $firstSheet->getCell($cellId)) {
+                $cell->setValue(object_get($this->user, $keyValue, ''));
+            }
         }
     }
 
@@ -117,9 +121,9 @@ class SpecificationDocument extends ExcelResource
         if (!$cellId || !$text) {
             return;
         }
-        $this->document->getSheet($worksheet)
-            ->getCell($cellId)
-            ->setValue($text);
+        if($cell = $this->document->getSheet($worksheet)->getCell($cellId)) {
+            $cell->setValue($text);
+        }
     }
 
     protected function addContentElement(int $worksheet, \App\Models\Element $contentElement)
@@ -132,12 +136,12 @@ class SpecificationDocument extends ExcelResource
             $parsedAnswerValue = '';
             switch ($contentElement->type) {
                 case 'text':
-                    if (isset($answer->value) && isset($answer->value->text)) {
+                    if (isset($answer->value, $answer->value->text)) {
                         $parsedAnswerValue = htmlspecialchars($answer->value->text);
                     }
                     break;
                 case 'slider':
-                    if (isset($answer->value) && isset($answer->value->value)) {
+                    if (isset($answer->value, $answer->value->value)) {
                         $parsedAnswerValue = htmlspecialchars($answer->value->value);
                     }
                     break;
@@ -167,7 +171,7 @@ class SpecificationDocument extends ExcelResource
                             }
                             $parsedOptions[] = $this->localizedText($option);
                         }
-                        $parsedAnswerValue = join(', ', $parsedOptions);
+                        $parsedAnswerValue = implode(', ', $parsedOptions);
                     } else {
                         if (!isset($answer->value->option)) {
                             break;
