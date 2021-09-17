@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Text as TextResource;
+use App\Models\Locale;
 use App\Models\Role;
 use App\Models\Text;
 use App\Rules\IsSupportedLocale;
@@ -13,10 +14,10 @@ class TextController extends Controller
     public function list(Request $request)
     {
         $this->validate($request, [
-            'locale' =>  ['required', new IsSupportedLocale],
+            'locale' =>  ['sometimes', 'required', new IsSupportedLocale],
         ]);
 
-        $locale = $request->input('locale');
+        $locale = $request->input('locale', Locale::current()->getValue());
 
         if ($request->user()->role->is(Role::ADMIN)) {
             $texts = Text::whereLocale($locale)

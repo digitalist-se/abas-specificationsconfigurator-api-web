@@ -9,8 +9,8 @@ use MabeEnum\EnumSet;
 /**
  * \App\Models\Locale.
  *
- * @method static \App\Models\Locale DE()
- * @method static \App\Models\Locale EN()
+ * @method static Locale DE()
+ * @method static Locale EN()
  */
 class Locale extends Enum
 {
@@ -22,8 +22,8 @@ class Locale extends Enum
      */
     public static function supportedSet(): EnumSet {
         $supportedLocales = new EnumSet(static::class);
-        $supportedLocales->attach(static::DE());
         $supportedLocales->attach(static::EN());
+        $supportedLocales->attach(static::DE());
         return $supportedLocales;
     }
 
@@ -32,8 +32,8 @@ class Locale extends Enum
      */
     public static function activatedSet(): EnumSet {
         $activatedLocales = new EnumSet(static::class);
-        $activatedLocales->attach(static::DE());
         $activatedLocales->attach(static::EN());
+        $activatedLocales->attach(static::DE());
         return $activatedLocales->intersect(static::supportedSet());
     }
 
