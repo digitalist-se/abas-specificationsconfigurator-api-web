@@ -4,7 +4,6 @@ namespace Tests;
 
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Locale;
 use DateTime;
 use DB;
 use Illuminate\Support\Arr;
@@ -12,7 +11,9 @@ use Laravel\Passport\ClientRepository;
 
 class PassportTestCase extends TestCase
 {
-    protected $headers = [];
+    protected $headers = [
+        'Accept-Language' => 'de, en'
+    ];
     protected $scopes  = ['*'];
     /**
      * @var User
@@ -106,14 +107,9 @@ class PassportTestCase extends TestCase
         return parent::deleteJson($uri, $data, array_merge($this->headers, $headers));
     }
 
-    protected function locale() {
-        return Locale::current()->getValue();
-    }
-
     public function initTexts()
     {
-        $locale = $this->locale();
-        $this->texts = $this->getJson('/api/texts?locale='.$locale)->json();
+        $this->texts = $this->getJson('/api/texts')->json();
     }
 
     public function assertTextWithKeyIsGiven($object, $key, $optional = false): void
