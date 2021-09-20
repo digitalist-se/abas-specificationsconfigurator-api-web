@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(DocumentTextsSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(ChoiceTypeSeeder::class);
         $this->call(ElementSeeder::class);

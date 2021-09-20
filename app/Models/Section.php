@@ -17,7 +17,6 @@ class Section extends BaseModel
         'slug_name',
         'headline',
         'description',
-        'print_description',
         'sort',
         'chapter_id',
         'has_headline',
@@ -40,6 +39,6 @@ class Section extends BaseModel
 
     public function appElements()
     {
-        return $this->hasMany('App\Models\Element')->orderBy('sort')->where('type', '<>', 'print_headline');
+        return $this->elements();
     }
 }

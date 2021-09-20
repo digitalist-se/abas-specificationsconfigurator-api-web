@@ -18,11 +18,9 @@ class Chapter extends BaseModel
 
     protected $fillable = [
         'name',
-        'print_name',
         'slug_name',
         'sort',
         'description',
-        'print_description',
         'illustration_states',
         'worksheet',
     ];
