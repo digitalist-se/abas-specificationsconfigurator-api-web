@@ -18,7 +18,7 @@ return [
 
     'allowed_methods' => ['GET, POST, PUT, DELETE, OPTIONS'],
 
-    'allowed_origins' => [env('APP_BASE_URL', 'https://app.erpplanner.com')],
+    'allowed_origins' => [config('app.app-url', 'https://app.erpplanner.com')],
 
     'allowed_origins_patterns' => [],
 
