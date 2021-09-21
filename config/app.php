@@ -53,18 +53,18 @@ return [
 
     'domain'  => env('APP_DOMAIN', 'erpplanner.com'),
 
-    'url' => env('APP_URL', 'https://'.config('app.domain')),
+    'url' => env('APP_URL', 'https://'.env('APP_DOMAIN', 'erpplanner.com')),
 
     'asset_url' => env('ASSET_URL', null),
 
     /*
      * www/contao app base url
      */
-    'app-www-url' => env('APP_WWW_URL', 'https://www.'.config('app.domain')),
+    'app-www-url' => env('APP_WWW_URL', 'https://www.'.env('APP_DOMAIN', 'erpplanner.com')),
     /*
      * angular app base url
      */
-    'app-url' => env('APP_BASE_URL', 'https://app.'.config('app.domain')),
+    'app-url' => env('APP_BASE_URL', 'https://app.'.env('APP_DOMAIN', 'erpplanner.com')),
 
     /*
     |--------------------------------------------------------------------------
