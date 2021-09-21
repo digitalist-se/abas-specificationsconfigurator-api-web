@@ -92,6 +92,8 @@ return [
 
     'locale' => \App\Models\Locale::DE,
 
+    'activated_locales' => explode(',', env('ACTIVATED_LOCALES', config('app.locale'))),
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale

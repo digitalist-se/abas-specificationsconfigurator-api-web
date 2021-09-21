@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use MabeEnum\Enum;
 use MabeEnum\EnumSet;
+use Throwable;
 
 /**
  * \App\Models\Locale.
@@ -32,8 +34,13 @@ class Locale extends Enum
      */
     public static function activatedSet(): EnumSet {
         $activatedLocales = new EnumSet(static::class);
-        $activatedLocales->attach(static::EN());
-        $activatedLocales->attach(static::DE());
+        foreach (config('app.activated_locales') as $configLocale) {
+            try {
+                $activatedLocales->attach(static::get($configLocale));
+            } catch (Throwable $e) {
+                Log::warning('Unrecognized locale ' . $configLocale);
+            }
+        }
         return $activatedLocales->intersect(static::supportedSet());
     }
 
