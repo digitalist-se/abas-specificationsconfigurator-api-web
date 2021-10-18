@@ -1,8 +1,6 @@
 system-use:
     name: Systemeinsatz
-    print_name: Systemeinsatz
     description: "Bestandsaufnahme: Welche IT-Systeme setzen Sie zusätzlich zu ERP bereits ein? Sollen diese weiter genutzt und integriert werden oder ist eine Neuinvestition geplant?"
-    print_description: "Diese IT-Systeme setzen wir derzeit ein:"
     sort: 4
     worksheet: 3
     sections:

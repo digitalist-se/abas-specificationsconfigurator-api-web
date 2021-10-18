@@ -11,11 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(DocumentTextsSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(ChoiceTypeSeeder::class);
         $this->call(ElementSeeder::class);
         $this->call(DemoUserSeeder::class);
         $this->call(BlacklistedEmailDomainSeeder::class);
+        $this->call(TextSeeder::class);
     }
 }

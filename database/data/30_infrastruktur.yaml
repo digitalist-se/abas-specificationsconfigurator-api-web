@@ -1,8 +1,6 @@
 infrastructure:
     name: Infrastruktur
-    print_name: Infrastruktur
     description: "In diesem Kapitel geht es um eine Bestandsaufnahme Ihrer aktuellen Situation: Wie ist der Status Quo? Welche Infrastruktur ist bereits vorhanden? Wer sind die Ansprechpartner, wenn es um die Infrastruktur geht?"
-    print_description: "Diese Infrastruktur ist in unserem Unternehmen gegeben:"
     sort: 3
     worksheet: 2
     sections:
@@ -12,17 +10,14 @@ infrastructure:
                 188:
                     type: text
                     content: Verantwortlicher Ansprechpartner IT
-                    print: Verantwortlicher Ansprechpartner IT
                     document_row: 4
                 190:
                     type: text
                     content: Verantwortlicher Ansprechpartner Organisation
-                    print: Verantwortlicher Ansprechpartner Organisation
                     document_row: 5
                 192:
                     type: text
                     content: Berichtslinie IT / Organisation
-                    print: Berichtslinie IT / Organisation
                     sub_content: z.B. CFO
                     document_row: 6
 
@@ -32,22 +27,18 @@ infrastructure:
                 195:
                     type: text
                     content: Server und Ausstattung
-                    print: Server und Ausstattung
                     document_row: 8
                 197:
                     type: text
                     content: Beschreibung der Netzwerkausstattung, LAN-, WAN-Verbindungen usw.
-                    print: Beschreibung der Netzwerkausstattung, LAN-, WAN-Verbindungen usw.
                     document_row: 9
                 199:
                     type: text
                     content: Datenbank
-                    print: Datenbank
                     document_row: 10
                 201:
                     type: text
                     content: Anzahl Clients
-                    print: Anzahl Clients
                     document_row: 11
 
         infrastructure.operation-systems:
@@ -56,17 +47,14 @@ infrastructure:
                 204:
                     type: text
                     content: Server-Betriebssystem
-                    print: Server-Betriebssystem
                     document_row: 13
                 206:
                     type: text
                     content: Desktop Clients
-                    print: Desktop Clients
                     document_row: 14
                 208:
                     type: text
                     content: Mobile Clients
-                    print: Mobile Clients
                     document_row: 15
         infrastructure.licensing-models:
             headline: Lizenzmodelle
@@ -75,52 +63,44 @@ infrastructure:
                     type: choice
                     choice_type: yesNo
                     content: IT überwiegend on premise
-                    print: IT überwiegend on premise
                     layout_two_columns: true
                     document_row: 17
                 213:
                     type: text
                     content: geplant ab
-                    print: geplant ab
                     layout_two_columns: true
                     document_row: 18
                 214:
                     type: choice
                     choice_type: yesNo
                     content: gehostet
-                    print: gehostet
                     layout_two_columns: true
                     document_row: 19
                 216:
                     type: text
                     content: geplant ab
-                    print: geplant ab
                     layout_two_columns: true
                     document_row: 20
                 217:
                     type: choice
                     choice_type: yesNo
                     content: Cloud
-                    print: Cloud
                     layout_two_columns: true
                     document_row: 21
                 219:
                     type: text
                     content: geplant ab
-                    print: geplant ab
                     layout_two_columns: true
                     document_row: 22
                 220:
                     type: choice
                     choice_type: yesNo
                     content: Hybrid
-                    print: Hybrid
                     layout_two_columns: true
                     document_row: 23
                 222:
                     type: text
                     content: geplant ab
-                    print: geplant ab
                     layout_two_columns: true
                     document_row: 24
 

@@ -27,7 +27,6 @@ class ChapterFactory extends Factory
 
         return [
             'name'            => $text->key,
-            'print_name'      => $text->key,
             'slug_name'       => Str::slug($text->value),
             'sort'            => 0,
         ];

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Chapter;
 use App\Models\ChoiceType;
 use App\Models\Element;
+use App\Models\Locale;
 use App\Models\Section;
 use App\Models\Text;
 use Illuminate\Database\Seeder;
@@ -16,11 +17,14 @@ class ElementSeeder extends Seeder
 {
     protected $presets;
 
+    protected $locale;
+
     /**
      * Run the database seeds.
      */
     public function run()
     {
+        $this->locale = Locale::DE;
         $this->preparePresets();
         $this->import('10_firmenprofil.yaml');
         $this->import('20_organisation.yaml');
@@ -56,22 +60,11 @@ class ElementSeeder extends Seeder
         if (isset($chapter['name'])) {
             $this->text($i18nId, $chapter['name']);
         }
-        $printNameKey = '';
-        if (isset($chapter['print_name'])) {
-            $printNameKey = $this->createKeyName($i18nId, 'print');
-            $this->text($printNameKey, $chapter['print_name']);
-        }
         if (isset($chapter['description'])) {
             $descriptionKey = $this->createKeyName($i18nId, 'description');
             $this->text($descriptionKey, $chapter['description']);
         } else {
             $descriptionKey = null;
-        }
-        if (isset($chapter['print_description'])) {
-            $printDescriptionKey = $this->createKeyName($i18nId, 'print_description');
-            $this->text($printDescriptionKey, $chapter['print_description']);
-        } else {
-            $printDescriptionKey = null;
         }
         $sort       = $chapter['sort'] ?? 0;
         /**
@@ -80,11 +73,9 @@ class ElementSeeder extends Seeder
         $newChapter = Chapter::updateOrCreate(
             ['name' => $i18nId],
             [
-                'print_name'          => $printNameKey,
                 'slug_name'           => Str::slug($chapter['name']),
                 'sort'                => $sort,
                 'description'         => $descriptionKey,
-                'print_description'   => $printDescriptionKey,
                 'visible'             => $chapter['visible'] ?? true,
                 'illustration_states' => $chapter['illustration'] ?? null,
                 'worksheet'           => (int) $chapter['worksheet'],
@@ -107,7 +98,6 @@ class ElementSeeder extends Seeder
     {
         $sectionHeadlineKey         = $this->createKeyName($i18nId, 'headline');
         $sectionDescriptionKey      = $this->createKeyName($i18nId, 'description');
-        $sectionPrintDescriptionKey = $this->createKeyName($i18nId, 'print_description');
         $hasHeadline                = false;
         if (isset($section['headline'])) {
             $this->text($sectionHeadlineKey, $section['headline']);
@@ -117,11 +107,6 @@ class ElementSeeder extends Seeder
             $this->text($sectionDescriptionKey, $section['description']);
         } else {
             $sectionDescriptionKey = '';
-        }
-        if (isset($section['print_description'])) {
-            $this->text($sectionPrintDescriptionKey, $section['print_description']);
-        } else {
-            $sectionPrintDescriptionKey = '';
         }
         $sectionSorting = $section['sort'] ?? 0;
         /**
@@ -134,7 +119,6 @@ class ElementSeeder extends Seeder
             [
                 'slug_name'           => Str::slug($section['slug_name'] ?? $section['headline']),
                 'description'         => $sectionDescriptionKey,
-                'print_description'   => $sectionPrintDescriptionKey,
                 'sort'                => $sectionSorting,
                 'chapter_id'          => $chapter->id,
                 'has_headline'        => $hasHeadline,
@@ -150,7 +134,7 @@ class ElementSeeder extends Seeder
         $documentRowOffset = $section['document_offset_row'] ?? 0;
         foreach ($elements as $id => $element) {
             if (is_string($element)) {
-                // element is an preset
+                // element is a preset
                 // use element as key of preset
                 $element = Arr::get($this->presets, $element);
             }
@@ -160,21 +144,13 @@ class ElementSeeder extends Seeder
                 $contentKey = $this->createKeyName($i18nId, $id, 'content');
                 $this->text($contentKey, $element['content']);
                 $data['content'] = $contentKey;
-            } elseif ('print_headline' !== $element['type']) {
-                return null;
             }
             if (isset($element['sub_content'])) {
                 $subContentKey = $this->createKeyName($i18nId, $id, 'sub_content');
                 $this->text($subContentKey, $element['sub_content']);
                 $data['sub_content'] = $subContentKey;
             }
-            if (isset($element['print'])) {
-                $printKey = $this->createKeyName($i18nId, $id, 'print');
-                $this->text($printKey, $element['print']);
-                $data['print'] = $printKey;
-            } else {
-                $data['print'] = null;
-            }
+
             $this->optionalValue('steps', $element, $data);
             $this->optionalValue('min', $element, $data);
             $this->optionalValue('max', $element, $data);
@@ -200,9 +176,13 @@ class ElementSeeder extends Seeder
 
     protected function text($key, $value)
     {
-        Text::updateOrCreate(
-            ['key' => $key],
-            ['value' => $value]
+        Text::firstOrCreate(
+            [
+                'key' => $key,
+                'locale' => $this->locale,
+            ], [
+                'value' => $value
+            ]
         );
     }
 
@@ -211,13 +191,5 @@ class ElementSeeder extends Seeder
         if (isset($import[$key])) {
             $output[$key] = $import[$key];
         }
-    }
-
-    protected function validateElement($element)
-    {
-//        $element['type']
-//        switch($element['type']) {
-//
-//        }
     }
 }

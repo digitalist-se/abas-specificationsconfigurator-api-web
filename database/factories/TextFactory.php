@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Locale;
 use App\Models\Text;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,7 @@ class TextFactory extends Factory
     {
         return [
             'key'         => $this->faker->uuid,
-            'locale'      => 'de',
+            'locale'      => Locale::DE,
             'value'       => $this->faker->text,
             'description' => '',
             'public'      => 1,
