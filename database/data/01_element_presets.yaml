@@ -2,30 +2,25 @@ system-use:
     main:
         type: text
         content: "Produktname / Hersteller / Version"
-        print: "Produktname / Hersteller / Version"
         document_row: 1
 
     integration:
         type: choice
         choice_type: levelOfIntegration
         content: Integrationsgrad
-        print: Integrationsgrad
         document_row: 2
 
     use-since:
         type: text
         content: Im Einsatz seit
-        print: Im Einsatz seit
         document_row: 3
 
     user-count:
         type: text
         content: Anzahl User
-        print: Anzahl User
         document_row: 4
     replaced-by:
         type: choice
         choice_type: yesNoOpen
         content: "Soll abgelöst / neu eingeführt werden"
-        print: "Soll abgelöst / neu eingeführt werden"
         document_row: 5

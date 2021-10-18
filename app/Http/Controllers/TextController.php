@@ -3,20 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Text as TextResource;
+use App\Models\Locale;
 use App\Models\Role;
 use App\Models\Text;
+use App\Rules\IsSupportedLocale;
 use Illuminate\Http\Request;
 
 class TextController extends Controller
 {
     public function list(Request $request)
     {
+        $this->validate($request, [
+            'locale' =>  ['sometimes', 'required', new IsSupportedLocale],
+        ]);
+
+        $locale = $request->input('locale', Locale::current()->getValue());
+
         if ($request->user()->role->is(Role::ADMIN)) {
-            $texts = Text::all()->sortBy('key');
+            $texts = Text::whereLocale($locale)
+                ->orderBy('key')
+                ->get();
         } else {
             // only for app relevant texts
-            $texts = Text::where('public', '=', true)->orderBy('key')->get();
+            $texts = Text::whereLocale($locale)
+                ->wherePublic(true)
+                ->orderBy('key')
+                ->get();
         }
+
         $data  = [];
         foreach ($texts as $text) {
             $data[$text->key] = TextResource::make($text);
@@ -40,11 +54,13 @@ class TextController extends Controller
     {
         $this->validate($request, [
             'key'   => 'required',
+            'locale' =>  ['required', new IsSupportedLocale],
             'value' => 'required',
         ]);
         $public = $request->input('public') ?? true;
         $data   = [
             'key'    => $request->input('key'),
+            'locale' => $request->input('locale'),
             'value'  => $request->input('value'),
             'public' => $public,
         ];

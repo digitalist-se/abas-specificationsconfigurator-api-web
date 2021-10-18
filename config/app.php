@@ -51,19 +51,20 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://erpplanner.com'),
+    'domain'  => env('APP_DOMAIN', 'erpplanner.com'),
+
+    'url' => env('APP_URL', 'https://'.env('APP_DOMAIN', 'erpplanner.com')),
 
     'asset_url' => env('ASSET_URL', null),
 
     /*
      * www/contao app base url
      */
-    'app-www-url' => env('APP_WWW_URL', 'https://www.erpplanner.com'),
+    'app-www-url' => env('APP_WWW_URL', 'https://www.'.env('APP_DOMAIN', 'erpplanner.com')),
     /*
      * angular app base url
      */
-    'app-url' => env('APP_BASE_URL', 'https://app.erpplanner.com'),
-    'domain'  => env('APP_DOMAIN', 'erpplanner.com'),
+    'app-url' => env('APP_BASE_URL', 'https://app.'.env('APP_DOMAIN', 'erpplanner.com')),
 
     /*
     |--------------------------------------------------------------------------
@@ -89,7 +90,9 @@ return [
     |
     */
 
-    'locale' => 'de',
+    'locale' => \App\Models\Locale::DE,
+
+    'activated_locales' => explode(',', env('ACTIVATED_LOCALES', config('app.locale'))),
 
     /*
     |--------------------------------------------------------------------------
@@ -102,7 +105,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => \App\Models\Locale::EN,
 
     /*
    |--------------------------------------------------------------------------

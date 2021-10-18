@@ -11,7 +11,9 @@ use Laravel\Passport\ClientRepository;
 
 class PassportTestCase extends TestCase
 {
-    protected $headers = [];
+    protected $headers = [
+        'Accept-Language' => 'de, en'
+    ];
     protected $scopes  = ['*'];
     /**
      * @var User

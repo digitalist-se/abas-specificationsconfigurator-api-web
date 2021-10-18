@@ -23,7 +23,6 @@ class Element extends BaseModel
 
         'content', // content or question
         'sub_content', // additional content of question
-        'print', // print only. content pre answer
         'sort',
 
         // choice type values:

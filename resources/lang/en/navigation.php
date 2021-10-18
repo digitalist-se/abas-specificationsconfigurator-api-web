@@ -2,8 +2,8 @@
 
 return [
     'tutorial'     => 'Tutorial',
-    'imprint'      => 'Impressum',
-    'data-privacy' => 'Datenschutz',
-    'register'     => 'Registrieren',
+    'imprint'      => 'Imprint',
+    'data-privacy' => 'Data Privacy',
+    'register'     => 'Register',
     'login'        => 'Login',
 ];

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperBlacklistedEmailDomain
+ */
 class BlacklistedEmailDomain extends Model
 {
     protected $fillable = [
