@@ -35,7 +35,7 @@
         <header class="toolbar">
             <div class="toolbar-container">
                 <a href="{{route('landingpage')}}">
-                    <img class="logo" src="{{asset('images/logo_white.png')}}" >
+                    <img class="logo" src="{{localizedImageAsset('logo_white.png')}}" >
                 </a>
                 <span class="content-spacer"></span>
 
