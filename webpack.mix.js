@@ -13,11 +13,9 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
-    .copy([
-        'resources/images/**/*.jpg',
-        'resources/images/**/*.png',
-        'resources/images/**/*.svg',
-    ], 'public/images/')
+    .copyDirectory([
+        'resources/images',
+    ], 'public/images')
     .copy([
         'resources/favicons/*.*',
     ], 'public/favicons/')
@@ -32,4 +30,18 @@ mix.js('resources/js/app.js', 'public/js')
             enabled: false, // only if server support cjpeg
         }
     })
+   /* .webpackConfig({
+        module: {
+            rules: [
+                {
+                    test: /^resources\/assets\/images\/(de|en)\/.*\.(png|jpe?g|gif|webp|svg)$/,
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]?[hash]',
+                        context: 'resources/assets/images',
+                    }
+                }
+            ]
+        }
+    })*/
     .version();

@@ -52,4 +52,11 @@ class Locale extends Enum
         }
         return static::byValue($locale);
     }
+
+    public static function imageAsset(string $path, bool $secure = null): string
+    {
+        $locale = self::current()->getValue();
+        $imagePath = 'images/' .$locale .'/'.trim($path, '/');
+        return asset($imagePath, $secure);
+    }
 }

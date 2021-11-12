@@ -6,7 +6,7 @@ class IllustrationController extends Controller
 {
     private function assetUrl($filename)
     {
-        return asset('/images/'.$filename);
+        return asset('/images/business-illustration/'.$filename);
     }
 
     public function get()
