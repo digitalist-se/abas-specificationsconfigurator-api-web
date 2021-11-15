@@ -1,5 +1,5 @@
 ARG DOCKER_PHP_VERSION=7.4
-FROM php:${DOCKER_PHP_VERSION}-fpm
+FROM php:${DOCKER_PHP_VERSION}-fpm-buster
 
 ###########################################################################
 # userid of www-data (linux support file permissions)
