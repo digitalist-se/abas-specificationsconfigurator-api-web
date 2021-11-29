@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Locale;
+use App\Models\Role;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -18,7 +19,13 @@ class AcceptLanguage
      */
     public function handle($request, Closure $next)
     {
-        $activeLocales = Locale::activatedSet()->getValues();
+        $localeSet = Locale::activatedSet();
+        if (($user = $request->user()) && $user->role->is(Role::ADMIN)) {
+            $localeSet = Locale::supportedSet();
+        }
+
+        $activeLocales = $localeSet->getValues();
+
         if ($locale = $request->getPreferredLanguage($activeLocales)) {
             App::setLocale($locale);
         }
