@@ -195,18 +195,19 @@ organisation:
                     sub_content: Wer / welche Abteilung ist für die Instandhaltung zuständig?
                     document_row: 37
 
-                115:
-                    type: slider
-                    content: Anzahl Lieferanten
-                    min: 1
-                    max: 1000
-                    document_row: 38
                 117:
                     type: slider
                     content: Anzahl Einkaufteile
                     min: 1
                     max: 10000
-                    document_row: 39
+                    document_row: 38
+
+                115:
+                  type: slider
+                  content: Anzahl Lieferanten
+                  min: 1
+                  max: 1000
+                  document_row: 39
                 119:
                     type: slider
                     content: Anzahl Einkaufsaufträge pro Jahr
