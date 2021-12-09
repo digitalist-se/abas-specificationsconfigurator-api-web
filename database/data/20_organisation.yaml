@@ -197,7 +197,7 @@ organisation:
 
                 117:
                     type: slider
-                    content: Anzahl Einkaufteile
+                    content: Anzahl Einkaufsteile
                     min: 1
                     max: 10000
                     document_row: 38
