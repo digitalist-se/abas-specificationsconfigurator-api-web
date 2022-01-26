@@ -15,7 +15,8 @@ class LocaleController extends Controller
 
     public function activated(Request $request)
     {
-        $isAdmin = $request->user()->role->is(Role::ADMIN);
+        $optionalUser = optional($request->user());
+        $isAdmin = optional($optionalUser->role)->is(Role::ADMIN) === true;
         $localeSet = $isAdmin ? Locale::supportedSet() : Locale::activatedSet();
 
         return response()->json($localeSet->getValues());

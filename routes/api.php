@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CookieConsentController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,3 +37,13 @@ Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
  * get cookie consent config
  */
 Route::get('/cookieconsent', [CookieConsentController::class, 'get'])->name('cookieconsent');
+
+/*
+ * provide list of all possible locales
+ */
+Route::get('/locales/supported', [LocaleController::class, 'supported']);
+
+/*
+ * provide list of all possible locales and that are activated for current user
+ */
+Route::get('/locales/activated', [LocaleController::class, 'activated'])->middleware(['auth.optional:api']);
