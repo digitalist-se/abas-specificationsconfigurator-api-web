@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -38,5 +39,17 @@ class UserFactory extends Factory
             'contact'                => $this->faker->name,
             'contact_function'       => 'Geschäftsführer',
         ];
+    }
+
+    public function guest() {
+        return $this->state(['role' => Role::GUEST]);
+    }
+
+    public function user() {
+        return $this->state(['role' => Role::USER]);
+    }
+
+    public function admin() {
+        return $this->state(['role' => Role::ADMIN]);
     }
 }

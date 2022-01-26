@@ -7,7 +7,6 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\ChoiceTypeController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ElementController;
-use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StructureController;
 use App\Http\Controllers\TextController;
@@ -18,9 +17,6 @@ Route::get('/user', [UserController::class, 'get']);
 Route::put('/user', [UserController::class, 'update']);
 Route::put('/password', [PasswordController::class, 'updatePassword']);
 Route::get('/logout', [LogoutController::class, 'logout']);
-
-Route::get('/locales/supported', [LocaleController::class, 'supported']);
-Route::get('/locales/activated', [LocaleController::class, 'activated']);
 
 Route::get('/texts', [TextController::class, 'list']);
 Route::post('/texts', [TextController::class, 'create'])
