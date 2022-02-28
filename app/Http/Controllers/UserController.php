@@ -15,7 +15,8 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     const CREATE_FIELDS = [
-        'name'                   => 'name',
+        'first_name'             => 'first_name',
+        'last_name'              => 'last_name',
         'email'                  => 'email',
         'sex'                    => 'sex',
         'company_name'           => 'company_name',
@@ -26,7 +27,8 @@ class UserController extends Controller
         'zipcode'                => 'zipcode',
         'city'                   => 'city',
         'country'                => 'country',
-        'contact'                => 'contact',
+        'contact_first_name'     => 'contact_first_name',
+        'contact_last_name'      => 'contact_last_name',
         'contact_function'       => 'contact_function',
         'partner_tracking'       => 'partner_tracking',
         'company'                => 'user_company',
