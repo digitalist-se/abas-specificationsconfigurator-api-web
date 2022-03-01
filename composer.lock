@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb768e7d67c811b96b4ae1a8da859d47",
+    "content-hash": "82ce75f5cf50968fad478434e58441ce",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -7743,16 +7743,16 @@
         },
         {
             "name": "dragon-code/contracts",
-            "version": "v2.17.0",
+            "version": "v2.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TheDragonCode/contracts.git",
-                "reference": "1e64d01fc26c64d2378470038455d18672d2623b"
+                "reference": "27e5a9f27b3e6e5f1c184e55076b26101f3e5652"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TheDragonCode/contracts/zipball/1e64d01fc26c64d2378470038455d18672d2623b",
-                "reference": "1e64d01fc26c64d2378470038455d18672d2623b",
+                "url": "https://api.github.com/repos/TheDragonCode/contracts/zipball/27e5a9f27b3e6e5f1c184e55076b26101f3e5652",
+                "reference": "27e5a9f27b3e6e5f1c184e55076b26101f3e5652",
                 "shasum": ""
             },
             "require": {
@@ -7810,7 +7810,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-02-14T20:58:29+00:00"
+            "time": "2022-03-01T13:27:09+00:00"
         },
         {
             "name": "dragon-code/pretty-array",
@@ -9641,12 +9641,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "c462f73a0b956895d1d77b0a43550da21cc4e756"
+                "reference": "41c974c72e1ea40af336eedf414ef7540e46dc18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c462f73a0b956895d1d77b0a43550da21cc4e756",
-                "reference": "c462f73a0b956895d1d77b0a43550da21cc4e756",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/41c974c72e1ea40af336eedf414ef7540e46dc18",
+                "reference": "41c974c72e1ea40af336eedf414ef7540e46dc18",
                 "shasum": ""
             },
             "conflict": {
@@ -9687,7 +9687,7 @@
                 "cesnet/simplesamlphp-module-proxystatistics": "<3.1",
                 "codeception/codeception": "<3.1.3|>=4,<4.1.22",
                 "codeigniter/framework": "<=3.0.6",
-                "codeigniter4/framework": "<4.1.8",
+                "codeigniter4/framework": "<4.1.9",
                 "codiad/codiad": "<=2.8.4",
                 "composer/composer": "<1.10.23|>=2-alpha.1,<2.1.9",
                 "concrete5/concrete5": "<9",
@@ -10089,7 +10089,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-26T01:26:00+00:00"
+            "time": "2022-03-01T10:08:55+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -11119,16 +11119,16 @@
         },
         {
             "name": "spatie/flare-client-php",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/flare-client-php.git",
-                "reference": "edf253c68fba62cdb29ad6b48e211e29691dcee8"
+                "reference": "8ada1e5f4d7a2869f491c5e75d1f689b69db423e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/flare-client-php/zipball/edf253c68fba62cdb29ad6b48e211e29691dcee8",
-                "reference": "edf253c68fba62cdb29ad6b48e211e29691dcee8",
+                "url": "https://api.github.com/repos/spatie/flare-client-php/zipball/8ada1e5f4d7a2869f491c5e75d1f689b69db423e",
+                "reference": "8ada1e5f4d7a2869f491c5e75d1f689b69db423e",
                 "shasum": ""
             },
             "require": {
@@ -11171,7 +11171,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/flare-client-php/issues",
-                "source": "https://github.com/spatie/flare-client-php/tree/1.0.4"
+                "source": "https://github.com/spatie/flare-client-php/tree/1.0.5"
             },
             "funding": [
                 {
@@ -11179,7 +11179,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-28T15:04:23+00:00"
+            "time": "2022-03-01T10:52:59+00:00"
         },
         {
             "name": "spatie/ignition",
@@ -11590,7 +11590,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-fileinfo": "*",
