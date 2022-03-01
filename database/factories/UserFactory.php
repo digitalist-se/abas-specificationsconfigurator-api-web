@@ -34,6 +34,20 @@ class UserFactory extends Factory
         ];
     }
 
+    /**
+     * Define the model's unverified state.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
+    }
+
     public function guest()
     {
         return $this->state(['role' => Role::GUEST]);
