@@ -26,22 +26,24 @@ class SplitNameInUsersTable extends Migration
         });
     }
 
-    protected function splitNameToFirstAndLastName() {
+    protected function splitNameToFirstAndLastName()
+    {
         User::query()
             ->orderBy('id')
             ->chunk(20,
-                fn ($users) => $users->each(
+                fn ($users)    => $users->each(
                     fn ($user) => $this->migrateNames($user)
                 )
             );
     }
 
-    protected function migrateNames(User $user) {
+    protected function migrateNames(User $user)
+    {
         list($firstName, $lastName) = $this->parseNames($user->name);
         list($contactFirstName, $contactLastName) = $this->parseNames($user->contact);
         $user->update([
-            'first_name' => $firstName,
-            'last_name'  => $lastName,
+            'first_name'         => $firstName,
+            'last_name'          => $lastName,
             'contact_first_name' => $contactFirstName,
             'contact_last_name'  => $contactLastName,
         ]);
@@ -67,12 +69,46 @@ class SplitNameInUsersTable extends Migration
             ];
         }
         $lastName = array_pop($nameParts);
+
         return [
             implode(' ', $nameParts),
             $lastName,
         ];
     }
 
+    protected function revertSplitNameToFirstAndLastName()
+    {
+        User::query()
+            ->orderBy('id')
+            ->chunk(20,
+                fn ($users)    => $users->each(
+                    fn ($user) => $this->revertNames($user)
+                )
+            );
+    }
+
+    protected function revertNames(User $user)
+    {
+        \Illuminate\Support\Facades\DB::table('users')
+            ->where('id', '=', $user->id)
+            ->update([
+                'name'    => $this->mergeName($user->first_name, $user->last_name),
+                'contact' => $this->mergeName($user->contact_first_name, $user->contact_last_name),
+            ]);
+    }
+
+    private function mergeName($firstName, $lastName)
+    {
+        $name = [];
+        if ($firstName) {
+            $name[] = $firstName;
+        }
+        if ($lastName) {
+            $name[] = $lastName;
+        }
+
+        return implode(' ', $name);
+    }
 
     /**
      * Reverse the migrations.
@@ -82,9 +118,17 @@ class SplitNameInUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('first_name', 'name');
-            $table->renameColumn('contact_first_name', 'contact');
-            $table->dropColumn(['last_name', 'contact_last_name']);
+            $table->string('name')->nullable();
+            $table->string('contact')->nullable();
+        });
+        $this->revertSplitNameToFirstAndLastName();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn([
+                'first_name',
+                'last_name',
+                'contact_first_name',
+                'contact_last_name',
+            ]);
         });
     }
 }
