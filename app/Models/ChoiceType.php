@@ -21,6 +21,6 @@ class ChoiceType extends BaseModel
 
     public function options()
     {
-        return $this->hasMany('App\Models\Option')->orderBy('sort');
+        return $this->hasMany(\App\Models\Option::class)->orderBy('sort');
     }
 }
