@@ -31,7 +31,7 @@ class TextController extends Controller
                 ->get();
         }
 
-        $data  = [];
+        $data = [];
         foreach ($texts as $text) {
             $data[$text->key] = TextResource::make($text);
         }
@@ -58,7 +58,7 @@ class TextController extends Controller
             'value' => 'required',
         ]);
         $public = $request->input('public') ?? true;
-        $data   = [
+        $data = [
             'key'    => $request->input('key'),
             'locale' => $request->input('locale'),
             'value'  => $request->input('value'),

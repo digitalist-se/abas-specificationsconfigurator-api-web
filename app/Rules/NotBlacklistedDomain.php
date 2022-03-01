@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 
 class NotBlacklistedDomain implements Rule
 {
-
     /**
      * Determine if the validation rule passes.
      *

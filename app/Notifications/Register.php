@@ -50,8 +50,8 @@ class Register extends Notification
 
         return $mail->subject(Lang::get('email.register.subject'))
             ->markdown('email.register', [
-            'user' => $this->user,
-        ]);
+                'user' => $this->user,
+            ]);
     }
 
     /**

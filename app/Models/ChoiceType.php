@@ -13,6 +13,7 @@ class ChoiceType extends BaseModel
         'multiple',
         'tiles',
     ];
+
     protected $casts = [
         'multiple' => 'boolean',
         'tiles'    => 'boolean',

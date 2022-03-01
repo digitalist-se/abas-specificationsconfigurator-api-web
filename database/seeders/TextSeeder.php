@@ -11,8 +11,8 @@ class TextSeeder extends Seeder
 {
     private string $baseLocale = Locale::DE;
 
-    private function localesToSync(): array {
-
+    private function localesToSync(): array
+    {
         $localesToImport = Locale::supportedSet();
         $localesToImport->detach($this->baseLocale);
 
@@ -34,7 +34,7 @@ class TextSeeder extends Seeder
                 ->keyBy('key');
 
             $createValues = $baseTexts->diffKeys($texts)
-                ->map(function(Text $baseText) use ($locale) {
+                ->map(function (Text $baseText) use ($locale) {
                     $baseTextValues = $baseText->only([
                         'key',
                         'locale',
@@ -46,6 +46,7 @@ class TextSeeder extends Seeder
                         'id' => Uuid::uuid4()->toString(),
                         'locale' => $locale,
                     ];
+
                     return array_merge($baseTextValues, $localeValues);
                 })
                 ->values()

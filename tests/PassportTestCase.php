@@ -12,15 +12,20 @@ use Laravel\Passport\ClientRepository;
 class PassportTestCase extends TestCase
 {
     protected $headers = [
-        'Accept-Language' => 'de, en'
+        'Accept-Language' => 'de, en',
     ];
-    protected $scopes  = ['*'];
+
+    protected $scopes = ['*'];
+
     /**
      * @var User
      */
     protected $user;
+
     protected $token;
+
     protected $role = Role::ADMIN;
+
     protected $texts;
 
     public function setUp(): void
@@ -29,7 +34,7 @@ class PassportTestCase extends TestCase
 
         // Set OAuth2 credentials
         $clientRepository = new ClientRepository();
-        $client           = $clientRepository->createPersonalAccessClient(
+        $client = $clientRepository->createPersonalAccessClient(
             null, 'Test Personal Access Client', '/'
         );
         DB::table('oauth_personal_access_clients')->insert([
@@ -37,10 +42,10 @@ class PassportTestCase extends TestCase
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
         ]);
-        $this->user                     = $this->generateUser($this->role);
-        $personalAccessTokenResult      = $this->user->createToken('TestToken', $this->scopes);
-        $this->token                    = $personalAccessTokenResult->token;
-        $this->headers['Accept']        = 'application/json';
+        $this->user = $this->generateUser($this->role);
+        $personalAccessTokenResult = $this->user->createToken('TestToken', $this->scopes);
+        $this->token = $personalAccessTokenResult->token;
+        $this->headers['Accept'] = 'application/json';
         $this->headers['Authorization'] = 'Bearer '.$personalAccessTokenResult->accessToken;
     }
 
@@ -114,16 +119,16 @@ class PassportTestCase extends TestCase
 
     public function assertTextWithKeyIsGiven($object, $key, $optional = false): void
     {
-        if ($optional && !isset($object[$key])) {
+        if ($optional && ! isset($object[$key])) {
             return;
         }
         static::assertIsString($object[$key]);
         static::assertNotEmpty($object[$key]);
         $textKey = $object[$key];
-        if (!$this->texts) {
+        if (! $this->texts) {
             $this->initTexts();
         }
-        if (!Arr::has($this->texts, $textKey)) {
+        if (! Arr::has($this->texts, $textKey)) {
             static::fail('expecting that text with key:"'.$textKey.'"" is given');
         }
     }

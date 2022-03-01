@@ -16,7 +16,8 @@ class Element extends BaseModel
     use HasFactory;
 
     const DOCUMENT_COLUMN_OFFSET = 'C';
-    protected $fillable          = [
+
+    protected $fillable = [
         'id',
         'section_id',
         'type',

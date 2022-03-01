@@ -12,15 +12,22 @@ use ZipArchive;
 abstract class ExcelResource implements Responsable
 {
     const EXTENSION_XLSX = '.xlsx';
-    const EXTENSION_ZIP  = '.zip';
+
+    const EXTENSION_ZIP = '.zip';
+
     /**
      * @var Spreadsheet
      */
     protected $document;
+
     protected $outputDir;
+
     protected $filename;
-    private $saved      = false;
+
+    private $saved = false;
+
     protected $template = null;
+
     private $localDocumentFilename;
 
     /**
@@ -34,8 +41,8 @@ abstract class ExcelResource implements Responsable
     public function __construct($outputDir, $filename, $localDocumentFilename)
     {
         $this->outputDir = $outputDir;
-        $this->filename  = $filename;
-        $this->document  = $this->createDocument();
+        $this->filename = $filename;
+        $this->document = $this->createDocument();
         $this->renderDocument();
         $this->localDocumentFilename = $localDocumentFilename;
     }
@@ -129,14 +136,14 @@ abstract class ExcelResource implements Responsable
     {
         $writer = IOFactory::createWriter($this->document, 'Xlsx');
         $writer->save($this->outputExcelFilename());
-        if (!file_exists($this->outputExcelFilename())) {
+        if (! file_exists($this->outputExcelFilename())) {
             throw new RuntimeException('document was not generated');
         }
     }
 
     protected function zipDocument()
     {
-        $zip        = new ZipArchive();
+        $zip = new ZipArchive();
         $openResult = $zip->open($this->outputZipFilename(), ZipArchive::CREATE | ZipArchive::OVERWRITE);
         if (true !== $openResult) {
             throw new RuntimeException('could not open zip archive');
@@ -154,7 +161,7 @@ abstract class ExcelResource implements Responsable
      */
     public function save()
     {
-        if (!$this->saved) {
+        if (! $this->saved) {
             try {
                 $this->saveDocument();
                 $this->zipDocument();

@@ -9,6 +9,7 @@ use Tests\PassportTestCase;
 class UserControllerTest extends PassportTestCase
 {
     use WithFaker;
+
     protected $role = Role::USER;
 
     public function test_get_user()
@@ -44,7 +45,7 @@ class UserControllerTest extends PassportTestCase
         static::assertStatus($response, 204);
         $response = $this->getJson('/api/user');
         static::assertStatus($response, 200);
-        $expectingResponse         = $requestBody;
+        $expectingResponse = $requestBody;
         $expectingResponse['role'] = Role::USER;
         $response->assertJson($expectingResponse);
     }
@@ -58,7 +59,7 @@ class UserControllerTest extends PassportTestCase
         static::assertStatus($response, 204);
         $response = $this->getJson('/api/user');
         static::assertStatus($response, 200);
-        $expectingResponse         = $requestBody;
+        $expectingResponse = $requestBody;
         $expectingResponse['role'] = Role::USER;
         $response->assertJson($requestBody);
     }

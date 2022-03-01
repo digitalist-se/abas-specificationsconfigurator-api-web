@@ -10,7 +10,8 @@ use Tests\PassportTestCase;
 
 class UpdatePasswordTest extends PassportTestCase
 {
-    protected $role        = Role::USER;
+    protected $role = Role::USER;
+
     const CURRENT_PASSWORD = 'oldPassword1234';
 
     public function setUp(): void
@@ -23,7 +24,7 @@ class UpdatePasswordTest extends PassportTestCase
     {
         Notification::fake();
         $response = $this->postJson('/api/password/email', ['email' => $this->user->email]);
-        $user     = $this->user;
+        $user = $this->user;
         static::assertStatus($response, 204);
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
             return $notification->user->id === $user->id;
@@ -32,7 +33,7 @@ class UpdatePasswordTest extends PassportTestCase
 
     public function test_update_password_without_confirm_and_old()
     {
-        $requestBody          = [
+        $requestBody = [
             'password' => 'test1234',
         ];
         $response = $this->putJson('/api/password', $requestBody);
@@ -43,7 +44,7 @@ class UpdatePasswordTest extends PassportTestCase
 
     public function test_update_password_without_old()
     {
-        $requestBody          = [
+        $requestBody = [
             'password'              => 'test1234',
             'password_confirmation' => 'test1234',
         ];
@@ -55,7 +56,7 @@ class UpdatePasswordTest extends PassportTestCase
 
     public function test_update_password_without_confirm()
     {
-        $requestBody          = [
+        $requestBody = [
             'password'     => 'test1234',
             'password_old' => self::CURRENT_PASSWORD,
         ];
@@ -67,7 +68,7 @@ class UpdatePasswordTest extends PassportTestCase
 
     public function test_update_password()
     {
-        $requestBody          = [
+        $requestBody = [
             'password'              => 'test1234',
             'password_confirmation' => 'test1234',
             'password_old'          => self::CURRENT_PASSWORD,

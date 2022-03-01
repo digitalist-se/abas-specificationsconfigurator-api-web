@@ -8,7 +8,6 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
-
     /**
      * The priority-sorted list of middleware.
      *

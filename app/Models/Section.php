@@ -21,7 +21,7 @@ class Section extends BaseModel
         'chapter_id',
         'has_headline',
         'illustration_states',
-        ];
+    ];
 
     protected $casts = [
         'has_headline' => 'boolean',

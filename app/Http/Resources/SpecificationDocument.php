@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Log;
 
 class SpecificationDocument extends ExcelResource
 {
-    private function localizedTemplate() : String {
+    private function localizedTemplate() : String
+    {
         $locale = Locale::current();
 
         return "excel/{$locale->getValue()}/specification_configurator_template.xlsx";
@@ -46,13 +47,13 @@ class SpecificationDocument extends ExcelResource
      */
     public function __construct($outputDir, $user, $answers)
     {
-        $this->template   = $this->localizedTemplate();
-        $this->user       = $user;
+        $this->template = $this->localizedTemplate();
+        $this->user = $user;
         $this->answersMap = [];
         foreach ($answers as $answer) {
             $this->answersMap[$answer->element_id] = $answer;
         }
-        $filename              = uniqid($user->id.'_', true);
+        $filename = uniqid($user->id.'_', true);
         $localDocumentFilename = trans('specification.filename').self::EXTENSION_XLSX;
         parent::__construct($outputDir, $filename, $localDocumentFilename);
     }
@@ -68,7 +69,6 @@ class SpecificationDocument extends ExcelResource
 
         return $key;
     }
-
 
     protected function renderDocument()
     {
@@ -91,12 +91,12 @@ class SpecificationDocument extends ExcelResource
 
     protected function renderContentValues()
     {
-        $chapters        = \App\Models\Chapter::orderBy('sort')->get();
+        $chapters = \App\Models\Chapter::orderBy('sort')->get();
         foreach ($chapters as $chapter) {
             /**
              * @var \App\Models\Chapter
              */
-            $worksheet       = $chapter->worksheet;
+            $worksheet = $chapter->worksheet;
             $contentSections = $chapter->sections;
             foreach ($contentSections as $contentSection) {
                 $contentElements = $contentSection->printableElements;
@@ -109,7 +109,7 @@ class SpecificationDocument extends ExcelResource
 
     protected function addLocalizedText(int $worksheet, string $cellId, $textKey)
     {
-        if (!$cellId || !$textKey) {
+        if (! $cellId || ! $textKey) {
             return;
         }
         $value = $this->localizedText($textKey);
@@ -118,17 +118,17 @@ class SpecificationDocument extends ExcelResource
 
     protected function addText(int $worksheet, string $cellId, $text)
     {
-        if (!$cellId || !$text) {
+        if (! $cellId || ! $text) {
             return;
         }
-        if($cell = $this->document->getSheet($worksheet)->getCell($cellId)) {
+        if ($cell = $this->document->getSheet($worksheet)->getCell($cellId)) {
             $cell->setValue($text);
         }
     }
 
     protected function addContentElement(int $worksheet, \App\Models\Element $contentElement)
     {
-        if (!isset($this->answersMap[$contentElement->id])) {
+        if (! isset($this->answersMap[$contentElement->id])) {
             return;
         }
         $answer = $this->answersMap[$contentElement->id];
@@ -147,11 +147,11 @@ class SpecificationDocument extends ExcelResource
                     break;
                 case 'choice':
                     if ('lights' === $contentElement->choiceType->type) {
-                        if (!isset($answer->value->option)) {
+                        if (! isset($answer->value->option)) {
                             return;
                         }
                         $column = $this->getColumnOfLightChoiceOption($answer->value->option);
-                        if (!$column) {
+                        if (! $column) {
                             return;
                         }
                         $this->addText($worksheet, $column.$contentElement->document_row, 'x');
@@ -159,10 +159,10 @@ class SpecificationDocument extends ExcelResource
                         return;
                     }
                     if ($contentElement->choiceType->multiple) {
-                        if (!is_array($answer->value->options)) {
+                        if (! is_array($answer->value->options)) {
                             break;
                         }
-                        $options       = $answer->value->options;
+                        $options = $answer->value->options;
                         $parsedOptions = [];
                         foreach ($options as $option) {
                             if ('branche.option.other.value' === $option) {
@@ -173,7 +173,7 @@ class SpecificationDocument extends ExcelResource
                         }
                         $parsedAnswerValue = implode(', ', $parsedOptions);
                     } else {
-                        if (!isset($answer->value->option)) {
+                        if (! isset($answer->value->option)) {
                             break;
                         }
                         $parsedAnswerValue = $this->localizedText($answer->value->option);
@@ -181,7 +181,7 @@ class SpecificationDocument extends ExcelResource
                     if (isset($answer->value->otherEnabled)
                         && $answer->value->otherEnabled
                         && isset($answer->value->otherValue)
-                        && !empty($answer->value->otherValue)
+                        && ! empty($answer->value->otherValue)
                     ) {
                         if (empty($parsedAnswerValue)) {
                             $parsedAnswerValue = $answer->value->otherValue;
@@ -191,9 +191,9 @@ class SpecificationDocument extends ExcelResource
                     }
                     break;
             }
-            if (!empty($parsedAnswerValue)) {
+            if (! empty($parsedAnswerValue)) {
                 $cellId = $contentElement->document_cell;
-                if (!$cellId) {
+                if (! $cellId) {
                     Log::error('missing cellId for content element: '.$contentElement->id);
 
                     return;

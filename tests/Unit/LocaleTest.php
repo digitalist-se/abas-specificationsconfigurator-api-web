@@ -8,21 +8,22 @@ use Tests\TestCase;
 
 class LocaleTest extends TestCase
 {
-
-    public function localizedImageAssetsProvider() {
+    public function localizedImageAssetsProvider()
+    {
         $image = 'logo_white.png';
+
         return [
             'de' => [
                 Locale::DE,
-                $image
+                $image,
             ],
             'en' => [
                 Locale::EN,
-                $image
+                $image,
             ],
             'fallback' => [
                 null,
-                $image
+                $image,
             ],
         ];
     }

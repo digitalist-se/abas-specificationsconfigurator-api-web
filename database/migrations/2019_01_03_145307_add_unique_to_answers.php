@@ -13,7 +13,7 @@ class AddUniqueToAnswers extends Migration
     public function up()
     {
         DB::transaction(function () {
-            if (!App::environment('testing')) {
+            if (! App::environment('testing')) {
                 DB::table('answers')->selectRaw('GROUP_CONCAT(id ORDER BY updated_at DESC SEPARATOR \',\') as ids')
                     ->groupBy('element_id', 'user_id')
                     ->havingRaw('count(1) > ?', [1])->get()->each(function ($result) {

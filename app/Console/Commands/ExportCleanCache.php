@@ -40,8 +40,8 @@ class ExportCleanCache extends Command
      */
     public function handle()
     {
-        $outputDir        = storage_path(DocumentController::EXPORT_PATH);
-        $files            = File::files($outputDir);
+        $outputDir = storage_path(DocumentController::EXPORT_PATH);
+        $files = File::files($outputDir);
         $deleteBeforeTime = Carbon::now()->subMinutes(30);
         collect($files)
             ->each(function ($file) use ($deleteBeforeTime) {

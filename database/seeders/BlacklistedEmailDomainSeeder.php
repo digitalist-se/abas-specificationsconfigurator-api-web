@@ -16,7 +16,7 @@ class BlacklistedEmailDomainSeeder extends Seeder
     {
         BlacklistedEmailDomain::truncate();
 
-        $fileName = resource_path('validation') . '/blacklisted_domains.txt';
+        $fileName = resource_path('validation').'/blacklisted_domains.txt';
 
         $fd = fopen($fileName, 'r');
         if ($fd) {
@@ -31,10 +31,6 @@ class BlacklistedEmailDomainSeeder extends Seeder
             fclose($fd);
         } else {
             // error opening the file.
-
         }
-
     }
 }
-
-

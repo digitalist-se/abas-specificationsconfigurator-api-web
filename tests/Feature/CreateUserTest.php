@@ -15,7 +15,7 @@ class CreateUserTest extends TestCase
     public function test_create_user()
     {
         Notification::fake();
-        $requestBody      = [
+        $requestBody = [
             'name'                  => 'Max Muster',
             'email'                 => 'max.muster@company.com',
             'password'              => 'test1234',

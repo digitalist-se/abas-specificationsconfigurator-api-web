@@ -12,6 +12,7 @@ class DocumentGeneratedMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
+
     public $user;
 
     /**

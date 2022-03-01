@@ -41,15 +41,18 @@ class UserFactory extends Factory
         ];
     }
 
-    public function guest() {
+    public function guest()
+    {
         return $this->state(['role' => Role::GUEST]);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->state(['role' => Role::USER]);
     }
 
-    public function admin() {
+    public function admin()
+    {
         return $this->state(['role' => Role::ADMIN]);
     }
 }

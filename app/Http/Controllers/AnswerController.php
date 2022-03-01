@@ -26,7 +26,7 @@ class AnswerController extends Controller
     public function get(Request $request, Element $element)
     {
         $answer = $this->getAnswer($request, $element);
-        if (!$answer) {
+        if (! $answer) {
             abort(404);
         }
 
@@ -38,7 +38,7 @@ class AnswerController extends Controller
         $this->validate($request, [
             'value' => 'required',
         ]);
-        $value     = $request->input('value');
+        $value = $request->input('value');
         $oldAnswer = $this->getAnswer($request, $element);
         if ($oldAnswer) {
             $this->authorize('update', $oldAnswer);

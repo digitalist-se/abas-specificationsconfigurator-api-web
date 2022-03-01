@@ -12,6 +12,7 @@ class LeadRegisterMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
+
     public $leadUser;
 
     /**

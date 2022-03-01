@@ -29,13 +29,13 @@ class ElementFactory extends Factory
             'type'       => 'text',
             'content'    => $section->headline,
             'sort'       => 0,
-//        // choice type values:
-//        'choice_type_id',
-//
-//        // slider values:
-//        'steps',
-//        'min',
-//        'max',
+            //        // choice type values:
+            //        'choice_type_id',
+            //
+            //        // slider values:
+            //        'steps',
+            //        'min',
+            //        'max',
         ];
     }
 }

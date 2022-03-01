@@ -14,20 +14,19 @@ class CleanUpTexts extends Migration
      */
     public function up()
     {
-        Schema::table('chapters', function(Blueprint $table) {
+        Schema::table('chapters', function (Blueprint $table) {
             $table->dropColumn(['print_description', 'print_name']);
         });
 
-        Schema::table('sections', function(Blueprint $table) {
+        Schema::table('sections', function (Blueprint $table) {
             $table->dropColumn(['print_description']);
         });
 
-        Schema::table('elements', function(Blueprint $table) {
+        Schema::table('elements', function (Blueprint $table) {
             $table->dropColumn(['print']);
         });
 
         Text::truncate();
-
     }
 
     /**
@@ -37,7 +36,7 @@ class CleanUpTexts extends Migration
      */
     public function down()
     {
-        Schema::table('chapters', function(Blueprint $table) {
+        Schema::table('chapters', function (Blueprint $table) {
             $table->string('print_name')
                 ->after('name')
                 ->nullable();
@@ -46,13 +45,13 @@ class CleanUpTexts extends Migration
                 ->nullable();
         });
 
-        Schema::table('sections', function(Blueprint $table) {
+        Schema::table('sections', function (Blueprint $table) {
             $table->string('print_description')
                 ->after('description')
                 ->nullable();
         });
 
-        Schema::table('elements', function(Blueprint $table) {
+        Schema::table('elements', function (Blueprint $table) {
             $table->string('print')
                 ->after('content')
                 ->nullable();

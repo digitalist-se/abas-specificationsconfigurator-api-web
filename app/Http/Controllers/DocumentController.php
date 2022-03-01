@@ -21,16 +21,16 @@ class DocumentController extends Controller
     public function generate(Request $request)
     {
         $user = $request->user();
-        if (!$user->hasAllRequiredFieldsForSpecificationDocument()) {
+        if (! $user->hasAllRequiredFieldsForSpecificationDocument()) {
             return response('', 428);
         }
         $outputDir = storage_path(self::EXPORT_PATH);
-        if (!is_dir($outputDir)) {
-            if (!mkdir($outputDir) && !is_dir($outputDir)) {
+        if (! is_dir($outputDir)) {
+            if (! mkdir($outputDir) && ! is_dir($outputDir)) {
                 throw new RuntimeException("Directory '{$outputDir}' was not created");
             }
         }
-        $answers               = $user->answers()->get();
+        $answers = $user->answers()->get();
         $specificationDocument = new SpecificationDocument($outputDir, $user, $answers);
         $specificationDocument->save();
         $mail = new DocumentGeneratedMail($user);
