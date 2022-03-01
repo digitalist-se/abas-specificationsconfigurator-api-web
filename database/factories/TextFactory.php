@@ -9,13 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class TextFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Text::class;
-
-    /**
      * Define the model's default state.
      *
      * @return array
@@ -23,9 +16,9 @@ class TextFactory extends Factory
     public function definition()
     {
         return [
-            'key'         => $this->faker->uuid,
+            'key'         => $this->faker->uuid(),
             'locale'      => Locale::DE,
-            'value'       => $this->faker->text,
+            'value'       => $this->faker->text(),
             'description' => '',
             'public'      => 1,
         ];
