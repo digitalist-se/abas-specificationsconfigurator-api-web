@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 
-class AddUniqueToAnswers extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -39,4 +39,4 @@ class AddUniqueToAnswers extends Migration
             $table->dropUnique(['user_id', 'element_id']);
         });
     }
-}
+};
