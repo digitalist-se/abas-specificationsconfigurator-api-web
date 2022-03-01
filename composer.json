@@ -34,8 +34,10 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
-        "friendsofphp/php-cs-fixer": "^3.6",
         "fakerphp/faker": "^1.9.1",
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "laravel-lang/lang": "^10.4",
+        "laravel-lang/publisher": "^12.2",
         "laravel/sail": "^1.13",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
