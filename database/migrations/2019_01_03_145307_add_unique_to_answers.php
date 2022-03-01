@@ -11,21 +11,19 @@ return new class extends Migration {
      */
     public function up()
     {
-        DB::transaction(function () {
-            if (! App::environment('testing')) {
-                DB::table('answers')->selectRaw('GROUP_CONCAT(id ORDER BY updated_at DESC SEPARATOR \',\') as ids')
-                    ->groupBy('element_id', 'user_id')
-                    ->havingRaw('count(1) > ?', [1])->get()->each(function ($result) {
-                        $ids = explode(',', $result->ids);
-                        if (count($ids) > 1) {
-                            unset($ids[0]); // not delete first;
-                            DB::table('answers')->whereIn('id', $ids)->delete();
-                        }
-                    });
-            }
-            Schema::table('answers', function (Blueprint $table) {
-                $table->unique(['user_id', 'element_id']);
-            });
+        if (! App::environment('testing')) {
+            DB::table('answers')->selectRaw('GROUP_CONCAT(id ORDER BY updated_at DESC SEPARATOR \',\') as ids')
+                ->groupBy('element_id', 'user_id')
+                ->havingRaw('count(1) > ?', [1])->get()->each(function ($result) {
+                    $ids = explode(',', $result->ids);
+                    if (count($ids) > 1) {
+                        unset($ids[0]); // not delete first;
+                        DB::table('answers')->whereIn('id', $ids)->delete();
+                    }
+                });
+        }
+        Schema::table('answers', function (Blueprint $table) {
+            $table->unique(['user_id', 'element_id']);
         });
     }
 
