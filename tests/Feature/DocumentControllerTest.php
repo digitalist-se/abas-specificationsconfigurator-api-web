@@ -14,9 +14,10 @@ use Tests\PassportTestCase;
 class DocumentControllerTest extends PassportTestCase
 {
     use WithFaker;
+
     protected $role = Role::USER;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->deleteAllExportFilesOfUser();
@@ -28,7 +29,7 @@ class DocumentControllerTest extends PassportTestCase
                 'user_id'    => $this->user->id,
             ]);
         }
-        $choiceType      = ChoiceType::where('multiple', '=', 1)->get()->first();
+        $choiceType = ChoiceType::where('multiple', '=', 1)->get()->first();
         $branchesElement = Element::where('choice_type_id', '=', $choiceType->id)->get()->first();
         Answer::create([
             'value'      => [

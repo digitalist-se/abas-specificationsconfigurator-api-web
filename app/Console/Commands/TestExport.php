@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Console\Commands;
-
 
 use App\Http\Resources\SpecificationDocument;
 use App\Models\User;
@@ -11,6 +9,7 @@ use Illuminate\Console\Command;
 class TestExport extends Command
 {
     const EXPORT_PATH = 'app/export';
+
     /**
      * The name and signature of the console command.
      *
@@ -44,9 +43,10 @@ class TestExport extends Command
     {
         $outputDir = storage_path(self::EXPORT_PATH);
         $user = User::first();
-        $answers               = $user->answers()->get();
+        $answers = $user->answers()->get();
         $specificationDocument = new SpecificationDocument($outputDir, $user, $answers);
         $specificationDocument->save();
+
         return 0;
     }
 }

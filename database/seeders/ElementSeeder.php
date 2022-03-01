@@ -66,7 +66,7 @@ class ElementSeeder extends Seeder
         } else {
             $descriptionKey = null;
         }
-        $sort       = $chapter['sort'] ?? 0;
+        $sort = $chapter['sort'] ?? 0;
         /**
          * @var Chapter
          */
@@ -82,11 +82,11 @@ class ElementSeeder extends Seeder
             ]
         );
         $sectionSorting = 0;
-        $sectionIds     = [];
+        $sectionIds = [];
         foreach ($chapter['sections'] as $sectionI18nId => $section) {
             $section['sort'] = $sectionSorting;
-            $newSection      = $this->importSection($newChapter, $sectionI18nId, $section);
-            ++$sectionSorting;
+            $newSection = $this->importSection($newChapter, $sectionI18nId, $section);
+            $sectionSorting++;
             if ($newSection) {
                 $sectionIds[] = $newSection->id;
             }
@@ -96,9 +96,9 @@ class ElementSeeder extends Seeder
 
     protected function importSection($chapter, $i18nId, $section)
     {
-        $sectionHeadlineKey         = $this->createKeyName($i18nId, 'headline');
-        $sectionDescriptionKey      = $this->createKeyName($i18nId, 'description');
-        $hasHeadline                = false;
+        $sectionHeadlineKey = $this->createKeyName($i18nId, 'headline');
+        $sectionDescriptionKey = $this->createKeyName($i18nId, 'description');
+        $hasHeadline = false;
         if (isset($section['headline'])) {
             $this->text($sectionHeadlineKey, $section['headline']);
             $hasHeadline = true;
@@ -112,7 +112,7 @@ class ElementSeeder extends Seeder
         /**
          * @var Section
          */
-        $newSection     = Section::updateOrCreate(
+        $newSection = Section::updateOrCreate(
             [
                 'headline' => $sectionHeadlineKey,
             ],
@@ -125,12 +125,12 @@ class ElementSeeder extends Seeder
                 'illustration_states' => $section['illustration'] ?? null,
             ]
         );
-        if (!isset($section['elements'])) {
+        if (! isset($section['elements'])) {
             return null;
         }
-        $elementsIds       = [];
-        $elements          = $section['elements'];
-        $sorting           = 0;
+        $elementsIds = [];
+        $elements = $section['elements'];
+        $sorting = 0;
         $documentRowOffset = $section['document_offset_row'] ?? 0;
         foreach ($elements as $id => $element) {
             if (is_string($element)) {
@@ -138,7 +138,7 @@ class ElementSeeder extends Seeder
                 // use element as key of preset
                 $element = Arr::get($this->presets, $element);
             }
-            $data         = [];
+            $data = [];
             $data['type'] = $element['type'];
             if (isset($element['content'])) {
                 $contentKey = $this->createKeyName($i18nId, $id, 'content');
@@ -155,18 +155,18 @@ class ElementSeeder extends Seeder
             $this->optionalValue('min', $element, $data);
             $this->optionalValue('max', $element, $data);
             if (isset($element['choice_type'])) {
-                $choiceType             = ChoiceType::where('type', '=', $element['choice_type'])->get(['id'])->first();
+                $choiceType = ChoiceType::where('type', '=', $element['choice_type'])->get(['id'])->first();
                 $data['choice_type_id'] = $choiceType->id;
             }
-            $data['sort']                = $sorting;
-            $data['section_id']          = $newSection->id;
-            $data['layout_two_columns']  = $element['layout_two_columns'] ?? false;
+            $data['sort'] = $sorting;
+            $data['section_id'] = $newSection->id;
+            $data['layout_two_columns'] = $element['layout_two_columns'] ?? false;
             $data['illustration_states'] = $element['illustration'] ?? null;
             if (isset($element['document_row'])) {
                 $data['document_row'] = $documentRowOffset + (int) $element['document_row'];
             }
-            $newElement                  = Element::updateOrCreate(['content' => $contentKey], $data);
-            ++$sorting;
+            $newElement = Element::updateOrCreate(['content' => $contentKey], $data);
+            $sorting++;
             $elementsIds[] = $newElement->id;
         }
         $newSection->elements()->whereNotIn('id', $elementsIds)->delete();
@@ -181,7 +181,7 @@ class ElementSeeder extends Seeder
                 'key' => $key,
                 'locale' => $this->locale,
             ], [
-                'value' => $value
+                'value' => $value,
             ]
         );
     }

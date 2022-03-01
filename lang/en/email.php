@@ -67,17 +67,17 @@ a user has generated a new specification sheet.
     ],
     'lead' => [
         'register' => [
-        'subject' => 'Registering at ERP Planner',
-        'content' => 'ERP Planner Team,
+            'subject' => 'Registering at ERP Planner',
+            'content' => 'ERP Planner Team,
 
 a new user has registered . ',
-        'email'               => 'Email:',
-        'name'                => 'Name:',
-        'informationHeadline' => 'Brief info:',
-        'userCompany'         => 'Company:',
-        'userRole'            => 'Role:',
-        'userUrl'             => 'URL:',
-        'partnerTracking'     => 'Partner Tracking ID:',
+            'email'               => 'Email:',
+            'name'                => 'Name:',
+            'informationHeadline' => 'Brief info:',
+            'userCompany'         => 'Company:',
+            'userRole'            => 'Role:',
+            'userUrl'             => 'URL:',
+            'partnerTracking'     => 'Partner Tracking ID:',
         ],
     ],
 ];

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Cookie;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 
 class FrontendController extends Controller
 {
@@ -15,7 +15,7 @@ class FrontendController extends Controller
         $pid = Request::input('pid');
 
         $pidTracking = null;
-        if (!is_null($pid)) {
+        if (! is_null($pid)) {
             Cookie::queue('partnerTracking', $pid);
             $pidTracking = ['pid' => $pid];
         } else {

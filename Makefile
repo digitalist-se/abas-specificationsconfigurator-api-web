@@ -105,7 +105,7 @@ laravel: ## forward laravel installer command to container
 # 	docker-compose exec -T echo laravel-echo-server ${ARGS}
 
 php-cs-fixer: ## forward csfixer command to container, pass file path relative to project root dir
-	docker-compose exec -T -u www-data web bash -c 'php /var/www/html/vendor/bin/php-cs-fixer fix /var/www/html/${ARGS} --config "/var/www/html/.php_cs"'
+	docker-compose exec -T -u www-data web bash -c 'php /var/www/html/vendor/bin/php-cs-fixer fix /var/www/html/${ARGS} --config "/var/www/html/.php-cs-fixer.php"'
 
 ## IDE Helper
 #################################

@@ -26,7 +26,7 @@ class Text extends JsonResource
                 return [
                     'id' => $this->id,
                     'locale' => $this->locale,
-                    'description' => $this->description
+                    'description' => $this->description,
                 ];
             }),
         ];

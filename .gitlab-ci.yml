@@ -4,7 +4,7 @@
 #  and: https://github.com/edbizarro/gitlab-ci-pipeline-php
 #  and: gitlab docs
 
-image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
+image: lorisleiva/laravel-docker:8.0
 
 variables:
     MYSQL_ROOT_PASSWORD: secret # needed by service

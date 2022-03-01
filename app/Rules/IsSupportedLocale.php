@@ -17,7 +17,7 @@ class IsSupportedLocale implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return false;
         }
 

@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -28,20 +29,19 @@ return [
     | mailers below. You are free to add additional mailers as required.
     |
     | Supported: "smtp", "sendmail", "mailgun", "ses",
-    |            "postmark", "log", "array"
+    |            "postmark", "log", "array", "failover"
     |
     */
 
     'mailers' => [
         'smtp' => [
-            'transport'  => 'smtp',
-            'host'       => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port'       => env('MAIL_PORT', 587),
+            'transport' => 'smtp',
+            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+            'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username'   => env('MAIL_USERNAME'),
-            'password'   => env('MAIL_PASSWORD'),
-            'timeout'    => null,
-            'auth_mode'  => null,
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
+            'timeout' => null,
         ],
 
         'ses' => [
@@ -58,16 +58,24 @@ return [
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path'      => '/usr/sbin/sendmail -bs',
+            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -t -i'),
         ],
 
         'log' => [
             'transport' => 'log',
-            'channel'   => env('MAIL_LOG_CHANNEL'),
+            'channel' => env('MAIL_LOG_CHANNEL'),
         ],
 
         'array' => [
             'transport' => 'array',
+        ],
+
+        'failover' => [
+            'transport' => 'failover',
+            'mailers' => [
+                'smtp',
+                'log',
+            ],
         ],
     ],
 
@@ -83,18 +91,10 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@erpplanner.com'),
-        'name'    => env('MAIL_FROM_NAME', 'erpplanner.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | "To" Addresses
-    |--------------------------------------------------------------------------
-    |
-    | Specific Emails that should be sendet to.
-    | Lead after generating document
-     */
     'recipient' => [
         'lead' => [
             'address' => env('MAIL_RECIPIENT_LEAD_ADDRESS', 'hello@erpplanner.com'),
@@ -119,4 +119,5 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+
 ];

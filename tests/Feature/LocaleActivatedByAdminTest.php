@@ -9,7 +9,8 @@ use Tests\PassportTestCase;
 class LocaleActivatedByAdminTest extends PassportTestCase
 {
     protected $role = Role::ADMIN;
-    public function setUp(): void
+
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -26,10 +26,10 @@ class CookieConsentController extends Controller
             ],
             'content' => [
                 'message'     => trans('cookieconsent.message'),
-                    'dismiss' => trans('cookieconsent.dismiss'),
-                    'link'    => trans('cookieconsent.link'),
-                    'href'    => route('data-privacy'),
-                ],
+                'dismiss' => trans('cookieconsent.dismiss'),
+                'link'    => trans('cookieconsent.link'),
+                'href'    => route('data-privacy'),
+            ],
         ];
     }
 }

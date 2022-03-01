@@ -31,6 +31,6 @@ class Chapter extends BaseModel
 
     public function sections()
     {
-        return $this->hasMany('App\Models\Section')->orderBy('sort');
+        return $this->hasMany(\App\Models\Section::class)->orderBy('sort');
     }
 }

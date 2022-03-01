@@ -25,7 +25,7 @@ class LocaleActivatedTest extends TestCase
         $response = $this->getJson('/api/locales/activated');
         $this->assertStatus($response, 200);
         $response->assertJson([
-            'de'
+            'de',
         ]);
     }
 
@@ -40,7 +40,7 @@ class LocaleActivatedTest extends TestCase
         $response = $this->getJson('/api/locales/activated');
         $this->assertStatus($response, 200);
         $response->assertJson([
-            'de'
+            'de',
         ]);
     }
 

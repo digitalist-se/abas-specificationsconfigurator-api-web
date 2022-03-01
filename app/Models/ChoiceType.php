@@ -13,6 +13,7 @@ class ChoiceType extends BaseModel
         'multiple',
         'tiles',
     ];
+
     protected $casts = [
         'multiple' => 'boolean',
         'tiles'    => 'boolean',
@@ -20,6 +21,6 @@ class ChoiceType extends BaseModel
 
     public function options()
     {
-        return $this->hasMany('App\Models\Option')->orderBy('sort');
+        return $this->hasMany(\App\Models\Option::class)->orderBy('sort');
     }
 }

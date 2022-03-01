@@ -15,21 +15,21 @@ class CreateUserTest extends TestCase
     public function test_create_user()
     {
         Notification::fake();
-        $requestBody      = [
+        $requestBody = [
             'name'                  => 'Max Muster',
             'email'                 => 'max.muster@company.com',
             'password'              => 'test1234',
             'password_confirmation' => 'test1234',
 
             'sex'                    => 'm',
-            'company_name'           => $this->faker->company,
-            'phone'                  => $this->faker->phoneNumber,
-            'website'                => $this->faker->randomAscii,
-            'street'                 => $this->faker->streetAddress,
-            'additional_street_info' => $this->faker->streetAddress,
+            'company_name'           => $this->faker->company(),
+            'phone'                  => $this->faker->phoneNumber(),
+            'website'                => $this->faker->randomAscii(),
+            'street'                 => $this->faker->streetAddress(),
+            'additional_street_info' => $this->faker->streetAddress(),
             'zipcode'                => $this->faker->randomNumber(5),
-            'city'                   => $this->faker->city,
-            'contact'                => $this->faker->name,
+            'city'                   => $this->faker->city(),
+            'contact'                => $this->faker->name(),
             'contact_function'       => 'Geschäftsführer',
         ];
         $response = $this->postJson('/api/user', $requestBody);

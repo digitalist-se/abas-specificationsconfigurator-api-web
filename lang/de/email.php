@@ -67,17 +67,17 @@ ein User hat ein neues Lastenheft generiert.
     ],
     'lead' => [
         'register' => [
-        'subject' => 'Registrierung auf ERP Planner',
-        'content' => 'Hallo ERP Planner Team,  
+            'subject' => 'Registrierung auf ERP Planner',
+            'content' => 'Hallo ERP Planner Team,  
 
 ein neuer User hat sich registriert. ',
-        'email'               => 'E-Mail:',
-        'name'                => 'Name:',
-        'informationHeadline' => 'Kurzinfo:',
-        'userCompany'         => 'Firma:',
-        'userRole'            => 'Rolle:',
-        'userUrl'             => 'URL:',
-        'partnerTracking'     => 'Partner Tracking ID:',
+            'email'               => 'E-Mail:',
+            'name'                => 'Name:',
+            'informationHeadline' => 'Kurzinfo:',
+            'userCompany'         => 'Firma:',
+            'userRole'            => 'Rolle:',
+            'userUrl'             => 'URL:',
+            'partnerTracking'     => 'Partner Tracking ID:',
         ],
     ],
 ];

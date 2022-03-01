@@ -8,14 +8,14 @@ use Tests\PassportTestCase;
 
 class LogoutTest extends PassportTestCase
 {
-    protected $role        = Role::USER;
+    protected $role = Role::USER;
 
     protected function isTokenValid(User $user): bool
     {
         /** @var \Laravel\Passport\Token $token */
         $token = $user->tokens->firstWhere('id', $this->token->id);
 
-        return $token && !$token->revoked;
+        return $token && ! $token->revoked;
     }
 
     public function test_logout_of_logged_in_user()
