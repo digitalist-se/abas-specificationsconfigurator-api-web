@@ -28,7 +28,7 @@ class PassportTestCase extends TestCase
 
     protected $texts;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

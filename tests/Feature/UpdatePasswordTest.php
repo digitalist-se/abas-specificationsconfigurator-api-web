@@ -14,7 +14,7 @@ class UpdatePasswordTest extends PassportTestCase
 
     const CURRENT_PASSWORD = 'oldPassword1234';
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user->update(['password' => Hash::make(self::CURRENT_PASSWORD)]);
