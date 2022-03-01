@@ -2,7 +2,10 @@
     "name": "abas/erpplanner",
     "type": "project",
     "description": "ERP planner tool",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.4.0",
@@ -19,7 +22,6 @@
         "ext-xml": "*",
         "ext-zip": "*",
         "fideloper/proxy": "^4.4",
-        "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/passport": "^10.1",
@@ -63,8 +65,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
