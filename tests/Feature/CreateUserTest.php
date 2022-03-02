@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Mail\LeadRegisterMail;
 use App\Models\User;
 use App\Notifications\Register;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -14,6 +16,7 @@ class CreateUserTest extends TestCase
 
     public function test_create_user()
     {
+        Mail::fake();
         Notification::fake();
         $requestBody = [
             'name'                  => 'Max Muster',
@@ -37,6 +40,9 @@ class CreateUserTest extends TestCase
         $user = User::where('email', '=', $requestBody['email'])->first();
         Notification::assertSentTo($user, Register::class, function ($notification) use ($user) {
             return $notification->user->id === $user->id;
+        });
+        Mail::assertQueued(LeadRegisterMail::class, function (LeadRegisterMail $mail) use ($user) {
+            return $mail->leadUser->id == $user->id;
         });
         // user was already created.
         // retry creating user, that request should fail

@@ -47,3 +47,5 @@ Route::get('/locales/supported', [LocaleController::class, 'supported']);
  * provide list of all possible locales and that are activated for current user
  */
 Route::get('/locales/activated', [LocaleController::class, 'activated'])->middleware(['auth.optional:api']);
+
+Route::get('/email/verify', [\App\Http\Controllers\Auth\VerificationController::class, 'verify'])->name('verification.verify');

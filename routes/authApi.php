@@ -13,6 +13,9 @@ use App\Http\Controllers\TextController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/email/resend', [\App\Http\Controllers\Auth\VerificationController::class, 'resend'])
+    ->name('verification.resend');
+
 Route::get('/user', [UserController::class, 'get']);
 Route::put('/user', [UserController::class, 'update']);
 Route::put('/password', [PasswordController::class, 'updatePassword']);

@@ -7,6 +7,7 @@ use App\Mail\LeadRegisterMail;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\Register;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -55,9 +56,7 @@ class UserController extends Controller
         $data['role'] = Role::USER;
         $newUser = User::create($data);
 
-        $newUser->notify(new Register($newUser));
-        Mail::to(config('mail.recipient.lead.address'))
-            ->send(new LeadRegisterMail($newUser));
+        event(new Registered($newUser));
 
         return response('', 204);
     }
@@ -66,7 +65,7 @@ class UserController extends Controller
     {
         $user = $request->user();
         $this->validate($request, [
-            'email'    => [
+            'email' => [
                 'email',
                 Rule::unique('users', 'email')->ignore($user->id),
                 'checkdomains',

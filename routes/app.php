@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/create')->name('register');
 Route::get('/login')->name('login');
 Route::get('/password/reset')->name('app-pw-reset');
+
+Route::get('/email/verify')->name('verification.verify');
