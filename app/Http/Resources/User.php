@@ -16,7 +16,8 @@ class User extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'                   => $this->name,
+            'first_name'             => $this->first_name,
+            'last_name'              => $this->last_name,
             'email'                  => $this->email,
             'role'                   => $this->role->getValue(),
             'sex'                    => $this->sex,
@@ -27,7 +28,8 @@ class User extends JsonResource
             'additional_street_info' => $this->additional_street_info,
             'zipcode'                => $this->zipcode,
             'city'                   => $this->city,
-            'contact'                => $this->contact,
+            'contact_first_name'     => $this->contact_first_name,
+            'contact_last_name'      => $this->contact_last_name,
             'contact_function'       => $this->contact_function,
             'country'                => $this->country,
         ];

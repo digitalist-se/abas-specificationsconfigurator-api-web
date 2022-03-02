@@ -20,10 +20,12 @@ class User extends Authenticatable
     use HasFactory;
 
     const REQUIRED_FIELDS_FOR_SPECIFICATION = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'sex',
-        'contact',
+        'contact_first_name',
+        'contact_last_name',
         'company_name',
         'phone',
         'website',
@@ -38,7 +40,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'role',
@@ -51,7 +54,8 @@ class User extends Authenticatable
         'zipcode',
         'city',
         'country',
-        'contact',
+        'contact_first_name',
+        'contact_last_name',
         'contact_function',
         'partner_tracking',
         'user_company',

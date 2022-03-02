@@ -17,9 +17,10 @@ class DemoUserSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'demo@gal-digital.de'],
             [
-                'name'     => 'Demo User',
-                'password' => Hash::make('demodemo'),
-                'role'     => Role::USER,
+                'first_name' => 'Demo',
+                'last_name'  => 'User',
+                'password'   => Hash::make('demodemo'),
+                'role'       => Role::USER,
             ]
         );
     }

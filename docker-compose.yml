@@ -59,6 +59,18 @@ services:
 #    image: swaggerapi/swagger-editor
 #    ports:
 #      - 8080:8080
+
+  mail:
+    image: mailhog/mailhog
+    container_name: "${DOCKER_CONTAINER_NAME}-mail"
+    logging:
+      driver: 'none'
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      frontend:
+      backend:
 volumes:
   database:
   redis:
