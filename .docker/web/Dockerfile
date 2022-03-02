@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-buster
+FROM php:8.1-fpm-buster
 
 ###########################################################################
 # userid of www-data (linux support file permissions)
@@ -67,7 +67,6 @@ RUN apt-get update && apt-get install zlib1g-dev -y \
         intl \
         iconv \
         pcntl \
-        tokenizer \
         xsl
 
 ## REDIS
