@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -25,7 +24,7 @@ class UserFactory extends Factory
             'sex'                    => $this->faker->boolean() ? 'm' : 'w',
             'company_name'           => $this->faker->company(),
             'phone'                  => $this->faker->phoneNumber(),
-            'website'                => $this->faker->randomAscii(),
+            'website'                => $this->faker->url(),
             'street'                 => $this->faker->streetAddress(),
             'additional_street_info' => $this->faker->streetAddress(),
             'zipcode'                => $this->faker->randomNumber(5),
