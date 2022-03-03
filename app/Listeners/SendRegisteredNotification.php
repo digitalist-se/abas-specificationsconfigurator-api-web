@@ -20,7 +20,6 @@ class SendRegisteredNotification
     public function handle(Registered $event)
     {
         if ($event->user instanceof User) {
-            $event->user->sendEmailVerificationNotification();
             $event->user->notify(new Register($event->user));
         }
     }

@@ -13,7 +13,11 @@ use App\Http\Controllers\TextController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/email/resend', [\App\Http\Controllers\Auth\VerificationController::class, 'resend'])
+Route::get('/email/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return response()->noContent();
+})->middleware('throttle:6,1')
     ->name('verification.resend');
 
 Route::get('/user', [UserController::class, 'get']);

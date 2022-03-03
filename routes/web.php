@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\IllustrationController;
+use App\Http\Requests\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,12 @@ Route::domain(config('app.app-www-url'))
         Route::get('/tutorial')->name('tutorial');
         Route::get('/faq')->name('faq');
     });
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect(route('login'));
+})
+    ->middleware(['signed'])
+    ->name('verification.verify');

@@ -6,9 +6,9 @@
 # @lang('email.register.features.headline')  
 @lang('email.register.features.items', ['domain' => config('app.domain'), 'url' => config('app.url')])  
 
-# @lang('email.register.tutorial.headline')  
-@component('mail::button', ['url' => config('app.url')])
-    {{config('app.domain')}}
+# @lang('email.register.tutorial.headline')
+@component('mail::button', ['url' => $url])
+    {{ __('Verify Email Address') }}
 @endcomponent
 
 @lang('email.register.contact', ['email' => config('app.contact.mail'), 'phone' => config('app.contact.phone')])  
