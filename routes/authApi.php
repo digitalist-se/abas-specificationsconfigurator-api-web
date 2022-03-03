@@ -11,9 +11,10 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StructureController;
 use App\Http\Controllers\TextController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/email/resend', function (Request $request) {
+Route::post('/email/resend', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
 
     return response()->noContent();
