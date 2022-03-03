@@ -43,7 +43,8 @@ GET `/api/user`
 {
     "name": "Max Muster",
     "email": "max.muster@company.com",
-    "role": 1
+    "email_verified": true,
+    "role": 1,
     "sex": "m or w",
     "company_name": "company",
     "phone": "0000000000",
