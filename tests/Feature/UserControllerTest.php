@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Country;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\PassportTestCase;
@@ -40,7 +41,7 @@ class UserControllerTest extends PassportTestCase
             'contact_first_name'     => $this->faker->firstName(),
             'contact_last_name'      => $this->faker->lastName(),
             'contact_function'       => 'Geschäftsführer',
-            'country'                => 'Deutschland',
+            'country'                => Country::Germany->value,
         ];
         $response = $this->putJson('/api/user', $requestBody);
         static::assertStatus($response, 204);
