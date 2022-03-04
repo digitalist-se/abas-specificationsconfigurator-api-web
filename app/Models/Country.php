@@ -29,14 +29,47 @@ enum Country: string
     case United_States = 'us';
     case Other = 'other';
 
-    public function getDisplayName(): string
+    public function getName(): string
     {
+        return str_replace('_', ' ', $this->name);
+    }
+
+    public function getDisplayName(?string $locale = null): string
+    {
+        if (! $locale) {
+            $locale = app()->getLocale();
+        }
+
         if ($this === self::Other) {
-            return __('Other');
+            return __('Other', locale: $locale);
         }
 
         $countryLocale = '-'.Str::upper($this->value);
 
-        return \Locale::getDisplayRegion($countryLocale, app()->getLocale());
+        return \Locale::getDisplayRegion($countryLocale, $locale);
+    }
+
+    public static function findMatch($key): Country
+    {
+        $match = collect(self::cases())
+            ->first(function (Country $case) use ($key) {
+                return $key === $case->value
+                    || $key === str_replace('_', ' ', $case->getName());
+            });
+
+        if ($match) {
+            return $match;
+        }
+        $match = collect(self::cases())
+            ->first(function (Country $case) use ($key) {
+                return $key === $case->getDisplayName('de')
+                    || $key === $case->getDisplayName('en');
+            });
+
+        if ($match) {
+            return $match;
+        }
+
+        return Country::Other;
     }
 }
