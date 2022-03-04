@@ -34,6 +34,11 @@ enum Country: string
         return str_replace('_', ' ', $this->name);
     }
 
+    public function getLeadName(): string
+    {
+        return $this->getName();
+    }
+
     public function getDisplayName(?string $locale = null): string
     {
         if (! $locale) {
