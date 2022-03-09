@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
         libmagickwand-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
 RUN printf "\n" | pecl install imagick
 RUN docker-php-ext-enable imagick
+
 ###########################################################################
 # PHP:
 ###########################################################################
@@ -41,6 +42,7 @@ RUN apt-get update && apt-get install zlib1g-dev -y \
         libpq-dev \
         libjpeg-dev \
         libpng-dev \
+        libssl-dev \
         supervisor \
         git \
         libzip-dev \
@@ -48,6 +50,8 @@ RUN apt-get update && apt-get install zlib1g-dev -y \
         libonig-dev \
         libxslt-dev \
         libcurl3-dev \
+        libpcre3-dev \
+        libcurl4-openssl-dev \
         xvfb \
         libfontconfig \
         wkhtmltopdf \
@@ -70,6 +74,10 @@ RUN apt-get update && apt-get install zlib1g-dev -y \
         pcntl \
         tokenizer \
         xsl
+
+# HTTP Extension \
+RUN pecl install raphf && docker-php-ext-enable raphf \
+    && pecl install pecl_http && docker-php-ext-enable http
 
 ## REDIS
 RUN pecl install -o -f redis \

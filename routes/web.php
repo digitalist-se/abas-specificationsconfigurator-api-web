@@ -16,10 +16,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [FrontendController::class, 'index']);
-Route::get('/impressum', [FrontendController::class, 'imprint']);
-Route::get('/datenschutz', [FrontendController::class, 'dataPrivacy']);
+Route::get('/imprint', [FrontendController::class, 'imprint']);
+Route::get('/data-privacy', [FrontendController::class, 'dataPrivacy']);
 Route::get('/tutorial', [FrontendController::class, 'tutorial']);
 Route::get('/faq', [FrontendController::class, 'faq']);
+//
+Route::get('/impressum', [FrontendController::class, 'imprint']);
+Route::get('/datenschutz', [FrontendController::class, 'dataPrivacy']);
 
 Route::get('/business-illustration.svg', [IllustrationController::class, 'get']);
 

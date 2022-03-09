@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Locale;
 use Cookie;
+use http\QueryString;
+use http\Url;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 
@@ -25,6 +29,35 @@ class FrontendController extends Controller
         return $pidTracking;
     }
 
+    protected function getLocale(): Locale
+    {
+        $lang = Request::input('lang');
+
+        return ($lang && Locale::has($lang)) ? Locale::get($lang) : Locale::current();
+    }
+
+    protected array $pathMap = [
+        Locale::DE => [
+            'landingpage'  => '/',
+            'imprint'      => '/impressum',
+            'data-privacy' => '/datenschutzerklaerung',
+            'tutorial'     => '/tutorial',
+            'faq'          => '/faq',
+        ],
+        Locale::EN => [
+            'landingpage'  => '/en',
+            'imprint'      => '/en/impressum',
+            'data-privacy' => '/en/data-protection',
+            'tutorial'     => '/en/tutorial',
+            'faq'          => '/en/faq',
+        ],
+    ];
+
+    protected function getPath($locale, $routeName): ?string
+    {
+        return Arr::get($this->pathMap, "{$locale->getValue()}.$routeName");
+    }
+
     /**
      * @param $routeName
      *
@@ -32,51 +65,52 @@ class FrontendController extends Controller
      */
     private function redirect($routeName)
     {
-        return Redirect::away(route($routeName, $this->getPartnerTracking()), 301);
+        $path = $this->getPath($this->getLocale(), $routeName)
+            ?? $this->getPath(Locale::DE(), $routeName)
+            ?? '/';
+
+        $parameters = $this->getPartnerTracking();
+
+        $base = config('app.app-www-url');
+        $url = new Url($base, [
+            'path'  => $path,
+            'query' => new QueryString($parameters),
+        ]);
+
+        return Redirect::away($url, 301);
+    }
+
+    private function handleRoute($routeName)
+    {
+        if (App::environment('local')) {
+            return view($routeName)->with('pidTracking', $this->getPartnerTracking());
+        }
+
+        return $this->redirect($routeName);
     }
 
     public function index()
     {
-        if (App::environment('local')) {
-            return view('landingpage')->with('pidTracking', $this->getPartnerTracking());
-        }
-
-        return $this->redirect('landingpage');
+        return $this->handleRoute('landingpage');
     }
 
     public function imprint()
     {
-        if (App::environment('local')) {
-            return view('imprint')->with('pidTracking', $this->getPartnerTracking());
-        }
-
-        return $this->redirect('imprint');
+        return $this->handleRoute('imprint');
     }
 
     public function dataPrivacy()
     {
-        if (App::environment('local')) {
-            return view('data-privacy')->with('pidTracking', $this->getPartnerTracking());
-        }
-
-        return $this->redirect('data-privacy');
+        return $this->handleRoute('data-privacy');
     }
 
     public function tutorial()
     {
-        if (App::environment('local')) {
-            return view('tutorial')->with('pidTracking', $this->getPartnerTracking());
-        }
-
-        return $this->redirect('tutorial');
+        return $this->handleRoute('tutorial');
     }
 
     public function faq()
     {
-        if (App::environment('local')) {
-            return view('faq')->with('pidTracking', $this->getPartnerTracking());
-        }
-
-        return $this->redirect('faq');
+        return $this->handleRoute('faq');
     }
 }
