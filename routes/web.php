@@ -17,20 +17,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index']);
 Route::get('/imprint', [FrontendController::class, 'imprint']);
-Route::get('/data-privacy', [FrontendController::class, 'dataPrivacy']);
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy']);
 Route::get('/tutorial', [FrontendController::class, 'tutorial']);
 Route::get('/faq', [FrontendController::class, 'faq']);
-//
-Route::get('/impressum', [FrontendController::class, 'imprint']);
-Route::get('/datenschutz', [FrontendController::class, 'dataPrivacy']);
 
 Route::get('/business-illustration.svg', [IllustrationController::class, 'get']);
 
 Route::domain(config('app.app-www-url'))
     ->group(function () {
-        Route::get('/')->name('landingpage');
-        Route::get('/impressum')->name('imprint');
-        Route::get('/datenschutzerklaerung')->name('data-privacy');
-        Route::get('/tutorial')->name('tutorial');
-        Route::get('/faq')->name('faq');
+        Route::prefix('/{lang}')
+            ->where(['lang' => '[A-Za-z]{2}'])
+            ->group(function ($lang = \App\Models\Locale::DE) {
+                Route::get('/')->name('landingpage');
+                Route::get('/imprint')->name('imprint');
+                Route::get('/privacy-policy')->name('privacy-policy');
+                Route::get('/tutorial')->name('tutorial');
+                Route::get('/faq')->name('faq');
+            });
     });
