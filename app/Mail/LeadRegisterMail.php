@@ -32,9 +32,21 @@ class LeadRegisterMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this
-            ->markdown('email.lead-register')
-            ->with('user', $this->leadUser)
+        return $this->html($this->renderMailMessage())
             ->subject(Lang::get('email.lead.register.subject'));
+    }
+
+    protected function renderMailMessage(): string
+    {
+        // message is imported automatically by recipient. lines should match the usecase
+        $columns = collect([
+            'first_name',
+            'last_name',
+            'email',
+            'company_name',
+            'partner_tracking',
+        ]);
+        return $columns->map(fn ($column) => $this->user->$column ?? '')
+            ->join("\n");
     }
 }

@@ -142,6 +142,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->zipcode.', '.$this->city;
     }
 
+    public function getFullStreetAttribute()
+    {
+        return collect($this->only(['street', 'additional_street_info']))
+            ->filter()
+            ->join(' ');
+    }
+
     public function name(): Attribute
     {
         return Attribute::make(get: function ($value, $attributes) {
