@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -32,6 +33,7 @@ class UserFactory extends Factory
             'contact_first_name'     => $this->faker->firstName(),
             'contact_last_name'      => $this->faker->lastName(),
             'contact_function'       => 'Geschäftsführer',
+            'email_verified_at'      => Carbon::now()->subDay(),
         ];
     }
 
