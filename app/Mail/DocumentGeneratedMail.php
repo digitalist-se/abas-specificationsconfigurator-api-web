@@ -55,7 +55,6 @@ class DocumentGeneratedMail extends Mailable implements ShouldQueue
             'contact_last_name',
             'contact_function',
             'phone',
-            'partner_tracking',
         ]);
         return $columns->map(fn ($column) => $this->user->$column ?? '')
             ->join("\n");
