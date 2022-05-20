@@ -9,6 +9,7 @@ use App\Models\Text;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,7 @@ class RouteServiceProvider extends ServiceProvider
 
             $this->mapWebRoutes();
             $this->mapAppRoutes();
+            $this->mapTestMailRoutes();
         });
     }
 
@@ -120,6 +122,20 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('api')
             ->middleware(['api', 'auth:api'])
             ->group(base_path('routes/authApi.php'));
+    }
+
+    /**
+     * Define the "auth:api" routes for the application.
+     *
+     * These routes are typically stateless.
+     */
+    protected function mapTestMailRoutes()
+    {
+        if (! App::environment('local')) {
+            return;
+        }
+        Route::prefix('mail')
+            ->group(base_path('routes/mail.php'));
     }
 
     /**

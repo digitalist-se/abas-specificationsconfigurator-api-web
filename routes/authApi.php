@@ -11,7 +11,15 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StructureController;
 use App\Http\Controllers\TextController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/email/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return response()->noContent();
+})->middleware('throttle:6,1')
+    ->name('verification.resend');
 
 Route::get('/user', [UserController::class, 'get']);
 Route::put('/user', [UserController::class, 'update']);

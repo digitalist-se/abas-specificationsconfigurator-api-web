@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +15,7 @@ use Laravel\Passport\HasApiTokens;
  * @property \App\Models\Role $role
  * @mixin IdeHelperUser
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use Notifiable;
@@ -32,6 +34,7 @@ class User extends Authenticatable
         'street',
         'zipcode',
         'city',
+        'email_verified_at',
     ];
 
     /**
@@ -137,5 +140,22 @@ class User extends Authenticatable
     public function getZipcodeAndCityAttribute()
     {
         return $this->zipcode.', '.$this->city;
+    }
+
+    public function name(): Attribute
+    {
+        return Attribute::make(get: function ($value, $attributes) {
+            $name = [];
+
+            if (isset($attributes['first_name'])) {
+                $name[] = $attributes['first_name'];
+            }
+
+            if (isset($attributes['last_name'])) {
+                $name[] = $attributes['last_name'];
+            }
+
+            return implode(' ', $name);
+        });
     }
 }
