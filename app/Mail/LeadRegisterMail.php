@@ -46,7 +46,8 @@ class LeadRegisterMail extends Mailable implements ShouldQueue
             'company_name',
             'partner_tracking',
         ]);
-        return $columns->map(fn ($column) => $this->user->$column ?? '')
+
+        return $columns->map(fn ($column) => $this->leadUser->$column ?? '')
             ->join("\n");
     }
 }
