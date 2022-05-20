@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -140,6 +140,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getZipcodeAndCityAttribute()
     {
         return $this->zipcode.', '.$this->city;
+    }
+
+    /**
+     * country value that should be used inside of lead mails
+     */
+    public function leadCountry(): Attribute
+    {
+        return Attribute::get(
+            function ($value, $attributes) {
+                $country = Country::tryFrom($attributes['country'] ?? Country::Other) ?? Country::Other;
+                return $country->getLeadName();
+            }
+        );
     }
 
     public function getFullStreetAttribute()

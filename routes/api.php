@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -41,3 +42,8 @@ Route::get('/locales/supported', [LocaleController::class, 'supported']);
  * provide list of all possible locales and that are activated for current user
  */
 Route::get('/locales/activated', [LocaleController::class, 'activated'])->middleware(['auth.optional:api']);
+
+/*
+ * provide list of all supported countries
+ */
+Route::get('/countries', [CountryController::class, 'index'])->name('api.country');

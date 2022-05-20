@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'contact_first_name'     => $this->faker->firstName(),
             'contact_last_name'      => $this->faker->lastName(),
             'contact_function'       => 'Geschäftsführer',
+            'country'                => $this->faker->country(),
             'email_verified_at'      => Carbon::now()->subDay(),
         ];
     }
