@@ -72,7 +72,7 @@ class DocumentControllerTest extends PassportTestCase
         $response = $this->get('/api/document/generate');
         static::assertStatus($response, 200);
         $user = $this->user;
-        Mail::assertQueued(DocumentGeneratedMail::class, function ($mail) use ($user) {
+        Mail::assertQueued(DocumentGeneratedMail::class, function (DocumentGeneratedMail $mail) use ($user) {
             /*
              * @var DocumentGeneratedMail $mail
              */

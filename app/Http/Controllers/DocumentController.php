@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\SpecificationDocument;
 use App\Mail\DocumentGeneratedMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use RuntimeException;
 
@@ -22,7 +23,7 @@ class DocumentController extends Controller
     {
         $user = $request->user();
         if (! $user->hasAllRequiredFieldsForSpecificationDocument()) {
-            return response('', 428);
+            return response('user profile data missing', 428);
         }
         $outputDir = storage_path(self::EXPORT_PATH);
         if (! is_dir($outputDir)) {
@@ -35,7 +36,7 @@ class DocumentController extends Controller
         $specificationDocument->save();
         $mail = new DocumentGeneratedMail($user);
         $mail->attach($specificationDocument->outputZipFilename());
-        Mail::to(config('mail.recipient.lead.address'))
+        Mail::to(Config::get('mail.recipient.lead.address'))
             ->send($mail);
 
         return $specificationDocument->toResponse($request);

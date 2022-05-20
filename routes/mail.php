@@ -20,7 +20,7 @@ Route::get('register', function () {
 
 
 Route::get('lead-register', function () {
-    $user = \App\Models\User::first();
+    $user = \App\Models\User::factory()->make();
 
     return new LeadRegisterMail($user);
 });
