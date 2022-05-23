@@ -7,7 +7,7 @@ use App\Models\User;
 class ContactAdapter implements Adapter
 {
     const PROPERTY_MAP = [
-        'first_name' => 'first_name',
+        'name' => 'first_name',
     ];
 
     public function toCreateRequestBody(User $user): array

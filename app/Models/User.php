@@ -34,8 +34,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'zipcode',
         'city',
         'email_verified_at',
-        'crm_company_id',
-        'crm_contact_id',
     ];
 
     /**
