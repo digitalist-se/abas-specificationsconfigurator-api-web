@@ -32,4 +32,10 @@ return [
     'sparkpost' => [
         'secret' => env('SPARKPOST_SECRET'),
     ],
+
+    'hubSpot' => [
+        'enabled' => env('HUBSPOT_ENABLED', true),
+        'baseUrl' => env('HUBSPOT_API_BASE_URL', 'https://api.hubapi.com'),
+        'apiKey'  => env('HUBSPOT_API_KEY'),
+    ]
 ];

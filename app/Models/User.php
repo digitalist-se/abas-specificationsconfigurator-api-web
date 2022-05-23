@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
@@ -35,6 +34,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'zipcode',
         'city',
         'email_verified_at',
+        'crm_company_id',
+        'crm_contact_id',
     ];
 
     /**
@@ -64,6 +65,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'user_company',
         'user_role',
         'user_url',
+        'crm_company_id',
+        'crm_contact_id',
     ];
 
     /**
@@ -121,6 +124,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         foreach (self::REQUIRED_FIELDS_FOR_SPECIFICATION as $requiredField) {
             if (empty($this->$requiredField)) {
+
                 return false;
             }
         }
@@ -150,6 +154,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return Attribute::get(
             function ($value, $attributes) {
                 $country = Country::tryFrom($attributes['country'] ?? Country::Other) ?? Country::Other;
+
                 return $country->getLeadName();
             }
         );
