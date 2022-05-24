@@ -2,6 +2,7 @@
 
 namespace App\CRM;
 
+use App\CRM\Adapter\TrackEventAdapter;
 use App\CRM\Service\CRMService;
 use App\CRM\Service\HubSpotCRMService;
 use App\CRM\Service\NoOpCRMService;

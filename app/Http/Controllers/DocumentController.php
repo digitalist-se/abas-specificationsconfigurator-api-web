@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Mail\DocumentGeneratedMail;
 use Illuminate\Http\Request;
@@ -34,10 +35,8 @@ class DocumentController extends Controller
         $answers = $user->answers()->get();
         $specificationDocument = new SpecificationDocument($outputDir, $user, $answers);
         $specificationDocument->save();
-        $mail = new DocumentGeneratedMail($user);
-        $mail->attach($specificationDocument->outputZipFilename());
-        Mail::to(Config::get('mail.recipient.lead.address'))
-            ->send($mail);
+
+        event(new ExportedDocument($user, $specificationDocument));
 
         return $specificationDocument->toResponse($request);
     }

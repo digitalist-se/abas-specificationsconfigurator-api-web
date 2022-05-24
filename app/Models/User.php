@@ -12,6 +12,8 @@ use Laravel\Passport\HasApiTokens;
 
 /**
  * @property \App\Models\Role $role
+ * @property string $crm_company_id
+ * @property string $crm_contact_id
  * @mixin IdeHelperUser
  */
 class User extends Authenticatable implements MustVerifyEmail

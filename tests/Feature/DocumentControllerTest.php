@@ -2,12 +2,16 @@
 
 namespace Tests\Feature;
 
+use App\CRM\Listeners\TrackDocumentExport;
+use App\Events\ExportedDocument;
+use App\Listeners\SendLeadOfDocumentExport;
 use App\Mail\DocumentGeneratedMail;
 use App\Models\Answer;
 use App\Models\ChoiceType;
 use App\Models\Element;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Tests\PassportTestCase;
 
@@ -32,7 +36,7 @@ class DocumentControllerTest extends PassportTestCase
         $choiceType = ChoiceType::where('multiple', '=', 1)->get()->first();
         $branchesElement = Element::where('choice_type_id', '=', $choiceType->id)->get()->first();
         Answer::create([
-            'value'      => [
+            'value' => [
                 'options'      => ['branche.option.maschinen-und-anlagenbau.text'],
                 'otherEnabled' => true,
                 'otherValue'   => 'this is a other value',
@@ -69,17 +73,15 @@ class DocumentControllerTest extends PassportTestCase
     public function test_generate_document()
     {
         Mail::fake();
+        Event::fake();
         $response = $this->get('/api/document/generate');
         static::assertStatus($response, 200);
         $user = $this->user;
-        Mail::assertQueued(DocumentGeneratedMail::class, function (DocumentGeneratedMail $mail) use ($user) {
-            /*
-             * @var DocumentGeneratedMail $mail
-             */
-            $this->assertEquals(config('mail.recipient.lead.address'), $mail->to[0]['address']);
-            $this->assertNotEmpty($mail->attachments, 'Genereted Document was not sended in mail. mail has no attachments');
-
-            return $mail->user->id === $user->id;
+        Event::assertDispatched(ExportedDocument::class, function (ExportedDocument $event) use ($user) {
+            return $user->id === $event->user->id;
         });
+        Mail::assertNothingQueued();
+        Mail::assertNothingSent();
     }
+
 }

@@ -2,18 +2,24 @@
 
 namespace App\CRM\Service;
 
-use App\CRM\Adapter\CompanyAdapter;
-use App\CRM\Adapter\ContactAdapter;
-use App\Models\User;
-use Illuminate\Support\Facades\Http;
 use function abort;
 use function app;
+use App\CRM\Adapter\CompanyAdapter;
+use App\CRM\Adapter\ContactAdapter;
+use App\CRM\Adapter\TrackEventAdapter;
+use App\Models\User;
+use Illuminate\Support\Facades\Http;
 
 class HubSpotCRMService implements CRMService
 {
     protected ?string $baseUrl = null;
 
     protected ?string $apiKey = null;
+
+    /**
+     * @var array<string, string>
+     */
+    protected array $events = [];
 
     public function __construct($options = [])
     {
@@ -22,6 +28,9 @@ class HubSpotCRMService implements CRMService
         }
         if (isset($options['baseUrl'])) {
             $this->baseUrl = $options['baseUrl'];
+        }
+        if (isset($options['events'])) {
+            $this->events = $options['events'];
         }
     }
 
@@ -45,7 +54,14 @@ class HubSpotCRMService implements CRMService
         return app()->make(ContactAdapter::class);
     }
 
-    public function createCompany(User $user)
+    protected function getTrackEventAdapter(string $eventName): TrackEventAdapter
+    {
+        $eventName = $this->events[$eventName] ?? $eventName;
+
+        return app()->make(TrackEventAdapter::class, ['eventName' => $eventName]);
+    }
+
+    public function createCompany(User $user): bool
     {
         $adapter = $this->getCompanyAdapter();
         $requestBody = $adapter->toCreateRequestBody($user);
@@ -60,10 +76,10 @@ class HubSpotCRMService implements CRMService
             ]);
         }
 
-        return $response;
+        return true;
     }
 
-    public function createContact(User $user)
+    public function createContact(User $user): bool
     {
         $adapter = $this->getContactAdapter();
         $requestBody = $adapter->toCreateRequestBody($user);
@@ -78,10 +94,10 @@ class HubSpotCRMService implements CRMService
             ]);
         }
 
-        return $response;
+        return true;
     }
 
-    public function updateCompany(User $user)
+    public function updateCompany(User $user): bool
     {
         if (empty($user->crm_company_id)) {
             abort(500, 'missing company id');
@@ -99,10 +115,10 @@ class HubSpotCRMService implements CRMService
             ]);
         }
 
-        return $response;
+        return true;
     }
 
-    public function updateContact(User $user)
+    public function updateContact(User $user): bool
     {
         if (empty($user->crm_contact_id)) {
             abort(500, 'missing contact id');
@@ -120,10 +136,10 @@ class HubSpotCRMService implements CRMService
             ]);
         }
 
-        return $response;
+        return true;
     }
 
-    public function linkContactToCompany(User $user)
+    public function linkContactToCompany(User $user): bool
     {
         if (empty($user->crm_company_id)) {
             abort(500, 'missing company id');
@@ -139,7 +155,7 @@ class HubSpotCRMService implements CRMService
         return isset($response['id']);
     }
 
-    public function deleteCompany(User $user)
+    public function deleteCompany(User $user): bool
     {
         if (empty($user->crm_company_id)) {
             abort(500, 'missing company id');
@@ -152,7 +168,7 @@ class HubSpotCRMService implements CRMService
         return 204 === $responseStatus;
     }
 
-    public function deleteContact(User $user)
+    public function deleteContact(User $user): bool
     {
         if (empty($user->crm_contact_id)) {
             abort(500, 'missing contact id');
@@ -171,5 +187,20 @@ class HubSpotCRMService implements CRMService
     protected function createUrl(string $route): string
     {
         return $this->baseUrl.$route.'?hapikey='.$this->apiKey;
+    }
+
+    public function trackDocumentExport(User $user): bool
+    {
+        if (! $user->crm_contact_id) {
+            return false;
+        }
+        $adapter = $this->getTrackEventAdapter(eventName: 'document-export');
+        $requestBody = $adapter->toCreateRequestBody($user);
+
+        $response = Http::post($this->createUrl('/events/v3/send'), $requestBody)
+            ->throw()
+            ->json();
+
+        return true;
     }
 }

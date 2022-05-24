@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static linkContactToCompany(User $user);
  * @method static deleteCompany(User $user);
  * @method static deleteContact(User $user);
+ * @method static trackDocumentExport(User $user);
  */
 class CRM extends Facade
 {
