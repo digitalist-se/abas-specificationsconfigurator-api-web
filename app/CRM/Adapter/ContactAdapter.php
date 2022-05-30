@@ -7,7 +7,12 @@ use App\Models\User;
 class ContactAdapter implements Adapter
 {
     const PROPERTY_MAP = [
-        'name' => 'first_name',
+        'salutation' => 'salutation',
+        'firstname'  => 'contact_first_name',
+        'lastname'   => 'contact_last_name',
+        'email'      => 'email',
+        'phone'      => 'phone',
+        'jobtitle'   => 'contact_function',
     ];
 
     public function toCreateRequestBody(User $user): array
@@ -16,7 +21,6 @@ class ContactAdapter implements Adapter
         foreach (self::PROPERTY_MAP as $propertyName => $attributeKey) {
             $properties[$propertyName] = $user->$attributeKey;
         }
-        $properties['address'] = $user->full_street;
 
         return [
             'properties' => $properties,

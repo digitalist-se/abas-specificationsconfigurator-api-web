@@ -32,8 +32,11 @@ class CompanyAdapterTest extends TestCase
             [
                 'properties' => [
                     'name'    => $user->company_name,
-                    'country' => $user->lead_country,
+                    'website' => $user->website,
+                    'zip'     => $user->zipcode,
+                    'city'    => $user->city,
                     'address' => $user->full_street,
+                    'country' => $user->lead_country,
                 ],
             ],
             $requestBody

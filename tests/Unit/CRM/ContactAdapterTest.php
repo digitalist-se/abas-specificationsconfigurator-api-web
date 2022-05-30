@@ -32,8 +32,12 @@ class ContactAdapterTest extends TestCase
         $this->assertEquals(
             [
                 'properties' => [
-                    'name'    => $user->first_name,
-                    'address' => $user->full_street,
+                    'salutation' => $user->salutation,
+                    'firstname'  => $user->contact_first_name,
+                    'lastname'   => $user->contact_last_name,
+                    'email'      => $user->email,
+                    'phone'      => $user->phone,
+                    'jobtitle'   => $user->contact_function,
                 ],
             ],
             $requestBody
