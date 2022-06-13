@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\CRM\Listeners\TrackDocumentExport;
+use App\CRM\Listeners\UserRegisteredListener;
+use App\Events\ExportedDocument;
+use App\Listeners\SendLeadOfDocumentExport;
 use App\Listeners\SendLeadOfRegistrationNotification;
 use App\Listeners\SendRegisteredNotification;
 use Illuminate\Auth\Events\Registered;
@@ -18,6 +22,11 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendRegisteredNotification::class,
             SendLeadOfRegistrationNotification::class,
+            UserRegisteredListener::class,
+        ],
+        ExportedDocument::class => [
+            SendLeadOfDocumentExport::class,
+            TrackDocumentExport::class,
         ],
     ];
 

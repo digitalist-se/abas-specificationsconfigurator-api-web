@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\CRM\Service\CRMService;
 use App\Mail\LeadRegisterMail;
 use App\Models\User;
 use App\Notifications\Register;
@@ -35,6 +36,8 @@ class CreateUserTest extends TestCase
             'contact'                => $this->faker->name(),
             'contact_function'       => 'Geschäftsführer',
         ];
+        $this->expectSequenceToCrmSystem($requestBody['phone']);
+
         $response = $this->postJson('/api/user', $requestBody);
         static::assertStatus($response, 204);
         $user = User::where('email', '=', $requestBody['email'])->first();
@@ -48,5 +51,31 @@ class CreateUserTest extends TestCase
         // retry creating user, that request should fail
         $response = $this->postJson('/api/user', $requestBody);
         static::assertStatus($response, 422);
+    }
+
+    /**
+     * @param $userPhone
+     *
+     * @return void
+     */
+    private function expectSequenceToCrmSystem($userPhone): void
+    {
+        $crmService = $this->mock(CRMService::class);
+
+        $expectUser = fn (User $user) => $user->phone === $userPhone;
+
+        $crmService
+            ->shouldReceive('createCompany')
+            ->withArgs($expectUser)
+            ->andReturn(true);
+
+        $crmService->shouldReceive('createContact')
+            ->withArgs($expectUser)
+            ->andReturn(true);
+
+        $crmService->shouldReceive('linkContactToCompany')
+            ->withArgs($expectUser)
+            ->andReturn(true);
+
     }
 }
