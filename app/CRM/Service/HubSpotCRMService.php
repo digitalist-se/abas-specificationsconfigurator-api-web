@@ -2,6 +2,8 @@
 
 namespace App\CRM\Service;
 
+use App\CRM\Adapter\EngagementNoteAdapter;
+use App\CRM\Adapter\UserNoteAdapter;
 use App\Events\ExportedDocument;
 use function abort;
 use function app;
@@ -56,6 +58,11 @@ class HubSpotCRMService implements CRMService
     protected function getContactAdapter(): ContactAdapter
     {
         return app()->make(ContactAdapter::class);
+    }
+
+    protected function getEngagementAdapter(): EngagementNoteAdapter
+    {
+        return app()->make(EngagementNoteAdapter::class);
     }
 
     protected function getTrackEventAdapter(string $eventName): TrackEventAdapter
@@ -252,43 +259,16 @@ class HubSpotCRMService implements CRMService
      */
     private function createNote(User $user, $fileId, $body): ?array
     {
-        return Http::post($this->createUrl('/engagements/v1/engagements'), [
-            'engagement' => [
-                'active' => true,
-                'type'   => 'NOTE',
-            ],
-            'associations' => [
-                'contactIds' => [
-                    $user->crm_contact_id,
-                ],
-            ],
-            'attachments' => [
-                [
-                    'id' => $fileId,
-                ],
-            ],
-            'metadata' => [
-                'body' => $body,
-            ],
-        ])
+        $requestBody = $this->getEngagementAdapter()->toCreateRequestBody($user, $fileId, $body);
+        return Http::post($this->createUrl('/engagements/v1/engagements'), $requestBody)
             ->throw()
             ->json();
     }
 
     protected function renderUserNote(User $user): string
     {
-        $columns = collect([
-            'salutation',
-            'contact_first_name',
-            'contact_last_name',
-            'email',
-            'contact_function',
-            'phone',
-        ]);
-
-        return __('New specification configuration:')
-            ."\n\n".
-            $columns->map(fn ($column) => __('note.attributes.'.$column).' '.$user->$column ?? '')
-            ->join("\n");
+        return app()
+            ->make(UserNoteAdapter::class)
+            ->createNote($user);
     }
 }
