@@ -17,7 +17,7 @@ class HubSpotCRMService implements CRMService
 
     protected ?string $apiKey = null;
 
-    protected ?int $folderId = null;
+    protected ?string $folderId = null;
 
     /**
      * @var array<string, string>
