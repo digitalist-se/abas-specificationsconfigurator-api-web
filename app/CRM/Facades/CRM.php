@@ -3,6 +3,7 @@
 namespace App\CRM\Facades;
 
 use App\CRM\Service\CRMService;
+use App\Events\ExportedDocument;
 use App\Models\User;
 use Illuminate\Support\Facades\Facade;
 
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static linkContactToCompany(User $user);
  * @method static deleteCompany(User $user);
  * @method static deleteContact(User $user);
- * @method static trackDocumentExport(User $user);
+ * @method static trackDocumentExport(ExportedDocument $user);
  */
 class CRM extends Facade
 {

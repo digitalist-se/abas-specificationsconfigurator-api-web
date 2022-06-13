@@ -15,6 +15,6 @@ class TrackDocumentExport
      */
     public function handle(ExportedDocument $event)
     {
-        CRM::trackDocumentExport($event->user);
+        CRM::trackDocumentExport($event);
     }
 }

@@ -40,5 +40,8 @@ return [
         'events'  => [
             'document-export' => 'pe2853580_lastenheft_erstellung',
         ],
+        'folder' => [
+            'id' => env('HUBSPOT_FOLDER_ID'),
+        ],
     ],
 ];

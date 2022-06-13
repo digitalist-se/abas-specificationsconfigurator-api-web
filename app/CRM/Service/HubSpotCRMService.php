@@ -2,6 +2,7 @@
 
 namespace App\CRM\Service;
 
+use App\Events\ExportedDocument;
 use function abort;
 use function app;
 use App\CRM\Adapter\CompanyAdapter;
@@ -15,6 +16,8 @@ class HubSpotCRMService implements CRMService
     protected ?string $baseUrl = null;
 
     protected ?string $apiKey = null;
+
+    protected ?int $folderId = null;
 
     /**
      * @var array<string, string>
@@ -32,6 +35,7 @@ class HubSpotCRMService implements CRMService
         if (isset($options['events'])) {
             $this->events = $options['events'];
         }
+        $this->folderId = $options['folder']['id'] ?? null;
     }
 
     public function getApiKey()
@@ -189,18 +193,102 @@ class HubSpotCRMService implements CRMService
         return $this->baseUrl.$route.'?hapikey='.$this->apiKey;
     }
 
-    public function trackDocumentExport(User $user): bool
+    public function trackDocumentExport(ExportedDocument $event): bool
     {
+        $user = $event->user;
         if (! $user->crm_contact_id) {
             return false;
         }
+        $this->createExportEvent($user);
+
+        $file = $event->document->outputZipFilename();
+        $fileId = $this->uploadFile($file);
+
+        $this->createNote($user, $fileId, $this->renderUserNote($user));
+        return true;
+    }
+
+    /**
+     * @param \App\Models\User $user
+     *
+     * @return void
+     * @throws \Illuminate\Http\Client\RequestException
+     */
+    private function createExportEvent(User $user): void
+    {
         $adapter = $this->getTrackEventAdapter(eventName: 'document-export');
         $requestBody = $adapter->toCreateRequestBody($user);
 
-        $response = Http::post($this->createUrl('/events/v3/send'), $requestBody)
+        Http::post($this->createUrl('/events/v3/send'), $requestBody)
+            ->throw()
+            ->json()
+        ;
+    }
+
+    protected function uploadFile($file) {
+        $fileName = basename($file);
+
+        $fileResponse = Http::attach('file', file_get_contents($file), $fileName)
+            ->asMultipart()
+            ->post($this->createUrl('/files/v3/files'), [
+                'folderId' => $this->folderId,
+                'options'  => json_encode([
+                    'access'                      => 'PRIVATE',
+                    'overwrite'                   => false,
+                    'duplicateValidationStrategy' => 'none',
+                    'duplicateValidationScope'    => 'EXACT_FOLDER',
+                ]),
+            ])
+            ->throw();
+        if (! $fileResponse->ok()) {
+            return false;
+        }
+        return $fileResponse->json('id');
+    }
+
+    /**
+     * @return void
+     * @throws \Illuminate\Http\Client\RequestException
+     */
+    private function createNote(User $user, $fileId, $body): ?array
+    {
+        return Http::post($this->createUrl('/engagements/v1/engagements'), [
+            'engagement' => [
+                'active' => true,
+                'type'   => 'NOTE',
+            ],
+            'associations' => [
+                'contactIds' => [
+                    $user->crm_contact_id,
+                ],
+            ],
+            'attachments' => [
+                [
+                    'id' => $fileId,
+                ],
+            ],
+            'metadata' => [
+                'body' => $body,
+            ],
+        ])
             ->throw()
             ->json();
+    }
 
-        return true;
+    protected function renderUserNote(User $user): string
+    {
+        $columns = collect([
+            'salutation',
+            'contact_first_name',
+            'contact_last_name',
+            'email',
+            'contact_function',
+            'phone',
+        ]);
+
+        return __('New specification configuration:')
+            ."\n\n".
+            $columns->map(fn ($column) => __('note.attributes.'.$column).' '.$user->$column ?? '')
+            ->join("\n");
     }
 }

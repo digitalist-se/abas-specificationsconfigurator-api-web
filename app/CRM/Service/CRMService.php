@@ -2,6 +2,7 @@
 
 namespace App\CRM\Service;
 
+use App\Events\ExportedDocument;
 use App\Models\User;
 
 interface CRMService
@@ -20,5 +21,5 @@ interface CRMService
 
     public function deleteContact(User $user): bool;
 
-    public function trackDocumentExport(User $user): bool;
+    public function trackDocumentExport(ExportedDocument $event): bool;
 }

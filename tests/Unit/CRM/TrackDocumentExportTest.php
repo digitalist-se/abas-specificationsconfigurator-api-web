@@ -24,7 +24,10 @@ class TrackDocumentExportTest extends TestCase
             }
         }
 
-        return new SpecificationDocument($outputDir, $user, []);
+        $document = new SpecificationDocument($outputDir, $user, []);
+        $document->save();
+
+        return $document;
     }
 
     /**
@@ -45,15 +48,16 @@ class TrackDocumentExportTest extends TestCase
         $user = User::factory()->create(['role' => Role::USER]);
         // And an exported document
         $document = $this->createDocument($user);
+        $event = new ExportedDocument($user, $document);
 
         // We expect service is called from event
         $this->mock(CRMService::class)
             ->expects('trackDocumentExport')
-            ->withArgs(fn (User $givenUser) => $givenUser->id === $user->id)
+            ->withArgs(fn (ExportedDocument $actualEvent) => $actualEvent->user->id === $user->id)
             ->andReturn(true);
 
         $listener = $this->app->make(TrackDocumentExport::class);
         // When we handle event
-        $listener->handle(new ExportedDocument($user, $document));
+        $listener->handle($event);
     }
 }
