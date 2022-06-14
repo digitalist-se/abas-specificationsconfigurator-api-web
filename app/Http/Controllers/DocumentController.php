@@ -26,7 +26,7 @@ class DocumentController extends Controller
         if (! $user->hasAllRequiredFieldsForSpecificationDocument()) {
             return response('user profile data missing', 428);
         }
-        $outputDir = storage_path(self::EXPORT_PATH);
+        $outputDir = storage_path('app/export');
         if (! is_dir($outputDir)) {
             if (! mkdir($outputDir) && ! is_dir($outputDir)) {
                 throw new RuntimeException("Directory '{$outputDir}' was not created");

@@ -5,6 +5,7 @@ namespace App\CRM\Service;
 use App\CRM\Adapter\EngagementNoteAdapter;
 use App\CRM\Adapter\UserNoteAdapter;
 use App\Events\ExportedDocument;
+use Illuminate\Support\Facades\Log;
 use function abort;
 use function app;
 use App\CRM\Adapter\CompanyAdapter;
@@ -218,18 +219,24 @@ class HubSpotCRMService implements CRMService
     /**
      * @param \App\Models\User $user
      *
-     * @return void
+     * @return bool
      * @throws \Illuminate\Http\Client\RequestException
      */
-    private function createExportEvent(User $user): void
+    private function createExportEvent(User $user): bool
     {
         $adapter = $this->getTrackEventAdapter(eventName: 'document-export');
         $requestBody = $adapter->toCreateRequestBody($user);
 
-        Http::post($this->createUrl('/events/v3/send'), $requestBody)
-            ->throw()
-            ->json()
-        ;
+        $response = Http::withBody(json_encode($requestBody), 'application/json')
+            ->post($this->createUrl('/events/v3/send'));
+
+        if ($response->ok()) {
+            return true;
+        }
+
+        Log::error('crm error:'.$response->body());
+
+        return false;
     }
 
     protected function uploadFile($file) {
@@ -245,8 +252,7 @@ class HubSpotCRMService implements CRMService
                     'duplicateValidationStrategy' => 'none',
                     'duplicateValidationScope'    => 'EXACT_FOLDER',
                 ]),
-            ])
-            ->throw();
+            ]);
         if (! $fileResponse->ok()) {
             return false;
         }
@@ -261,7 +267,6 @@ class HubSpotCRMService implements CRMService
     {
         $requestBody = $this->getEngagementAdapter()->toCreateRequestBody($user, $fileId, $body);
         return Http::post($this->createUrl('/engagements/v1/engagements'), $requestBody)
-            ->throw()
             ->json();
     }
 

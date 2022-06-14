@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -46,6 +47,8 @@ class TestExport extends Command
         $answers = $user->answers()->get();
         $specificationDocument = new SpecificationDocument($outputDir, $user, $answers);
         $specificationDocument->save();
+
+        ExportedDocument::dispatch($user, $specificationDocument);
 
         return 0;
     }
