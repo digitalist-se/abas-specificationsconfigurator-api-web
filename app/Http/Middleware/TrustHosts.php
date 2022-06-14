@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Middleware\TrustHosts as Middleware;
+use Illuminate\Support\Facades\Config;
 
 class TrustHosts extends Middleware
 {
@@ -15,6 +16,7 @@ class TrustHosts extends Middleware
     {
         return [
             $this->allSubdomainsOfApplicationUrl(),
+            ...Config::get('cors.allowed_origins'),
         ];
     }
 }
