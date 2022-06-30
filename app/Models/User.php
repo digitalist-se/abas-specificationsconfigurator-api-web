@@ -2,8 +2,8 @@
 namespace App\Models;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -117,7 +117,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function answers()
     {
-        return $this->hasMany(\App\Models\Answer::class);
+        return $this->hasMany(Answer::class);
     }
 
     public function hasAllRequiredFieldsForSpecificationDocument()
@@ -153,7 +153,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Attribute::get(
             function ($value, $attributes) {
-                $country = Country::tryFrom($attributes['country'] ?? Country::Other) ?? Country::Other;
+                $country = Country::tryFrom($attributes['country'] ?? Country::Other->value) ?? Country::Other;
 
                 return $country->getLeadName();
             }
