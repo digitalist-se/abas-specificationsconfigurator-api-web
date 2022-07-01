@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -56,6 +55,7 @@ class DocumentGeneratedMail extends Mailable implements ShouldQueue
             'contact_function',
             'phone',
         ]);
+
         return $columns->map(fn ($column) => $this->user->$column ?? '')
             ->join("\n");
     }

@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'domain'  => env('APP_DOMAIN', 'erpplanner.com'),
+    'domain' => env('APP_DOMAIN', 'erpplanner.com'),
 
     'url' => env('APP_URL', 'https://'.env('APP_DOMAIN', 'erpplanner.com')),
 
@@ -250,10 +250,10 @@ return [
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'Str'          => Illuminate\Support\Str::class,
 
-        'URL'          => Illuminate\Support\Facades\URL::class,
-        'Validator'    => Illuminate\Support\Facades\Validator::class,
-        'View'         => Illuminate\Support\Facades\View::class,
-        'Yaml'         => Symfony\Component\Yaml\Yaml::class,
+        'URL'       => Illuminate\Support\Facades\URL::class,
+        'Validator' => Illuminate\Support\Facades\Validator::class,
+        'View'      => Illuminate\Support\Facades\View::class,
+        'Yaml'      => Symfony\Component\Yaml\Yaml::class,
     ],
 
     /*

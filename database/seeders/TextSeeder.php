@@ -43,7 +43,7 @@ class TextSeeder extends Seeder
                         'public',
                     ]);
                     $localeValues = [
-                        'id' => Uuid::uuid4()->toString(),
+                        'id'     => Uuid::uuid4()->toString(),
                         'locale' => $locale,
                     ];
 

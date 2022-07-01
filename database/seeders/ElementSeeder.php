@@ -178,7 +178,7 @@ class ElementSeeder extends Seeder
     {
         Text::firstOrCreate(
             [
-                'key' => $key,
+                'key'    => $key,
                 'locale' => $this->locale,
             ], [
                 'value' => $value,

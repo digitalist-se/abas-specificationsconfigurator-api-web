@@ -13,8 +13,10 @@
 
 [{{config('app.domain')}}]({{config('app.url')}})
 
-@lang('email.register.contact', ['email' => config('app.contact.mail'), 'phone' => config('app.contact.phone')])  
+@lang('email.password.reset.contact', ['email' => config('app.contact.mail'), 'phone' => config('app.contact.phone')])
 
-@lang('email.ending')  
+
+@lang('email.ending')
+
 @include('email.signature')
 @endcomponent

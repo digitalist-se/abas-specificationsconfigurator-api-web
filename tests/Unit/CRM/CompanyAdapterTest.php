@@ -15,6 +15,7 @@ class CompanyAdapterTest extends TestCase
     {
         return User::factory()->make();
     }
+
     /**
      * @test
      */

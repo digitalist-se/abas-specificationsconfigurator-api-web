@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Mail;
 
 class SendLeadOfDocumentExport
 {
-
     /**
      * Handle the event.
      *

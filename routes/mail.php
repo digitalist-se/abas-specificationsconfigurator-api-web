@@ -1,6 +1,10 @@
 <?php
 
 use App\Mail\LeadRegisterMail;
+use App\Models\User;
+use App\Notifications\Register;
+use App\Notifications\ResetPassword;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,22 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('register', function () {
-    $user = \App\Models\User::first();
+Route::get('{mail}', static function (Request $request, $mail) {
+    $user = User::first();
 
-    return (new \App\Notifications\Register($user))->toMail($user);
-});
+    if ($lang = $request->input('lang')) {
+        $locale = \App\Models\Locale::get($lang);
+        App::setLocale($locale->getValue());
+    }
 
-
-Route::get('lead-register', function () {
-    $user = \App\Models\User::factory()->make();
-
-    return new LeadRegisterMail($user);
-});
-
-
-Route::get('pw-reset', function () {
-    $user = \App\Models\User::first();
-
-    return (new \App\Notifications\ResetPassword($user, 'token'))->toMail($user);
+    return match ($mail) {
+        'register'      => (new Register($user))->toMail($user),
+        'lead-register' => new LeadRegisterMail(User::factory()->make()),
+        'pw-reset'      => (new ResetPassword($user, 'token'))->toMail($user),
+        default         => abort(404),
+    };
 });

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Chapter;
 use App\Models\Text;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -19,9 +18,9 @@ class ChapterFactory extends Factory
         $text = Text::factory()->create(['value' => $this->faker->text(150)]);
 
         return [
-            'name'            => $text->key,
-            'slug_name'       => Str::slug($text->value),
-            'sort'            => 0,
+            'name'      => $text->key,
+            'slug_name' => Str::slug($text->value),
+            'sort'      => 0,
         ];
     }
 }

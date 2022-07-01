@@ -1,16 +1,14 @@
 <?php
-namespace App\Listeners;
 
+namespace App\Listeners;
 
 use App\Mail\LeadRegisterMail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendLeadOfRegistrationNotification
 {
-
     /**
      * Handle the event.
      *

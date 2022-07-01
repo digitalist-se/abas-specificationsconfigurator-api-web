@@ -57,7 +57,6 @@ class HubSpotCRMServiceTest extends TestCase
         $service = $this->app->make(CRMService::class);
         $service->trackDocumentExport(new ExportedDocument($user, $document));
 
-
         Http::assertSent(function (?Request $request, ?Response $response) use ($expectedFolderId) {
             if ('/files/v3/files' !== $request->toPsrRequest()->getUri()->getPath()) {
                 return false;
@@ -73,6 +72,7 @@ class HubSpotCRMServiceTest extends TestCase
                             $part['name'] => $part['contents'],
                         ];
                 }
+
                 return [];
             });
             $this->assertEquals(
@@ -97,7 +97,6 @@ class HubSpotCRMServiceTest extends TestCase
             $this->assertEquals(
                 [
                     'eventName'  => $this->expectedEventName,
-                    'properties' => [],
                     'objectType' => 'contacts',
                     'objectId'   => 'xyz',
                 ],
@@ -133,6 +132,7 @@ class HubSpotCRMServiceTest extends TestCase
                 ],
                 $request->data()['attachments']);
             $this->assertStringStartsWith('Neue Lastenheftgenerierung:', $request->data()['metadata']['body']);
+
             return true;
         });
 
@@ -162,6 +162,7 @@ class HubSpotCRMServiceTest extends TestCase
         $outputDir = storage_path('app/export');
         $document = new SpecificationDocument($outputDir, $user, []);
         $document->save();
+
         return $document;
     }
 }

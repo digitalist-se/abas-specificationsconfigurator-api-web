@@ -71,6 +71,7 @@ class Register extends Notification
             //
         ];
     }
+
     /**
      * Get the verification URL for the given notifiable.
      *
