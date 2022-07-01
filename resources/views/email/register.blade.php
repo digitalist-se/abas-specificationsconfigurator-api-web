@@ -1,18 +1,22 @@
 @component('mail::message')
 @lang('email.register.greeting', ['salutation' => $user->salutation, 'name' => $user->name])  
 
-@lang('email.register.content', ['domain' => config('app.domain')])  
+@lang('email.register.content')
 
-# @lang('email.register.features.headline')  
-@lang('email.register.features.items', ['domain' => config('app.domain'), 'url' => config('app.url')])  
 
-# @lang('email.register.tutorial.headline')
+@lang('email.register.verify')
+
 @component('mail::button', ['url' => $url])
-    {{ __('Verify Email Address') }}
+    {{ __('email.register.verifyButton') }}
 @endcomponent
 
-@lang('email.register.contact', ['email' => config('app.contact.mail'), 'phone' => config('app.contact.phone')])  
+@lang('email.register.verifyLink', ['url' => $url])
 
-@lang('email.ending')  
+
+@lang('email.register.ignore')
+
+
+@lang('email.ending')
+
 @include('email.signature')
 @endcomponent
