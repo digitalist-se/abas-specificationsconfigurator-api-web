@@ -97,7 +97,6 @@ class HubSpotCRMServiceTest extends TestCase
             $this->assertEquals(
                 [
                     'eventName'  => $this->expectedEventName,
-                    'properties' => [],
                     'objectType' => 'contacts',
                     'objectId'   => 'xyz',
                 ],
