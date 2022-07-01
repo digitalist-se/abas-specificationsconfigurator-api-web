@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'tutorial'     => 'Tutorial',
-    'imprint'      => 'Impressum',
+    'tutorial'       => 'Tutorial',
+    'imprint'        => 'Impressum',
     'privacy-policy' => 'Datenschutz',
-    'register'     => 'Registrieren',
-    'login'        => 'Login',
+    'register'       => 'Registrieren',
+    'login'          => 'Login',
 ];

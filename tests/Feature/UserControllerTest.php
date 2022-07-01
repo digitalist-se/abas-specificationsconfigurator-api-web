@@ -18,9 +18,9 @@ class UserControllerTest extends PassportTestCase
         $response = $this->getJson('/api/user');
         static::assertStatus($response, 200);
         $response->assertJson([
-            'first_name'  => $this->user->first_name,
-            'email'       => $this->user->email,
-            'role'        => Role::USER,
+            'first_name' => $this->user->first_name,
+            'email'      => $this->user->email,
+            'role'       => Role::USER,
         ]);
     }
 
@@ -55,7 +55,7 @@ class UserControllerTest extends PassportTestCase
     public function test_update_email_of_user()
     {
         $requestBody = [
-            'email'                 => 'max.muster@company.com',
+            'email' => 'max.muster@company.com',
         ];
         $response = $this->putJson('/api/user', $requestBody);
         static::assertStatus($response, 204);

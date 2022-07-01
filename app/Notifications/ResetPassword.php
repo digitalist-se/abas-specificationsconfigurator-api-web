@@ -76,8 +76,8 @@ class ResetPassword extends Notification
     public function toArray($notifiable)
     {
         return [
-            'token'      => $this->token,
-            'name'       => $this->user->name,
+            'token' => $this->token,
+            'name'  => $this->user->name,
         ];
     }
 }

@@ -2,17 +2,17 @@
 
 namespace App\CRM\Service;
 
+use App\CRM\Adapter\CompanyAdapter;
+use App\CRM\Adapter\ContactAdapter;
 use App\CRM\Adapter\EngagementNoteAdapter;
+use App\CRM\Adapter\TrackEventAdapter;
 use App\CRM\Adapter\UserNoteAdapter;
 use App\Events\ExportedDocument;
+use App\Models\User;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use function abort;
 use function app;
-use App\CRM\Adapter\CompanyAdapter;
-use App\CRM\Adapter\ContactAdapter;
-use App\CRM\Adapter\TrackEventAdapter;
-use App\Models\User;
-use Illuminate\Support\Facades\Http;
 
 class HubSpotCRMService implements CRMService
 {
@@ -213,6 +213,7 @@ class HubSpotCRMService implements CRMService
         $fileId = $this->uploadFile($file);
 
         $this->createNote($user, $fileId, $this->renderUserNote($user));
+
         return true;
     }
 
@@ -239,7 +240,8 @@ class HubSpotCRMService implements CRMService
         return false;
     }
 
-    protected function uploadFile($file) {
+    protected function uploadFile($file)
+    {
         $fileName = basename($file);
 
         $fileResponse = Http::attach('file', file_get_contents($file), $fileName)
@@ -256,6 +258,7 @@ class HubSpotCRMService implements CRMService
         if (! $fileResponse->ok()) {
             return false;
         }
+
         return $fileResponse->json('id');
     }
 
@@ -266,6 +269,7 @@ class HubSpotCRMService implements CRMService
     private function createNote(User $user, $fileId, $body): ?array
     {
         $requestBody = $this->getEngagementAdapter()->toCreateRequestBody($user, $fileId, $body);
+
         return Http::post($this->createUrl('/engagements/v1/engagements'), $requestBody)
             ->json();
     }

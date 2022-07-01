@@ -37,7 +37,6 @@ Route::domain(config('app.app-www-url'))
             });
     });
 
-
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
 

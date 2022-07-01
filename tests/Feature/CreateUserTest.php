@@ -76,6 +76,5 @@ class CreateUserTest extends TestCase
         $crmService->shouldReceive('linkContactToCompany')
             ->withArgs($expectUser)
             ->andReturn(true);
-
     }
 }

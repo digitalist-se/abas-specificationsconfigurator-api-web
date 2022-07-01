@@ -22,5 +22,4 @@ class UserNoteAdapter
             $columns->map(fn ($column) => __('note.attributes.'.$column).' '.$user->$column ?? '')
                 ->join("\n");
     }
-
 }

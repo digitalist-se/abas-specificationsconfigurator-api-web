@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
@@ -124,7 +125,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         foreach (self::REQUIRED_FIELDS_FOR_SPECIFICATION as $requiredField) {
             if (empty($this->$requiredField)) {
-
                 return false;
             }
         }

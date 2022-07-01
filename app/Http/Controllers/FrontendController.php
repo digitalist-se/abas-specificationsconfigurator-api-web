@@ -14,7 +14,7 @@ class FrontendController extends Controller
     {
         $pid = Request::input('pid');
 
-        if (!is_null($pid)) {
+        if (! is_null($pid)) {
             Cookie::queue('partnerTracking', $pid);
             $pidTracking = ['pid' => $pid];
         } else {
@@ -39,6 +39,7 @@ class FrontendController extends Controller
     private function redirect($routeName)
     {
         $parameters = array_merge(['lang' => $this->getLocale()->getValue()], $this->getPartnerTracking());
+
         return Redirect::away(route($routeName, $parameters), 301)
             ->header('Cache-Control', 'no-cache, max-age=0');
     }

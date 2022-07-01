@@ -20,12 +20,12 @@ class Text extends JsonResource
     public function toArray($request)
     {
         return [
-            'key'    => $this->key,
-            'value'  => $this->value,
+            'key'   => $this->key,
+            'value' => $this->value,
             $this->mergeWhen($request->user()->role->is(Role::ADMIN), function () {
                 return [
-                    'id' => $this->id,
-                    'locale' => $this->locale,
+                    'id'          => $this->id,
+                    'locale'      => $this->locale,
                     'description' => $this->description,
                 ];
             }),

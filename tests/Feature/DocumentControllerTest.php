@@ -2,10 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\CRM\Listeners\TrackDocumentExport;
 use App\Events\ExportedDocument;
-use App\Listeners\SendLeadOfDocumentExport;
-use App\Mail\DocumentGeneratedMail;
 use App\Models\Answer;
 use App\Models\ChoiceType;
 use App\Models\Element;
@@ -83,5 +80,4 @@ class DocumentControllerTest extends PassportTestCase
         Mail::assertNothingQueued();
         Mail::assertNothingSent();
     }
-
 }

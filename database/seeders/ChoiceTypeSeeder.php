@@ -48,7 +48,7 @@ class ChoiceTypeSeeder extends Seeder
                 }
                 $newChoiceType->options()->updateOrCreate(
                     [
-                        'type'           => $i18nId,
+                        'type' => $i18nId,
                     ],
                     [
                         'choice_type_id' => $newChoiceType->id,
@@ -75,7 +75,7 @@ class ChoiceTypeSeeder extends Seeder
         Text::firstOrCreate(
             ['key' => $key],
             [
-                'value' => $value,
+                'value'  => $value,
                 'public' => $public,
             ]
         );

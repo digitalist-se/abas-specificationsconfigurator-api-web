@@ -12,6 +12,7 @@ class ExportedDocument
     use Dispatchable, SerializesModels;
 
     public User $user;
+
     public SpecificationDocument $document;
 
     /**

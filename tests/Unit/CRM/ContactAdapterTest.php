@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\CRM;
 
-use App\CRM\Adapter\CompanyAdapter;
 use App\CRM\Adapter\ContactAdapter;
 use App\Models\User;
 use Tests\TestCase;
@@ -16,6 +15,7 @@ class ContactAdapterTest extends TestCase
     {
         return User::factory()->make();
     }
+
     /**
      * @test
      */

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Listeners;
-
 
 use App\Models\User;
 use App\Notifications\Register;
@@ -10,7 +8,6 @@ use Illuminate\Auth\Events\Registered;
 
 class SendRegisteredNotification
 {
-
     /**
      * Handle the event.
      *

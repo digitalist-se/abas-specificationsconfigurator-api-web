@@ -24,6 +24,7 @@ class SendLeadOfDocumentExportTest extends TestCase
                 throw new RuntimeException("Directory '{$outputDir}' was not created");
             }
         }
+
         return new SpecificationDocument($outputDir, $user, []);
     }
 
@@ -35,7 +36,6 @@ class SendLeadOfDocumentExportTest extends TestCase
         Event::fake();
         Event::assertListening(ExportedDocument::class, SendLeadOfDocumentExport::class);
     }
-
 
     /**
      * @test

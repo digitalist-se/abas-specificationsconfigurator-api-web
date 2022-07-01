@@ -47,8 +47,8 @@ class TextControllerByUserTest extends PassportTestCase
     {
         $locale = $this->locale();
         $data = [
-            'key'   => 'random key',
-            'value' => 'random value',
+            'key'    => 'random key',
+            'value'  => 'random value',
             'locale' => $locale,
         ];
         $response = $this->postJson('/api/texts', $data);
