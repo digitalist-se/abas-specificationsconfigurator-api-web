@@ -166,6 +166,20 @@ class HubSpotCRMService implements CRMService
         return true;
     }
 
+    public function upsertCompany(User $user): bool
+    {
+        return empty($user->crm_company_id)
+            ? $this->createCompany($user)
+            : $this->updateCompany($user);
+    }
+
+    public function upsertContact(User $user, ContactType $type): bool
+    {
+        return empty($user->getCrmContactId($type))
+            ? $this->createContact($user, $type)
+            : $this->updateContact($user, $type);
+    }
+
     public function linkContactsToCompany(User $user, ContactType $type): bool
     {
         $crmCompanyId = $user->crm_company_id;

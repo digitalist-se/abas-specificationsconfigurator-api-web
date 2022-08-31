@@ -67,15 +67,11 @@ class CreateUserTest extends TestCase
         $expectUserAndContactType = fn (User $user, ContactType $type) => $expectUser($user) && $type === $contactType;
 
         $crmService
-            ->shouldReceive('createCompany')
+            ->shouldReceive('upsertCompany')
             ->withArgs($expectUser)
             ->andReturn(true);
 
-        $crmService->shouldReceive('createContact')
-            ->withArgs($expectUserAndContactType)
-            ->andReturn(true);
-
-        $crmService->shouldReceive('linkContactToCompany')
+        $crmService->shouldReceive('upsertContact')
             ->withArgs($expectUserAndContactType)
             ->andReturn(true);
     }

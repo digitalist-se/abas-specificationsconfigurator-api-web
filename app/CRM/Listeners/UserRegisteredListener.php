@@ -16,7 +16,7 @@ class UserRegisteredListener
             return;
         }
 
-        CRM::createCompany($user);
-        CRM::createContact($user, ContactType::User);
+        CRM::upsertCompany($user);
+        CRM::upsertContact($user, ContactType::User);
     }
 }

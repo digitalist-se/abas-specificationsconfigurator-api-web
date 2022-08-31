@@ -28,6 +28,16 @@ class NoOpCRMService implements CRMService
         return true;
     }
 
+    public function upsertCompany(User $user): bool
+    {
+        return true;
+    }
+
+    public function upsertContact(User $user, ContactType $type): bool
+    {
+        return true;
+    }
+
     public function linkContactsToCompany(User $user, ContactType $type): bool
     {
         return true;
@@ -42,7 +52,6 @@ class NoOpCRMService implements CRMService
     {
         return true;
     }
-
     public function trackDocumentExport(ExportedDocument $event): bool
     {
         return true;

@@ -16,6 +16,10 @@ interface CRMService
 
     public function updateContact(User $user, ContactType $type): bool;
 
+    public function upsertCompany(User $user): bool;
+
+    public function upsertContact(User $user, ContactType $type): bool;
+
     public function linkContactsToCompany(User $user, ContactType $type): bool;
 
     public function deleteCompany(User $user): bool;
