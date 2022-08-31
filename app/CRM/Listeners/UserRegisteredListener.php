@@ -18,6 +18,5 @@ class UserRegisteredListener
 
         CRM::createCompany($user);
         CRM::createContact($user, ContactType::User);
-        CRM::linkContactToCompany($user, ContactType::User);
     }
 }

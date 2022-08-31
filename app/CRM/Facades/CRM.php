@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static createContact(User $user, ContactType $type);
  * @method static updateCompany(User $user);
  * @method static updateContact(User $user, ContactType $type);
- * @method static linkContactToCompany(User $user);
+ * @method static linkContactToCompany(User $user, ContactType $type);
  * @method static deleteCompany(User $user);
  * @method static deleteContact(User $user, ContactType $type);
  * @method static trackDocumentExport(ExportedDocument $user);

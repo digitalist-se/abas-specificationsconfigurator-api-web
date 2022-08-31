@@ -94,9 +94,9 @@ class HubSpotCRMService implements CRMService
             $user->update([
                 'crm_company_id' => $companyId,
             ]);
-//            foreach (ContactType::cases() as $type) {
-//                $this->linkContactsToCompany($user, $type);
-//            }
+            foreach (ContactType::cases() as $type) {
+                $this->linkContactsToCompany($user, $type);
+            }
         }
 
         return true;
@@ -115,7 +115,7 @@ class HubSpotCRMService implements CRMService
             $user->update([
                 $user->getCrmContactIdKey($type) => $contactId,
             ]);
-//            $this->linkContactsToCompany($user, $type);
+            $this->linkContactsToCompany($user, $type);
         }
 
         return true;
