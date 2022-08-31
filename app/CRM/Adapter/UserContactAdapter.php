@@ -4,15 +4,13 @@ namespace App\CRM\Adapter;
 
 use App\Models\User;
 
-class CompanyAdapter implements Adapter
+class UserContactAdapter implements Adapter
 {
     const PROPERTY_MAP = [
-        'name'    => 'company',
-        'country' => 'lead_country',
-        'website' => 'website',
-        'zip'     => 'zipcode',
-        'city'    => 'city',
-        'address' => 'full_street',
+        'firstname' => 'first_name',
+        'lastname'  => 'last_name',
+        'email'     => 'email',
+        'company'   => 'company',
     ];
 
     public function toCreateRequestBody(User $user): array

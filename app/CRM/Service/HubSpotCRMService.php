@@ -3,12 +3,15 @@
 namespace App\CRM\Service;
 
 use App\CRM\Adapter\CompanyAdapter;
-use App\CRM\Adapter\ContactAdapter;
+use App\CRM\Adapter\CompanyContactAdapter;
 use App\CRM\Adapter\EngagementNoteAdapter;
 use App\CRM\Adapter\TrackEventAdapter;
+use App\CRM\Adapter\UserContactAdapter;
 use App\CRM\Adapter\UserNoteAdapter;
+use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use function abort;
@@ -56,9 +59,14 @@ class HubSpotCRMService implements CRMService
         return app()->make(CompanyAdapter::class);
     }
 
-    protected function getContactAdapter(): ContactAdapter
+    protected function getContactAdapter(ContactType $type): UserContactAdapter
     {
-        return app()->make(ContactAdapter::class);
+        $class = match ($type) {
+            ContactType::User    => UserContactAdapter::class,
+            ContactType::Company => CompanyContactAdapter::class,
+        };
+
+        return app()->make($class);
     }
 
     protected function getEngagementAdapter(): EngagementNoteAdapter
@@ -86,24 +94,28 @@ class HubSpotCRMService implements CRMService
             $user->update([
                 'crm_company_id' => $companyId,
             ]);
+//            foreach (ContactType::cases() as $type) {
+//                $this->linkContactsToCompany($user, $type);
+//            }
         }
 
         return true;
     }
 
-    public function createContact(User $user): bool
+    public function createContact(User $user, ContactType $type): bool
     {
-        $adapter = $this->getContactAdapter();
+        $adapter = $this->getContactAdapter($type);
         $requestBody = $adapter->toCreateRequestBody($user);
 
         $response = Http::post($this->createUrl('/crm/v3/objects/contacts'), $requestBody)
             ->throw()
             ->json();
         if (isset($response['id'])) {
-            $companyId = $response['id'];
+            $contactId = $response['id'];
             $user->update([
-                'crm_contact_id' => $companyId,
+                $user->getCrmContactIdKey($type) => $contactId,
             ]);
+//            $this->linkContactsToCompany($user, $type);
         }
 
         return true;
@@ -130,37 +142,48 @@ class HubSpotCRMService implements CRMService
         return true;
     }
 
-    public function updateContact(User $user): bool
+    public function updateContact(User $user, ContactType $type): bool
     {
-        if (empty($user->crm_contact_id)) {
+        $crmContactId = $user->getCrmContactId($type);
+
+        if (empty($crmContactId)) {
             abort(500, 'missing contact id');
         }
-        $adapter = $this->getContactAdapter();
+
+        $adapter = $this->getContactAdapter($type);
         $requestBody = $adapter->toCreateRequestBody($user);
 
-        $response = Http::put($this->createUrl('/crm/v3/objects/contacts/'.$user->crm_contact_id), $requestBody)
+        $response = Http::put($this->createUrl('/crm/v3/objects/contacts/'.$crmContactId), $requestBody)
             ->throw()
             ->json();
         if (isset($response['id'])) {
             $companyId = $response['id'];
             $user->update([
-                'crm_contact_id' => $companyId,
+                $user->getCrmContactIdKey($type) => $companyId,
             ]);
         }
 
         return true;
     }
 
-    public function linkContactToCompany(User $user): bool
+    public function linkContactsToCompany(User $user, ContactType $type): bool
     {
-        if (empty($user->crm_company_id)) {
-            abort(500, 'missing company id');
+        $crmCompanyId = $user->crm_company_id;
+        $crmContactId = $user->getCrmContactId($type);
+
+        if (empty($crmCompanyId) || empty($crmContactId)) {
+            return false;
         }
-        if (empty($user->crm_contact_id)) {
-            abort(500, 'missing contact id');
-        }
-        $response = Http::put($this->createUrl('/crm/v3/objects/contacts/'.$user->crm_contact_id.'/associations/companies/'.$user->crm_company_id.'/contact_to_company'), [
-        ])
+
+        $routeParts = [
+            '/crm/v3/objects/contacts/',
+            $crmContactId,
+            '/associations/companies/',
+            $crmCompanyId,
+            '/contact_to_company',
+        ];
+
+        $response = Http::put($this->createUrl(Arr::join($routeParts, '')), [])
             ->throw()
             ->json();
 
@@ -180,15 +203,18 @@ class HubSpotCRMService implements CRMService
         return 204 === $responseStatus;
     }
 
-    public function deleteContact(User $user): bool
+    public function deleteContact(User $user, ContactType $type): bool
     {
-        if (empty($user->crm_contact_id)) {
+        $crmContactId = $user->getCrmContactId($type);
+
+        if (empty($crmContactId)) {
             abort(500, 'missing contact id');
         }
-        $responseStatus = Http::delete($this->createUrl('/crm/v3/objects/contacts/'.$user->crm_contact_id))
+
+        $responseStatus = Http::delete($this->createUrl('/crm/v3/objects/contacts/'.$user->crm_user_contact_id))
             ->throw()
             ->status();
-        $user->update(['crm_contact_id' => null]);
+        $user->update(['crm_user_contact_id' => null]);
 
         return 204 === $responseStatus;
     }
@@ -204,7 +230,7 @@ class HubSpotCRMService implements CRMService
     public function trackDocumentExport(ExportedDocument $event): bool
     {
         $user = $event->user;
-        if (! $user->crm_contact_id) {
+        if (! $user->crm_user_contact_id) {
             return false;
         }
         $this->createExportEvent($user);

@@ -11,17 +11,7 @@ class ExportedDocument
 {
     use Dispatchable, SerializesModels;
 
-    public User $user;
-
-    public SpecificationDocument $document;
-
-    /**
-     * @param \App\Models\User                          $user
-     * @param \App\Http\Resources\SpecificationDocument $document
-     */
-    public function __construct(User $user, SpecificationDocument $document)
+    public function __construct(public User $user, public SpecificationDocument $document)
     {
-        $this->user = $user;
-        $this->document = $document;
     }
 }

@@ -58,6 +58,9 @@ class HubSpotCRMServiceTest extends TestCase
         $service->trackDocumentExport(new ExportedDocument($user, $document));
 
         Http::assertSent(function (?Request $request, ?Response $response) use ($expectedFolderId) {
+            if ($request === null) {
+                return false;
+            }
             if ('/files/v3/files' !== $request->toPsrRequest()->getUri()->getPath()) {
                 return false;
             }
@@ -90,6 +93,10 @@ class HubSpotCRMServiceTest extends TestCase
             return true;
         });
         Http::assertSent(function (?Request $request, ?Response $response) {
+            if ($request === null) {
+                return false;
+            }
+
             if ('/events/v3/send' !== $request->toPsrRequest()->getUri()->getPath()) {
                 return false;
             }
@@ -105,6 +112,10 @@ class HubSpotCRMServiceTest extends TestCase
             return true;
         });
         Http::assertSent(function (?Request $request, ?Response $response) {
+            if ($request === null) {
+                return false;
+            }
+
             if ('/engagements/v1/engagements' !== $request->toPsrRequest()->getUri()->getPath()) {
                 return false;
             }
@@ -145,7 +156,7 @@ class HubSpotCRMServiceTest extends TestCase
     private function givenIsAUserWithCrmId(): mixed
     {
         return User::factory()->make([
-            'crm_contact_id' => 'xyz',
+            'crm_user_contact_id' => 'xyz',
         ]);
     }
 

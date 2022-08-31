@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ContactType;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -181,5 +182,25 @@ class User extends Authenticatable implements MustVerifyEmail
 
             return implode(' ', $name);
         });
+    }
+
+    protected function company(): Attribute
+    {
+        return Attribute::make(
+            get: static fn ($value, $attributes) => $attributes['company_name'] ?: $attributes['user_company'],
+        );
+    }
+
+    public function getCrmContactId(ContactType $type): ?string
+    {
+        return $this->{$this->getCrmContactIdKey($type)};
+    }
+
+    public function getCrmContactIdKey(ContactType $type): string
+    {
+        return match ($type) {
+            ContactType::User    => 'crm_user_contact_id',
+            ContactType::Company => 'crm_company_contact_id',
+        };
     }
 }

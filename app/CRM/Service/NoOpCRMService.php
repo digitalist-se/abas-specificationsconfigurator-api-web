@@ -2,6 +2,7 @@
 
 namespace App\CRM\Service;
 
+use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Models\User;
 
@@ -12,7 +13,7 @@ class NoOpCRMService implements CRMService
         return true;
     }
 
-    public function createContact(User $user): bool
+    public function createContact(User $user, ContactType $type): bool
     {
         return true;
     }
@@ -22,12 +23,12 @@ class NoOpCRMService implements CRMService
         return true;
     }
 
-    public function updateContact(User $user): bool
+    public function updateContact(User $user, ContactType $type): bool
     {
         return true;
     }
 
-    public function linkContactToCompany(User $user): bool
+    public function linkContactsToCompany(User $user, ContactType $type): bool
     {
         return true;
     }
@@ -37,7 +38,7 @@ class NoOpCRMService implements CRMService
         return true;
     }
 
-    public function deleteContact(User $user): bool
+    public function deleteContact(User $user, ContactType $type): bool
     {
         return true;
     }

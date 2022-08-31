@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\CRM\Service\CRMService;
+use App\Enums\ContactType;
 use App\Mail\LeadRegisterMail;
 use App\Models\User;
 use App\Notifications\Register;
@@ -36,7 +37,7 @@ class CreateUserTest extends TestCase
             'contact'                => $this->faker->name(),
             'contact_function'       => 'Geschäftsführer',
         ];
-        $this->expectSequenceToCrmSystem($requestBody['phone']);
+        $this->expectSequenceToCrmSystem($requestBody['phone'], ContactType::User);
 
         $response = $this->postJson('/api/user', $requestBody);
         static::assertStatus($response, 204);
@@ -58,11 +59,12 @@ class CreateUserTest extends TestCase
      *
      * @return void
      */
-    private function expectSequenceToCrmSystem($userPhone): void
+    private function expectSequenceToCrmSystem($userPhone, ContactType $contactType): void
     {
         $crmService = $this->mock(CRMService::class);
 
         $expectUser = fn (User $user) => $user->phone === $userPhone;
+        $expectUserAndContactType = fn (User $user, ContactType $type) => $expectUser($user) && $type === $contactType;
 
         $crmService
             ->shouldReceive('createCompany')
@@ -70,11 +72,11 @@ class CreateUserTest extends TestCase
             ->andReturn(true);
 
         $crmService->shouldReceive('createContact')
-            ->withArgs($expectUser)
+            ->withArgs($expectUserAndContactType)
             ->andReturn(true);
 
         $crmService->shouldReceive('linkContactToCompany')
-            ->withArgs($expectUser)
+            ->withArgs($expectUserAndContactType)
             ->andReturn(true);
     }
 }

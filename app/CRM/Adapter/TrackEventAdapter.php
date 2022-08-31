@@ -21,7 +21,7 @@ class TrackEventAdapter implements Adapter
         return [
             'eventName'  => $this->eventName,
             'objectType' => 'contacts',
-            'objectId'   => $user->crm_contact_id,
+            'objectId'   => $user->crm_user_contact_id,
         ];
     }
 }
