@@ -32,6 +32,7 @@ class UserController extends Controller
         'country'                => 'country',
         'contact_first_name'     => 'contact_first_name',
         'contact_last_name'      => 'contact_last_name',
+        'contact_email'          => 'contact_email',
         'contact_function'       => 'contact_function',
         'partner_tracking'       => 'partner_tracking',
         'company'                => 'user_company',
@@ -78,6 +79,7 @@ class UserController extends Controller
             'country' => [
                 new Enum(Country::class),
             ],
+            'contact_email' => 'email',
         ]);
         if ($request->input('password')) {
             $user->password = Hash::make($request->input('password'));
