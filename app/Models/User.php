@@ -13,8 +13,6 @@ use Laravel\Passport\HasApiTokens;
 
 /**
  * @property \App\Models\Role $role
- * @property string $crm_company_id
- * @property string $crm_contact_id
  * @mixin IdeHelperUser
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -67,7 +65,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'user_role',
         'user_url',
         'crm_company_id',
-        'crm_contact_id',
+        'crm_user_contact_id',
+        'crm_company_contact_id',
     ];
 
     /**
