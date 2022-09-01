@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('crm_contact_id', 'crm_user_contact_id');
             $table->string('crm_company_contact_id')->nullable();
+            $table->dropColumn('crm_company_id');
         });
     }
 
@@ -28,6 +29,7 @@ return new class extends Migration {
         Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('crm_user_contact_id', 'crm_contact_id');
             $table->dropColumn('crm_company_contact_id');
+            $table->string('crm_company_id')->nullable();
         });
     }
 };

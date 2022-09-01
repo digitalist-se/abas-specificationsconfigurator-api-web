@@ -67,7 +67,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'user_company',
         'user_role',
         'user_url',
-        'crm_company_id',
         'crm_user_contact_id',
         'crm_company_contact_id',
     ];
