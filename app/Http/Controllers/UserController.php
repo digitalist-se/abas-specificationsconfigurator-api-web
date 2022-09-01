@@ -52,9 +52,6 @@ class UserController extends Controller
         $this->validate($request, [
             'email'    => 'required|email|unique:users|checkdomains',
             'password' => 'required|confirmed|min:6',
-            'country'  => [
-                new Enum(Country::class),
-            ],
         ]);
         $data = [];
         $this->mapToInputData($request, self::UPDATE_FIELDS, $data);
@@ -77,6 +74,7 @@ class UserController extends Controller
                 'checkdomains',
             ],
             'country' => [
+                'nullable',
                 new Enum(Country::class),
             ],
             'contact_email' => 'email',
