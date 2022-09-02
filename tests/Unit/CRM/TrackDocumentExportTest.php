@@ -48,7 +48,7 @@ class TrackDocumentExportTest extends TestCase
     public function it_send_mail_to_lead_mail()
     {
         // Given is a user
-        $user = User::factory()->create(['role' => Role::USER]);
+        $user = User::factory()->create(['role' => Role::USER, 'crm_user_contact_id' => 'xyz']);
         // And an exported document
         $document = $this->createDocument($user);
         $event = new ExportedDocument($user, $document);

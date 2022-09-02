@@ -72,9 +72,10 @@ class DocumentControllerTest extends PassportTestCase
 
     public function test_generate_document()
     {
+        $this->user->update(['crm_user_contact_id' => 'xyz']);
+        $user = $this->user;
         Mail::fake();
         Event::fake();
-        $user = $this->user;
         $this->assertCRMServiceHandlesExportedDocument($this->mock(CRMService::class), $user);
         $response = $this->get('/api/document/generate');
         static::assertStatus($response, 200);
