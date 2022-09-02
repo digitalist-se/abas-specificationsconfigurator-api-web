@@ -6,19 +6,17 @@ use App\CRM\Service\CRMService;
 use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static createCompany(User $user);
- * @method static createContact(User $user, ContactType $type);
- * @method static updateCompany(User $user);
- * @method static updateContact(User $user, ContactType $type);
- * @method static upsertCompany(User $user);
- * @method static upsertContact(User $user, ContactType $type);
- * @method static linkContactToCompany(User $user, ContactType $type);
- * @method static deleteCompany(User $user);
- * @method static deleteContact(User $user, ContactType $type);
- * @method static trackDocumentExport(ExportedDocument $user);
+ * @method static createContact(User $user, ContactType $type): bool
+ * @method static updateContact(User $user, ContactType $type): bool
+ * @method static deleteContact(User $user, ContactType $type): bool
+ * @method static upsertContact(User $user, ContactType $type): bool
+ * @method static updateCompany(User $user): bool
+ * @method static trackDocumentExport(ExportedDocument $event): bool
+ * @method static trackUserRegistered(Registered $event): bool
  */
 class CRM extends Facade
 {

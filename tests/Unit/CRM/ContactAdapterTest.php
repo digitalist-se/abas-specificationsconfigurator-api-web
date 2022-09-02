@@ -62,11 +62,10 @@ class ContactAdapterTest extends TestCase
                     'salutation' => $user->salutation,
                     'firstname'  => $user->contact_first_name,
                     'lastname'   => $user->contact_last_name,
-                    // TODO: user needs a contact_email field
-                    //                    'email'      => $user->contact_email,
-                    'jobtitle' => $user->contact_function,
-                    'phone'    => $user->phone,
-                    'company'  => $user->company,
+                    'email'      => $user->contact_email,
+                    'jobtitle'   => $user->contact_function,
+                    'phone'      => $user->phone,
+                    'company'    => $user->company,
                 ],
             ],
             $requestBody

@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\User as UserResource;
-use App\Mail\LeadRegisterMail;
 use App\Models\Country;
 use App\Models\Role;
 use App\Models\User;
-use App\Notifications\Register;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 

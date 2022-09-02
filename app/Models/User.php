@@ -197,7 +197,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->{$this->getCrmContactIdKey($type)};
     }
 
-    public function getCrmContactIdKey(ContactType $type): string
+    public function setCrmContactId(ContactType $type, ?string $value): static
+    {
+        $this->{$this->getCrmContactIdKey($type)} = $value;
+
+        return $this;
+    }
+
+    protected function getCrmContactIdKey(ContactType $type): string
     {
         return match ($type) {
             ContactType::User    => 'crm_user_contact_id',

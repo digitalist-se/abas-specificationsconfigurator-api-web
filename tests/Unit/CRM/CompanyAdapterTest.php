@@ -32,7 +32,7 @@ class CompanyAdapterTest extends TestCase
         $this->assertEquals(
             [
                 'properties' => [
-                    'name'    => $user->company_name,
+                    'name'    => $user->company,
                     'website' => $user->website,
                     'zip'     => $user->zipcode,
                     'city'    => $user->city,

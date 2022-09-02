@@ -8,10 +8,11 @@ use App\CRM\Adapter\EngagementNoteAdapter;
 use App\CRM\Adapter\TrackEventAdapter;
 use App\CRM\Adapter\UserContactAdapter;
 use App\CRM\Adapter\UserNoteAdapter;
+use App\CRM\Enums\HubSpotEventType;
 use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Models\User;
-use Illuminate\Support\Arr;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use function abort;
@@ -74,32 +75,15 @@ class HubSpotCRMService implements CRMService
         return app()->make(EngagementNoteAdapter::class);
     }
 
-    protected function getTrackEventAdapter(string $eventName): TrackEventAdapter
+    protected function getUserNoteAdapter(): UserNoteAdapter
     {
-        $eventName = $this->events[$eventName] ?? $eventName;
-
-        return app()->make(TrackEventAdapter::class, ['eventName' => $eventName]);
+        return app()->make(UserNoteAdapter::class);
     }
 
-    public function createCompany(User $user): bool
+    protected function getTrackEventAdapter(HubSpotEventType $eventType): TrackEventAdapter
     {
-        $adapter = $this->getCompanyAdapter();
-        $requestBody = $adapter->toCreateRequestBody($user);
-
-        $response = Http::post($this->createUrl('/crm/v3/objects/companies'), $requestBody)
-            ->throw()
-            ->json();
-        if (isset($response['id'])) {
-            $companyId = $response['id'];
-            $user->update([
-                'crm_company_id' => $companyId,
-            ]);
-            foreach (ContactType::cases() as $type) {
-                $this->linkContactsToCompany($user, $type);
-            }
-        }
-
-        return true;
+        $eventName = $this->events[$eventType->value] ?? $eventType->value;
+        return app()->make(TrackEventAdapter::class, ['eventName' => $eventName]);
     }
 
     public function createContact(User $user, ContactType $type): bool
@@ -107,15 +91,14 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getContactAdapter($type);
         $requestBody = $adapter->toCreateRequestBody($user);
 
-        $response = Http::post($this->createUrl('/crm/v3/objects/contacts'), $requestBody)
-            ->throw()
-            ->json();
-        if (isset($response['id'])) {
-            $contactId = $response['id'];
-            $user->update([
-                $user->getCrmContactIdKey($type) => $contactId,
-            ]);
-            $this->linkContactsToCompany($user, $type);
+        $response = Http::post($this->createUrl('/crm/v3/objects/contacts'), $requestBody);
+        if ($response->failed()) {
+            return false;
+        }
+
+        if ($contactId = $response->json('id')) {
+            $user->setCrmContactId($type, $contactId)
+                ->save();
         }
 
         return true;
@@ -123,23 +106,18 @@ class HubSpotCRMService implements CRMService
 
     public function updateCompany(User $user): bool
     {
-        if (empty($user->crm_company_id)) {
-            abort(500, 'missing company id');
+        $companyId = $this->getContactCompanyID($user, ContactType::User);
+
+        if (empty($companyId)) {
+            return false;
         }
+
         $adapter = $this->getCompanyAdapter();
         $requestBody = $adapter->toCreateRequestBody($user);
 
-        $response = Http::put($this->createUrl('/crm/v3/objects/companies/'.$user->crm_company_id), $requestBody)
-            ->throw()
-            ->json();
-        if (isset($response['id'])) {
-            $companyId = $response['id'];
-            $user->update([
-                'crm_company_id' => $companyId,
-            ]);
-        }
+        $response = Http::put($this->createUrl('/crm/v3/objects/companies/'.$companyId), $requestBody);
 
-        return true;
+        return $response->successful();
     }
 
     public function updateContact(User $user, ContactType $type): bool
@@ -153,24 +131,9 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getContactAdapter($type);
         $requestBody = $adapter->toCreateRequestBody($user);
 
-        $response = Http::put($this->createUrl('/crm/v3/objects/contacts/'.$crmContactId), $requestBody)
-            ->throw()
-            ->json();
-        if (isset($response['id'])) {
-            $companyId = $response['id'];
-            $user->update([
-                $user->getCrmContactIdKey($type) => $companyId,
-            ]);
-        }
+        $response = Http::put($this->createUrl('/crm/v3/objects/contacts/'.$crmContactId), $requestBody);
 
-        return true;
-    }
-
-    public function upsertCompany(User $user): bool
-    {
-        return empty($user->crm_company_id)
-            ? $this->createCompany($user)
-            : $this->updateCompany($user);
+        return $response->successful();
     }
 
     public function upsertContact(User $user, ContactType $type): bool
@@ -180,65 +143,24 @@ class HubSpotCRMService implements CRMService
             : $this->updateContact($user, $type);
     }
 
-    public function linkContactsToCompany(User $user, ContactType $type): bool
-    {
-        $crmCompanyId = $user->crm_company_id;
-        $crmContactId = $user->getCrmContactId($type);
-
-        if (empty($crmCompanyId) || empty($crmContactId)) {
-            return false;
-        }
-
-        $routeParts = [
-            '/crm/v3/objects/contacts/',
-            $crmContactId,
-            '/associations/companies/',
-            $crmCompanyId,
-            '/contact_to_company',
-        ];
-
-        $response = Http::put($this->createUrl(Arr::join($routeParts, '')), [])
-            ->throw()
-            ->json();
-
-        return isset($response['id']);
-    }
-
-    public function deleteCompany(User $user): bool
-    {
-        if (empty($user->crm_company_id)) {
-            abort(500, 'missing company id');
-        }
-        $responseStatus = Http::delete($this->createUrl('/crm/v3/objects/companies/'.$user->crm_company_id))
-                ->throw()
-                ->status();
-        $user->update(['crm_company_id' => null]);
-
-        return 204 === $responseStatus;
-    }
-
     public function deleteContact(User $user, ContactType $type): bool
     {
         $crmContactId = $user->getCrmContactId($type);
 
         if (empty($crmContactId)) {
-            abort(500, 'missing contact id');
+            return false;
         }
 
-        $responseStatus = Http::delete($this->createUrl('/crm/v3/objects/contacts/'.$user->crm_user_contact_id))
-            ->throw()
-            ->status();
-        $user->update(['crm_user_contact_id' => null]);
+        $response = Http::delete($this->createUrl('/crm/v3/objects/contacts/'.$crmContactId));
 
-        return 204 === $responseStatus;
-    }
+        if ($response->failed()) {
+            return false;
+        }
 
-    /**
-     * @return mixed
-     */
-    protected function createUrl(string $route): string
-    {
-        return $this->baseUrl.$route.'?hapikey='.$this->apiKey;
+        $user->setCrmContactId($type, null)
+            ->save();
+
+        return 204 === $response->status();
     }
 
     public function trackDocumentExport(ExportedDocument $event): bool
@@ -247,7 +169,7 @@ class HubSpotCRMService implements CRMService
         if (! $user->crm_user_contact_id) {
             return false;
         }
-        $this->createExportEvent($user);
+        $this->createEvent(HubSpotEventType::DocumentExport, $user);
 
         $file = $event->document->outputZipFilename();
         $fileId = $this->uploadFile($file);
@@ -257,29 +179,46 @@ class HubSpotCRMService implements CRMService
         return true;
     }
 
-    /**
-     * @param \App\Models\User $user
-     *
-     * @return bool
-     * @throws \Illuminate\Http\Client\RequestException
-     */
-    private function createExportEvent(User $user): bool
+    public function trackUserRegistered(Registered $event): bool
     {
-        $adapter = $this->getTrackEventAdapter(eventName: 'document-export');
+        /** @var \App\Models\User $user */
+        $user = $event->user;
+        $user->refresh();
+        if (! $user->crm_user_contact_id) {
+            return false;
+        }
+
+        return $this->createEvent(HubSpotEventType::UserRegistered, $user);
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function createUrl(string $route): string
+    {
+        return $this->getBaseUrl().$route.'?hapikey='.$this->getApiKey();
+    }
+
+    private function createEvent(HubSpotEventType $eventType, User $user): bool
+    {
+        $adapter = $this->getTrackEventAdapter($eventType);
         $requestBody = $adapter->toCreateRequestBody($user);
 
         $response = Http::withBody(json_encode($requestBody), 'application/json')
             ->post($this->createUrl('/events/v3/send'));
 
-        if ($response->ok()) {
-            return true;
+        if ($response->failed()) {
+            Log::error('crm error:'.$response->body());
+
+            return false;
         }
 
-        Log::error('crm error:'.$response->body());
-
-        return false;
+        return true;
     }
 
+    /**
+     * @throws \JsonException
+     */
     protected function uploadFile($file)
     {
         $fileName = basename($file);
@@ -293,8 +232,9 @@ class HubSpotCRMService implements CRMService
                     'overwrite'                   => false,
                     'duplicateValidationStrategy' => 'none',
                     'duplicateValidationScope'    => 'EXACT_FOLDER',
-                ]),
+                ], JSON_THROW_ON_ERROR),
             ]);
+
         if (! $fileResponse->ok()) {
             return false;
         }
@@ -302,22 +242,36 @@ class HubSpotCRMService implements CRMService
         return $fileResponse->json('id');
     }
 
-    /**
-     * @return void
-     * @throws \Illuminate\Http\Client\RequestException
-     */
-    private function createNote(User $user, $fileId, $body): ?array
+    protected function createNote(User $user, $fileId, $body): bool
     {
-        $requestBody = $this->getEngagementAdapter()->toCreateRequestBody($user, $fileId, $body);
+        $adapter = $this->getEngagementAdapter();
+        $requestBody = $adapter->toCreateRequestBody($user, $fileId, $body);
 
-        return Http::post($this->createUrl('/engagements/v1/engagements'), $requestBody)
-            ->json();
+        $response = Http::post($this->createUrl('/engagements/v1/engagements'), $requestBody);
+
+        return $response->successful();
+    }
+
+    protected function getContactCompanyID(User $user, ContactType $type): ?string
+    {
+        $crmContactId = $user->getCrmContactId($type);
+
+        if (empty($crmContactId)) {
+            return null;
+        }
+
+        $response = Http::get($this->createUrl('/crm/v3/objects/contacts/'.$crmContactId.'/associations/company'));
+
+        if ($response->failed()) {
+            return null;
+        }
+
+        return $response->json('results.0.id');
     }
 
     protected function renderUserNote(User $user): string
     {
-        return app()
-            ->make(UserNoteAdapter::class)
+        return $this->getUserNoteAdapter()
             ->createNote($user);
     }
 }

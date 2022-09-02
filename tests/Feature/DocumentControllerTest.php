@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\CRM\Service\CRMService;
 use App\Events\ExportedDocument;
 use App\Models\Answer;
 use App\Models\ChoiceType;
@@ -11,10 +12,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Tests\PassportTestCase;
+use Tests\Traits\AssertsCRMHandlesEvents;
 
 class DocumentControllerTest extends PassportTestCase
 {
     use WithFaker;
+    use AssertsCRMHandlesEvents;
 
     protected $role = Role::USER;
 
@@ -71,12 +74,11 @@ class DocumentControllerTest extends PassportTestCase
     {
         Mail::fake();
         Event::fake();
+        $user = $this->user;
+        $this->assertCRMServiceHandlesExportedDocument($this->mock(CRMService::class), $user);
         $response = $this->get('/api/document/generate');
         static::assertStatus($response, 200);
-        $user = $this->user;
-        Event::assertDispatched(ExportedDocument::class, function (ExportedDocument $event) use ($user) {
-            return $user->id === $event->user->id;
-        });
+        Event::assertDispatched(ExportedDocument::class, fn (ExportedDocument $event) => $user->id === $event->user->id);
         Mail::assertNothingQueued();
         Mail::assertNothingSent();
     }

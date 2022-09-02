@@ -10,6 +10,7 @@ class CompanyContactAdapter implements Adapter
         'salutation' => 'salutation',
         'firstname'  => 'contact_first_name',
         'lastname'   => 'contact_last_name',
+        'email'      => 'contact_email',
         'company'    => 'company',
         'phone'      => 'phone',
         'jobtitle'   => 'contact_function',
