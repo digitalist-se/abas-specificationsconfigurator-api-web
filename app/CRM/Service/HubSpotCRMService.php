@@ -2,6 +2,7 @@
 
 namespace App\CRM\Service;
 
+use function app;
 use App\CRM\Adapter\Adapter;
 use App\CRM\Adapter\CompanyAdapter;
 use App\CRM\Adapter\CompanyContactAdapter;
@@ -18,7 +19,6 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use JsonException;
-use function app;
 
 class HubSpotCRMService implements CRMService
 {
