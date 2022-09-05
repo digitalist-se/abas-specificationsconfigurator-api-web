@@ -124,7 +124,7 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getCompanyAdapter();
         $requestBody = $adapter->toCreateRequestBody($user);
         $url = $this->createUrl('/crm/v3/objects/companies/'.$companyId);
-        $response = Http::put($url, $requestBody);
+        $response = Http::patch($url, $requestBody);
 
         $this->logResponse($url, $response);
 
@@ -145,7 +145,7 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getContactAdapter($type);
         $requestBody = $adapter->toCreateRequestBody($user);
         $url = $this->createUrl('/crm/v3/objects/contacts/'.$crmContactId);
-        $response = Http::put($url, $requestBody);
+        $response = Http::patch($url, $requestBody);
 
         $this->logResponse($url, $response);
 
