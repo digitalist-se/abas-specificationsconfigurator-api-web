@@ -2,6 +2,7 @@
 
 namespace App\CRM\Service;
 
+use App\CRM\Adapter\Adapter;
 use App\CRM\Adapter\CompanyAdapter;
 use App\CRM\Adapter\CompanyContactAdapter;
 use App\CRM\Adapter\EngagementNoteAdapter;
@@ -16,6 +17,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use JsonException;
 use function app;
 
 class HubSpotCRMService implements CRMService
@@ -118,6 +120,7 @@ class HubSpotCRMService implements CRMService
 
         if (empty($companyId)) {
             $this->logError('missing company id', [$user, $companyId]);
+
             return false;
         }
 
@@ -139,6 +142,7 @@ class HubSpotCRMService implements CRMService
 
         if (empty($crmContactId)) {
             $this->logError('missing contact id', [$user, $type]);
+
             return false;
         }
 
@@ -169,6 +173,7 @@ class HubSpotCRMService implements CRMService
 
         if (empty($crmContactId)) {
             $this->logError('missing contact id', [$user, $type]);
+
             return false;
         }
 
@@ -194,6 +199,7 @@ class HubSpotCRMService implements CRMService
         $user = $event->user;
         if (! $user->crm_user_contact_id) {
             $this->logError('missing contact id', [$event]);
+
             return false;
         }
 
@@ -201,6 +207,11 @@ class HubSpotCRMService implements CRMService
 
         $file = $event->document->outputZipFilename();
         $fileId = $this->uploadFile($file);
+        if (! $file) {
+            $this->logError('track document export, file upload not successful', [$event]);
+
+            return false;
+        }
 
         $this->createNote($user, $fileId, $this->renderUserNote($user));
 
@@ -216,6 +227,7 @@ class HubSpotCRMService implements CRMService
         $user->refresh();
         if (! $user->crm_user_contact_id) {
             $this->logError('missing contact id', [$event]);
+
             return false;
         }
 
@@ -251,20 +263,25 @@ class HubSpotCRMService implements CRMService
         return true;
     }
 
-    /**
-     * @throws \JsonException
-     */
-    protected function uploadFile($file)
+    protected function uploadFile($file): ?string
     {
         $this->logMethod(__METHOD__);
 
         $fileName = basename($file);
-        $options = json_encode([
-            'access'                      => 'PRIVATE',
-            'overwrite'                   => false,
-            'duplicateValidationStrategy' => 'none',
-            'duplicateValidationScope'    => 'EXACT_FOLDER',
-        ]);
+
+        try {
+            $options = json_encode([
+                'access'                      => 'PRIVATE',
+                'overwrite'                   => false,
+                'duplicateValidationStrategy' => 'NONE',
+                'duplicateValidationScope'    => 'EXACT_FOLDER',
+            ], JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            $this->logError('json encode for file upload options not successful: '.$e->getMessage());
+
+            return null;
+        }
+
         $url = $this->createUrl('/files/v3/files');
         $response = Http::attach('file', file_get_contents($file), $fileName)
             ->asMultipart()
@@ -275,8 +292,10 @@ class HubSpotCRMService implements CRMService
 
         $this->logResponse($url, $response);
 
-        if (! $response->ok()) {
-            return false;
+        if (! $response->successful()) {
+            $this->logError('file upload not successful');
+
+            return null;
         }
 
         return $response->json('id');
@@ -303,6 +322,7 @@ class HubSpotCRMService implements CRMService
         $crmContactId = $user->getCrmContactId($type);
         if (empty($crmContactId)) {
             $this->logError('missing contact id', [$user, $type]);
+
             return null;
         }
 
@@ -332,13 +352,20 @@ class HubSpotCRMService implements CRMService
     protected function logResponse(string $url, Response $response)
     {
         if ($response->failed()) {
-            Log::error($url, [$response]);
+            Log::error($url, [
+                'error'   => $response->toException()?->getMessage(),
+                'headers' => $response->headers(),
+                'body'    => $response->body(),
+            ]);
         } else {
-            Log::debug($url, [$response]);
+            Log::debug($url, [
+                'headers' => $response->headers(),
+                'body'    => $response->body(),
+            ]);
         }
     }
 
-    protected function logError(string $message, array $context)
+    protected function logError(string $message, array $context = [])
     {
         Log::error($message, $context);
     }

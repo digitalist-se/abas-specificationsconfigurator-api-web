@@ -98,7 +98,7 @@ class HubSpotCRMServiceTest extends TestCase
                     'options'  => [
                         'access'                      => 'PRIVATE',
                         'overwrite'                   => false,
-                        'duplicateValidationStrategy' => 'none',
+                        'duplicateValidationStrategy' => 'NONE',
                         'duplicateValidationScope'    => 'EXACT_FOLDER',
                     ],
                 ],
