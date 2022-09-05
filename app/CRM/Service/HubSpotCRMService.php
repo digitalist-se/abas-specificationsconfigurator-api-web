@@ -60,7 +60,7 @@ class HubSpotCRMService implements CRMService
         return app()->make(CompanyAdapter::class);
     }
 
-    protected function getContactAdapter(ContactType $type): UserContactAdapter
+    protected function getContactAdapter(ContactType $type): Adapter
     {
         $class = match ($type) {
             ContactType::User    => UserContactAdapter::class,
