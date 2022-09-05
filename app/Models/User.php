@@ -188,7 +188,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function company(): Attribute
     {
         return Attribute::make(
-            get: static fn ($value, $attributes) => $attributes['company_name'] ?: $attributes['user_company'],
+            get: static fn ($value, $attributes) => $attributes['company_name'] ?? $attributes['user_company'],
         );
     }
 
