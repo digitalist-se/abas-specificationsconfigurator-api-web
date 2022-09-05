@@ -4,13 +4,14 @@ namespace App\CRM\Adapter;
 
 use App\Models\User;
 
-class ContactAdapter implements Adapter
+class CompanyContactAdapter implements Adapter
 {
     const PROPERTY_MAP = [
         'salutation' => 'salutation',
         'firstname'  => 'contact_first_name',
         'lastname'   => 'contact_last_name',
-        'email'      => 'email',
+        'email'      => 'contact_email',
+        'company'    => 'company',
         'phone'      => 'phone',
         'jobtitle'   => 'contact_function',
     ];

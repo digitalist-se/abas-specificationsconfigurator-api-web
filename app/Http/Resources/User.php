@@ -34,6 +34,7 @@ class User extends JsonResource
             'city'                   => $this->city,
             'contact_first_name'     => $this->contact_first_name,
             'contact_last_name'      => $this->contact_last_name,
+            'contact_email'          => $this->contact_email,
             'contact_function'       => $this->contact_function,
             'country'                => $this->country,
         ];

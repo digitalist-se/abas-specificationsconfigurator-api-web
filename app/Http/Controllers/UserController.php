@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\User as UserResource;
-use App\Mail\LeadRegisterMail;
 use App\Models\Country;
 use App\Models\Role;
 use App\Models\User;
-use App\Notifications\Register;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -32,6 +29,7 @@ class UserController extends Controller
         'country'                => 'country',
         'contact_first_name'     => 'contact_first_name',
         'contact_last_name'      => 'contact_last_name',
+        'contact_email'          => 'contact_email',
         'contact_function'       => 'contact_function',
         'partner_tracking'       => 'partner_tracking',
         'company'                => 'user_company',
@@ -51,9 +49,6 @@ class UserController extends Controller
         $this->validate($request, [
             'email'    => 'required|email|unique:users|checkdomains',
             'password' => 'required|confirmed|min:6',
-            'country'  => [
-                new Enum(Country::class),
-            ],
         ]);
         $data = [];
         $this->mapToInputData($request, self::UPDATE_FIELDS, $data);
@@ -76,8 +71,10 @@ class UserController extends Controller
                 'checkdomains',
             ],
             'country' => [
+                'nullable',
                 new Enum(Country::class),
             ],
+            'contact_email' => 'email',
         ]);
         if ($request->input('password')) {
             $user->password = Hash::make($request->input('password'));

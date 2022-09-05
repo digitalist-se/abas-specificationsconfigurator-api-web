@@ -2,7 +2,8 @@
 
 namespace Tests\Unit\CRM;
 
-use App\CRM\Adapter\ContactAdapter;
+use App\CRM\Adapter\CompanyContactAdapter;
+use App\CRM\Adapter\UserContactAdapter;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -19,13 +20,39 @@ class ContactAdapterTest extends TestCase
     /**
      * @test
      */
-    public function it_create_request_body()
+    public function it_create_request_body_for_user_contact()
     {
         // Given is a user
         $user = $this->user();
 
         // When we pass it to adapter
-        $adapter = $this->app->make(ContactAdapter::class);
+        $adapter = $this->app->make(UserContactAdapter::class);
+        $requestBody = $adapter->toCreateRequestBody($user);
+
+        // We expect that the request body contains expected data
+        $this->assertEquals(
+            [
+                'properties' => [
+                    'firstname' => $user->first_name,
+                    'lastname'  => $user->last_name,
+                    'email'     => $user->email,
+                    'company'   => $user->company,
+                ],
+            ],
+            $requestBody
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_create_request_body_for_company_contact()
+    {
+        // Given is a user
+        $user = $this->user();
+
+        // When we pass it to adapter
+        $adapter = $this->app->make(CompanyContactAdapter::class);
         $requestBody = $adapter->toCreateRequestBody($user);
 
         // We expect that the request body contains expected data
@@ -35,9 +62,10 @@ class ContactAdapterTest extends TestCase
                     'salutation' => $user->salutation,
                     'firstname'  => $user->contact_first_name,
                     'lastname'   => $user->contact_last_name,
-                    'email'      => $user->email,
-                    'phone'      => $user->phone,
+                    'email'      => $user->contact_email,
                     'jobtitle'   => $user->contact_function,
+                    'phone'      => $user->phone,
+                    'company'    => $user->company,
                 ],
             ],
             $requestBody

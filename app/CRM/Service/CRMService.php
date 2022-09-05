@@ -2,24 +2,24 @@
 
 namespace App\CRM\Service;
 
+use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 
 interface CRMService
 {
-    public function createCompany(User $user): bool;
+    public function createContact(User $user, ContactType $type): bool;
 
-    public function createContact(User $user): bool;
+    public function updateContact(User $user, ContactType $type): bool;
+
+    public function deleteContact(User $user, ContactType $type): bool;
+
+    public function upsertContact(User $user, ContactType $type): bool;
 
     public function updateCompany(User $user): bool;
 
-    public function updateContact(User $user): bool;
-
-    public function linkContactToCompany(User $user): bool;
-
-    public function deleteCompany(User $user): bool;
-
-    public function deleteContact(User $user): bool;
-
     public function trackDocumentExport(ExportedDocument $event): bool;
+
+    public function trackUserRegistered(Registered $event): bool;
 }

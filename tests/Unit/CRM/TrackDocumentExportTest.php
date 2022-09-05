@@ -12,9 +12,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use RuntimeException;
 use Tests\TestCase;
+use Tests\Traits\AssertsCRMHandlesEvents;
 
 class TrackDocumentExportTest extends TestCase
 {
+    use AssertsCRMHandlesEvents;
+
     protected function createDocument(User $user): SpecificationDocument
     {
         $outputDir = storage_path(DocumentController::EXPORT_PATH);
@@ -45,16 +48,13 @@ class TrackDocumentExportTest extends TestCase
     public function it_send_mail_to_lead_mail()
     {
         // Given is a user
-        $user = User::factory()->create(['role' => Role::USER]);
+        $user = User::factory()->create(['role' => Role::USER, 'crm_user_contact_id' => 'xyz']);
         // And an exported document
         $document = $this->createDocument($user);
         $event = new ExportedDocument($user, $document);
 
         // We expect service is called from event
-        $this->mock(CRMService::class)
-            ->expects('trackDocumentExport')
-            ->withArgs(fn (ExportedDocument $actualEvent) => $actualEvent->user->id === $user->id)
-            ->andReturn(true);
+        $this->assertCRMServiceHandlesExportedDocument($this->mock(CRMService::class), $user);
 
         $listener = $this->app->make(TrackDocumentExport::class);
         // When we handle event

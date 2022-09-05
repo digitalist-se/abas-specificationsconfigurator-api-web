@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ContactType;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,8 +14,6 @@ use Laravel\Passport\HasApiTokens;
 
 /**
  * @property \App\Models\Role $role
- * @property string $crm_company_id
- * @property string $crm_contact_id
  * @mixin IdeHelperUser
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -30,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'sex',
         'contact_first_name',
         'contact_last_name',
+        'contact_email',
         'company_name',
         'phone',
         'website',
@@ -61,13 +61,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'country',
         'contact_first_name',
         'contact_last_name',
+        'contact_email',
         'contact_function',
         'partner_tracking',
         'user_company',
         'user_role',
         'user_url',
-        'crm_company_id',
-        'crm_contact_id',
+        'crm_user_contact_id',
+        'crm_company_contact_id',
     ];
 
     /**
@@ -182,5 +183,32 @@ class User extends Authenticatable implements MustVerifyEmail
 
             return implode(' ', $name);
         });
+    }
+
+    protected function company(): Attribute
+    {
+        return Attribute::make(
+            get: static fn ($value, $attributes) => $attributes['company_name'] ?? $attributes['user_company'],
+        );
+    }
+
+    public function getCrmContactId(ContactType $type): ?string
+    {
+        return $this->{$this->getCrmContactIdKey($type)};
+    }
+
+    public function setCrmContactId(ContactType $type, ?string $value): static
+    {
+        $this->{$this->getCrmContactIdKey($type)} = $value;
+
+        return $this;
+    }
+
+    protected function getCrmContactIdKey(ContactType $type): string
+    {
+        return match ($type) {
+            ContactType::User    => 'crm_user_contact_id',
+            ContactType::Company => 'crm_company_contact_id',
+        };
     }
 }

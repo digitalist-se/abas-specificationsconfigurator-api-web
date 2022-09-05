@@ -12,7 +12,6 @@ class UserNoteAdapter
             'salutation',
             'contact_first_name',
             'contact_last_name',
-            'email',
             'contact_function',
             'phone',
         ]);

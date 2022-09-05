@@ -3,6 +3,7 @@
 namespace App\CRM\Listeners;
 
 use App\CRM\Facades\CRM;
+use App\Enums\ContactType;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 
@@ -15,8 +16,7 @@ class UserRegisteredListener
             return;
         }
 
-        CRM::createCompany($user);
-        CRM::createContact($user);
-        CRM::linkContactToCompany($user);
+        CRM::createContact($user, ContactType::User);
+        CRM::trackUserRegistered($event);
     }
 }

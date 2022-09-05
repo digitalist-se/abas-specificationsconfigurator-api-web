@@ -10,10 +10,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use Tests\Traits\AssertsCRMHandlesEvents;
 
 class CreateUserTest extends TestCase
 {
     use WithFaker;
+    use AssertsCRMHandlesEvents;
 
     public function test_create_user()
     {
@@ -36,7 +38,7 @@ class CreateUserTest extends TestCase
             'contact'                => $this->faker->name(),
             'contact_function'       => 'Geschäftsführer',
         ];
-        $this->expectSequenceToCrmSystem($requestBody['phone']);
+        $this->assertCRMServiceHandlesUserRegistered($this->mock(CRMService::class), $requestBody);
 
         $response = $this->postJson('/api/user', $requestBody);
         static::assertStatus($response, 204);
@@ -51,30 +53,5 @@ class CreateUserTest extends TestCase
         // retry creating user, that request should fail
         $response = $this->postJson('/api/user', $requestBody);
         static::assertStatus($response, 422);
-    }
-
-    /**
-     * @param $userPhone
-     *
-     * @return void
-     */
-    private function expectSequenceToCrmSystem($userPhone): void
-    {
-        $crmService = $this->mock(CRMService::class);
-
-        $expectUser = fn (User $user) => $user->phone === $userPhone;
-
-        $crmService
-            ->shouldReceive('createCompany')
-            ->withArgs($expectUser)
-            ->andReturn(true);
-
-        $crmService->shouldReceive('createContact')
-            ->withArgs($expectUser)
-            ->andReturn(true);
-
-        $crmService->shouldReceive('linkContactToCompany')
-            ->withArgs($expectUser)
-            ->andReturn(true);
     }
 }

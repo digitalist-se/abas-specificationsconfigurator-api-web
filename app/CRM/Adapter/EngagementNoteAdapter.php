@@ -15,7 +15,7 @@ class EngagementNoteAdapter
             ],
             'associations' => [
                 'contactIds' => [
-                    $user->crm_contact_id,
+                    $user->crm_user_contact_id,
                 ],
             ],
             'attachments' => [
