@@ -65,7 +65,8 @@ class HubSpotCRMServiceTest extends TestCase
         ]);
         $expectedFolderId = 3001;
         Config::set('services.hubSpot.folder.id', $expectedFolderId);
-        $user = $this->givenIsAUserWithCrmId();
+        $user = $this->givenIsAUserWithCrmIds();
+        $crmCompanyId = 'abc';
         $document = $this->givenIsASpecificationDocument($user);
 
         $service = $this->app->make(CRMService::class);
@@ -125,7 +126,7 @@ class HubSpotCRMServiceTest extends TestCase
 
             return true;
         });
-        Http::assertSent(function (?Request $request, ?Response $response) {
+        Http::assertSent(function (?Request $request, ?Response $response) use ($crmCompanyId) {
             if ($request === null) {
                 return false;
             }
@@ -141,10 +142,14 @@ class HubSpotCRMServiceTest extends TestCase
                 ],
                 $request->data()['engagement']);
 
+
             $this->assertEquals(
                 [
                     'contactIds' => [
                         'xyz',
+                    ],
+                    'companyIds' => [
+                        $crmCompanyId,
                     ],
                 ],
                 $request->data()['associations']);
@@ -175,7 +180,7 @@ class HubSpotCRMServiceTest extends TestCase
             ]),
         ]);
 
-        $user = $this->givenIsAUserWithCrmId();
+        $user = $this->givenIsAUserWithCrmIds();
 
         $service = $this->app->make(CRMService::class);
         $service->trackUserRegistered(new Registered($user));
@@ -213,7 +218,7 @@ class HubSpotCRMServiceTest extends TestCase
             ]),
         ]);
 
-        $user = $this->givenIsAUserWithCrmId();
+        $user = $this->givenIsAUserWithCrmIds();
 
         $service = $this->app->make(CRMService::class);
         $service->updateCompany($user);
@@ -248,7 +253,7 @@ class HubSpotCRMServiceTest extends TestCase
     /**
      * @return User
      */
-    private function givenIsAUserWithCrmId(): mixed
+    private function givenIsAUserWithCrmIds(): mixed
     {
         return User::factory()->make([
             'crm_user_contact_id' => 'xyz',
