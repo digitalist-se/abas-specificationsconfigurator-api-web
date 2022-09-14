@@ -156,7 +156,7 @@ class HubSpotCRMServiceTest extends TestCase
                     ],
                 ],
                 $request->data()['attachments']);
-            $this->assertStringStartsWith('Neue Lastenheftgenerierung:', $request->data()['metadata']['body']);
+            $this->assertStringStartsWith('Neue Lastenheftgenerierung:<br/><br/>', $request->data()['metadata']['body']);
 
             return true;
         });
