@@ -305,8 +305,11 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
+        $contactId = $user->crm_user_contact_id;
+        $companyId = $this->getContactCompanyID($user, ContactType::User);
+
         $adapter = $this->getEngagementAdapter();
-        $requestBody = $adapter->toCreateRequestBody($user, $fileId, $body);
+        $requestBody = $adapter->toCreateRequestBody($fileId, $body, $contactId, $companyId);
         $url = $this->createUrl('/engagements/v1/engagements');
         $response = Http::post($url, $requestBody);
 

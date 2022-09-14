@@ -56,17 +56,18 @@ class HubSpotCRMServiceTest extends TestCase
      */
     public function it_can_track_document_export()
     {
+        $crmCompanyId = 'abc';
         Http::fake([
             '*' => Http::sequence([
                 Http::response(['id' => 'fakeId']),
                 Http::response(['id' => 'fakeId']),
+                Http::response(['results' => [['id' => $crmCompanyId]]]),
                 Http::response(['id' => 'fakeId']),
             ]),
         ]);
         $expectedFolderId = 3001;
         Config::set('services.hubSpot.folder.id', $expectedFolderId);
         $user = $this->givenIsAUserWithCrmIds();
-        $crmCompanyId = 'abc';
         $document = $this->givenIsASpecificationDocument($user);
 
         $service = $this->app->make(CRMService::class);
