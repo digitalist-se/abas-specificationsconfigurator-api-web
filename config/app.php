@@ -225,6 +225,7 @@ return [
         'Cache'        => Illuminate\Support\Facades\Cache::class,
         'Config'       => Illuminate\Support\Facades\Config::class,
         'Cookie'       => Illuminate\Support\Facades\Cookie::class,
+        'CRM'          => App\CRM\Facades\CRM::class,
         'Crypt'        => Illuminate\Support\Facades\Crypt::class,
         'Date'         => Illuminate\Support\Facades\Date::class,
         'DB'           => Illuminate\Support\Facades\DB::class,
@@ -249,11 +250,10 @@ return [
         'Session'      => Illuminate\Support\Facades\Session::class,
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'Str'          => Illuminate\Support\Str::class,
-
-        'URL'       => Illuminate\Support\Facades\URL::class,
-        'Validator' => Illuminate\Support\Facades\Validator::class,
-        'View'      => Illuminate\Support\Facades\View::class,
-        'Yaml'      => Symfony\Component\Yaml\Yaml::class,
+        'URL'          => Illuminate\Support\Facades\URL::class,
+        'Validator'    => Illuminate\Support\Facades\Validator::class,
+        'View'         => Illuminate\Support\Facades\View::class,
+        'Yaml'         => Symfony\Component\Yaml\Yaml::class,
     ],
 
     /*

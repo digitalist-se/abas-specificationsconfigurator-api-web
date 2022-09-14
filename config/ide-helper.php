@@ -158,6 +158,7 @@ return [
     */
 
     'interfaces' => [
+        \App\CRM\Service\CRMService::class => \App\CRM\Service\HubSpotCRMService::class,
     ],
 
     /*
