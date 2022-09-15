@@ -16,7 +16,7 @@ class UserRegisteredListener
             return;
         }
 
-        CRM::createContact($user, ContactType::User);
+        CRM::upsertContact($user, ContactType::User);
         CRM::trackUserRegistered($event);
     }
 }

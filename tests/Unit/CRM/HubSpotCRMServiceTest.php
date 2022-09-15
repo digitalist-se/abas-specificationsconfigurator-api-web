@@ -4,8 +4,10 @@ namespace Tests\Unit\CRM;
 
 use App\CRM\Enums\HubSpotEventType;
 use App\CRM\Service\CRMService;
+use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\Request;
@@ -56,16 +58,18 @@ class HubSpotCRMServiceTest extends TestCase
      */
     public function it_can_track_document_export()
     {
+        $crmCompanyId = 'abc';
         Http::fake([
             '*' => Http::sequence([
                 Http::response(['id' => 'fakeId']),
                 Http::response(['id' => 'fakeId']),
+                Http::response(['results' => [['id' => $crmCompanyId]]]),
                 Http::response(['id' => 'fakeId']),
             ]),
         ]);
         $expectedFolderId = 3001;
         Config::set('services.hubSpot.folder.id', $expectedFolderId);
-        $user = $this->givenIsAUserWithCrmId();
+        $user = $this->givenIsAUserWithCrmIds('xyz');
         $document = $this->givenIsASpecificationDocument($user);
 
         $service = $this->app->make(CRMService::class);
@@ -125,7 +129,7 @@ class HubSpotCRMServiceTest extends TestCase
 
             return true;
         });
-        Http::assertSent(function (?Request $request, ?Response $response) {
+        Http::assertSent(function (?Request $request, ?Response $response) use ($crmCompanyId) {
             if ($request === null) {
                 return false;
             }
@@ -146,6 +150,9 @@ class HubSpotCRMServiceTest extends TestCase
                     'contactIds' => [
                         'xyz',
                     ],
+                    'companyIds' => [
+                        $crmCompanyId,
+                    ],
                 ],
                 $request->data()['associations']);
 
@@ -156,7 +163,7 @@ class HubSpotCRMServiceTest extends TestCase
                     ],
                 ],
                 $request->data()['attachments']);
-            $this->assertStringStartsWith('Neue Lastenheftgenerierung:', $request->data()['metadata']['body']);
+            $this->assertStringStartsWith('Neue Lastenheftgenerierung:<br/><br/>', $request->data()['metadata']['body']);
 
             return true;
         });
@@ -175,7 +182,7 @@ class HubSpotCRMServiceTest extends TestCase
             ]),
         ]);
 
-        $user = $this->givenIsAUserWithCrmId();
+        $user = $this->givenIsAUserWithCrmIds('xyz');
 
         $service = $this->app->make(CRMService::class);
         $service->trackUserRegistered(new Registered($user));
@@ -213,7 +220,7 @@ class HubSpotCRMServiceTest extends TestCase
             ]),
         ]);
 
-        $user = $this->givenIsAUserWithCrmId();
+        $user = $this->givenIsAUserWithCrmIds('xyz');
 
         $service = $this->app->make(CRMService::class);
         $service->updateCompany($user);
@@ -245,13 +252,89 @@ class HubSpotCRMServiceTest extends TestCase
         });
     }
 
+    public function upsertContactUseCases(): array
+    {
+        return [
+            'no_conctact_id_and_non_existing_email_expects_no_update' => [false, false, false],
+            'no_conctact_id_and_existing_email_expects_update'        => [false, true, true],
+            'conctact_id_and_existing_email_expects_update'           => [true, true, true],
+        ];
+    }
+
     /**
-     * @return User
+     * @dataProvider upsertContactUseCases
+     * @test
      */
-    private function givenIsAUserWithCrmId(): mixed
+    public function it_upserts_user_contact_with_respect_of_existing_email_addresses_at_hubspot(bool $hasContactId, bool $emailExistsOnHubSpot, bool $shouldUpdateContact)
+    {
+        $type = ContactType::User;
+        $user = $this->givenIsAUserWithCrmIds($hasContactId ? 'xyz' : null);
+        $userContactId = $user->getCrmContactId($type) ?? 'hubSpotId';
+
+        $httpSequence = collect([
+            'search_with_email' => Http::response(['results' => ($emailExistsOnHubSpot ? [['id' => $userContactId]] : [])]),
+            'update_or_create'  => Http::response(['id' => $userContactId]),
+        ]);
+
+        if ($hasContactId) {
+            $httpSequence->pull('search_with_email');
+        }
+
+        Http::fake([
+            '*' => Http::sequence($httpSequence->toArray()),
+        ]);
+
+        $service = $this->app->make(CRMService::class);
+        $service->upsertContact($user, $type);
+
+        if (! $hasContactId) {
+            Http::assertSent(function (?Request $request, ?Response $response) use ($user) {
+                if ($request === null) {
+                    return false;
+                }
+
+                $path = $request->toPsrRequest()->getUri()->getPath();
+                $expectedPath = '/crm/v3/objects/contacts/search';
+                if ($expectedPath !== $path) {
+                    return false;
+                }
+
+                $searchedEmail = Arr::get($request->data(), 'filterGroups.0.filters.0.value');
+                if ($searchedEmail !== $user->email) {
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
+        Http::assertSent(function (?Request $request, ?Response $response) use ($shouldUpdateContact, $userContactId) {
+            if ($request === null) {
+                return false;
+            }
+
+            $path = $request->toPsrRequest()->getUri()->getPath();
+            $expectedPath = '/crm/v3/objects/contacts'.($shouldUpdateContact ? "/$userContactId" : '');
+            if ($expectedPath !== $path) {
+                return false;
+            }
+            $expectedMethod = $shouldUpdateContact ? 'PATCH' : 'POST';
+            $method = $request->toPsrRequest()->getMethod();
+            if ($expectedMethod !== $method) {
+                return false;
+            }
+
+            return true;
+        });
+
+        $this->assertEquals($userContactId, $user->getCrmContactId($type));
+    }
+
+    private function givenIsAUserWithCrmIds(?string $userContactId = 'xyz', ?string $companyContactId = null): User
     {
         return User::factory()->make([
-            'crm_user_contact_id' => 'xyz',
+            'crm_user_contact_id'    => $userContactId,
+            'crm_company_contact_id' => $companyContactId,
         ]);
     }
 

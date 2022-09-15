@@ -14,6 +14,7 @@ use App\CRM\Enums\HubSpotEventType;
 use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Models\User;
+use Arr;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -160,6 +161,13 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
+        if (empty($user->getCrmContactId($type))) {
+            if ($crmContactId = $this->getContactIDByEmail($user, $type)) {
+                $user->setCrmContactId($type, $crmContactId)
+                    ->save();
+            }
+        }
+
         return empty($user->getCrmContactId($type))
             ? $this->createContact($user, $type)
             : $this->updateContact($user, $type);
@@ -242,7 +250,7 @@ class HubSpotCRMService implements CRMService
         return $this->getBaseUrl().$route.'?hapikey='.$this->getApiKey();
     }
 
-    private function createEvent(HubSpotEventType $eventType, User $user): bool
+    protected function createEvent(HubSpotEventType $eventType, User $user): bool
     {
         $this->logMethod(__METHOD__);
 
@@ -305,14 +313,65 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
+        $contactId = $user->crm_user_contact_id;
+        $companyId = $this->getContactCompanyID($user, ContactType::User);
+
         $adapter = $this->getEngagementAdapter();
-        $requestBody = $adapter->toCreateRequestBody($user, $fileId, $body);
+        $requestBody = $adapter->toCreateRequestBody($fileId, $body, $contactId, $companyId);
         $url = $this->createUrl('/engagements/v1/engagements');
         $response = Http::post($url, $requestBody);
 
         $this->logResponse($url, $response);
 
         return $response->successful();
+    }
+
+    protected function searchContactsByEmail(User $user, ContactType $type): ?array
+    {
+        $this->logMethod(__METHOD__);
+
+        $crmEmail = $user->getCrmEmail($type);
+        if (! $crmEmail) {
+            return null;
+        }
+
+        $url = $this->createUrl('/crm/v3/objects/contacts/search');
+        $body = [
+            'filterGroups' => [
+                [
+                    'filters' => [
+                        [
+                            'value'        => $crmEmail,
+                            'propertyName' => 'email',
+                            'operator'     => 'EQ',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $response = Http::post($url, $body);
+
+        $this->logResponse($url, $response);
+
+        if ($response->failed()) {
+            return null;
+        }
+
+        return $response->json('results');
+    }
+
+    protected function getContactIDByEmail(User $user, ContactType $type): ?string
+    {
+        $this->logMethod(__METHOD__);
+
+        $results = $this->searchContactsByEmail($user, $type);
+
+        if ($results) {
+            return Arr::get($results, '0.id');
+        }
+
+        return null;
     }
 
     protected function getContactCompanyID(User $user, ContactType $type): ?string

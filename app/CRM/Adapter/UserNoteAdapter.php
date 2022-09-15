@@ -16,9 +16,11 @@ class UserNoteAdapter
             'phone',
         ]);
 
+        $lineSeparator = '<br/>';
+
         return __('New specification configuration:')
-            ."\n\n".
+            .$lineSeparator.$lineSeparator.
             $columns->map(fn ($column) => __('note.attributes.'.$column).' '.$user->$column ?? '')
-                ->join("\n");
+                ->join($lineSeparator);
     }
 }
