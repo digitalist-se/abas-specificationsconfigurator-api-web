@@ -211,4 +211,12 @@ class User extends Authenticatable implements MustVerifyEmail
             ContactType::Company => 'crm_company_contact_id',
         };
     }
+
+    public function getCrmEmail(ContactType $type): ?string
+    {
+        return match ($type) {
+            ContactType::User    => $this->email,
+            ContactType::Company => $this->contact_email,
+        };
+    }
 }
