@@ -16,7 +16,7 @@ trait AssertsCRMHandlesEvents
         $userPhone = Arr::get($userAttributes, 'phone');
         $expectUserAndContactType = fn (User $user, ContactType $type) => $user->phone === $userPhone && $type === ContactType::User;
         $crmService
-            ->shouldReceive('createContact')
+            ->shouldReceive('upsertContact')
             ->withArgs($expectUserAndContactType)
             ->andReturn(true);
 
