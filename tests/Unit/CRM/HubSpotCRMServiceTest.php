@@ -53,10 +53,19 @@ class HubSpotCRMServiceTest extends TestCase
         Http::assertNothingSent();
     }
 
+    public function provideCrmContactIds()
+    {
+        return [
+            'just_user' => ['xyz', null],
+            'both'      => ['xyz', 'üöä'],
+        ];
+    }
+
     /**
+     * @dataProvider provideCrmContactIds
      * @test
      */
-    public function it_can_track_document_export()
+    public function it_can_track_document_export($crmUserContactId, $crmCompanyContactId)
     {
         $crmCompanyId = 'abc';
         Http::fake([
@@ -69,7 +78,7 @@ class HubSpotCRMServiceTest extends TestCase
         ]);
         $expectedFolderId = 3001;
         Config::set('services.hubSpot.folder.id', $expectedFolderId);
-        $user = $this->givenIsAUserWithCrmIds('xyz');
+        $user = $this->givenIsAUserWithCrmIds($crmUserContactId, $crmCompanyContactId);
         $document = $this->givenIsASpecificationDocument($user);
 
         $service = $this->app->make(CRMService::class);
@@ -110,7 +119,7 @@ class HubSpotCRMServiceTest extends TestCase
 
             return true;
         });
-        Http::assertSent(function (?Request $request, ?Response $response) {
+        Http::assertSent(function (?Request $request, ?Response $response) use ($crmUserContactId) {
             if ($request === null) {
                 return false;
             }
@@ -123,13 +132,13 @@ class HubSpotCRMServiceTest extends TestCase
                 [
                     'eventName'  => $this->expectedEventName(HubSpotEventType::DocumentExport),
                     'objectType' => 'contacts',
-                    'objectId'   => 'xyz',
+                    'objectId'   => $crmUserContactId,
                 ],
                 $request->data());
 
             return true;
         });
-        Http::assertSent(function (?Request $request, ?Response $response) use ($crmCompanyId) {
+        Http::assertSent(function (?Request $request, ?Response $response) use ($crmCompanyContactId, $crmUserContactId, $crmCompanyId) {
             if ($request === null) {
                 return false;
             }
@@ -147,12 +156,8 @@ class HubSpotCRMServiceTest extends TestCase
 
             $this->assertEquals(
                 [
-                    'contactIds' => [
-                        'xyz',
-                    ],
-                    'companyIds' => [
-                        $crmCompanyId,
-                    ],
+                    'contactIds' => collect([$crmUserContactId, $crmCompanyContactId])->filter()->toArray(),
+                    'companyIds' => [$crmCompanyId],
                 ],
                 $request->data()['associations']);
 
