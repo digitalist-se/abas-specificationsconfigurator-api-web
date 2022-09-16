@@ -400,7 +400,7 @@ class HubSpotCRMService implements CRMService
     protected function renderUserNote(User $user): string
     {
         return $this->getUserNoteAdapter()
-            ->createNote($user);
+            ->createNoteBody($user);
     }
 
     protected function logMethod(string $method)
