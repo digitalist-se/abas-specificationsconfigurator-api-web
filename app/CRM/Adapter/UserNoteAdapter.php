@@ -6,12 +6,13 @@ use App\Models\User;
 
 class UserNoteAdapter
 {
-    public function createNote(User $user): string
+    public function createNoteBody(User $user): string
     {
         $columns = collect([
             'salutation',
             'contact_first_name',
             'contact_last_name',
+            'contact_email',
             'contact_function',
             'phone',
         ]);

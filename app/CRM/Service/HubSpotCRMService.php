@@ -313,11 +313,11 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
-        $contactId = $user->crm_user_contact_id;
-        $companyId = $this->getContactCompanyID($user, ContactType::User);
+        $contactIds = collect([$user->crm_user_contact_id, $user->crm_company_contact_id])->filter()->toArray();
+        $companyIds = collect([$this->getContactCompanyID($user, ContactType::User)])->filter()->toArray();
 
         $adapter = $this->getEngagementAdapter();
-        $requestBody = $adapter->toCreateRequestBody($fileId, $body, $contactId, $companyId);
+        $requestBody = $adapter->toCreateRequestBody($fileId, $body, $contactIds, $companyIds);
         $url = $this->createUrl('/engagements/v1/engagements');
         $response = Http::post($url, $requestBody);
 
@@ -400,7 +400,7 @@ class HubSpotCRMService implements CRMService
     protected function renderUserNote(User $user): string
     {
         return $this->getUserNoteAdapter()
-            ->createNote($user);
+            ->createNoteBody($user);
     }
 
     protected function logMethod(string $method)

@@ -6,7 +6,7 @@ use App\Models\User;
 
 class EngagementNoteAdapter
 {
-    public function toCreateRequestBody($attachmentId, string $body, ?string $contactId, ?string $companyId): array
+    public function toCreateRequestBody($attachmentId, string $body, array $contactIds = [], array $companyIds = []): array
     {
         return [
             'engagement' => [
@@ -14,8 +14,8 @@ class EngagementNoteAdapter
                 'type'   => 'NOTE',
             ],
             'associations' => [
-                'contactIds' => $contactId ? [$contactId] : [],
-                'companyIds' => $companyId ? [$companyId] : [],
+                'contactIds' => $contactIds,
+                'companyIds' => $companyIds,
             ],
             'attachments' => [
                 [
