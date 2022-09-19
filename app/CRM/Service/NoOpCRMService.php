@@ -9,17 +9,17 @@ use Illuminate\Auth\Events\Registered;
 
 class NoOpCRMService implements CRMService
 {
-    public function createContact(User $user, ContactType $type): bool
+    public function createContact(User $user, ContactType $type, array $customProperties = []): bool
     {
         return true;
     }
 
-    public function updateContact(User $user, ContactType $type): bool
+    public function updateContact(User $user, ContactType $type, array $customProperties = []): bool
     {
         return true;
     }
 
-    public function upsertContact(User $user, ContactType $type): bool
+    public function upsertContact(User $user, ContactType $type, array $customProperties = []): bool
     {
         return true;
     }

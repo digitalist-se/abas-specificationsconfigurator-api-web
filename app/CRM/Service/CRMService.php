@@ -9,13 +9,13 @@ use Illuminate\Auth\Events\Registered;
 
 interface CRMService
 {
-    public function createContact(User $user, ContactType $type): bool;
+    public function createContact(User $user, ContactType $type, array $customProperties = []): bool;
 
-    public function updateContact(User $user, ContactType $type): bool;
+    public function updateContact(User $user, ContactType $type, array $customProperties = []): bool;
 
     public function deleteContact(User $user, ContactType $type): bool;
 
-    public function upsertContact(User $user, ContactType $type): bool;
+    public function upsertContact(User $user, ContactType $type, array $customProperties = []): bool;
 
     public function updateCompany(User $user): bool;
 

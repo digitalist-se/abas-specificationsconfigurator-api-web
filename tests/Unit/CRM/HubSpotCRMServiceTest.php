@@ -335,6 +335,101 @@ class HubSpotCRMServiceTest extends TestCase
         $this->assertEquals($userContactId, $user->getCrmContactId($type));
     }
 
+    public function provideCustomContactProperties()
+    {
+        return [
+            'no_custom_properties' => [[]],
+            'custom_properties'    => [['custum_prop' => 'custom_value']],
+        ];
+    }
+
+    /**
+     * @dataProvider provideCustomContactProperties
+     * @test
+     */
+    public function it_upserts_user_contact_with_custom_contact_properties(array $customProperties)
+    {
+        // Given there is a user without crm contact id
+        $type = ContactType::User;
+        $user = $this->givenIsAUserWithCrmIds(null);
+
+        // And given there is a http fake for create and update contact requests
+        $userContactId = 'hubSpotId';
+        Http::fake([
+            '*' => Http::sequence([
+                'search_with_email' => Http::response(['results' => []]),
+                'create'            => Http::response(['id' => $userContactId]),
+                'update'            => Http::response(['id' => $userContactId]),
+            ]),
+        ]);
+
+        // And given there is a CRMService istance
+        $service = $this->app->make(CRMService::class);
+
+        // When we upsert contact
+        $service->upsertContact($user, $type, $customProperties);
+
+        // Then we expect a create request
+        Http::assertSent(function (?Request $request, ?Response $response) use ($customProperties) {
+            if ($request === null) {
+                return false;
+            }
+
+            $path = $request->toPsrRequest()->getUri()->getPath();
+            $expectedPath = '/crm/v3/objects/contacts';
+            if ($expectedPath !== $path) {
+                return false;
+            }
+            $expectedMethod = 'POST';
+            $method = $request->toPsrRequest()->getMethod();
+            if ($expectedMethod !== $method) {
+                return false;
+            }
+
+            if (! empty($customProperties)) {
+                $properties = collect($request->data()['properties']);
+                if (! collect($customProperties)->every(fn ($value, $key) => $properties->get($key) === $value)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        // And we expect the user object was updated with contact crm id
+        $this->assertEquals($userContactId, $user->getCrmContactId($type));
+
+        // When we upsert contact again
+        $service->upsertContact($user, $type, $customProperties);
+
+        // Then we expect an update request
+        Http::assertSent(function (?Request $request, ?Response $response) use ($userContactId, $customProperties) {
+            if ($request === null) {
+                return false;
+            }
+
+            $path = $request->toPsrRequest()->getUri()->getPath();
+            $expectedPath = "/crm/v3/objects/contacts/$userContactId";
+            if ($expectedPath !== $path) {
+                return false;
+            }
+            $expectedMethod = 'PATCH';
+            $method = $request->toPsrRequest()->getMethod();
+            if ($expectedMethod !== $method) {
+                return false;
+            }
+
+            if (! empty($customProperties)) {
+                $properties = collect($request->data()['properties']);
+                if (! collect($customProperties)->every(fn ($value, $key) => $properties->get($key) === $value)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }
+
     private function givenIsAUserWithCrmIds(?string $userContactId = 'xyz', ?string $companyContactId = null): User
     {
         return User::factory()->make([
