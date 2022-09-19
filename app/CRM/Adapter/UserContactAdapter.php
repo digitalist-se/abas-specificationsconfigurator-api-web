@@ -13,12 +13,13 @@ class UserContactAdapter implements Adapter
         'company'   => 'company',
     ];
 
-    public function toCreateRequestBody(User $user): array
+    public function toCreateRequestBody(User $user, array $customProperties = []): array
     {
         $properties = [];
         foreach (self::PROPERTY_MAP as $propertyName => $attributeKey) {
             $properties[$propertyName] = $user->$attributeKey;
         }
+        $properties = array_merge($properties, $customProperties);
 
         return [
             'properties' => $properties,

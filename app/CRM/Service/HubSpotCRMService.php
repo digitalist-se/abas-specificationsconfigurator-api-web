@@ -63,6 +63,9 @@ class HubSpotCRMService implements CRMService
         return app()->make(CompanyAdapter::class);
     }
 
+    /**
+     * @return UserContactAdapter|CompanyContactAdapter
+     */
     protected function getContactAdapter(ContactType $type): Adapter
     {
         $class = match ($type) {
@@ -90,12 +93,12 @@ class HubSpotCRMService implements CRMService
         return app()->make(TrackEventAdapter::class, ['eventName' => $eventName]);
     }
 
-    public function createContact(User $user, ContactType $type): bool
+    public function createContact(User $user, ContactType $type, array $customProperties = []): bool
     {
         $this->logMethod(__METHOD__);
 
         $adapter = $this->getContactAdapter($type);
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
         $url = $this->createUrl('/crm/v3/objects/contacts');
         $response = Http::post($url, $requestBody);
 
@@ -135,7 +138,7 @@ class HubSpotCRMService implements CRMService
         return $response->successful();
     }
 
-    public function updateContact(User $user, ContactType $type): bool
+    public function updateContact(User $user, ContactType $type, array $customProperties = []): bool
     {
         $this->logMethod(__METHOD__);
 
@@ -148,7 +151,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $adapter = $this->getContactAdapter($type);
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
         $url = $this->createUrl('/crm/v3/objects/contacts/'.$crmContactId);
         $response = Http::patch($url, $requestBody);
 
@@ -157,7 +160,7 @@ class HubSpotCRMService implements CRMService
         return $response->successful();
     }
 
-    public function upsertContact(User $user, ContactType $type): bool
+    public function upsertContact(User $user, ContactType $type, array $customProperties = []): bool
     {
         $this->logMethod(__METHOD__);
 
@@ -169,8 +172,8 @@ class HubSpotCRMService implements CRMService
         }
 
         return empty($user->getCrmContactId($type))
-            ? $this->createContact($user, $type)
-            : $this->updateContact($user, $type);
+            ? $this->createContact($user, $type, $customProperties)
+            : $this->updateContact($user, $type, $customProperties);
     }
 
     public function deleteContact(User $user, ContactType $type): bool
