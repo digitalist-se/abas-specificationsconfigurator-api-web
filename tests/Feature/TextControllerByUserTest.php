@@ -2,16 +2,17 @@
 
 namespace Tests\Feature;
 
+use App\Models\Locale;
 use App\Models\Role;
 use App\Models\Text;
-use App\Models\Locale;
 use Tests\PassportTestCase;
 
 class TextControllerByUserTest extends PassportTestCase
 {
     protected $role = Role::USER;
 
-    protected function locale() {
+    protected function locale()
+    {
         return Locale::current()->getValue();
     }
 
@@ -36,18 +37,18 @@ class TextControllerByUserTest extends PassportTestCase
     public function test_update()
     {
         $locale = $this->locale();
-        $text          = Text::factory()->create(['locale' => $locale]);
-        $newValue      = 'new Value';
-        $response      = $this->putJson('/api/texts/'.$text->id, ['value' => $newValue]);
+        $text = Text::factory()->create(['locale' => $locale]);
+        $newValue = 'new Value';
+        $response = $this->putJson('/api/texts/'.$text->id, ['value' => $newValue]);
         static::assertStatus($response, 403);
     }
 
     public function test_create()
     {
         $locale = $this->locale();
-        $data      = [
-            'key'   => 'random key',
-            'value' => 'random value',
+        $data = [
+            'key'    => 'random key',
+            'value'  => 'random value',
             'locale' => $locale,
         ];
         $response = $this->postJson('/api/texts', $data);

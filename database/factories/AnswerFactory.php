@@ -9,13 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class AnswerFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Answer::class;
-
-    /**
      * Define the model's default state.
      *
      * @return array
@@ -26,7 +19,7 @@ class AnswerFactory extends Factory
 
         return [
             'element_id' => $element,
-            'value'      => $this->faker->text,
+            'value'      => $this->faker->text(),
         ];
     }
 }

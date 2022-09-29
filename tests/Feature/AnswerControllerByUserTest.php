@@ -29,7 +29,7 @@ class AnswerControllerByUserTest extends PassportTestCase
 
     public function test_get_answer()
     {
-        $answer   = Answer::factory()->create(['user_id' => $this->user->id]);
+        $answer = Answer::factory()->create(['user_id' => $this->user->id]);
         $response = $this->getJson('/api/answers/'.$answer->element_id);
         static::assertStatus($response, 200);
 
@@ -42,7 +42,7 @@ class AnswerControllerByUserTest extends PassportTestCase
 
     public function test_create_answer()
     {
-        $element  = Element::factory()->create();
+        $element = Element::factory()->create();
         $response = $this->putJson('/api/answers/'.$element->id, [
             'value' => ['text' => 'Das ist ein Test'],
         ]);

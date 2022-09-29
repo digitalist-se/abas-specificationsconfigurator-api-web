@@ -13,11 +13,13 @@ class BlacklistedEmailDomain extends Model
         'name',
     ];
 
-    public static function notListed ($domain) {
+    public static function notListed($domain)
+    {
         return self::where('name', $domain)->count() == 0;
     }
 
-    public static function listed ($domain) {
+    public static function listed($domain)
+    {
         return self::where('name', $domain)->count() != 0;
     }
 }

@@ -12,6 +12,7 @@ class DocumentGeneratedMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
+
     public $user;
 
     /**
@@ -31,9 +32,31 @@ class DocumentGeneratedMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this
-            ->markdown('email.document-generated')
-            ->with('user', $this->user)
+        return $this->html($this->renderMailMessage())
             ->subject(Lang::get('email.specification.subject'));
+    }
+
+    protected function renderMailMessage(): string
+    {
+        // message is imported automatically by recipient. lines should match the usecase
+        $columns = collect([
+            'first_name',
+            'last_name',
+            'email',
+            'company_name',
+            'website',
+            'zipcode',
+            'city',
+            'full_street',
+            'country',
+            'salutation',
+            'contact_first_name',
+            'contact_last_name',
+            'contact_function',
+            'phone',
+        ]);
+
+        return $columns->map(fn ($column) => $this->user->$column ?? '')
+            ->join("\n");
     }
 }

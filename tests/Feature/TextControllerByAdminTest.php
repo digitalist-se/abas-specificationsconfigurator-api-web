@@ -11,7 +11,8 @@ class TextControllerByAdminTest extends PassportTestCase
 {
     protected $role = Role::ADMIN;
 
-    protected function locale() {
+    protected function locale()
+    {
         return Locale::current()->getValue();
     }
 
@@ -40,9 +41,9 @@ class TextControllerByAdminTest extends PassportTestCase
     public function test_update()
     {
         $locale = $this->locale();
-        $text          = Text::factory()->create(['locale' => $locale]);
-        $newValue      = 'new Value';
-        $response      = $this->putJson('/api/texts/'.$text->id, ['value' => $newValue]);
+        $text = Text::factory()->create(['locale' => $locale]);
+        $newValue = 'new Value';
+        $response = $this->putJson('/api/texts/'.$text->id, ['value' => $newValue]);
         static::assertStatus($response, 204);
 
         $response = $this->getJson('/api/texts?locale='.$locale);
@@ -55,9 +56,9 @@ class TextControllerByAdminTest extends PassportTestCase
     public function test_create()
     {
         $locale = $this->locale();
-        $data      = [
-            'key'   => 'random key',
-            'value' => 'random value',
+        $data = [
+            'key'    => 'random key',
+            'value'  => 'random value',
             'locale' => $locale,
         ];
         $response = $this->postJson('/api/texts', $data);

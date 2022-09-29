@@ -14,6 +14,8 @@ use MabeEnum\Enum;
 class Role extends Enum
 {
     const GUEST = 0;
-    const USER  = 1;
+
+    const USER = 1;
+
     const ADMIN = 2;
 }

@@ -31,6 +31,7 @@ _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
 .php_cs.cache
+.php-cs-fixer.cache
 .phpintel/
 .sass-cache/
 puphpet/config-custom.yaml

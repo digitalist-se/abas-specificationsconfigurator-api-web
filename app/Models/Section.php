@@ -21,7 +21,7 @@ class Section extends BaseModel
         'chapter_id',
         'has_headline',
         'illustration_states',
-        ];
+    ];
 
     protected $casts = [
         'has_headline' => 'boolean',
@@ -29,7 +29,7 @@ class Section extends BaseModel
 
     public function elements()
     {
-        return $this->hasMany('App\Models\Element')->orderBy('sort');
+        return $this->hasMany(\App\Models\Element::class)->orderBy('sort');
     }
 
     public function printableElements()

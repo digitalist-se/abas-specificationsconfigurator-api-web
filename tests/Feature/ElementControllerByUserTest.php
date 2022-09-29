@@ -9,6 +9,7 @@ use Tests\PassportTestCase;
 class ElementControllerByUserTest extends PassportTestCase
 {
     use WithoutMiddleware; // without middleware so we can create more than 60 request per minute
+
     protected $role = Role::USER;
 
     public function test_get_list()

@@ -31,11 +31,11 @@ class ChoiceTypeSeeder extends Seeder
             $options = $choiceType['options'];
             $sorting = 0;
             foreach ($options as $i18nId => $option) {
-                $textId  = null;
+                $textId = null;
                 $valueId = null;
                 if (is_string($option)) {
                     $this->text($i18nId, $option);
-                    $textId  = $i18nId;
+                    $textId = $i18nId;
                     $valueId = $i18nId;
                 } elseif (is_array($option)) {
                     $textId = $i18nId.'.text';
@@ -43,12 +43,12 @@ class ChoiceTypeSeeder extends Seeder
                     $valueId = $i18nId.'.value';
                     $this->text($valueId, $option['value'], false);
                 }
-                if (!$textId || !$valueId) {
+                if (! $textId || ! $valueId) {
                     throw new RuntimeException('invalid choice option config');
                 }
                 $newChoiceType->options()->updateOrCreate(
                     [
-                        'type'           => $i18nId,
+                        'type' => $i18nId,
                     ],
                     [
                         'choice_type_id' => $newChoiceType->id,
@@ -65,7 +65,7 @@ class ChoiceTypeSeeder extends Seeder
                     $textId = $i18nId.'.other.sub_content';
                     $this->text($textId, $option['otherhint']);
                 }
-                ++$sorting;
+                $sorting++;
             }
         }
     }
@@ -75,7 +75,7 @@ class ChoiceTypeSeeder extends Seeder
         Text::firstOrCreate(
             ['key' => $key],
             [
-                'value' => $value,
+                'value'  => $value,
                 'public' => $public,
             ]
         );

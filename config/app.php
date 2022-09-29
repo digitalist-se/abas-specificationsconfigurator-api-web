@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'domain'  => env('APP_DOMAIN', 'erpplanner.com'),
+    'domain' => env('APP_DOMAIN', 'erpplanner.com'),
 
     'url' => env('APP_URL', 'https://'.env('APP_DOMAIN', 'erpplanner.com')),
 
@@ -200,6 +200,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+        App\CRM\CRMServiceProvider::class,
     ],
 
     /*
@@ -224,6 +225,7 @@ return [
         'Cache'        => Illuminate\Support\Facades\Cache::class,
         'Config'       => Illuminate\Support\Facades\Config::class,
         'Cookie'       => Illuminate\Support\Facades\Cookie::class,
+        'CRM'          => App\CRM\Facades\CRM::class,
         'Crypt'        => Illuminate\Support\Facades\Crypt::class,
         'Date'         => Illuminate\Support\Facades\Date::class,
         'DB'           => Illuminate\Support\Facades\DB::class,
@@ -248,7 +250,6 @@ return [
         'Session'      => Illuminate\Support\Facades\Session::class,
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'Str'          => Illuminate\Support\Str::class,
-
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,

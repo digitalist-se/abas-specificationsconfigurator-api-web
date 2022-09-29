@@ -12,7 +12,6 @@ class OptionalAuthenticate extends Middleware
         try {
             parent::authenticate($request, $guards);
         } catch (AuthenticationException $exception) {
-
         }
     }
 }

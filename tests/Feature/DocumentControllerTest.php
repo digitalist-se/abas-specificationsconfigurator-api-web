@@ -2,21 +2,26 @@
 
 namespace Tests\Feature;
 
-use App\Mail\DocumentGeneratedMail;
+use App\CRM\Service\CRMService;
+use App\Events\ExportedDocument;
 use App\Models\Answer;
 use App\Models\ChoiceType;
 use App\Models\Element;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Tests\PassportTestCase;
+use Tests\Traits\AssertsCRMHandlesEvents;
 
 class DocumentControllerTest extends PassportTestCase
 {
     use WithFaker;
+    use AssertsCRMHandlesEvents;
+
     protected $role = Role::USER;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->deleteAllExportFilesOfUser();
@@ -28,10 +33,10 @@ class DocumentControllerTest extends PassportTestCase
                 'user_id'    => $this->user->id,
             ]);
         }
-        $choiceType      = ChoiceType::where('multiple', '=', 1)->get()->first();
+        $choiceType = ChoiceType::where('multiple', '=', 1)->get()->first();
         $branchesElement = Element::where('choice_type_id', '=', $choiceType->id)->get()->first();
         Answer::create([
-            'value'      => [
+            'value' => [
                 'options'      => ['branche.option.maschinen-und-anlagenbau.text'],
                 'otherEnabled' => true,
                 'otherValue'   => 'this is a other value',
@@ -67,18 +72,15 @@ class DocumentControllerTest extends PassportTestCase
 
     public function test_generate_document()
     {
+        $this->user->update(['crm_user_contact_id' => 'xyz']);
+        $user = $this->user;
         Mail::fake();
+        Event::fake();
+        $this->assertCRMServiceHandlesExportedDocument($this->mock(CRMService::class), $user);
         $response = $this->get('/api/document/generate');
         static::assertStatus($response, 200);
-        $user = $this->user;
-        Mail::assertQueued(DocumentGeneratedMail::class, function ($mail) use ($user) {
-            /*
-             * @var DocumentGeneratedMail $mail
-             */
-            $this->assertEquals(config('mail.recipient.lead.address'), $mail->to[0]['address']);
-            $this->assertNotEmpty($mail->attachments, 'Genereted Document was not sended in mail. mail has no attachments');
-
-            return $mail->user->id === $user->id;
-        });
+        Event::assertDispatched(ExportedDocument::class, fn (ExportedDocument $event) => $user->id === $event->user->id);
+        Mail::assertNothingQueued();
+        Mail::assertNothingSent();
     }
 }

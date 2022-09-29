@@ -32,7 +32,7 @@ class ResetPassword extends Notification
      */
     public function __construct($user, $token)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->token = $token;
     }
 
@@ -61,9 +61,9 @@ class ResetPassword extends Notification
 
         return $mail->subject(Lang::get('email.password.reset.subject'))
             ->markdown('email.password-reset', [
-            'user'   => $this->user,
-            'action' => route('app-pw-reset').'/'.$this->token,
-        ]);
+                'user'   => $this->user,
+                'action' => route('app-pw-reset').'/'.$this->token,
+            ]);
     }
 
     /**
@@ -76,8 +76,8 @@ class ResetPassword extends Notification
     public function toArray($notifiable)
     {
         return [
-            'token'      => $this->token,
-            'name'       => $this->user->name,
+            'token' => $this->token,
+            'name'  => $this->user->name,
         ];
     }
 }

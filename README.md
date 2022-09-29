@@ -72,6 +72,13 @@ For a consistent php code style, there is an local `php-cs-fixer` and `php_cs`co
 make csfix
 ``` 
 
+### Languages
+
+Automatic update lang files of laravel 
+``` 
+php artisan lang:update
+```
+
 ### IDE helper
 
 The [barryvdh/laravel-ide-helper][ide-helper] is used to provide accurate auto-completion 

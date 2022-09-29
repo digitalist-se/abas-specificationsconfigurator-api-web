@@ -25,6 +25,6 @@ class Option extends BaseModel
 
     public function choiceType()
     {
-        $this->belongsTo('App\Models\ChoiceType');
+        $this->belongsTo(\App\Models\ChoiceType::class);
     }
 }

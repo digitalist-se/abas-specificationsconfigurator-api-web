@@ -10,8 +10,8 @@ return [
     |
     */
 
-    'filename'  => '_ide_helper',
-    'format'    => 'php',
+    'filename' => '_ide_helper',
+    'format'   => 'php',
 
     /*
     |--------------------------------------------------------------------------
@@ -158,6 +158,7 @@ return [
     */
 
     'interfaces' => [
+        \App\CRM\Service\CRMService::class => \App\CRM\Service\HubSpotCRMService::class,
     ],
 
     /*

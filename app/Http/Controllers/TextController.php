@@ -14,7 +14,7 @@ class TextController extends Controller
     public function list(Request $request)
     {
         $this->validate($request, [
-            'locale' =>  ['sometimes', 'required', new IsSupportedLocale],
+            'locale' => ['sometimes', 'required', new IsSupportedLocale],
         ]);
 
         $locale = $request->input('locale', Locale::current()->getValue());
@@ -31,7 +31,7 @@ class TextController extends Controller
                 ->get();
         }
 
-        $data  = [];
+        $data = [];
         foreach ($texts as $text) {
             $data[$text->key] = TextResource::make($text);
         }
@@ -53,12 +53,12 @@ class TextController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'key'   => 'required',
-            'locale' =>  ['required', new IsSupportedLocale],
-            'value' => 'required',
+            'key'    => 'required',
+            'locale' => ['required', new IsSupportedLocale],
+            'value'  => 'required',
         ]);
         $public = $request->input('public') ?? true;
-        $data   = [
+        $data = [
             'key'    => $request->input('key'),
             'locale' => $request->input('locale'),
             'value'  => $request->input('value'),

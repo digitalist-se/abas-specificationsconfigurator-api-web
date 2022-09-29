@@ -1,5 +1,7 @@
 <?php
 
+use App\CRM\Enums\HubSpotEventType;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -31,5 +33,18 @@ return [
 
     'sparkpost' => [
         'secret' => env('SPARKPOST_SECRET'),
+    ],
+
+    'hubSpot' => [
+        'enabled' => env('HUBSPOT_ENABLED', true),
+        'baseUrl' => env('HUBSPOT_API_BASE_URL', 'https://api.hubapi.com'),
+        'apiKey'  => env('HUBSPOT_API_KEY'),
+        'events'  => [
+            HubSpotEventType::DocumentExport->value => 'pe2853580_lastenheft_erstellung',
+            HubSpotEventType::UserRegistered->value => 'pe2853580_registrierung_auf_erp_planner',
+        ],
+        'folder' => [
+            'id' => env('HUBSPOT_FOLDER_ID'),
+        ],
     ],
 ];
