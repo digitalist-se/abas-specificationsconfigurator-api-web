@@ -2,12 +2,16 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Responsibilities\CanHandleCsv;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class GenerateNameFixData extends Command
+class ApplyNameFixData extends Command
 {
     use CanHandleCsv;
 
@@ -16,14 +20,14 @@ class GenerateNameFixData extends Command
      *
      * @var string
      */
-    protected $signature = 'fix-names:data {source : the source file} {target : the target file to write}';
+    protected $signature = 'fix-names:apply {source : the source file}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates File for Fixing Name Migration';
+    protected $description = 'Applies the name data given at source files to the user object';
 
     /**
      * Execute the console command.
@@ -37,16 +41,30 @@ class GenerateNameFixData extends Command
             $this->error('Source file does not exist');
         }
 
-        $targetPath = $this->argument('target');
-        if (File::exists($targetPath)) {
-            $this->error('Target file does already exist');
+        /** @var \Illuminate\Support\Collection|array{id:int, first_name:null|string, last_name:null|string}[] $data */
+        $data = collect($this->readCsv($sourcePath, ','))
+            ->keyBy('id');
+
+        $this->info("{$data->count()} data rows given");
+
+        $noInsertDefaults = ['email' => 'no-insert@mail.com', 'role' => 0, 'password' => 'no-insert'];
+        $upsertData = User::whereKey($data->keys())
+            ->whereNull(['first_name', 'last_name'])
+            ->pluck('id')
+            ->map(fn ($id)  => $data->get($id))
+            ->map(fn ($row) => array_merge($row, $noInsertDefaults));
+
+        $this->info("{$upsertData->count()} user rows should be updated");
+
+        if (!$this->confirm("Are you sure to apply data?")) {
+            $this->info("No user rows are updated");
+            return 0;
         }
 
-        $sourceData = $this->readCsv($sourcePath, ';');
+        $affected = User::upsert($upsertData->toArray(), 'id', ['first_name', 'last_name']);
+        $updated = $affected / 2;
 
-        $targetData = collect($sourceData)->map(fn ($row) => $this->parseRow($row));
-
-        $this->writeCsv($targetPath, $targetData->toArray(), ['id', 'first_name', 'last_name']);
+        $this->info("{$updated} user rows are updated");
 
         return 0;
     }
