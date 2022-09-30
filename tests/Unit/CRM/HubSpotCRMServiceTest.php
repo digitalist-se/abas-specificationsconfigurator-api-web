@@ -10,6 +10,7 @@ use App\Http\Resources\SpecificationDocument;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
@@ -19,6 +20,8 @@ use Tests\TestCase;
 
 class HubSpotCRMServiceTest extends TestCase
 {
+    use WithFaker;
+
     protected function expectedEventNames(): array
     {
         return [
@@ -67,16 +70,21 @@ class HubSpotCRMServiceTest extends TestCase
      */
     public function it_can_track_document_export($crmUserContactId, $crmCompanyContactId)
     {
-        $crmCompanyId = 'abc';
+        $crmCompanyId = (string) $this->faker->numberBetween(1000);
+        $crmDealIds = collect(array_fill(0, $this->faker->numberBetween(0, 5), ''))
+            ->map(fn () => (string) $this->faker->numberBetween(1000));
+
         Http::fake([
             '*' => Http::sequence([
-                Http::response(['id' => 'fakeId']),
-                Http::response(['id' => 'fakeId']),
-                Http::response(['results' => [['id' => $crmCompanyId]]]),
-                Http::response(['id' => 'fakeId']),
+                Http::response(['id' => 'fakeId']), // Create Event
+                Http::response(['id' => 'fakeId']), // Upload File
+                Http::response(['results' => [['id' => $crmCompanyId]]]), // Get CompanyId
+                Http::response(['results' => $crmDealIds->map(fn ($id) => ['id' => $id])->toArray()]), // Get DealIds associated with  Company
+                Http::response(['id' => 'fakeId']), // Create Engagement Note
             ]),
         ]);
-        $expectedFolderId = 3001;
+
+        $expectedFolderId = $this->faker->numberBetween(1000, 10000);
         Config::set('services.hubSpot.folder.id', $expectedFolderId);
         $user = $this->givenIsAUserWithCrmIds($crmUserContactId, $crmCompanyContactId);
         $document = $this->givenIsASpecificationDocument($user);
@@ -84,41 +92,7 @@ class HubSpotCRMServiceTest extends TestCase
         $service = $this->app->make(CRMService::class);
         $service->trackDocumentExport(new ExportedDocument($user, $document));
 
-        Http::assertSent(function (?Request $request, ?Response $response) use ($expectedFolderId) {
-            if ($request === null) {
-                return false;
-            }
-            if ('/files/v3/files' !== $request->toPsrRequest()->getUri()->getPath()) {
-                return false;
-            }
-            $this->assertTrue($request->hasFile('file'));
-
-            $data = collect($request->data())->flatMap(function ($part) {
-                switch ($part['name']) {
-                    case 'options':
-                        $part['contents'] = json_decode($part['contents'], true);
-                    case 'folderId':
-                        return [
-                            $part['name'] => $part['contents'],
-                        ];
-                }
-
-                return [];
-            });
-            $this->assertEquals(
-                [
-                    'folderId' => $expectedFolderId,
-                    'options'  => [
-                        'access'                      => 'PRIVATE',
-                        'overwrite'                   => false,
-                        'duplicateValidationStrategy' => 'NONE',
-                        'duplicateValidationScope'    => 'EXACT_FOLDER',
-                    ],
-                ],
-                $data->toArray());
-
-            return true;
-        });
+        // Then we expect create event request
         Http::assertSent(function (?Request $request, ?Response $response) use ($crmUserContactId) {
             if ($request === null) {
                 return false;
@@ -138,7 +112,78 @@ class HubSpotCRMServiceTest extends TestCase
 
             return true;
         });
-        Http::assertSent(function (?Request $request, ?Response $response) use ($crmCompanyContactId, $crmUserContactId, $crmCompanyId) {
+
+        // And we expect the file upload request
+        Http::assertSent(function (?Request $request, ?Response $response) use ($expectedFolderId) {
+            if ($request === null) {
+                return false;
+            }
+            if ('/files/v3/files' !== $request->toPsrRequest()->getUri()->getPath()) {
+                return false;
+            }
+
+            $this->assertTrue($request->hasFile('file'));
+
+            $data = collect($request->data())->flatMap(function ($part) {
+                switch ($part['name']) {
+                    case 'options':
+                        $part['contents'] = json_decode($part['contents'], true);
+                    case 'folderId':
+                        return [
+                            $part['name'] => $part['contents'],
+                        ];
+                }
+
+                return [];
+            });
+
+            $this->assertEquals(
+                [
+                    'folderId' => $expectedFolderId,
+                    'options'  => [
+                        'access'                      => 'PRIVATE',
+                        'overwrite'                   => false,
+                        'duplicateValidationStrategy' => 'NONE',
+                        'duplicateValidationScope'    => 'EXACT_FOLDER',
+                    ],
+                ],
+                $data->toArray());
+
+            return true;
+        });
+
+        // And we expect the get companyId request
+        Http::assertSent(function (?Request $request, ?Response $response) use ($crmUserContactId) {
+            if ($request === null) {
+                return false;
+            }
+
+            $path = $request->toPsrRequest()->getUri()->getPath();
+            $expectedPath = "/crm/v3/objects/contacts/$crmUserContactId/associations/company";
+            if ($expectedPath !== $path) {
+                return false;
+            }
+
+            return true;
+        });
+
+        // And we expect the get dealIds of company request
+        Http::assertSent(function (?Request $request, ?Response $response) use ($crmCompanyId) {
+            if ($request === null) {
+                return false;
+            }
+
+            $path = $request->toPsrRequest()->getUri()->getPath();
+            $expectedPath = "/crm/v3/objects/companies/$crmCompanyId/associations/deal";
+            if ($expectedPath !== $path) {
+                return false;
+            }
+
+            return true;
+        });
+
+        // And we expect the create engagement request
+        Http::assertSent(function (?Request $request, ?Response $response) use ($crmCompanyContactId, $crmUserContactId, $crmCompanyId, $crmDealIds) {
             if ($request === null) {
                 return false;
             }
@@ -158,6 +203,7 @@ class HubSpotCRMServiceTest extends TestCase
                 [
                     'contactIds' => collect([$crmUserContactId, $crmCompanyContactId])->filter()->toArray(),
                     'companyIds' => [$crmCompanyId],
+                    'dealIds'    => $crmDealIds->toArray(),
                 ],
                 $request->data()['associations']);
 
