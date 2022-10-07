@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\CRM\Service\CRMService;
 use App\Mail\LeadRegisterMail;
+use App\Models\BlacklistedEmailDomain;
 use App\Models\User;
 use App\Notifications\Register;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,7 +18,10 @@ class CreateUserTest extends TestCase
     use WithFaker;
     use AssertsCRMHandlesEvents;
 
-    public function test_create_user()
+    /**
+     * @test
+     */
+    public function create_user(): void
     {
         Mail::fake();
         Notification::fake();
@@ -53,5 +57,49 @@ class CreateUserTest extends TestCase
         // retry creating user, that request should fail
         $response = $this->postJson('/api/user', $requestBody);
         static::assertStatus($response, 422);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideBlacklistedEmailDomains
+     */
+    public function not_create_user_with_blacklisted_email_domain(string $blacklistedDomain): void
+    {
+        $requestBody = [
+            'name'                  => 'Max Muster',
+            'email'                 => 'max.muster@'.$blacklistedDomain,
+            'password'              => 'test1234',
+            'password_confirmation' => 'test1234',
+
+            'sex'                    => 'm',
+            'company_name'           => $this->faker->company(),
+            'phone'                  => $this->faker->phoneNumber(),
+            'website'                => $this->faker->randomAscii(),
+            'street'                 => $this->faker->streetAddress(),
+            'additional_street_info' => $this->faker->streetAddress(),
+            'zipcode'                => $this->faker->randomNumber(5),
+            'city'                   => $this->faker->city(),
+            'contact'                => $this->faker->name(),
+            'contact_function'       => 'Geschäftsführer',
+        ];
+
+        $response = $this->postJson('/api/user', $requestBody);
+        static::assertStatus($response, 422);
+        $msg = __('validation.custom.email.checkdomains');
+        $response->assertJson([
+            'message' => $msg,
+            'errors'  => ['email' => [$msg]],
+        ]);
+    }
+
+    public function provideBlacklistedEmailDomains(): array
+    {
+        return collect([
+            'web.de',
+            'googlemail.com',
+            'gmx.net',
+        ])
+            ->mapWithKeys(fn (string $domain) => [$domain => [$domain]])
+            ->toArray();
     }
 }
