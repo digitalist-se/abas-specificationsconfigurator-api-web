@@ -316,11 +316,17 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
-        $contactIds = collect([$user->crm_user_contact_id, $user->crm_company_contact_id])->filter()->toArray();
-        $companyIds = collect([$this->getContactCompanyID($user, ContactType::User)])->filter()->toArray();
+        $contactCompanyID = $this->getContactCompanyID($user, ContactType::User);
+        $associations = collect([
+            'contactIds' => [$user->crm_user_contact_id, $user->crm_company_contact_id],
+            'companyIds' => [$contactCompanyID],
+            'dealIds'    => $this->getDealIDsForCompany($contactCompanyID),
+        ])
+            ->map(fn ($ids) => collect($ids)->filter()->toArray())
+            ->toArray();
 
         $adapter = $this->getEngagementAdapter();
-        $requestBody = $adapter->toCreateRequestBody($fileId, $body, $contactIds, $companyIds);
+        $requestBody = $adapter->toCreateRequestBody($fileId, $body, $associations);
         $url = $this->createUrl('/engagements/v1/engagements');
         $response = Http::post($url, $requestBody);
 
@@ -398,6 +404,29 @@ class HubSpotCRMService implements CRMService
         }
 
         return $response->json('results.0.id');
+    }
+
+    /**
+     * @return array<string>|null
+     */
+    protected function getDealIDsForCompany(?string $companyId): ?array
+    {
+        $this->logMethod(__METHOD__);
+
+        if (empty($companyId)) {
+            return null;
+        }
+
+        $url = $this->createUrl('/crm/v3/objects/companies/'.$companyId.'/associations/deal');
+        $response = Http::get($url);
+
+        $this->logResponse($url, $response);
+
+        if ($response->failed()) {
+            return null;
+        }
+
+        return $response->json('results.*.id');
     }
 
     protected function renderUserNote(User $user): string
