@@ -45,6 +45,33 @@ class HubSpotCRMServiceTest extends TestCase
     /**
      * @test
      */
+    public function it_authorizes_requests()
+    {
+        Http::fake([
+            '*' => Http::sequence([
+                Http::response(['results' => [['id' => 'fakeId'], ['id' => 'notUsedId']]]),
+                Http::response(['id' => 'fakeId']),
+            ]),
+        ]);
+
+        $user = $this->givenIsAUserWithCrmIds();
+
+        $service = $this->app->make(CRMService::class);
+        $service->updateCompany($user);
+
+        Http::assertSent(function (?Request $request, ?Response $response) {
+            $this->assertNotNull($request);
+            $authHeader = $request->header('Authorization')[0] ?? null;
+            $token = Config::get('services.hubSpot.accessToken');
+            $this->assertEquals("Bearer {$token}", $authHeader);
+
+            return true;
+        });
+    }
+
+    /**
+     * @test
+     */
     public function it_can_not_track_document_export_without_crm_user()
     {
         Http::fake();
