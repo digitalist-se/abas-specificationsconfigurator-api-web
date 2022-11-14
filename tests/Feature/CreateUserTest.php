@@ -50,9 +50,8 @@ class CreateUserTest extends TestCase
         Notification::assertSentTo($user, Register::class, function ($notification) use ($user) {
             return $notification->user->id === $user->id;
         });
-        Mail::assertQueued(LeadRegisterMail::class, function (LeadRegisterMail $mail) use ($user) {
-            return $mail->leadUser->id == $user->id;
-        });
+        // We expect a lead mail for registration is NOT sent anymore
+        Mail::assertNotQueued(LeadRegisterMail::class);
         // user was already created.
         // retry creating user, that request should fail
         $response = $this->postJson('/api/user', $requestBody);
