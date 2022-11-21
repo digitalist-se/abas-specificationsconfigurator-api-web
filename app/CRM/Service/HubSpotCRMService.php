@@ -2,6 +2,7 @@
 
 namespace App\CRM\Service;
 
+use Illuminate\Http\Client\PendingRequest;
 use function app;
 use App\CRM\Adapter\Adapter;
 use App\CRM\Adapter\CompanyAdapter;
@@ -25,7 +26,7 @@ class HubSpotCRMService implements CRMService
 {
     protected ?string $baseUrl = null;
 
-    protected ?string $apiKey = null;
+    protected ?string $accessToken = null;
 
     protected ?string $folderId = null;
 
@@ -36,8 +37,8 @@ class HubSpotCRMService implements CRMService
 
     public function __construct($options = [])
     {
-        if (isset($options['apiKey'])) {
-            $this->apiKey = $options['apiKey'];
+        if (isset($options['accessToken'])) {
+            $this->accessToken = $options['accessToken'];
         }
         if (isset($options['baseUrl'])) {
             $this->baseUrl = $options['baseUrl'];
@@ -48,14 +49,26 @@ class HubSpotCRMService implements CRMService
         $this->folderId = $options['folder']['id'] ?? null;
     }
 
-    public function getApiKey()
+    protected function getAccessToken(): ?string
     {
-        return $this->apiKey;
+        return $this->accessToken;
     }
 
-    public function getBaseUrl()
+    protected function getBaseUrl()
     {
         return $this->baseUrl;
+    }
+
+    protected function request(): PendingRequest
+    {
+        $accessToken = $this->getAccessToken();
+
+        if (empty($accessToken)) {
+            $accessToken = 'missing_token';
+            Log::error('Required access token of private app is not given.');
+        }
+
+        return Http::withToken($accessToken);
     }
 
     protected function getCompanyAdapter(): CompanyAdapter
@@ -100,7 +113,7 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getContactAdapter($type);
         $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
         $url = $this->createUrl('/crm/v3/objects/contacts');
-        $response = Http::post($url, $requestBody);
+        $response = $this->request()->post($url, $requestBody);
 
         $this->logResponse($url, $response);
 
@@ -131,7 +144,7 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getCompanyAdapter();
         $requestBody = $adapter->toCreateRequestBody($user);
         $url = $this->createUrl('/crm/v3/objects/companies/'.$companyId);
-        $response = Http::patch($url, $requestBody);
+        $response = $this->request()->patch($url, $requestBody);
 
         $this->logResponse($url, $response);
 
@@ -153,7 +166,7 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getContactAdapter($type);
         $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
         $url = $this->createUrl('/crm/v3/objects/contacts/'.$crmContactId);
-        $response = Http::patch($url, $requestBody);
+        $response = $this->request()->patch($url, $requestBody);
 
         $this->logResponse($url, $response);
 
@@ -189,7 +202,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $url = $this->createUrl('/crm/v3/objects/contacts/'.$crmContactId);
-        $response = Http::delete($url);
+        $response = $this->request()->delete($url);
 
         $this->logResponse($url, $response);
 
@@ -250,7 +263,7 @@ class HubSpotCRMService implements CRMService
      */
     protected function createUrl(string $route): string
     {
-        return $this->getBaseUrl().$route.'?hapikey='.$this->getApiKey();
+        return $this->getBaseUrl().$route;
     }
 
     protected function createEvent(HubSpotEventType $eventType, User $user): bool
@@ -260,7 +273,7 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getTrackEventAdapter($eventType);
         $requestBody = $adapter->toCreateRequestBody($user);
         $url = $this->createUrl('/events/v3/send');
-        $response = Http::withBody(json_encode($requestBody), 'application/json')
+        $response = $this->request()->withBody(json_encode($requestBody), 'application/json')
             ->post($url);
 
         $this->logResponse($url, $response);
@@ -294,7 +307,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $url = $this->createUrl('/files/v3/files');
-        $response = Http::attach('file', file_get_contents($file), $fileName)
+        $response = $this->request()->attach('file', file_get_contents($file), $fileName)
             ->asMultipart()
             ->post($url, [
                 'folderId' => $this->folderId,
@@ -328,7 +341,7 @@ class HubSpotCRMService implements CRMService
         $adapter = $this->getEngagementAdapter();
         $requestBody = $adapter->toCreateRequestBody($fileId, $body, $associations);
         $url = $this->createUrl('/engagements/v1/engagements');
-        $response = Http::post($url, $requestBody);
+        $response = $this->request()->post($url, $requestBody);
 
         $this->logResponse($url, $response);
 
@@ -344,7 +357,6 @@ class HubSpotCRMService implements CRMService
             return null;
         }
 
-        $url = $this->createUrl('/crm/v3/objects/contacts/search');
         $body = [
             'filterGroups' => [
                 [
@@ -358,8 +370,8 @@ class HubSpotCRMService implements CRMService
                 ],
             ],
         ];
-
-        $response = Http::post($url, $body);
+        $url = $this->createUrl('/crm/v3/objects/contacts/search');
+        $response = $this->request()->post($url, $body);
 
         $this->logResponse($url, $response);
 
@@ -395,7 +407,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $url = $this->createUrl('/crm/v3/objects/contacts/'.$crmContactId.'/associations/company');
-        $response = Http::get($url);
+        $response = $this->request()->get($url);
 
         $this->logResponse($url, $response);
 
@@ -418,7 +430,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $url = $this->createUrl('/crm/v3/objects/companies/'.$companyId.'/associations/deal');
-        $response = Http::get($url);
+        $response = $this->request()->get($url);
 
         $this->logResponse($url, $response);
 

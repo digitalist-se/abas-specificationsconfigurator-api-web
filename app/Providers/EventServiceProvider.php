@@ -21,11 +21,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendRegisteredNotification::class,
-            SendLeadOfRegistrationNotification::class,
             UserRegisteredListener::class,
         ],
         ExportedDocument::class => [
-            SendLeadOfDocumentExport::class,
             TrackDocumentExport::class,
         ],
     ];

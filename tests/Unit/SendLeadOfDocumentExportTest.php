@@ -31,15 +31,6 @@ class SendLeadOfDocumentExportTest extends TestCase
     /**
      * @test
      */
-    public function it_check_if_listener_is_registered()
-    {
-        Event::fake();
-        Event::assertListening(ExportedDocument::class, SendLeadOfDocumentExport::class);
-    }
-
-    /**
-     * @test
-     */
     public function it_send_mail_to_lead_mail()
     {
         // Given is a user

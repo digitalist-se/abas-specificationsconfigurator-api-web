@@ -36,10 +36,11 @@ return [
     ],
 
     'hubSpot' => [
-        'enabled' => env('HUBSPOT_ENABLED', true),
-        'baseUrl' => env('HUBSPOT_API_BASE_URL', 'https://api.hubapi.com'),
-        'apiKey'  => env('HUBSPOT_API_KEY'),
-        'events'  => [
+        'enabled'     => env('HUBSPOT_ENABLED', true),
+        'baseUrl'     => env('HUBSPOT_API_BASE_URL', 'https://api.hubapi.com'),
+        'apiKey'      => env('HUBSPOT_API_KEY'),
+        'accessToken' => env('HUBSPOT_PRIVATE_APP_ACCESS_TOKEN'),
+        'events'      => [
             HubSpotEventType::DocumentExport->value => 'pe2853580_lastenheft_erstellung',
             HubSpotEventType::UserRegistered->value => 'pe2853580_registrierung_auf_erp_planner',
         ],
