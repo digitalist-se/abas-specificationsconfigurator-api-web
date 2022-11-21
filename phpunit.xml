@@ -26,6 +26,6 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="HUBSPOT_ENABLED" value="false"/>
-        <env name="HUBSPOT_API_KEY" value="no-api-key"/>
+        <env name="HUBSPOT_PRIVATE_APP_ACCESS_TOKEN" value="no-api-key"/>
     </php>
 </phpunit>
