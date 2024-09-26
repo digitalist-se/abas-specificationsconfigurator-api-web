@@ -32,10 +32,10 @@ init: build boot vendor-composer vendor-yarn ## initializes docker machine
 	@make -s art passport:install
 
 build: require-env generate-ssl-key copy-git-key ## build all docker containers
-	bash -c "docker-compose build"
+	bash -c "docker compose build"
 
 clear-volumes: ## deletes all volumes of this project
-	docker-compose down -v
+	docker compose down -v
 
 reset: clear-volumes init ## clear volumes and run init command
 
@@ -49,12 +49,12 @@ vendor-yarn: ## install node modules
 #################################
 
 boot: require-env
-	bash -c "docker-compose up -d"
+	bash -c "docker compose up -d"
 
 up: boot vendor-composer ## start docker
 
 down: ## stop  all docker containers
-	bash -c "docker-compose down"
+	bash -c "docker compose down"
 
 restart: down up ## restart all docker containers
 
@@ -62,50 +62,50 @@ restart: down up ## restart all docker containers
 #################################
 
 bash: ## open docker bash via ssh
-	bash -c "docker-compose exec -u www-data web bash"
+	bash -c "docker compose exec -u www-data web bash"
 
 bash-root: ## open docker bash via ssh as root
-	bash -c "docker-compose exec -u root web bash"
+	bash -c "docker compose exec -u root web bash"
 
 zsh: ## open docker zsh with oh-my-zsh via ssh
-	bash -c "docker-compose exec -u www-data web zsh"
+	bash -c "docker compose exec -u www-data web zsh"
 
 zsh-root: ## open docker zsh with oh-my-zsh via ssh as root
-	bash -c "docker-compose exec -u root web zsh"
+	bash -c "docker compose exec -u root web zsh"
 
 bash-db: ## open docker bash via ssh as root
-	bash -c "docker-compose exec db bash"
+	bash -c "docker compose exec db bash"
 
 mysql: ## Go into mysql bash console as $(DB_USERNAME) user
-	bash -c "docker-compose exec db bash -c \"mysql -u$(DB_USERNAME) -p$(DB_PASSWORD)\""
+	bash -c "docker compose exec db bash -c \"mysql -u$(DB_USERNAME) -p$(DB_PASSWORD)\""
 
 ## Forwarding commands
 #################################
 php: ## forward php command to container
-	docker-compose exec -u www-data web bash -c 'php ${ARGS}'
+	docker compose exec -u www-data web bash -c 'php ${ARGS}'
 
 composer: ## forward composer command to container
-	docker-compose exec -u www-data web bash -c 'composer ${ARGS}'
+	docker compose exec -u www-data web bash -c 'composer ${ARGS}'
 
 yarn: ## forward yarn command to container
-	docker-compose exec -u www-data web bash -c '. /usr/local/nvm/nvm.sh && yarn ${ARGS}'
+	docker compose exec -u www-data web bash -c '. /usr/local/nvm/nvm.sh && yarn ${ARGS}'
 
 art: ## forward artisan command to container
-	docker-compose exec -T -u www-data web bash -c 'php artisan ${ARGS}'
+	docker compose exec -T -u www-data web bash -c 'php artisan ${ARGS}'
 
 laravel: ## forward laravel installer command to container
-	docker-compose exec -T -u www-data web bash -c '. /usr/local/nvm/nvm.sh && laravel ${ARGS}'
+	docker compose exec -T -u www-data web bash -c '. /usr/local/nvm/nvm.sh && laravel ${ARGS}'
 
 ## TODO: add if you have also vapor
 # vapor: ## forward vapor command to container
-# 	docker-compose exec -u www-data web bash -c 'php ./vendor/bin/vapor ${ARGS}'
+# 	docker compose exec -u www-data web bash -c 'php ./vendor/bin/vapor ${ARGS}'
 
 ## TODO: add if you use laravel echo server
 # echo: ## forward laravel-echo-server command to container
-# 	docker-compose exec -T echo laravel-echo-server ${ARGS}
+# 	docker compose exec -T echo laravel-echo-server ${ARGS}
 
 php-cs-fixer: ## forward csfixer command to container, pass file path relative to project root dir
-	docker-compose exec -T -u www-data web bash -c 'php /var/www/html/vendor/bin/php-cs-fixer fix /var/www/html/${ARGS} --config "/var/www/html/.php-cs-fixer.php"'
+	docker compose exec -T -u www-data web bash -c 'php /var/www/html/vendor/bin/php-cs-fixer fix /var/www/html/${ARGS} --config "/var/www/html/.php-cs-fixer.php"'
 
 ## IDE Helper
 #################################
