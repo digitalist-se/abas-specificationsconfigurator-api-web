@@ -2,7 +2,6 @@
 
 namespace App\CRM\Service;
 
-use Illuminate\Http\Client\PendingRequest;
 use function app;
 use App\CRM\Adapter\Adapter;
 use App\CRM\Adapter\CompanyAdapter;
@@ -17,6 +16,7 @@ use App\Events\ExportedDocument;
 use App\Models\User;
 use Arr;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
