@@ -48,4 +48,11 @@ return [
             'id' => env('HUBSPOT_FOLDER_ID'),
         ],
     ],
+
+    'salesforce' => [
+        'enabled'      => env('SALESFORCE_ENABLED', false),
+        'baseUrl'      => env('SALESFORCE_BASEURL'),
+        'clientId'     => env('SALESFORCE_CLIENT_ID'),
+        'clientSecret' => env('SALESFORCE_CLIENT_SECRET'),
+    ],
 ];
