@@ -40,8 +40,8 @@ class SalesforceCRMService implements CRMService
 
         $customProperties = [
             'Product_Family__c' => 'ABAS',
-            'Status' => 'Pre Lead',
-            'LeadSource' => 'ERP Planner',
+            'Status'            => 'Pre Lead',
+            'LeadSource'        => 'ERP Planner',
         ];
 
         return $this->createLead($user, $customProperties)->successful();

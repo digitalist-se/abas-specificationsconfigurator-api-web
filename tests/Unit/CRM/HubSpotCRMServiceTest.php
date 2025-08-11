@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
-class HubSpotHubSpotCRMServiceTest extends TestCase
+class HubSpotCRMServiceTest extends TestCase
 {
     use WithFaker;
 
