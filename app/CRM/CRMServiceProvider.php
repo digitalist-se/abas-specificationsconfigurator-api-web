@@ -3,9 +3,12 @@
 namespace App\CRM;
 
 use App\CRM\Adapter\TrackEventAdapter;
+use App\CRM\Service\Auth\SalesforceAuthService;
+use App\CRM\Service\Auth\SalesforceAuthTokenProvider;
 use App\CRM\Service\CRMService;
 use App\CRM\Service\HubSpotCRMService;
 use App\CRM\Service\NoOpCRMService;
+use App\CRM\Service\SalesforceCRMService;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +23,10 @@ class CRMServiceProvider extends ServiceProvider
             return new HubSpotCRMService(Config::get('services.hubSpot'));
         });
         $this->app->bind(SalesforceCRMService::class, function ($app) {
-            return new SalesforceCRMService(Config::get('services.salesforce'));
+            return new SalesforceCRMService(
+                Config::get('services.salesforce'),
+                $app->make(SalesforceAuthTokenProvider::class)
+            );
         });
         $this->app->bind(SalesforceAuthService::class, function ($app) {
             return new SalesforceAuthService(Config::get('services.salesforce'));
