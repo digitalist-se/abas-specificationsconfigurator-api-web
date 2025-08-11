@@ -38,7 +38,13 @@ class SalesforceCRMService implements CRMService
             return false;
         }
 
-        return $this->createLead($user)->successful();
+        $customProperties = [
+            'Product_Family__c' => 'ABAS',
+            'Status' => 'Pre Lead',
+            'LeadSource' => 'ERP Planner',
+        ];
+
+        return $this->createLead($user, $customProperties)->successful();
     }
 
     public function handleDocumentExport(ExportedDocument $event): bool
@@ -58,15 +64,11 @@ class SalesforceCRMService implements CRMService
         return $response;
     }
 
-    public function createLead(User $user): Response
+    public function createLead(User $user, $customProperties): Response
     {
         $this->logMethod(__METHOD__);
 
-        $leadData = $this->leadAdapter()->toCreateRequestBody($user, [
-            'Product_Family__c' => 'ABAS',
-            'Status'            => 'Pre Lead',
-            'LeadSource'        => 'ERP Planner',
-        ]);
+        $leadData = $this->leadAdapter()->toCreateRequestBody($user, $customProperties);
         $response = $this->request()
             ->post('/services/data/v63.0/sobjects/Lead', $leadData);
 

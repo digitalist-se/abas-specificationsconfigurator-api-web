@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use App\CRM\Service\CRMService;
 use App\CRM\Service\HubSpotCRMService;
+use App\CRM\Service\SalesforceCRMService;
 use App\Mail\LeadRegisterMail;
-use App\Models\BlacklistedEmailDomain;
 use App\Models\User;
 use App\Notifications\Register;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,12 +14,14 @@ use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\AssertsCRMHandlesEvents;
 use Tests\Traits\AssertsHubspotCRMHandlesEvents;
+use Tests\Traits\AssertsSalesforceCRMHandlesEvents;
 
 class CreateUserTest extends TestCase
 {
     use WithFaker;
-    use AssertsHubspotCRMHandlesEvents;
     use AssertsCRMHandlesEvents;
+    use AssertsSalesforceCRMHandlesEvents;
+    use AssertsHubspotCRMHandlesEvents;
 
     /**
      * @test
@@ -46,8 +48,9 @@ class CreateUserTest extends TestCase
             'contact_function'       => 'Geschäftsführer',
         ];
 
-        $this->assertHubspotCRMServiceHandlesUserRegistered($this->mock(HubSpotCRMService::class), $requestBody);
         $this->assertCRMServiceHandlesUserRegistered($this->mock(CRMService::class), $requestBody);
+        $this->assertHubspotCRMServiceHandlesUserRegistered($this->mock(HubSpotCRMService::class), $requestBody);
+        $this->assertSalesforceCRMServiceHandlesUserRegistered($this->mock(SalesforceCRMService::class), $requestBody);
 
         $response = $this->postJson('/api/user', $requestBody);
         static::assertStatus($response, 204);
