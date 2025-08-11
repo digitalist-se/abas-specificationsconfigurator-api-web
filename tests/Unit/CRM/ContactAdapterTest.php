@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\CRM;
 
-use App\CRM\Adapter\CompanyContactAdapter;
-use App\CRM\Adapter\UserContactAdapter;
+use App\CRM\Adapter\Hubspot\CompanyContactAdapter;
+use App\CRM\Adapter\Hubspot\UserContactAdapter;
 use App\Models\User;
 use Tests\TestCase;
 

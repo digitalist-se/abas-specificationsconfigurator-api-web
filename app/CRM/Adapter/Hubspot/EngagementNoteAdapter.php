@@ -1,8 +1,6 @@
 <?php
 
-namespace App\CRM\Adapter;
-
-use App\Models\User;
+namespace App\CRM\Adapter\Hubspot;
 
 class EngagementNoteAdapter
 {

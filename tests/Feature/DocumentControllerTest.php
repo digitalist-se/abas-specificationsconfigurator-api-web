@@ -3,22 +3,26 @@
 namespace Tests\Feature;
 
 use App\CRM\Service\CRMService;
-use App\Events\ExportedDocument;
+use App\CRM\Service\HubSpotCRMService;
+use App\CRM\Service\SalesforceCRMService;
 use App\Mail\DocumentGeneratedMail;
 use App\Models\Answer;
 use App\Models\ChoiceType;
 use App\Models\Element;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Tests\PassportTestCase;
 use Tests\Traits\AssertsCRMHandlesEvents;
+use Tests\Traits\AssertsHubspotCRMHandlesEvents;
+use Tests\Traits\AssertsSalesforceCRMHandlesEvents;
 
 class DocumentControllerTest extends PassportTestCase
 {
     use WithFaker;
     use AssertsCRMHandlesEvents;
+    use AssertsSalesforceCRMHandlesEvents;
+    use AssertsHubspotCRMHandlesEvents;
 
     protected $role = Role::USER;
 
@@ -77,6 +81,8 @@ class DocumentControllerTest extends PassportTestCase
         $user = $this->user;
         Mail::fake();
         $this->assertCRMServiceHandlesExportedDocument($this->mock(CRMService::class), $user);
+        $this->assertSalesforceCRMServiceHandlesExportedDocument($this->mock(SalesforceCRMService::class), $user);
+        $this->assertHubspotCRMServiceHandlesExportedDocument($this->mock(HubSpotCRMService::class), $user);
         $response = $this->get('/api/document/generate');
         static::assertStatus($response, 200);
         // We expect a lead mail for document generation is NOT sent anymore

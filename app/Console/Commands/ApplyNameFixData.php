@@ -56,8 +56,9 @@ class ApplyNameFixData extends Command
 
         $this->info("{$upsertData->count()} user rows should be updated");
 
-        if (!$this->confirm("Are you sure to apply data?")) {
-            $this->info("No user rows are updated");
+        if (! $this->confirm('Are you sure to apply data?')) {
+            $this->info('No user rows are updated');
+
             return 0;
         }
 
