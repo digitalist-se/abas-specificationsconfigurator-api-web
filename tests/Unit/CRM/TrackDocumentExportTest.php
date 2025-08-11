@@ -4,6 +4,7 @@ namespace Tests\Unit\CRM;
 
 use App\CRM\Listeners\TrackDocumentExport;
 use App\CRM\Service\CRMService;
+use App\CRM\Service\HubSpotCRMService;
 use App\Events\ExportedDocument;
 use App\Http\Controllers\DocumentController;
 use App\Http\Resources\SpecificationDocument;
@@ -13,9 +14,11 @@ use Illuminate\Support\Facades\Event;
 use RuntimeException;
 use Tests\TestCase;
 use Tests\Traits\AssertsCRMHandlesEvents;
+use Tests\Traits\AssertsHubspotCRMHandlesEvents;
 
 class TrackDocumentExportTest extends TestCase
 {
+    use AssertsHubspotCRMHandlesEvents;
     use AssertsCRMHandlesEvents;
 
     protected function createDocument(User $user): SpecificationDocument
@@ -54,6 +57,7 @@ class TrackDocumentExportTest extends TestCase
         $event = new ExportedDocument($user, $document);
 
         // We expect service is called from event
+        $this->assertHubspotCRMServiceHandlesExportedDocument($this->mock(HubSpotCRMService::class), $user);
         $this->assertCRMServiceHandlesExportedDocument($this->mock(CRMService::class), $user);
 
         $listener = $this->app->make(TrackDocumentExport::class);

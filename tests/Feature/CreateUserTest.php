@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\CRM\Service\CRMService;
+use App\CRM\Service\HubSpotCRMService;
 use App\Mail\LeadRegisterMail;
 use App\Models\BlacklistedEmailDomain;
 use App\Models\User;
@@ -12,10 +13,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\AssertsCRMHandlesEvents;
+use Tests\Traits\AssertsHubspotCRMHandlesEvents;
 
 class CreateUserTest extends TestCase
 {
     use WithFaker;
+    use AssertsHubspotCRMHandlesEvents;
     use AssertsCRMHandlesEvents;
 
     /**
@@ -42,6 +45,8 @@ class CreateUserTest extends TestCase
             'contact'                => $this->faker->name(),
             'contact_function'       => 'Geschäftsführer',
         ];
+
+        $this->assertHubspotCRMServiceHandlesUserRegistered($this->mock(HubSpotCRMService::class), $requestBody);
         $this->assertCRMServiceHandlesUserRegistered($this->mock(CRMService::class), $requestBody);
 
         $response = $this->postJson('/api/user', $requestBody);

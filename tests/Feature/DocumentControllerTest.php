@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\CRM\Service\CRMService;
+use App\CRM\Service\HubSpotCRMService;
 use App\Events\ExportedDocument;
 use App\Mail\DocumentGeneratedMail;
 use App\Models\Answer;
@@ -14,10 +15,12 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Tests\PassportTestCase;
 use Tests\Traits\AssertsCRMHandlesEvents;
+use Tests\Traits\AssertsHubspotCRMHandlesEvents;
 
 class DocumentControllerTest extends PassportTestCase
 {
     use WithFaker;
+    use AssertsHubspotCRMHandlesEvents;
     use AssertsCRMHandlesEvents;
 
     protected $role = Role::USER;
@@ -76,6 +79,7 @@ class DocumentControllerTest extends PassportTestCase
         $this->user->update(['crm_user_contact_id' => 'xyz']);
         $user = $this->user;
         Mail::fake();
+        $this->assertHubspotCRMServiceHandlesExportedDocument($this->mock(HubSpotCRMService::class), $user);
         $this->assertCRMServiceHandlesExportedDocument($this->mock(CRMService::class), $user);
         $response = $this->get('/api/document/generate');
         static::assertStatus($response, 200);
