@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CRM\Adapter;
+namespace App\CRM\Adapter\Hubspot;
 
 use App\Models\User;
 

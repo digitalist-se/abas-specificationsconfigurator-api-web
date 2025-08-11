@@ -1,7 +1,8 @@
 <?php
 
-namespace App\CRM\Adapter;
+namespace App\CRM\Adapter\Hubspot;
 
+use App\CRM\Adapter\Adapter;
 use App\Models\User;
 
 class CompanyContactAdapter implements Adapter

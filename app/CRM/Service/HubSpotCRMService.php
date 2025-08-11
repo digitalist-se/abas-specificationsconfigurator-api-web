@@ -2,14 +2,13 @@
 
 namespace App\CRM\Service;
 
-use function app;
 use App\CRM\Adapter\Adapter;
-use App\CRM\Adapter\CompanyAdapter;
-use App\CRM\Adapter\CompanyContactAdapter;
-use App\CRM\Adapter\EngagementNoteAdapter;
-use App\CRM\Adapter\TrackEventAdapter;
-use App\CRM\Adapter\UserContactAdapter;
-use App\CRM\Adapter\UserNoteAdapter;
+use App\CRM\Adapter\Hubspot\CompanyAdapter;
+use App\CRM\Adapter\Hubspot\CompanyContactAdapter;
+use App\CRM\Adapter\Hubspot\EngagementNoteAdapter;
+use App\CRM\Adapter\Hubspot\TrackEventAdapter;
+use App\CRM\Adapter\Hubspot\UserContactAdapter;
+use App\CRM\Adapter\Hubspot\UserNoteAdapter;
 use App\CRM\Enums\HubSpotEventType;
 use App\Enums\ContactType;
 use App\Events\ExportedDocument;
@@ -21,6 +20,7 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use JsonException;
+use function app;
 
 class HubSpotCRMService implements CRMService
 {
