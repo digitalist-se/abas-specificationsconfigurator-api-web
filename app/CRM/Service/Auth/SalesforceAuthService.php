@@ -28,7 +28,6 @@ class SalesforceAuthService
     {
         $response = Http::baseUrl($this->options['baseUrl'])
             ->asForm()
-            ->dump()
             ->post('/services/oauth2/token', [
                 'grant_type'    => 'client_credentials',
                 'client_id'     => $this->options['clientId'],
