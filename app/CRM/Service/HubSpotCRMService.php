@@ -106,6 +106,30 @@ class HubSpotCRMService implements CRMService
         return app()->make(TrackEventAdapter::class, ['eventName' => $eventName]);
     }
 
+    public function handleUserRegistered(Registered $event): bool
+    {
+        $user = $event->user;
+        if (! $user instanceof User) {
+            return false;
+        }
+
+        $this->upsertContact($user, ContactType::User, ['erp_registration_trigger' => true]);
+        $this->trackUserRegistered($event);
+
+        return true;
+    }
+
+    public function handleDocumentExport(ExportedDocument $event): bool
+    {
+        $this->upsertContact($event->user, ContactType::User, ['erp_lastenheft_trigger' => true]);
+        $this->updateCompany($event->user);
+        $this->upsertContact($event->user, ContactType::Company, []);
+
+        $this->trackDocumentExport($event);
+
+        return true;
+    }
+
     public function createContact(User $user, ContactType $type, array $customProperties = []): bool
     {
         $this->logMethod(__METHOD__);

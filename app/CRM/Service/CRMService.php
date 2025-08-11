@@ -22,4 +22,8 @@ interface CRMService
     public function trackDocumentExport(ExportedDocument $event): bool;
 
     public function trackUserRegistered(Registered $event): bool;
+
+    public function handleUserRegistered(Registered $event): bool;
+
+    public function handleDocumentExport(ExportedDocument $event): bool;
 }
