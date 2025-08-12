@@ -56,10 +56,11 @@ class SalesforceCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
-        $response = $this->request()
-            ->get('/services/data/v63.0/sobjects/Lead/'.$leadId);
+        $path = "/services/data/v63.0/sobjects/Lead/{$leadId}";
 
-        $this->logResponse($response->effectiveUri(), $response);
+        $response = $this->request()->get($path);
+
+        $this->logResponse("GET $path", $response);
 
         return $response;
     }
@@ -69,10 +70,11 @@ class SalesforceCRMService implements CRMService
         $this->logMethod(__METHOD__);
 
         $leadData = $this->leadAdapter()->toCreateRequestBody($user, $customProperties);
-        $response = $this->request()
-            ->post('/services/data/v63.0/sobjects/Lead', $leadData);
+        $path = '/services/data/v63.0/sobjects/Lead';
 
-        $this->logResponse($response->effectiveUri(), $response);
+        $response = $this->request()->post($path, $leadData);
+
+        $this->logResponse("POST $path", $response);
 
         return $response;
     }
@@ -106,16 +108,16 @@ class SalesforceCRMService implements CRMService
         Log::debug($method);
     }
 
-    private function logResponse(string $url, Response $response)
+    private function logResponse(string $requestInfo, Response $response)
     {
         if ($response->failed()) {
-            Log::error($url, [
+            Log::error($requestInfo, [
                 'error'   => $response->toException()?->getMessage(),
                 'headers' => $response->headers(),
                 'body'    => $response->body(),
             ]);
         } else {
-            Log::debug($url, [
+            Log::debug($requestInfo, [
                 'headers' => $response->headers(),
                 'body'    => $response->body(),
             ]);
