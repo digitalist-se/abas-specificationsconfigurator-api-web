@@ -122,6 +122,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Answer::class);
     }
 
+    public function salesforce()
+    {
+        return $this->hasOne(Salesforce::class)->withDefault();
+    }
+
     public function hasAllRequiredFieldsForSpecificationDocument()
     {
         foreach (self::REQUIRED_FIELDS_FOR_SPECIFICATION as $requiredField) {
