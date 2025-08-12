@@ -7,13 +7,6 @@ use App\Models\User;
 
 class LeadAdapter implements Adapter
 {
-    const PROPERTY_MAP = [
-        'firstname' => 'first_name',
-        'lastname'  => 'last_name',
-        'email'     => 'email',
-        'company'   => 'company',
-    ];
-
     public function toCreateRequestBody(User $user, array $customProperties = []): array
     {
         $properties = [
@@ -21,7 +14,6 @@ class LeadAdapter implements Adapter
             'LastName'  => $user->last_name,
             'Company'   => $user->company,
             'Email'     => $user->email,
-            'Country'   => $user->leadCountry,
         ];
 
         return array_merge($properties, $customProperties);
