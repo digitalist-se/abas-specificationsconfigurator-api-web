@@ -7,8 +7,11 @@ use App\CRM\Adapter\Salesforce\LeadAdapter;
 use App\CRM\Service\Auth\AuthTokenProviderInterface;
 use App\Events\ExportedDocument;
 use App\Models\User;
+use Arr;
+use AssertionError;
 use Exception;
 use Http;
+use http\Exception\RuntimeException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
@@ -60,7 +63,9 @@ class SalesforceCRMService implements CRMService
 
         $response = $this->request()->get($path);
 
-        $this->logResponse("GET $path", $response);
+        $this
+            ->logResponse($response, "GET $path")
+            ->requireSuccess($response, 'get lead');
 
         return $response;
     }
@@ -74,9 +79,31 @@ class SalesforceCRMService implements CRMService
 
         $response = $this->request()->post($path, $leadData);
 
-        $this->logResponse("POST $path", $response);
+        $leadId = $this
+            ->logResponse($response, "POST $path")
+            ->requireSuccess($response, 'create lead')
+            ->requireId($response);
+
+        $salesforce = $user->salesforce;
+        $salesforce->lead_id = $leadId;
+        $user->salesforce->save();
 
         return $response;
+    }
+
+    private function requireSuccess(Response $response, ?string $scope = null): static
+    {
+        if ($response->failed()) {
+            $msg = $scope ? "Failed to $scope" : 'Request failed';
+            throw new RuntimeException(sprintf('%s: %s', $msg, $response->body()));
+        }
+
+        return $this;
+    }
+
+    private function requireId(Response $response): string
+    {
+        return $this->requireField($response, 'id');
     }
 
     private function request(): PendingRequest
@@ -103,12 +130,14 @@ class SalesforceCRMService implements CRMService
             });
     }
 
-    private function logMethod(string $method)
+    private function logMethod(string $method): static
     {
         Log::debug($method);
+
+        return $this;
     }
 
-    private function logResponse(string $requestInfo, Response $response)
+    private function logResponse(Response $response, string $requestInfo): static
     {
         if ($response->failed()) {
             Log::error($requestInfo, [
@@ -122,5 +151,27 @@ class SalesforceCRMService implements CRMService
                 'body'    => $response->body(),
             ]);
         }
+
+        return $this;
+    }
+
+    public function requireField(Response $response, string $field): mixed
+    {
+        $value = $this->getField($response, $field);
+
+        if ($value === null) {
+            throw new AssertionError(sprintf("Response does not contain non-null '%s': %s", $field, $response->body()));
+        }
+
+        return $value;
+    }
+
+    public function getField(Response $response, string $field): mixed
+    {
+        $this->requireSuccess($response, sprintf("Get '%s' on failed response", $field));
+
+        $data = $response->json();
+
+        return Arr::get($data, $field);
     }
 }
