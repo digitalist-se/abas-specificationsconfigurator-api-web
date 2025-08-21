@@ -56,7 +56,7 @@ class SalesforceCRMService implements CRMService
         return true;
     }
 
-    public function createLead(User $user, $customProperties): Response
+    public function createLead(User $user, $customProperties): string
     {
         $this->logMethod(__METHOD__);
 
@@ -75,10 +75,10 @@ class SalesforceCRMService implements CRMService
         $salesforce->lead_id = $leadId;
         $user->salesforce->save();
 
-        return $response;
+        return $this->requireId($response);
     }
 
-    public function getLead(string $leadId): Response
+    public function getLead(string $leadId): array
     {
         $this->logMethod(__METHOD__);
 
@@ -90,10 +90,10 @@ class SalesforceCRMService implements CRMService
             ->logResponse($response, "GET $path")
             ->requireSuccess($response, 'get lead');
 
-        return $response;
+        return $response->json();
     }
 
-    public function search(string $query): Response
+    private function search(string $query): ?string
     {
         $this->logMethod(__METHOD__);
 
@@ -105,10 +105,10 @@ class SalesforceCRMService implements CRMService
             ->logResponse($response, "GET $path")
             ->requireSuccess($response, 'search object');
 
-        return $response;
+        return Arr::get($response, 'records.0.Id');
     }
 
-    public function searchLeadyByEmail(string $email): Response
+    public function searchLeadyByEmail(string $email): ?string
     {
         $this->logMethod(__METHOD__);
 

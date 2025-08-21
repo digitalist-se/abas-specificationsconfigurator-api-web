@@ -89,9 +89,9 @@ class TestSalesforce extends Command
             'LeadSource'        => 'ERP Planner - local API Test',
         ];
 
-        $response = $this->crmService->createLead($user, $customProperties);
+        $id = $this->crmService->createLead($user, $customProperties);
 
-        $this->log('created lead', $response->json(), $dumpIt);
+        $this->log('created lead', ['id' => $id], $dumpIt);
     }
 
     private function getLead(bool $dumpIt = true): void
@@ -104,9 +104,9 @@ class TestSalesforce extends Command
 
         $this->log('get lead', ['id' => $id], $dumpIt);
 
-        $response = $this->crmService->getLead($id);
+        $lead = $this->crmService->getLead($id);
 
-        $this->log('got lead', $response->json(), $dumpIt);
+        $this->log('got lead', $lead, $dumpIt);
     }
 
     private function leadByMail(bool $dumpIt = true): void
@@ -119,9 +119,9 @@ class TestSalesforce extends Command
 
         $this->log('search lead by email', ['email' => $email], $dumpIt);
 
-        $response = $this->crmService->searchLeadyByEmail($email);
+        $id = $this->crmService->searchLeadyByEmail($email);
 
-        $this->log('search result', $response->json(), $dumpIt);
+        $this->log('search result', ['id' => $id], $dumpIt);
     }
 
     private function createUser(): User
