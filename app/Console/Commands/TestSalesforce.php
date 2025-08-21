@@ -123,7 +123,7 @@ class TestSalesforce extends Command
 
         $this->log('search lead by email', ['email' => $email], $dumpIt);
 
-        $id = $this->crmService->searchLeadyByEmail($email);
+        $id = $this->crmService->searchLeadByEmail($email);
 
         $this->log('search result', ['lead_id' => $id], $dumpIt);
     }

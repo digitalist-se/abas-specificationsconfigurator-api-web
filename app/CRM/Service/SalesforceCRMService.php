@@ -92,23 +92,7 @@ class SalesforceCRMService implements CRMService
 
         return $response->json();
     }
-
-    private function search(string $query): ?string
-    {
-        $this->logMethod(__METHOD__);
-
-        $path = $this->path('query');
-
-        $response = $this->request()->get($path, ['q' => $query]);
-
-        $this
-            ->logResponse($response, "GET $path")
-            ->requireSuccess($response, 'search object');
-
-        return Arr::get($response, 'records.0.Id');
-    }
-
-    public function searchLeadyByEmail(string $email): ?string
+    public function searchLeadByEmail(string $email): ?string
     {
         $this->logMethod(__METHOD__);
 
@@ -136,6 +120,23 @@ class SalesforceCRMService implements CRMService
         $user->salesforce->save();
 
         return true;
+    }
+
+
+
+    private function search(string $query): ?string
+    {
+        $this->logMethod(__METHOD__);
+
+        $path = $this->path('query');
+
+        $response = $this->request()->get($path, ['q' => $query]);
+
+        $this
+            ->logResponse($response, "GET $path")
+            ->requireSuccess($response, 'search object');
+
+        return Arr::get($response, 'records.0.Id');
     }
 
     private function requireSuccess(Response $response, ?string $scope = null): static
