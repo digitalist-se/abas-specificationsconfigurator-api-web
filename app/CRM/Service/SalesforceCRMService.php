@@ -2,6 +2,7 @@
 
 namespace App\CRM\Service;
 
+use RuntimeException;
 use function app;
 use App\CRM\Adapter\Salesforce\LeadAdapter;
 use App\CRM\Service\Auth\AuthTokenProviderInterface;
@@ -11,7 +12,6 @@ use Arr;
 use AssertionError;
 use Exception;
 use Http;
-use http\Exception\RuntimeException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
