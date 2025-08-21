@@ -135,7 +135,7 @@ class HubSpotCRMService implements CRMService
         $this->logMethod(__METHOD__);
 
         $adapter = $this->getContactAdapter($type);
-        $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
+        $requestBody = $adapter->toRequestBody($user, $customProperties);
         $url = $this->createUrl('/crm/v3/objects/contacts');
         $response = $this->request()->post($url, $requestBody);
 
@@ -166,7 +166,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $adapter = $this->getCompanyAdapter();
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toRequestBody($user);
         $url = $this->createUrl('/crm/v3/objects/companies/'.$companyId);
         $response = $this->request()->patch($url, $requestBody);
 
@@ -188,7 +188,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $adapter = $this->getContactAdapter($type);
-        $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
+        $requestBody = $adapter->toRequestBody($user, $customProperties);
         $url = $this->createUrl('/crm/v3/objects/contacts/'.$crmContactId);
         $response = $this->request()->patch($url, $requestBody);
 
@@ -295,7 +295,7 @@ class HubSpotCRMService implements CRMService
         $this->logMethod(__METHOD__);
 
         $adapter = $this->getTrackEventAdapter($eventType);
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toRequestBody($user);
         $url = $this->createUrl('/events/v3/send');
         $response = $this->request()->withBody(json_encode($requestBody), 'application/json')
             ->post($url);

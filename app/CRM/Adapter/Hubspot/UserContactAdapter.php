@@ -14,7 +14,7 @@ class UserContactAdapter implements Adapter
         'company'   => 'company',
     ];
 
-    public function toCreateRequestBody(User $user, array $customProperties = []): array
+    public function toRequestBody(User $user, array $customProperties = []): array
     {
         $properties = [];
         foreach (self::PROPERTY_MAP as $propertyName => $attributeKey) {

@@ -56,15 +56,15 @@ class SalesforceCRMService implements CRMService
         return true;
     }
 
-    public function createLead(User $user, $customProperties): string
+    public function createLead(User $user, array $customProperties): string
     {
         $this->logMethod(__METHOD__);
 
-        $leadData = $this->leadAdapter()->toCreateRequestBody($user, $customProperties);
+        $data = $this->leadAdapter()->toRequestBody($user, $customProperties);
 
         $path = $this->path('sobjects', 'Lead');
 
-        $response = $this->request()->post($path, $leadData);
+        $response = $this->request()->post($path, $data);
 
         $leadId = $this
             ->logResponse($response, "POST $path")

@@ -7,7 +7,7 @@ use App\Models\User;
 
 class LeadAdapter implements Adapter
 {
-    public function toCreateRequestBody(User $user, array $customProperties = []): array
+    public function toRequestBody(User $user, array $customProperties = []): array
     {
         $properties = [
             'FirstName' => $user->first_name,

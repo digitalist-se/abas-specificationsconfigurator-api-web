@@ -36,7 +36,7 @@ class ContactAdapterTest extends TestCase
 
         // When we pass it to adapter
         $adapter = $this->app->make(UserContactAdapter::class);
-        $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
+        $requestBody = $adapter->toRequestBody($user, $customProperties);
 
         // We expect that the request body contains expected data
         $expectedProperties = array_merge([
@@ -61,7 +61,7 @@ class ContactAdapterTest extends TestCase
 
         // When we pass it to adapter
         $adapter = $this->app->make(CompanyContactAdapter::class);
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toRequestBody($user);
 
         // We expect that the request body contains expected data
         $this->assertEquals(
