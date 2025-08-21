@@ -9,6 +9,8 @@ use App\Models\Salesforce;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Log;
 
@@ -21,7 +23,7 @@ class TestSalesforce extends Command
      *
      * @var string
      */
-    protected $signature = 'test:salesforce {--createLead} {--getLead} {--triggerRegisteredEvent}';
+    protected $signature = 'test:salesforce {--createLead} {--getLead} {--leadByMail} {--triggerRegisteredEvent} {--404}';
 
     /**
      * The console command description.
@@ -29,6 +31,8 @@ class TestSalesforce extends Command
      * @var string
      */
     protected $description = 'Test several salesforce operations';
+
+    private bool $shouldNotFind;
 
     /**
      * Create a new command instance.
@@ -52,11 +56,13 @@ class TestSalesforce extends Command
      */
     public function handle()
     {
+        $this->shouldNotFind = (bool) $this->option('404');
         match (true) {
             $this->option('createLead')             => $this->createLead(),
             $this->option('getLead')                => $this->getLead(),
             $this->option('triggerRegisteredEvent') => $this->triggerRegisteredEvent(),
-            default                                 => $this->warn('No option selected. Please use one of: --createLead, --getLead, --triggerRegisteredEvent'),
+            $this->option('leadByMail')             => $this->leadByMail(),
+            default                                 => $this->warn("No option selected, use {$this->signature}"),
         };
 
         return 0;
@@ -90,13 +96,32 @@ class TestSalesforce extends Command
 
     private function getLead(bool $dumpIt = true): void
     {
-        $id = Salesforce::whereNotNull('lead_id')->firstOrFail()->lead_id;
+        $id = $this->salesforceLead()->lead_id;
+
+        if ($this->shouldNotFind) {
+            $id = $this->faker()->uuid;
+        }
 
         $this->log('get lead', ['id' => $id], $dumpIt);
 
         $response = $this->crmService->getLead($id);
 
         $this->log('got lead', $response->json(), $dumpIt);
+    }
+
+    private function leadByMail(bool $dumpIt = true): void
+    {
+        $email = $this->salesforceLead()->user->email;
+
+        if ($this->shouldNotFind) {
+            $email = $this->faker()->email;
+        }
+
+        $this->log('search lead by email', ['email' => $email], $dumpIt);
+
+        $response = $this->crmService->searchLeadyByEmail($email);
+
+        $this->log('search result', $response->json(), $dumpIt);
     }
 
     private function createUser(): User
@@ -113,5 +138,10 @@ class TestSalesforce extends Command
         if ($dumpIt) {
             dump($message, $context);
         }
+    }
+
+    public function salesforceLead(): Salesforce|Model|Builder
+    {
+        return Salesforce::whereNotNull('lead_id')->firstOrFail();
     }
 }
