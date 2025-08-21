@@ -117,6 +117,27 @@ class SalesforceCRMService implements CRMService
         return $this->search($query);
     }
 
+    public function updateLead(string $leadId, User $user, array $customProperties): bool
+    {
+        $this->logMethod(__METHOD__);
+
+        $path = $this->path('sobjects', 'Lead', $leadId);
+
+        $data = $this->leadAdapter()->toRequestBody($user, $customProperties);
+
+        $response = $this->request()->patch($path, $data);
+
+        $this
+            ->logResponse($response, "PATCH $path")
+            ->requireSuccess($response, 'update lead');
+
+        $salesforce = $user->salesforce;
+        $salesforce->lead_id = $leadId;
+        $user->salesforce->save();
+
+        return true;
+    }
+
     private function requireSuccess(Response $response, ?string $scope = null): static
     {
         if ($response->failed()) {

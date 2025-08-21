@@ -10,12 +10,22 @@ class LeadAdapter implements Adapter
     public function toRequestBody(User $user, array $customProperties = []): array
     {
         $properties = [
-            'FirstName' => $user->first_name,
-            'LastName'  => $user->last_name,
-            'Company'   => $user->company,
-            'Email'     => $user->email,
+            'Salutation' => $user->salutation,
+            'FirstName'  => $user->contact_first_name ?? $user->first_name,
+            'LastName'   => $user->contact_last_name ?? $user->last_name,
+            'Company'    => $user->company,
+            'Email'      => $user->contact_email ?? $user->email,
+            'Title'      => $user->contact_function,
+            'Street'     => $user->full_street,
+            'PostalCode' => $user->zipcode,
+            'City'       => $user->city,
+            'Country'    => $user->country ? $user->leadCountry : null,
+            'Phone'      => $user->phone,
+            'Website'    => $user->website,
         ];
 
-        return array_merge($properties, $customProperties);
+        $filteredProperties = array_filter($properties, fn ($value) => ! is_null($value) && $value !== '');
+
+        return array_merge($filteredProperties, $customProperties);
     }
 }
