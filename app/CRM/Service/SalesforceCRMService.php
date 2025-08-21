@@ -56,21 +56,6 @@ class SalesforceCRMService implements CRMService
         return true;
     }
 
-    public function getLead(string $leadId): Response
-    {
-        $this->logMethod(__METHOD__);
-
-        $path = $this->path('sobjects', 'Lead', $leadId);
-
-        $response = $this->request()->get($path);
-
-        $this
-            ->logResponse($response, "GET $path")
-            ->requireSuccess($response, 'get lead');
-
-        return $response;
-    }
-
     public function createLead(User $user, $customProperties): Response
     {
         $this->logMethod(__METHOD__);
@@ -91,6 +76,45 @@ class SalesforceCRMService implements CRMService
         $user->salesforce->save();
 
         return $response;
+    }
+
+    public function getLead(string $leadId): Response
+    {
+        $this->logMethod(__METHOD__);
+
+        $path = $this->path('sobjects', 'Lead', $leadId);
+
+        $response = $this->request()->get($path);
+
+        $this
+            ->logResponse($response, "GET $path")
+            ->requireSuccess($response, 'get lead');
+
+        return $response;
+    }
+
+    public function search(string $query): Response
+    {
+        $this->logMethod(__METHOD__);
+
+        $path = $this->path('query');
+
+        $response = $this->request()->get($path, ['q' => $query]);
+
+        $this
+            ->logResponse($response, "GET $path")
+            ->requireSuccess($response, 'search object');
+
+        return $response;
+    }
+
+    public function searchLeadyByEmail(string $email): Response
+    {
+        $this->logMethod(__METHOD__);
+
+        $query = sprintf("SELECT Id FROM Lead WHERE Email = '%s'", $email);
+
+        return $this->search($query);
     }
 
     private function requireSuccess(Response $response, ?string $scope = null): static
