@@ -27,6 +27,7 @@ class SalesforceCRMService implements CRMService
         private array $options,
         private AuthTokenProviderInterface $authTokenProvider,
     ) {
+        $this->setBasePath('services/data/v63.0');
     }
 
     private function leadAdapter(): LeadAdapter
@@ -59,7 +60,7 @@ class SalesforceCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
-        $path = "/services/data/v63.0/sobjects/Lead/{$leadId}";
+        $path = $this->path('sobjects', 'Lead', $leadId);
 
         $response = $this->request()->get($path);
 
@@ -75,7 +76,8 @@ class SalesforceCRMService implements CRMService
         $this->logMethod(__METHOD__);
 
         $leadData = $this->leadAdapter()->toCreateRequestBody($user, $customProperties);
-        $path = '/services/data/v63.0/sobjects/Lead';
+
+        $path = $this->path('sobjects', 'Lead');
 
         $response = $this->request()->post($path, $leadData);
 
@@ -128,6 +130,29 @@ class SalesforceCRMService implements CRMService
 
                 return true;
             });
+    }
+
+    protected string $basePath = '';
+
+    private function setBasePath(string $basePath): static
+    {
+        $this->basePath = $basePath;
+
+        return $this;
+    }
+
+    /**
+     * @param string|int ...$parts
+     */
+    private function path(...$parts): string
+    {
+        $separator = '/';
+
+        $parts = array_merge([$this->basePath], $parts);
+        $parts = array_filter($parts, static fn ($part) => $part !== '');
+        $parts = array_map(static fn ($part) => is_string($part) ? trim($part, " \t\n\r\0\x0B{$separator}") : $part, $parts);
+
+        return implode($separator, $parts);
     }
 
     private function logMethod(string $method): static
