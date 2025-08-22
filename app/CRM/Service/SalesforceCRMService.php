@@ -2,9 +2,12 @@
 
 namespace App\CRM\Service;
 
-use RuntimeException;
 use function app;
+use App\CRM\Adapter\Adapter;
+use App\CRM\Adapter\Salesforce\AccountAdapter;
+use App\CRM\Adapter\Salesforce\ContactAdapter;
 use App\CRM\Adapter\Salesforce\LeadAdapter;
+use App\CRM\Enums\SalesforceObjectType;
 use App\CRM\Service\Auth\AuthTokenProviderInterface;
 use App\Events\ExportedDocument;
 use App\Models\User;
@@ -17,6 +20,7 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Log;
+use RuntimeException;
 
 class SalesforceCRMService implements CRMService
 {
@@ -30,9 +34,15 @@ class SalesforceCRMService implements CRMService
         $this->setBasePath('services/data/v63.0');
     }
 
-    private function leadAdapter(): LeadAdapter
+    private function adapter(SalesforceObjectType $objectType): Adapter
     {
-        return app()->make(LeadAdapter::class);
+        $class = match ($objectType) {
+            SalesforceObjectType::Lead    => LeadAdapter::class,
+            SalesforceObjectType::Contact => ContactAdapter::class,
+            SalesforceObjectType::Account => AccountAdapter::class,
+        };
+
+        return app()->make($class);
     }
 
     public function handleUserRegistered(Registered $event): bool
@@ -42,13 +52,13 @@ class SalesforceCRMService implements CRMService
             return false;
         }
 
-        $customProperties = [
+        $data = [
             'Product_Family__c' => 'ABAS',
             'Status'            => 'Pre Lead',
             'LeadSource'        => 'ERP Planner',
         ];
 
-        return $this->createLead($user, $customProperties)->successful();
+        return $this->createLead($user, $data) !== null;
     }
 
     public function handleDocumentExport(ExportedDocument $event): bool
@@ -56,77 +66,138 @@ class SalesforceCRMService implements CRMService
         return true;
     }
 
-    public function createLead(User $user, array $customProperties): string
+    public function createLead(User $user, array $data): string
     {
-        $this->logMethod(__METHOD__);
-
-        $data = $this->leadAdapter()->toRequestBody($user, $customProperties);
-
-        $path = $this->path('sobjects', 'Lead');
-
-        $response = $this->request()->post($path, $data);
-
-        $leadId = $this
-            ->logResponse($response, "POST $path")
-            ->requireSuccess($response, 'create lead')
-            ->requireId($response);
-
-        $salesforce = $user->salesforce;
-        $salesforce->lead_id = $leadId;
-        $user->salesforce->save();
-
-        return $this->requireId($response);
+        return $this->createObject($user, SalesforceObjectType::Lead, $data);
     }
 
     public function getLead(string $leadId): array
     {
-        $this->logMethod(__METHOD__);
+        return $this->getObject($leadId, SalesforceObjectType::Lead);
+    }
 
-        $path = $this->path('sobjects', 'Lead', $leadId);
+    public function searchLeadByEmail(string $email): ?string
+    {
+        return $this->search(
+            sprintf("SELECT Id FROM Lead WHERE Email = '%s'", $email),
+            SalesforceObjectType::Lead,
+        );
+    }
+
+    public function updateLead(string $leadId, User $user, array $data): bool
+    {
+        return $this->updateObject($leadId, $user, SalesforceObjectType::Lead, $data);
+    }
+
+    public function createContact(User $user, array $data): string
+    {
+        return $this->createObject($user, SalesforceObjectType::Contact, $data);
+    }
+
+    public function getContact(string $contactId): array
+    {
+        return $this->getObject($contactId, SalesforceObjectType::Contact);
+    }
+
+    public function searchContactByEmail(string $email): ?string
+    {
+        return $this->search(
+            sprintf("SELECT Id FROM Contact WHERE Email = '%s'", $email),
+            SalesforceObjectType::Contact,
+        );
+    }
+
+    public function updateContact(string $contactId, User $user, array $data): bool
+    {
+        return $this->updateObject($contactId, $user, SalesforceObjectType::Contact, $data);
+    }
+
+    public function createAccount(User $user, array $data): string
+    {
+        return $this->createObject($user, SalesforceObjectType::Account, $data);
+    }
+
+    public function getAccount(string $accountId): array
+    {
+        return $this->getObject($accountId, SalesforceObjectType::Account);
+    }
+
+    public function searchAccountByName(string $name): ?string
+    {
+        return $this->search(
+            sprintf("SELECT Id FROM Account WHERE Name = '%s'", $name),
+            SalesforceObjectType::Account,
+        );
+    }
+
+    public function updateAccount(string $accountId, User $user, array $data): bool
+    {
+        return $this->updateObject($accountId, $user, SalesforceObjectType::Account, $data);
+    }
+
+    private function getObject($id, SalesforceObjectType $objectType): array
+    {
+        $scope = sprintf('get %s ', $objectType->value);
+
+        $this->logMethod($scope);
+
+        $path = $this->path('sobjects', $objectType->value, $id);
 
         $response = $this->request()->get($path);
 
         $this
             ->logResponse($response, "GET $path")
-            ->requireSuccess($response, 'get lead');
+            ->requireSuccess($response, $scope);
 
         return $response->json();
     }
-    public function searchLeadByEmail(string $email): ?string
+
+    private function createObject(User $user, SalesforceObjectType $objectType, array $data): string
     {
-        $this->logMethod(__METHOD__);
+        $scope = sprintf('create %s ', $objectType->value);
 
-        $query = sprintf("SELECT Id FROM Lead WHERE Email = '%s'", $email);
+        $this->logMethod($scope);
 
-        return $this->search($query);
+        $path = $this->path('sobjects', $objectType->value);
+
+        $data = $this->adapter($objectType)->toRequestBody($user, $data);
+
+        $response = $this->request()->post($path, $data);
+
+        $id = $this
+            ->logResponse($response, "POST $path")
+            ->requireSuccess($response, $scope)
+            ->requireId($response);
+
+        $user->salesforce->saveObjectId($id, $objectType);
+
+        return $id;
     }
 
-    public function updateLead(string $leadId, User $user, array $customProperties): bool
+    private function updateObject(string $id, User $user, SalesforceObjectType $objectType, array $data): bool
     {
-        $this->logMethod(__METHOD__);
+        $scope = sprintf('update %s ', $objectType->value);
 
-        $path = $this->path('sobjects', 'Lead', $leadId);
+        $this->logMethod($scope);
 
-        $data = $this->leadAdapter()->toRequestBody($user, $customProperties);
+        $path = $this->path('sobjects', $objectType->value, $id);
+
+        $data = $this->adapter($objectType)->toRequestBody($user, $data);
 
         $response = $this->request()->patch($path, $data);
 
         $this
             ->logResponse($response, "PATCH $path")
-            ->requireSuccess($response, 'update lead');
+            ->requireSuccess($response, $scope);
 
-        $salesforce = $user->salesforce;
-        $salesforce->lead_id = $leadId;
-        $user->salesforce->save();
+        $user->salesforce->saveObjectId($id, $objectType);
 
         return true;
     }
 
-
-
-    private function search(string $query): ?string
+    private function search(string $query, SalesforceObjectType $objectType): ?string
     {
-        $this->logMethod(__METHOD__);
+        $this->logMethod(sprintf('search %s', $objectType->value));
 
         $path = $this->path('query');
 
@@ -226,7 +297,7 @@ class SalesforceCRMService implements CRMService
         return $this;
     }
 
-    public function requireField(Response $response, string $field): mixed
+    private function requireField(Response $response, string $field): mixed
     {
         $value = $this->getField($response, $field);
 
@@ -237,7 +308,7 @@ class SalesforceCRMService implements CRMService
         return $value;
     }
 
-    public function getField(Response $response, string $field): mixed
+    private function getField(Response $response, string $field): mixed
     {
         $this->requireSuccess($response, sprintf("Get '%s' on failed response", $field));
 
