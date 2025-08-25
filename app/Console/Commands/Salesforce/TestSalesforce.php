@@ -10,6 +10,7 @@ use App\CRM\Enums\SalesforceTaskSubject;
 use App\CRM\Service\Auth\SalesforceAuthService;
 use App\CRM\Service\Auth\SalesforceAuthTokenProvider;
 use App\CRM\Service\SalesforceCRMService;
+use App\Http\Resources\SpecificationDocument;
 use App\Models\Salesforce;
 use App\Models\User;
 use Arr;
@@ -20,6 +21,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Log;
 use RuntimeException;
+use Str;
 use Throwable;
 
 class TestSalesforce extends Command
@@ -161,6 +163,16 @@ class TestSalesforce extends Command
                 ]);
             }
             )(),
+            SalesforceObjectType::ContentVersion => $this->crmService->createContentVersion(
+                $user,
+                $this->generateSpecificationDocument($user),
+                [
+                    'Title'           => 'ERP-Form',
+                    'PathOnClient'    => 'ERP-Form.xlsx',
+                    'ContentLocation' => 'S',
+                ]),
+            SalesforceObjectType::ContentDocument     => throw new RuntimeException('Won\'t be implemented'),
+            SalesforceObjectType::ContentDocumentLink => throw new RuntimeException('Won\'t be implemented'),
         };
 
         $this->log("created {$objectType->value}", [strtolower($objectType->value).'_id' => $id], $dumpIt);
@@ -173,10 +185,13 @@ class TestSalesforce extends Command
         $this->log("get {$objectType->value}", ['id' => $id, 'user_id' => $user->id], $dumpIt);
 
         $result = match ($objectType) {
-            SalesforceObjectType::Lead    => $this->crmService->getLead($id),
-            SalesforceObjectType::Contact => $this->crmService->getContact($id),
-            SalesforceObjectType::Account => $this->crmService->getAccount($id),
-            SalesforceObjectType::Task    => $this->crmService->getTask($id),
+            SalesforceObjectType::Lead                => $this->crmService->getLead($id),
+            SalesforceObjectType::Contact             => $this->crmService->getContact($id),
+            SalesforceObjectType::Account             => $this->crmService->getAccount($id),
+            SalesforceObjectType::Task                => $this->crmService->getTask($id),
+            SalesforceObjectType::ContentVersion      => $this->crmService->getContentVersion($id),
+            SalesforceObjectType::ContentDocument     => throw new RuntimeException('Won\'t be implemented'),
+            SalesforceObjectType::ContentDocumentLink => throw new RuntimeException('Won\'t be implemented'),
         };
 
         $this->log("got {$objectType->value}", $result, $dumpIt);
@@ -191,19 +206,28 @@ class TestSalesforce extends Command
                 $this->shouldNotFind ? $this->faker()->uuid : ($user->salesforce->contact_id ?? $user->salesforce->lead_id),
                 SalesforceTaskStatus::Open,
             ],
-            default => [$this->shouldNotFind ? $this->faker()->email : ($user->contact_email ?: $user->email)],
+            SalesforceObjectType::ContentVersion => [$this->shouldNotFind ? $this->faker()->uuid : $user->salesforce->content_version_id],
+            default                              => [$this->shouldNotFind ? $this->faker()->email : ($user->contact_email ?: $user->email)],
         };
 
         $this->log("search {$objectType->value}", ['search' => $searchValues], $dumpIt);
 
         $id = match ($objectType) {
-            SalesforceObjectType::Lead    => $this->crmService->searchLeadBy(...$searchValues),
-            SalesforceObjectType::Contact => $this->crmService->searchContactBy(...$searchValues),
-            SalesforceObjectType::Account => $this->crmService->searchAccountBy(...$searchValues),
-            SalesforceObjectType::Task    => $this->crmService->searchTaskBy(...$searchValues),
+            SalesforceObjectType::Lead                => $this->crmService->searchLeadBy(...$searchValues),
+            SalesforceObjectType::Contact             => $this->crmService->searchContactBy(...$searchValues),
+            SalesforceObjectType::Account             => $this->crmService->searchAccountBy(...$searchValues),
+            SalesforceObjectType::Task                => $this->crmService->searchTaskBy(...$searchValues),
+            SalesforceObjectType::ContentVersion      => $this->crmService->searchContentVersionForContentDocumentBy(...$searchValues),
+            SalesforceObjectType::ContentDocument     => throw new RuntimeException('Won\'t be implemented'),
+            SalesforceObjectType::ContentDocumentLink => throw new RuntimeException('Won\'t be implemented'),
         };
 
-        $this->log('search result', [strtolower($objectType->value).'_id' => $id], $dumpIt);
+        $searchResultAttribute = match ($objectType) {
+            SalesforceObjectType::ContentVersion => 'content_document_id',
+            default                              => Str::snake($objectType->value).'_id'
+        };
+
+        $this->log('search result', [$searchResultAttribute => $id], $dumpIt);
     }
 
     private function updateObject(SalesforceObjectType $objectType, User $user, bool $dumpIt = true): void
@@ -227,9 +251,28 @@ class TestSalesforce extends Command
                 'Status'       => SalesforceTaskStatus::Open->value,
                 'Priority'     => SalesforceTaskPriority::High->value,
             ]),
+            SalesforceObjectType::ContentVersion      => throw new RuntimeException('Won\'t be implemented'),
+            SalesforceObjectType::ContentDocument     => throw new RuntimeException('Won\'t be implemented'),
+            SalesforceObjectType::ContentDocumentLink => throw new RuntimeException('Won\'t be implemented'),
         };
 
         $this->log('update result', ['success' => $result], $dumpIt);
+    }
+
+    private function generateSpecificationDocument(User $user): SpecificationDocument
+    {
+        $this->log('generate specification document', ['user_id' => $user->id]);
+
+        $specificationDocument = new SpecificationDocument(
+            storage_path('app/export'),
+            $user,
+            $user->answers
+        );
+        $specificationDocument->save(true);
+
+        $this->log('generated specification document', ['path' => $specificationDocument->outputExcelFilename()]);
+
+        return $specificationDocument;
     }
 
     private function createUserWithProfile(): User
