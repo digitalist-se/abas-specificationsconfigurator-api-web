@@ -4,13 +4,16 @@ namespace App\Models;
 
 use App\CRM\Enums\SalesforceObjectType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @mixin IdeHelperSalesforce
  */
-class Salesforce extends BaseModel
+class Salesforce extends BaseModel implements AuditableContract
 {
     use HasFactory;
+    use Auditable;
 
     protected $fillable = [
         'user_id',
