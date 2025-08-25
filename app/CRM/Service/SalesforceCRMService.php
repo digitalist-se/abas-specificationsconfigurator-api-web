@@ -200,6 +200,16 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($contentDocumentLinkId, SalesforceObjectType::ContentDocument);
     }
 
+    public function createContentDocumentLink(User $user, array $data): string
+    {
+        return $this->createObject($user, SalesforceObjectType::ContentDocumentLink, $data);
+    }
+
+    public function getContentDocumentLink(string $contentDocumentLinkId): array
+    {
+        return $this->getObject($contentDocumentLinkId, SalesforceObjectType::ContentDocumentLink);
+    }
+
     private function getObject($id, SalesforceObjectType $objectType): array
     {
         $scope = sprintf('get %s ', $objectType->value);
