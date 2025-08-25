@@ -6,6 +6,9 @@ use function app;
 use App\CRM\Adapter\Adapter;
 use App\CRM\Adapter\Salesforce\AccountAdapter;
 use App\CRM\Adapter\Salesforce\ContactAdapter;
+use App\CRM\Adapter\Salesforce\ContentDocumentAdapter;
+use App\CRM\Adapter\Salesforce\ContentDocumentLinkAdapter;
+use App\CRM\Adapter\Salesforce\ContentVersionAdapter;
 use App\CRM\Adapter\Salesforce\LeadAdapter;
 use App\CRM\Adapter\Salesforce\TaskAdapter;
 use App\CRM\Enums\SalesforceObjectType;
@@ -13,6 +16,7 @@ use App\CRM\Enums\SalesforceTaskStatus;
 use App\CRM\Enums\SalesforceTaskSubject;
 use App\CRM\Service\Auth\AuthTokenProviderInterface;
 use App\Events\ExportedDocument;
+use App\Http\Resources\SpecificationDocument;
 use App\Models\User;
 use Arr;
 use AssertionError;
@@ -40,10 +44,13 @@ class SalesforceCRMService implements CRMService
     private function adapter(SalesforceObjectType $objectType): Adapter
     {
         $class = match ($objectType) {
-            SalesforceObjectType::Lead    => LeadAdapter::class,
-            SalesforceObjectType::Contact => ContactAdapter::class,
-            SalesforceObjectType::Account => AccountAdapter::class,
-            SalesforceObjectType::Task    => TaskAdapter::class,
+            SalesforceObjectType::Lead                => LeadAdapter::class,
+            SalesforceObjectType::Contact             => ContactAdapter::class,
+            SalesforceObjectType::Account             => AccountAdapter::class,
+            SalesforceObjectType::Task                => TaskAdapter::class,
+            SalesforceObjectType::ContentVersion      => ContentVersionAdapter::class,
+            SalesforceObjectType::ContentDocument     => ContentDocumentAdapter::class,
+            SalesforceObjectType::ContentDocumentLink => ContentDocumentLinkAdapter::class,
         };
 
         return app()->make($class);
@@ -162,6 +169,29 @@ class SalesforceCRMService implements CRMService
         );
     }
 
+    public function createContentVersion(User $user, SpecificationDocument $document, array $data): string
+    {
+        $data = array_merge($data, [
+            'VersionData' => $this->versionData($document),
+        ]);
+
+        return $this->createObject($user, SalesforceObjectType::ContentVersion, $data);
+    }
+
+    public function getContentVersion(string $contentVersionId): array
+    {
+        return $this->getObject($contentVersionId, SalesforceObjectType::ContentVersion);
+    }
+
+    public function searchContentVersionForContentDocumentBy(string $contentVersionId): ?string
+    {
+        return $this->search(
+            sprintf("SELECT ContentDocumentId FROM ContentVersion WHERE Id = '%s'", $contentVersionId),
+            SalesforceObjectType::ContentVersion,
+            'ContentDocumentId'
+        );
+    }
+
     private function getObject($id, SalesforceObjectType $objectType): array
     {
         $scope = sprintf('get %s ', $objectType->value);
@@ -222,7 +252,7 @@ class SalesforceCRMService implements CRMService
         return true;
     }
 
-    private function search(string $query, SalesforceObjectType $objectType): ?string
+    private function search(string $query, SalesforceObjectType $objectType, string $attribute = 'Id'): ?string
     {
         $this->logMethod(sprintf('search %s', $objectType->value));
 
@@ -234,7 +264,7 @@ class SalesforceCRMService implements CRMService
             ->logResponse($response, "GET $path")
             ->requireSuccess($response, 'search object');
 
-        return Arr::get($response, 'records.0.Id');
+        return Arr::get($response, sprintf('records.0.%s', $attribute));
     }
 
     private function requireSuccess(Response $response, ?string $scope = null): static
@@ -342,5 +372,23 @@ class SalesforceCRMService implements CRMService
         $data = $response->json();
 
         return Arr::get($data, $field);
+    }
+
+    private function versionData(SpecificationDocument $document): string
+    {
+        $path = $document->outputExcelFilename();
+
+        if (! file_exists($path)) {
+            throw new RuntimeException("Specification document does not exist: $path");
+        }
+
+        $contents = file_get_contents($path);
+        if ($contents === false) {
+            throw new RuntimeException("Failed to read specification document: $path");
+        }
+
+        $versionData = base64_encode($contents);
+
+        return $versionData;
     }
 }

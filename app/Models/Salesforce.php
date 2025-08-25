@@ -44,10 +44,13 @@ class Salesforce extends BaseModel implements AuditableContract
     public static function objectIdAttributeName(SalesforceObjectType $objectType): string
     {
         return match ($objectType) {
-            SalesforceObjectType::Lead    => 'lead_id',
-            SalesforceObjectType::Contact => 'contact_id',
-            SalesforceObjectType::Account => 'account_id',
-            SalesforceObjectType::Task    => 'task_id',
+            SalesforceObjectType::Lead                => 'lead_id',
+            SalesforceObjectType::Contact             => 'contact_id',
+            SalesforceObjectType::Account             => 'account_id',
+            SalesforceObjectType::Task                => 'task_id',
+            SalesforceObjectType::ContentVersion      => 'content_version_id',
+            SalesforceObjectType::ContentDocument     => 'content_document_id',
+            SalesforceObjectType::ContentDocumentLink => 'content_document_link_id',
         };
     }
 

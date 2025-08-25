@@ -8,4 +8,7 @@ enum SalesforceObjectType: string
     case Contact = 'Contact';
     case Account = 'Account';
     case Task = 'Task';
+    case ContentVersion = 'ContentVersion';
+    case ContentDocument = 'ContentDocument';
+    case ContentDocumentLink = 'ContentDocumentLink';
 }
