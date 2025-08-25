@@ -70,6 +70,12 @@ class TestSalesforce extends Command
      */
     public function handle()
     {
+        if (! app()->environment('local')) {
+            $this->warn('This command must be executed at local environment only.');
+
+            return 1;
+        }
+
         $userId = $this->option('user-id');
         $this->shouldNotFind = (bool) $this->option('404');
 
