@@ -38,29 +38,24 @@ class Salesforce extends BaseModel
         return $this->belongsTo(User::class);
     }
 
-    public static function objectIdColumn(SalesforceObjectType $objectType): string
+    public static function objectIdAttributeName(SalesforceObjectType $objectType): string
     {
         return match ($objectType) {
             SalesforceObjectType::Lead    => 'lead_id',
             SalesforceObjectType::Contact => 'contact_id',
             SalesforceObjectType::Account => 'account_id',
+            SalesforceObjectType::Task    => 'task_id',
         };
     }
 
     public function objectId(SalesforceObjectType $objectType): string
     {
-        return $this->{self::objectIdColumn($objectType)};
+        return $this->{self::objectIdAttributeName($objectType)};
     }
 
     public function saveObjectId(string $id, SalesforceObjectType $objectType): bool
     {
-        $property = match ($objectType) {
-            SalesforceObjectType::Lead    => 'lead_id',
-            SalesforceObjectType::Contact => 'contact_id',
-            SalesforceObjectType::Account => 'account_id',
-        };
-
-        $this->{$property} = $id;
+        $this->{self::objectIdAttributeName($objectType)} = $id;
 
         return $this->save();
     }

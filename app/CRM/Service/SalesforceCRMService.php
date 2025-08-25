@@ -7,7 +7,10 @@ use App\CRM\Adapter\Adapter;
 use App\CRM\Adapter\Salesforce\AccountAdapter;
 use App\CRM\Adapter\Salesforce\ContactAdapter;
 use App\CRM\Adapter\Salesforce\LeadAdapter;
+use App\CRM\Adapter\Salesforce\TaskAdapter;
 use App\CRM\Enums\SalesforceObjectType;
+use App\CRM\Enums\SalesforceTaskStatus;
+use App\CRM\Enums\SalesforceTaskSubject;
 use App\CRM\Service\Auth\AuthTokenProviderInterface;
 use App\Events\ExportedDocument;
 use App\Models\User;
@@ -40,6 +43,7 @@ class SalesforceCRMService implements CRMService
             SalesforceObjectType::Lead    => LeadAdapter::class,
             SalesforceObjectType::Contact => ContactAdapter::class,
             SalesforceObjectType::Account => AccountAdapter::class,
+            SalesforceObjectType::Task    => TaskAdapter::class,
         };
 
         return app()->make($class);
@@ -76,7 +80,7 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($leadId, SalesforceObjectType::Lead);
     }
 
-    public function searchLeadByEmail(string $email): ?string
+    public function searchLeadBy(string $email): ?string
     {
         return $this->search(
             sprintf("SELECT Id FROM Lead WHERE Email = '%s'", $email),
@@ -99,7 +103,7 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($contactId, SalesforceObjectType::Contact);
     }
 
-    public function searchContactByEmail(string $email): ?string
+    public function searchContactBy(string $email): ?string
     {
         return $this->search(
             sprintf("SELECT Id FROM Contact WHERE Email = '%s'", $email),
@@ -122,7 +126,7 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($accountId, SalesforceObjectType::Account);
     }
 
-    public function searchAccountByName(string $name): ?string
+    public function searchAccountBy(string $name): ?string
     {
         return $this->search(
             sprintf("SELECT Id FROM Account WHERE Name = '%s'", $name),
@@ -133,6 +137,29 @@ class SalesforceCRMService implements CRMService
     public function updateAccount(string $accountId, User $user, array $data): bool
     {
         return $this->updateObject($accountId, $user, SalesforceObjectType::Account, $data);
+    }
+
+    public function createTask(User $user, array $data): string
+    {
+        return $this->createObject($user, SalesforceObjectType::Task, $data);
+    }
+
+    public function getTask(string $taskId): array
+    {
+        return $this->getObject($taskId, SalesforceObjectType::Task);
+    }
+
+    public function updateTask(string $taskId, User $user, array $data): bool
+    {
+        return $this->updateObject($taskId, $user, SalesforceObjectType::Task, $data);
+    }
+
+    public function searchTaskBy(SalesforceTaskSubject $subject, string $whoId, SalesforceTaskStatus $status): ?string
+    {
+        return $this->search(
+            sprintf("SELECT Id FROM Task WHERE WhoId = '%s' AND Subject = '%s' AND Status = '%s'", $whoId, $subject->value, $status->value),
+            SalesforceObjectType::Task,
+        );
     }
 
     private function getObject($id, SalesforceObjectType $objectType): array
