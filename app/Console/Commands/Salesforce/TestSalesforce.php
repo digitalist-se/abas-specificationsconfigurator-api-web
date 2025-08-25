@@ -4,20 +4,23 @@ namespace App\Console\Commands\Salesforce;
 
 use App\Console\Commands\Salesforce\Action;
 use App\CRM\Enums\SalesforceObjectType;
+use App\CRM\Enums\SalesforceTaskPriority;
+use App\CRM\Enums\SalesforceTaskStatus;
+use App\CRM\Enums\SalesforceTaskSubject;
 use App\CRM\Service\Auth\SalesforceAuthService;
 use App\CRM\Service\Auth\SalesforceAuthTokenProvider;
 use App\CRM\Service\SalesforceCRMService;
 use App\Models\Salesforce;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
+use Arr;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Log;
+use RuntimeException;
 use Throwable;
-use ValueError;
 
 class TestSalesforce extends Command
 {
@@ -81,7 +84,7 @@ class TestSalesforce extends Command
         }
 
         // Find user if user-id is given, otherwise use latest or create
-        $user = $userId ? User::find($userId) : $this->gettUserFor($objectType, $action);
+        $user = $userId ? User::find($userId) : $this->userFor($objectType, $action);
         if (! ($user instanceof User)) {
             $this->warn('User not found for action requiring user.');
 
@@ -99,17 +102,17 @@ class TestSalesforce extends Command
     }
 
     // Helper to get a default user for the object type
-    private function gettUserFor(SalesforceObjectType $objectType, Action $action): ?User
+    private function userFor(SalesforceObjectType $objectType, Action $action): ?User
     {
         if ($action === Action::Create) {
             return match ($objectType) {
                 SalesforceObjectType::Lead => $this->createRegisteredUser(),
+                SalesforceObjectType::Task => $this->userWithSalesforce($this->faker->randomElement([SalesforceObjectType::Lead, SalesforceObjectType::Contact])),
                 default                    => $this->createUserWithProfile(),
             };
         }
 
-        $column = Salesforce::objectIdColumn($objectType);
-        $user = Salesforce::whereNotNull($column)->latest()->firstOrFail()->user;
+        $user = $this->userWithSalesforce($objectType);
 
         if ($objectType === SalesforceObjectType::Lead) {
             return $user;
@@ -121,6 +124,7 @@ class TestSalesforce extends Command
     private function createObject(SalesforceObjectType $objectType, User $user, bool $dumpIt = true): void
     {
         $this->log("create {$objectType->value}", ['user_id' => $user->id], $dumpIt);
+
         $id = match ($objectType) {
             SalesforceObjectType::Lead => $this->crmService->createLead($user, [
                 'Product_Family__c' => 'ABAS',
@@ -132,6 +136,31 @@ class TestSalesforce extends Command
                 'AccountId'  => '001Pu00000U4XdeIAF',
             ]),
             SalesforceObjectType::Account => $this->crmService->createAccount($user, []),
+            SalesforceObjectType::Task    => (function () use ($user) {
+                if ($whoId = $user->salesforce->contact_id) {
+                    $details = $this->crmService->getContact($whoId);
+                } elseif ($whoId = $user->salesforce->lead_id) {
+                    $details = $this->crmService->getLead($whoId);
+                } else {
+                    throw new RuntimeException('User has no contact_id or lead_id in salesforce relation');
+                }
+
+                $ownerId = Arr::get($details, 'OwnerId');
+
+                if (empty($ownerId)) {
+                    throw new RuntimeException('Could not determine OwnerId from salesforce details');
+                }
+
+                return $this->crmService->createTask($user, [
+                    'Subject'      => SalesforceTaskSubject::FormReview->value,
+                    'ActivityDate' => Carbon::now()->addDay()->format('Y-m-d'),
+                    'OwnerId'      => $ownerId,
+                    'WhoId'        => $whoId,
+                    'Status'       => SalesforceTaskStatus::Open->value,
+                    'Priority'     => SalesforceTaskPriority::High->value,
+                ]);
+            }
+            )(),
         };
 
         $this->log("created {$objectType->value}", [strtolower($objectType->value).'_id' => $id], $dumpIt);
@@ -147,6 +176,7 @@ class TestSalesforce extends Command
             SalesforceObjectType::Lead    => $this->crmService->getLead($id),
             SalesforceObjectType::Contact => $this->crmService->getContact($id),
             SalesforceObjectType::Account => $this->crmService->getAccount($id),
+            SalesforceObjectType::Task    => $this->crmService->getTask($id),
         };
 
         $this->log("got {$objectType->value}", $result, $dumpIt);
@@ -154,17 +184,23 @@ class TestSalesforce extends Command
 
     private function searchObject(SalesforceObjectType $objectType, User $user = null, bool $dumpIt = true): void
     {
-        $searchValue = match ($objectType) {
-            SalesforceObjectType::Account => $this->shouldNotFind ? $this->faker()->company() : $user->company,
-            default                       => $this->shouldNotFind ? $this->faker()->email : ($user->contact_email ?: $user->email),
+        $searchValues = match ($objectType) {
+            SalesforceObjectType::Account => [$this->shouldNotFind ? $this->faker()->company() : $user->company],
+            SalesforceObjectType::Task    => [
+                SalesforceTaskSubject::FormReview,
+                $this->shouldNotFind ? $this->faker()->uuid : ($user->salesforce->contact_id ?? $user->salesforce->lead_id),
+                SalesforceTaskStatus::Open,
+            ],
+            default => [$this->shouldNotFind ? $this->faker()->email : ($user->contact_email ?: $user->email)],
         };
 
-        $this->log("search {$objectType->value}", ['search' => $searchValue], $dumpIt);
+        $this->log("search {$objectType->value}", ['search' => $searchValues], $dumpIt);
 
         $id = match ($objectType) {
-            SalesforceObjectType::Lead    => $this->crmService->searchLeadByEmail($searchValue),
-            SalesforceObjectType::Contact => $this->crmService->searchContactByEmail($searchValue),
-            SalesforceObjectType::Account => $this->crmService->searchAccountByName($searchValue),
+            SalesforceObjectType::Lead    => $this->crmService->searchLeadBy(...$searchValues),
+            SalesforceObjectType::Contact => $this->crmService->searchContactBy(...$searchValues),
+            SalesforceObjectType::Account => $this->crmService->searchAccountBy(...$searchValues),
+            SalesforceObjectType::Task    => $this->crmService->searchTaskBy(...$searchValues),
         };
 
         $this->log('search result', [strtolower($objectType->value).'_id' => $id], $dumpIt);
@@ -184,6 +220,13 @@ class TestSalesforce extends Command
             SalesforceObjectType::Lead    => $this->crmService->updateLead($id, $user, $leadSource),
             SalesforceObjectType::Contact => $this->crmService->updateContact($id, $user, $leadSource),
             SalesforceObjectType::Account => $this->crmService->updateAccount($id, $user, []),
+            SalesforceObjectType::Task    => $this->crmService->updateTask($id, $user, [
+                'Subject'      => SalesforceTaskSubject::FormReview->value,
+                'ActivityDate' => Carbon::now()->addDays(1)->format('Y-m-d'),
+                'WhoId'        => $user->salesforce->contact_id ?? $user->salesforce->lead_id,
+                'Status'       => SalesforceTaskStatus::Open->value,
+                'Priority'     => SalesforceTaskPriority::High->value,
+            ]),
         };
 
         $this->log('update result', ['success' => $result], $dumpIt);
@@ -242,5 +285,12 @@ class TestSalesforce extends Command
         return Salesforce::whereNotNull('lead_id')
             ->latest()
             ->firstOrFail();
+    }
+
+    public function userWithSalesforce(SalesforceObjectType $objectType): User
+    {
+        $column = Salesforce::objectIdAttributeName($objectType);
+
+        return Salesforce::whereNotNull($column)->latest()->firstOrFail()->user;
     }
 }
