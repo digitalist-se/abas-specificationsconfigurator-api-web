@@ -3,6 +3,10 @@
 namespace App\Console\Commands\Salesforce;
 
 use App\Console\Commands\Salesforce\Action;
+use App\CRM\Enums\SalesforceContentDocumentLinkVisibility;
+use App\CRM\Enums\SalesforceLeadProductFamily;
+use App\CRM\Enums\SalesforceLeadSource;
+use App\CRM\Enums\SalesforceLeadStatus;
 use App\CRM\Enums\SalesforceObjectType;
 use App\CRM\Enums\SalesforceTaskPriority;
 use App\CRM\Enums\SalesforceTaskStatus;
@@ -103,18 +107,18 @@ class TestSalesforce extends Command
         return 0;
     }
 
-    // Helper to get a default user for the object type
     private function userFor(SalesforceObjectType $objectType, Action $action): ?User
     {
         if ($action === Action::Create) {
             return match ($objectType) {
-                SalesforceObjectType::Lead => $this->createRegisteredUser(),
-                SalesforceObjectType::Task => $this->userWithSalesforce($this->faker->randomElement([SalesforceObjectType::Lead, SalesforceObjectType::Contact])),
-                default                    => $this->createUserWithProfile(),
+                SalesforceObjectType::Lead                => $this->createRegisteredUser(),
+                SalesforceObjectType::Task                => $this->userWithSalesforce($this->faker->randomElements([SalesforceObjectType::Lead, SalesforceObjectType::Contact], 1)),
+                SalesforceObjectType::ContentDocumentLink => $this->userWithSalesforce([SalesforceObjectType::Task, SalesforceObjectType::ContentDocument]),
+                default                                   => $this->createUserWithProfile(),
             };
         }
 
-        $user = $this->userWithSalesforce($objectType);
+        $user = $this->userWithSalesforce([$objectType]);
 
         if ($objectType === SalesforceObjectType::Lead) {
             return $user;
@@ -129,25 +133,28 @@ class TestSalesforce extends Command
 
         $id = match ($objectType) {
             SalesforceObjectType::Lead => $this->crmService->createLead($user, [
-                'Product_Family__c' => 'ABAS',
-                'Status'            => 'Pre Lead',
-                'LeadSource'        => 'ERP Planner - local API Test',
+                'Product_Family__c' => SalesforceLeadProductFamily::ABAS->value,
+                'Status'            => SalesforceLeadStatus::PreLead->value,
+                'LeadSource'        => SalesforceLeadSource::ERPPlanner->value.' - local API Test',
             ]),
             SalesforceObjectType::Contact => $this->crmService->createContact($user, [
-                'LeadSource' => 'ERP Planner - local API Test',
+                'LeadSource' => SalesforceLeadSource::ERPPlanner->value.' - local API Test',
                 'AccountId'  => '001Pu00000U4XdeIAF',
             ]),
             SalesforceObjectType::Account => $this->crmService->createAccount($user, []),
-            SalesforceObjectType::Task    => (function () use ($user) {
+            SalesforceObjectType::Task    => (function () use ($user, $dumpIt) {
                 if ($whoId = $user->salesforce->contact_id) {
+                    $this->log('contact for task', ['whoId' => $whoId], $dumpIt);
                     $details = $this->crmService->getContact($whoId);
                 } elseif ($whoId = $user->salesforce->lead_id) {
+                    $this->log('lead for task', ['whoId' => $whoId], $dumpIt);
                     $details = $this->crmService->getLead($whoId);
                 } else {
                     throw new RuntimeException('User has no contact_id or lead_id in salesforce relation');
                 }
 
                 $ownerId = Arr::get($details, 'OwnerId');
+                $this->log('owner for task', ['owner_id' => $ownerId], $dumpIt);
 
                 if (empty($ownerId)) {
                     throw new RuntimeException('Could not determine OwnerId from salesforce details');
@@ -156,10 +163,10 @@ class TestSalesforce extends Command
                 return $this->crmService->createTask($user, [
                     'Subject'      => SalesforceTaskSubject::FormReview->value,
                     'ActivityDate' => Carbon::now()->addDay()->format('Y-m-d'),
-                    'OwnerId'      => $ownerId,
-                    'WhoId'        => $whoId,
-                    'Status'       => SalesforceTaskStatus::Open->value,
-                    'Priority'     => SalesforceTaskPriority::High->value,
+                    //                    'OwnerId'      => $ownerId,
+                    'WhoId'    => $whoId,
+                    'Status'   => SalesforceTaskStatus::Open->value,
+                    'Priority' => SalesforceTaskPriority::High->value,
                 ]);
             }
             )(),
@@ -172,7 +179,17 @@ class TestSalesforce extends Command
                     'ContentLocation' => 'S',
                 ]),
             SalesforceObjectType::ContentDocument     => throw new RuntimeException('Won\'t be implemented'),
-            SalesforceObjectType::ContentDocumentLink => throw new RuntimeException('Won\'t be implemented'),
+            SalesforceObjectType::ContentDocumentLink => (function () use ($user) {
+                $contentDocumentId = $user->salesforce->content_document_id ?? throw new RuntimeException('User has no content_document_id in salesforce relation');
+                $taskId = $user->salesforce->task_id ?? throw new RuntimeException('User has no task_id in salesforce relation');
+
+                return $this->crmService->createContentDocumentLink($user, [
+                    'ContentDocumentId' => $contentDocumentId,
+                    'LinkedEntityId'    => $taskId,
+                    'Visibility'        => SalesforceContentDocumentLinkVisibility::AllUsers->value,
+                ]);
+            }
+            )(),
         };
 
         $this->log("created {$objectType->value}", [strtolower($objectType->value).'_id' => $id], $dumpIt);
@@ -190,8 +207,8 @@ class TestSalesforce extends Command
             SalesforceObjectType::Account             => $this->crmService->getAccount($id),
             SalesforceObjectType::Task                => $this->crmService->getTask($id),
             SalesforceObjectType::ContentVersion      => $this->crmService->getContentVersion($id),
-            SalesforceObjectType::ContentDocument     => throw new RuntimeException('Won\'t be implemented'),
-            SalesforceObjectType::ContentDocumentLink => throw new RuntimeException('Won\'t be implemented'),
+            SalesforceObjectType::ContentDocument     => $this->crmService->getContentDocument($id),
+            SalesforceObjectType::ContentDocumentLink => $this->crmService->getContentDocumentLink($id),
         };
 
         $this->log("got {$objectType->value}", $result, $dumpIt);
@@ -223,8 +240,13 @@ class TestSalesforce extends Command
         };
 
         $searchResultAttribute = match ($objectType) {
-            SalesforceObjectType::ContentVersion => 'content_document_id',
-            default                              => Str::snake($objectType->value).'_id'
+            SalesforceObjectType::ContentVersion => (function () use ($user, $id) {
+                $user->salesforce->saveObjectId($id, SalesforceObjectType::ContentDocument);
+
+                return 'content_document_id';
+            }
+            )(),
+            default => Str::snake($objectType->value).'_id'
         };
 
         $this->log('search result', [$searchResultAttribute => $id], $dumpIt);
@@ -330,10 +352,13 @@ class TestSalesforce extends Command
             ->firstOrFail();
     }
 
-    public function userWithSalesforce(SalesforceObjectType $objectType): User
+    /**
+     * @param SalesforceObjectType[] $objectTypes
+     */
+    public function userWithSalesforce(array $objectTypes): User
     {
-        $column = Salesforce::objectIdAttributeName($objectType);
+        $columns = Arr::map($objectTypes, fn ($objectType) => Salesforce::objectIdAttributeName($objectType));
 
-        return Salesforce::whereNotNull($column)->latest()->firstOrFail()->user;
+        return Salesforce::whereNotNull($columns)->latest()->firstOrFail()->user;
     }
 }
