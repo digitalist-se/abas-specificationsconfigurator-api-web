@@ -11,6 +11,9 @@ use App\CRM\Adapter\Salesforce\ContentDocumentLinkAdapter;
 use App\CRM\Adapter\Salesforce\ContentVersionAdapter;
 use App\CRM\Adapter\Salesforce\LeadAdapter;
 use App\CRM\Adapter\Salesforce\TaskAdapter;
+use App\CRM\Enums\SalesforceLeadProductFamily;
+use App\CRM\Enums\SalesforceLeadSource;
+use App\CRM\Enums\SalesforceLeadStatus;
 use App\CRM\Enums\SalesforceObjectType;
 use App\CRM\Enums\SalesforceTaskStatus;
 use App\CRM\Enums\SalesforceTaskSubject;
@@ -64,9 +67,9 @@ class SalesforceCRMService implements CRMService
         }
 
         $data = [
-            'Product_Family__c' => 'ABAS',
-            'Status'            => 'Pre Lead',
-            'LeadSource'        => 'ERP Planner',
+            'Product_Family__c' => SalesforceLeadProductFamily::ABAS->value,
+            'Status'            => SalesforceLeadStatus::PreLead->value,
+            'LeadSource'        => SalesforceLeadSource::ERPPlanner->value,
         ];
 
         return $this->createLead($user, $data) !== null;
@@ -190,6 +193,11 @@ class SalesforceCRMService implements CRMService
             SalesforceObjectType::ContentVersion,
             'ContentDocumentId'
         );
+    }
+
+    public function getContentDocument(string $contentDocumentLinkId): array
+    {
+        return $this->getObject($contentDocumentLinkId, SalesforceObjectType::ContentDocument);
     }
 
     private function getObject($id, SalesforceObjectType $objectType): array
