@@ -16,7 +16,7 @@ class CompanyAdapter implements Adapter
         'address' => 'full_street',
     ];
 
-    public function toCreateRequestBody(User $user): array
+    public function toRequestBody(User $user): array
     {
         $properties = [];
         foreach (self::PROPERTY_MAP as $propertyName => $attributeKey) {

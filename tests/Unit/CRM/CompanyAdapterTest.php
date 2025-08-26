@@ -26,7 +26,7 @@ class CompanyAdapterTest extends TestCase
 
         // When we pass it to adapter
         $adapter = $this->app->make(CompanyAdapter::class);
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toRequestBody($user);
 
         // We expect that the request body contains expected data
         $this->assertEquals(

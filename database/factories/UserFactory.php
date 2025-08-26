@@ -16,6 +16,8 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $company = $this->faker->company();
+
         return [
             'first_name'             => $this->faker->firstName(),
             'last_name'              => $this->faker->lastName(),
@@ -24,13 +26,14 @@ class UserFactory extends Factory
             'role'                   => Role::USER,
             'remember_token'         => Str::random(10),
             'sex'                    => $this->faker->boolean() ? 'm' : 'w',
-            'company_name'           => $this->faker->company(),
+            'user_company'           => $company,
             'phone'                  => $this->faker->phoneNumber(),
             'website'                => $this->faker->url(),
             'street'                 => $this->faker->streetAddress(),
             'additional_street_info' => $this->faker->streetAddress(),
             'zipcode'                => $this->faker->randomNumber(5),
             'city'                   => $this->faker->city(),
+            'company_name'           => $company,
             'contact_first_name'     => $this->faker->firstName(),
             'contact_last_name'      => $this->faker->lastName(),
             'contact_email'          => $this->faker->email(),
@@ -52,6 +55,26 @@ class UserFactory extends Factory
                 'email_verified_at' => null,
             ];
         });
+    }
+
+    public function registered()
+    {
+        return $this->state([
+            'email_verified_at'      => null,
+            'sex'                    => null,
+            'phone'                  => null,
+            'website'                => null,
+            'street'                 => null,
+            'additional_street_info' => null,
+            'zipcode'                => null,
+            'city'                   => null,
+            'country'                => null,
+            'company_name'           => null,
+            'contact_first_name'     => null,
+            'contact_last_name'      => null,
+            'contact_email'          => null,
+            'contact_function'       => null,
+        ]);
     }
 
     public function guest()

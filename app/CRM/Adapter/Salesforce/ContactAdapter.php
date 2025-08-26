@@ -5,7 +5,7 @@ namespace App\CRM\Adapter\Salesforce;
 use App\CRM\Adapter\Adapter;
 use App\Models\User;
 
-class LeadAdapter implements Adapter
+class ContactAdapter implements Adapter
 {
     public function toRequestBody(User $user, array $customProperties = []): array
     {
@@ -13,15 +13,8 @@ class LeadAdapter implements Adapter
             'Salutation' => $user->salutation,
             'FirstName'  => $user->contact_first_name ?? $user->first_name,
             'LastName'   => $user->contact_last_name ?? $user->last_name,
-            'Company'    => $user->company,
             'Email'      => $user->contact_email ?? $user->email,
             'Title'      => $user->contact_function,
-            'Street'     => $user->full_street,
-            'PostalCode' => $user->zipcode,
-            'City'       => $user->city,
-            'Country'    => $user->country ? $user->leadCountry : null,
-            'Phone'      => $user->phone,
-            'Website'    => $user->website,
         ];
 
         $filteredProperties = array_filter($properties, fn ($value) => ! is_null($value) && $value !== '');

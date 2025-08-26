@@ -17,7 +17,7 @@ class TrackEventAdapter implements Adapter
         $this->eventName = $eventName;
     }
 
-    public function toCreateRequestBody(User $user): array
+    public function toRequestBody(User $user): array
     {
         return [
             'eventName'  => $this->eventName,

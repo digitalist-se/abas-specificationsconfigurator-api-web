@@ -29,6 +29,7 @@
         "laravel/ui": "^3.4",
         "league/flysystem-aws-s3-v3": "^3.0",
         "marc-mabe/php-enum": "^4.6",
+        "owen-it/laravel-auditing": "^13.7",
         "phpoffice/phpspreadsheet": "^1.22",
         "platformsh/laravel-bridge": "^2.2",
         "symfony/yaml": "^6.0"

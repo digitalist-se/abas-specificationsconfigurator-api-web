@@ -6,5 +6,5 @@ use App\Models\User;
 
 interface Adapter
 {
-    public function toCreateRequestBody(User $user): array;
+    public function toRequestBody(User $user): array;
 }
