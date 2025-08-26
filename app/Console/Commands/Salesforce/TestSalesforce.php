@@ -37,7 +37,7 @@ class TestSalesforce extends Command
      *
      * @var string
      */
-    protected $signature = 'test:salesforce {--O|object=} {--A|action=} {--U|user-id=} {--C|contact=User} {--404} ';
+    protected $signature = 'test:salesforce {--O|object=} {--A|action=} {--U|user-id=} {--C|contact=User} {--404} {--show-user}';
 
     /**
      * The console command description.
@@ -78,6 +78,7 @@ class TestSalesforce extends Command
 
         $userId = $this->option('user-id');
         $this->shouldNotFind = (bool) $this->option('404');
+        $showUser = (bool) $this->option('show-user');
 
         try {
             $objectType = SalesforceObjectType::from($this->option('object'));
@@ -111,6 +112,10 @@ class TestSalesforce extends Command
             return 1;
         }
 
+        if ($showUser) {
+            $this->log('User', $user->toArray());
+        }
+
         match ($action) {
             Action::Create => $this->createObject($objectType, $user, $contactType),
             Action::Get    => $this->getObject($objectType, $user),
@@ -135,10 +140,6 @@ class TestSalesforce extends Command
         }
 
         $user = $this->userWithSalesforce([$objectType]);
-
-        if ($objectType === SalesforceObjectType::Lead) {
-            return $user;
-        }
 
         return match ($contactType) {
             ContactType::User    => $user,
@@ -339,7 +340,7 @@ class TestSalesforce extends Command
             'contact_first_name'     => $this->faker()->firstName(),
             'contact_last_name'      => $this->faker()->lastName(),
             'contact_email'          => $this->faker()->safeEmail(),
-            'contact_function'       => 'Geschäftsführer',
+            'contact_function'       => $this->faker()->jobTitle(),
             'email_verified_at'      => Carbon::now()->subDay(),
         ];
 
