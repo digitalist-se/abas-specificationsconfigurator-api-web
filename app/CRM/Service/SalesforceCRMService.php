@@ -18,6 +18,7 @@ use App\CRM\Enums\SalesforceObjectType;
 use App\CRM\Enums\SalesforceTaskStatus;
 use App\CRM\Enums\SalesforceTaskSubject;
 use App\CRM\Service\Auth\AuthTokenProviderInterface;
+use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\User;
@@ -80,9 +81,9 @@ class SalesforceCRMService implements CRMService
         return true;
     }
 
-    public function createLead(User $user, array $data): string
+    public function createLead(User $user, array $data, ContactType $contactType = ContactType::User): string
     {
-        return $this->createObject($user, SalesforceObjectType::Lead, $data);
+        return $this->createObject($user, SalesforceObjectType::Lead, $data, $contactType);
     }
 
     public function getLead(string $leadId): array
@@ -98,14 +99,14 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function updateLead(string $leadId, User $user, array $data): bool
+    public function updateLead(string $leadId, User $user, array $data, ContactType $contactType = ContactType::User): bool
     {
-        return $this->updateObject($leadId, $user, SalesforceObjectType::Lead, $data);
+        return $this->updateObject($leadId, $user, SalesforceObjectType::Lead, $data, $contactType);
     }
 
-    public function createContact(User $user, array $data): string
+    public function createContact(User $user, array $data, ContactType $contactType = ContactType::User): string
     {
-        return $this->createObject($user, SalesforceObjectType::Contact, $data);
+        return $this->createObject($user, SalesforceObjectType::Contact, $data, $contactType);
     }
 
     public function getContact(string $contactId): array
@@ -121,14 +122,14 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function updateContact(string $contactId, User $user, array $data): bool
+    public function updateContact(string $contactId, User $user, array $data, ContactType $contactType = ContactType::User): bool
     {
-        return $this->updateObject($contactId, $user, SalesforceObjectType::Contact, $data);
+        return $this->updateObject($contactId, $user, SalesforceObjectType::Contact, $data, $contactType);
     }
 
-    public function createAccount(User $user, array $data): string
+    public function createAccount(User $user, array $data, ContactType $contactType = ContactType::User): string
     {
-        return $this->createObject($user, SalesforceObjectType::Account, $data);
+        return $this->createObject($user, SalesforceObjectType::Account, $data, $contactType);
     }
 
     public function getAccount(string $accountId): array
@@ -144,9 +145,9 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function updateAccount(string $accountId, User $user, array $data): bool
+    public function updateAccount(string $accountId, User $user, array $data, ContactType $contactType = ContactType::User): bool
     {
-        return $this->updateObject($accountId, $user, SalesforceObjectType::Account, $data);
+        return $this->updateObject($accountId, $user, SalesforceObjectType::Account, $data, $contactType);
     }
 
     public function createTask(User $user, array $data): string
@@ -227,7 +228,7 @@ class SalesforceCRMService implements CRMService
         return $response->json();
     }
 
-    private function createObject(User $user, SalesforceObjectType $objectType, array $data): string
+    private function createObject(User $user, SalesforceObjectType $objectType, array $data = [], ContactType $contactType = ContactType::User): string
     {
         $scope = sprintf('create %s ', $objectType->value);
 
@@ -235,7 +236,7 @@ class SalesforceCRMService implements CRMService
 
         $path = $this->path('sobjects', $objectType->value);
 
-        $data = $this->adapter($objectType)->toRequestBody($user, $data);
+        $data = $this->adapter($objectType)->toRequestBody($user, $data, $contactType);
 
         $response = $this->request()->post($path, $data);
 
@@ -249,7 +250,7 @@ class SalesforceCRMService implements CRMService
         return $id;
     }
 
-    private function updateObject(string $id, User $user, SalesforceObjectType $objectType, array $data): bool
+    private function updateObject(string $id, User $user, SalesforceObjectType $objectType, array $data = [], ContactType $contactType = ContactType::User): bool
     {
         $scope = sprintf('update %s ', $objectType->value);
 
@@ -257,7 +258,7 @@ class SalesforceCRMService implements CRMService
 
         $path = $this->path('sobjects', $objectType->value, $id);
 
-        $data = $this->adapter($objectType)->toRequestBody($user, $data);
+        $data = $this->adapter($objectType)->toRequestBody($user, $data, $contactType);
 
         $response = $this->request()->patch($path, $data);
 
