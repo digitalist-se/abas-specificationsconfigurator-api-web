@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\Salesforce;
 
-use App\Console\Commands\Salesforce\Action;
 use App\CRM\Enums\SalesforceContentDocumentLinkVisibility;
 use App\CRM\Enums\SalesforceLeadProductFamily;
 use App\CRM\Enums\SalesforceLeadSource;
@@ -14,6 +13,7 @@ use App\CRM\Enums\SalesforceTaskSubject;
 use App\CRM\Service\Auth\SalesforceAuthService;
 use App\CRM\Service\Auth\SalesforceAuthTokenProvider;
 use App\CRM\Service\SalesforceCRMService;
+use App\Enums\ContactType;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\Salesforce;
 use App\Models\User;
@@ -37,7 +37,7 @@ class TestSalesforce extends Command
      *
      * @var string
      */
-    protected $signature = 'test:salesforce {--O|object=} {--A|action=} {--U|user-id=} {--404}';
+    protected $signature = 'test:salesforce {--O|object=} {--A|action=} {--U|user-id=} {--C|contact=User} {--404} ';
 
     /**
      * The console command description.
@@ -95,8 +95,16 @@ class TestSalesforce extends Command
             return 1;
         }
 
+        try {
+            $contactType = ContactType::from($this->option('contact'));
+        } catch (Throwable) {
+            $this->warn('Missing or invalid --contact option. Use one of: User, Company');
+
+            return 1;
+        }
+
         // Find user if user-id is given, otherwise use latest or create
-        $user = $userId ? User::find($userId) : $this->userFor($objectType, $action);
+        $user = $userId ? User::find($userId) : $this->userFor($objectType, $action, $contactType);
         if (! ($user instanceof User)) {
             $this->warn('User not found for action requiring user.');
 
@@ -104,23 +112,25 @@ class TestSalesforce extends Command
         }
 
         match ($action) {
-            Action::Create => $this->createObject($objectType, $user),
+            Action::Create => $this->createObject($objectType, $user, $contactType),
             Action::Get    => $this->getObject($objectType, $user),
             Action::Search => $this->searchObject($objectType, $user),
-            Action::Update => $this->updateObject($objectType, $user),
+            Action::Update => $this->updateObject($objectType, $user, $contactType),
         };
 
         return 0;
     }
 
-    private function userFor(SalesforceObjectType $objectType, Action $action): ?User
+    private function userFor(SalesforceObjectType $objectType, Action $action, ContactType $contactType): ?User
     {
         if ($action === Action::Create) {
             return match ($objectType) {
-                SalesforceObjectType::Lead                => $this->createRegisteredUser(),
                 SalesforceObjectType::Task                => $this->userWithSalesforce($this->faker->randomElements([SalesforceObjectType::Lead, SalesforceObjectType::Contact], 1)),
                 SalesforceObjectType::ContentDocumentLink => $this->userWithSalesforce([SalesforceObjectType::Task, SalesforceObjectType::ContentDocument]),
-                default                                   => $this->createUserWithProfile(),
+                default                                   => match ($contactType) {
+                    ContactType::User                     => $this->createRegisteredUser(),
+                    ContactType::Company                  => $this->createUserWithProfile(),
+                },
             };
         }
 
@@ -130,10 +140,13 @@ class TestSalesforce extends Command
             return $user;
         }
 
-        return $this->updateUserWithProfile($user);
+        return match ($contactType) {
+            ContactType::User    => $user,
+            ContactType::Company => $this->updateUserWithProfile($user),
+        };
     }
 
-    private function createObject(SalesforceObjectType $objectType, User $user, bool $dumpIt = true): void
+    private function createObject(SalesforceObjectType $objectType, User $user, ContactType $contactType, bool $dumpIt = true): void
     {
         $this->log("create {$objectType->value}", ['user_id' => $user->id], $dumpIt);
 
@@ -142,11 +155,11 @@ class TestSalesforce extends Command
                 'Product_Family__c' => SalesforceLeadProductFamily::ABAS->value,
                 'Status'            => SalesforceLeadStatus::PreLead->value,
                 'LeadSource'        => SalesforceLeadSource::ERPPlanner->value.' - local API Test',
-            ]),
+            ], $contactType),
             SalesforceObjectType::Contact => $this->crmService->createContact($user, [
                 'LeadSource' => SalesforceLeadSource::ERPPlanner->value.' - local API Test',
                 'AccountId'  => '001Pu00000U4XdeIAF',
-            ]),
+            ], $contactType),
             SalesforceObjectType::Account => $this->crmService->createAccount($user, []),
             SalesforceObjectType::Task    => (function () use ($user, $dumpIt) {
                 if ($whoId = $user->salesforce->contact_id) {
@@ -258,7 +271,7 @@ class TestSalesforce extends Command
         $this->log('search result', [$searchResultAttribute => $id], $dumpIt);
     }
 
-    private function updateObject(SalesforceObjectType $objectType, User $user, bool $dumpIt = true): void
+    private function updateObject(SalesforceObjectType $objectType, User $user, ContactType $contactType, bool $dumpIt = true): void
     {
         $id = $user->salesforce->objectId($objectType);
 
@@ -269,8 +282,8 @@ class TestSalesforce extends Command
         ];
 
         $result = match ($objectType) {
-            SalesforceObjectType::Lead    => $this->crmService->updateLead($id, $user, $leadSource),
-            SalesforceObjectType::Contact => $this->crmService->updateContact($id, $user, $leadSource),
+            SalesforceObjectType::Lead    => $this->crmService->updateLead($id, $user, $leadSource, $contactType),
+            SalesforceObjectType::Contact => $this->crmService->updateContact($id, $user, $leadSource, $contactType),
             SalesforceObjectType::Account => $this->crmService->updateAccount($id, $user, []),
             SalesforceObjectType::Task    => $this->crmService->updateTask($id, $user, [
                 'Subject'      => SalesforceTaskSubject::FormReview->value,

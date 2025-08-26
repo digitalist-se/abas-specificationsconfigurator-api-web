@@ -376,7 +376,7 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
-        $crmEmail = $user->getCrmEmail($type);
+        $crmEmail = $user->getContactEmail($type);
         if (! $crmEmail) {
             return null;
         }
