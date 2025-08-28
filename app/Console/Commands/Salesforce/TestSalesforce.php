@@ -14,10 +14,12 @@ use App\CRM\Service\Auth\SalesforceAuthService;
 use App\CRM\Service\Auth\SalesforceAuthTokenProvider;
 use App\CRM\Service\SalesforceCRMService;
 use App\Enums\ContactType;
+use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\Salesforce;
 use App\Models\User;
 use Arr;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
@@ -37,7 +39,7 @@ class TestSalesforce extends Command
      *
      * @var string
      */
-    protected $signature = 'test:salesforce {--O|object=} {--A|action=} {--U|user-id=} {--C|contact=User} {--404} {--show-user}';
+    protected $signature = 'test:salesforce {--E|event=} {--O|object=} {--A|action=} {--U|user-id=} {--C|contact=User} {--404} {--show-user}';
 
     /**
      * The console command description.
@@ -76,9 +78,16 @@ class TestSalesforce extends Command
             return 1;
         }
 
+        return match ($this->hasOption('event')) {
+            true  => $this->handleEvent(),
+            false => $this->handleAction(),
+        };
+    }
+
+    public function handleAction(): int
+    {
         $userId = $this->option('user-id');
         $this->shouldNotFind = (bool) $this->option('404');
-        $showUser = (bool) $this->option('show-user');
 
         try {
             $objectType = SalesforceObjectType::from($this->option('object'));
@@ -112,15 +121,44 @@ class TestSalesforce extends Command
             return 1;
         }
 
-        if ($showUser) {
-            $this->log('User', $user->toArray());
-        }
+        $this->showUser($user);
 
         match ($action) {
             Action::Create => $this->createObject($objectType, $user, $contactType),
             Action::Get    => $this->getObject($objectType, $user),
             Action::Search => $this->searchObject($objectType, $user),
             Action::Update => $this->updateObject($objectType, $user, $contactType),
+        };
+
+        return 0;
+    }
+
+    public function handleEvent(): int
+    {
+        try {
+            $eventType = EventType::from($this->option('event'));
+        } catch (Throwable) {
+            $this->warn('Missing or invalid --event option. Use one of: registered, exported');
+
+            return 1;
+        }
+
+        $userId = $this->option('user-id') ?? throw new RuntimeException('Missing --user-id option');
+        $user = User::find($userId);
+        if (! ($user instanceof User)) {
+            $this->warn('User not found for event.');
+
+            return 1;
+        }
+
+        $this->showUser($user);
+
+        $this->log("handle event {$eventType->value}", ['user_id' => $user->id]);
+        match ($eventType) {
+            EventType::UserRegistered => $this->crmService->handleUserRegistered(new Registered($user)),
+            EventType::DocumentExport => $this->crmService->handleDocumentExport(
+                new ExportedDocument($user, $this->generateSpecificationDocument($user))
+            ),
         };
 
         return 0;
@@ -133,8 +171,8 @@ class TestSalesforce extends Command
                 SalesforceObjectType::Task                => $this->userWithSalesforce($this->faker->randomElements([SalesforceObjectType::Lead, SalesforceObjectType::Contact], 1)),
                 SalesforceObjectType::ContentDocumentLink => $this->userWithSalesforce([SalesforceObjectType::Task, SalesforceObjectType::ContentDocument]),
                 default                                   => match ($contactType) {
-                    ContactType::User                     => $this->createRegisteredUser(),
-                    ContactType::Company                  => $this->createUserWithProfile(),
+                    ContactType::User    => $this->createRegisteredUser(),
+                    ContactType::Company => $this->createUserWithProfile(),
                 },
             };
         }
@@ -358,7 +396,7 @@ class TestSalesforce extends Command
 
     private function log(string $message, array $context, bool $dumpIt = true): void
     {
-        Log::channel('salesforce')->debug($message, $context);
+        Log::channel('salesforce')->debug(sprintf('[TEST] %s', $message), $context);
 
         if ($dumpIt) {
             dump($message, $context);
@@ -380,5 +418,12 @@ class TestSalesforce extends Command
         $columns = Arr::map($objectTypes, fn ($objectType) => Salesforce::objectIdAttributeName($objectType));
 
         return Salesforce::whereNotNull($columns)->latest()->firstOrFail()->user;
+    }
+
+    private function showUser(User $user): void
+    {
+        if ((bool) $this->option('show-user')) {
+            $this->log('User', $user->toArray());
+        }
     }
 }
