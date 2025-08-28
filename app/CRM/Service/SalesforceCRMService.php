@@ -25,6 +25,8 @@ use App\Models\User;
 use Arr;
 use AssertionError;
 use Exception;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
 use Http;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\PendingRequest;
@@ -253,9 +255,7 @@ class SalesforceCRMService implements CRMService
 
         $response = $this->request()->get($path);
 
-        $this
-            ->logResponse($response, "GET $path")
-            ->requireSuccess($response, $scope);
+        $this->requireSuccess($response, $scope);
 
         return $response->json();
     }
@@ -273,7 +273,6 @@ class SalesforceCRMService implements CRMService
         $response = $this->request()->post($path, $data);
 
         $id = $this
-            ->logResponse($response, "POST $path")
             ->requireSuccess($response, $scope)
             ->requireId($response);
 
@@ -294,9 +293,7 @@ class SalesforceCRMService implements CRMService
 
         $response = $this->request()->patch($path, $data);
 
-        $this
-            ->logResponse($response, "PATCH $path")
-            ->requireSuccess($response, $scope);
+        $this->requireSuccess($response, $scope);
 
         $user->salesforce->saveObjectId($id, $objectType);
 
@@ -305,15 +302,13 @@ class SalesforceCRMService implements CRMService
 
     private function search(string $query, SalesforceObjectType $objectType, string $attribute = 'Id'): ?string
     {
-        $this->logMethod(sprintf('search %s', $objectType->value));
+        $this->logMethod(sprintf('search %s: %s', $objectType->value, $query));
 
         $path = $this->path('query');
 
         $response = $this->request()->get($path, ['q' => $query]);
 
-        $this
-            ->logResponse($response, "GET $path")
-            ->requireSuccess($response, 'search object');
+        $this->requireSuccess($response, 'search object');
 
         return Arr::get($response, sprintf('records.0.%s', $attribute));
     }
@@ -349,6 +344,12 @@ class SalesforceCRMService implements CRMService
             ->withToken(
                 $this->authTokenProvider->provide(),
                 $this->authTokenProvider->tokenType(),
+            )
+            ->withMiddleware(
+                Middleware::log(
+                    $this->logger(),
+                    new MessageFormatter(MessageFormatter::DEBUG)
+                )
             )
             ->retry(3, 200, function (Exception $exception, PendingRequest $request) {
                 if ($exception instanceof RequestException) {
