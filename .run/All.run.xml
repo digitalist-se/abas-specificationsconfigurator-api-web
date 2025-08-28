@@ -2,7 +2,7 @@
   <configuration default="false" name="All" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
     <CommandLine>
       <PhpTestInterpreterSettings>
-        <option name="interpreterName" value="Docker 8.1.20 (compose)" />
+        <option name="interpreterName" value="Docker 8.2.29 (compose)" />
       </PhpTestInterpreterSettings>
     </CommandLine>
     <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" coverage_engine="PHPDBG" scope="XML" use_alternative_configuration_file="true" />
