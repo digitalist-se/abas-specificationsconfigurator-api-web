@@ -514,7 +514,7 @@ class HubSpotCRMServiceTest extends TestCase
     /**
      * @param mixed $user
      *
-     * @return \App\Http\Resources\SpecificationDocument
+     * @return SpecificationDocument
      * @throws \App\Exceptions\GenerateExcelException
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception

@@ -21,7 +21,7 @@ class Locale extends Enum
     const EN = 'en';
 
     /**
-     * @return \MabeEnum\EnumSet
+     * @return EnumSet
      */
     public static function supportedSet(): EnumSet
     {
@@ -33,7 +33,7 @@ class Locale extends Enum
     }
 
     /**
-     * @return \MabeEnum\EnumSet
+     * @return EnumSet
      */
     public static function activatedSet(): EnumSet
     {

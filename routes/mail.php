@@ -20,7 +20,7 @@ Route::get('{mail}', static function (Request $request, $mail) {
     $user = User::first();
 
     if ($lang = $request->input('lang')) {
-        $locale = \App\Models\Locale::get($lang);
+        $locale = App\Models\Locale::get($lang);
         App::setLocale($locale->getValue());
     }
 

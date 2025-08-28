@@ -10,7 +10,7 @@ use Tests\TestCase;
 class ContactAdapterTest extends TestCase
 {
     /**
-     * @return \App\Models\User
+     * @return User
      */
     protected function user()
     {

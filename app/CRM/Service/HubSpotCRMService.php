@@ -270,7 +270,7 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $event->user;
         $user->refresh();
         if (! $user->crm_user_contact_id) {

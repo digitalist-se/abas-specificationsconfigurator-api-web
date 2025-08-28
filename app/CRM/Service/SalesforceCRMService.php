@@ -2,7 +2,6 @@
 
 namespace App\CRM\Service;
 
-use Log;
 use function app;
 use App\CRM\Adapter\Adapter;
 use App\CRM\Adapter\Salesforce\AccountAdapter;
@@ -31,13 +30,14 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
+use Log;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class SalesforceCRMService implements CRMService
 {
     /**
-     * @param array{'enabled': boolean, 'baseUrl': string, 'clientId': string, 'clientSecret': string} $options
+     * @param array{'enabled': bool, 'baseUrl': string, 'clientId': string, 'clientSecret': string} $options
      */
     public function __construct(
         private array $options,

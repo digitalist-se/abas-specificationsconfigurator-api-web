@@ -54,7 +54,7 @@ class Salesforce extends BaseModel implements AuditableContract
         };
     }
 
-    public function objectId(SalesforceObjectType $objectType): string
+    public function objectId(SalesforceObjectType $objectType): ?string
     {
         return $this->{self::objectIdAttributeName($objectType)};
     }
