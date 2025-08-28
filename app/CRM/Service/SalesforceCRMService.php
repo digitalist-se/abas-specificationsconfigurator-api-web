@@ -75,13 +75,11 @@ class SalesforceCRMService implements CRMService
             return false;
         }
 
-        $data = [
-            'Product_Family__c' => SalesforceLeadProductFamily::ABAS->value,
-            'Status'            => SalesforceLeadStatus::PreLead->value,
-            'LeadSource'        => SalesforceLeadSource::ERPPlanner->value,
-        ];
+        $person = $this->upsertPerson($user, ContactType::User);
 
-        return $this->createLead($user, $data) !== null;
+        $this->logger()->debug('Upserted person in Salesforce', $person);
+
+        return true;
     }
 
     public function handleDocumentExport(ExportedDocument $event): bool
@@ -89,7 +87,33 @@ class SalesforceCRMService implements CRMService
         return true;
     }
 
-    public function createLead(User $user, array $data, ContactType $contactType = ContactType::User): string
+    public function upsertPerson(User $user, ContactType $contactType): array
+    {
+        $updateData = [
+            'LeadSource' => SalesforceLeadSource::ERPPlanner->value,
+        ];
+
+        $createData = array_merge($updateData, [
+            'Product_Family__c' => SalesforceLeadProductFamily::ABAS->value,
+            'Status'            => SalesforceLeadStatus::PreLead->value,
+        ]);
+
+        if ($contactId = $this->searchContactBy($user->getContactEmail($contactType))) {
+            $this->updateContact($contactId, $user, $updateData, $contactType);
+
+            return $this->getContact($contactId);
+        }
+
+        if ($leadId = $this->searchLeadBy($user->getContactEmail($contactType))) {
+            $this->updateLead($leadId, $user, $updateData, $contactType);
+        } else {
+            $leadId = $this->createLead($user, $createData, $contactType);
+        }
+
+        return $this->getLead($leadId);
+    }
+
+    public function createLead(User $user, array $data = [], ContactType $contactType = ContactType::User): string
     {
         return $this->createObject($user, SalesforceObjectType::Lead, $data, $contactType);
     }
