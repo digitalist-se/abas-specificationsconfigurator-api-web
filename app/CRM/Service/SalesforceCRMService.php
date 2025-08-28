@@ -35,6 +35,7 @@ use Illuminate\Http\Client\Response;
 use Log;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Throwable;
 
 class SalesforceCRMService implements CRMService
 {
@@ -70,16 +71,22 @@ class SalesforceCRMService implements CRMService
 
     public function handleUserRegistered(Registered $event): bool
     {
-        $user = $event->user;
-        if (! $user instanceof User) {
-            $this->logger()->error('No User instance in Registered event');
+        try {
+            $user = $event->user;
+            if (! $user instanceof User) {
+                $this->logger()->error('No User instance in Registered event');
+
+                return false;
+            }
+
+            $person = $this->upsertPerson($user, ContactType::User);
+
+            $this->logger()->debug('Upserted person in Salesforce', $person);
+        } catch (Throwable $throwable) {
+            $this->logger()->error('Failed to handle user registered', ['error' => $throwable->getMessage()]);
 
             return false;
         }
-
-        $person = $this->upsertPerson($user, ContactType::User);
-
-        $this->logger()->debug('Upserted person in Salesforce', $person);
 
         return true;
     }
