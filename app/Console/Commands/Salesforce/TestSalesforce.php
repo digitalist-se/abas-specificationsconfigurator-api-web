@@ -358,7 +358,7 @@ class TestSalesforce extends Command
 
     private function log(string $message, array $context, bool $dumpIt = true): void
     {
-        Log::debug($message, $context);
+        Log::channel('salesforce')->debug($message, $context);
 
         if ($dumpIt) {
             dump($message, $context);

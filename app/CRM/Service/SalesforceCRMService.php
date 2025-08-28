@@ -2,6 +2,7 @@
 
 namespace App\CRM\Service;
 
+use Log;
 use function app;
 use App\CRM\Adapter\Adapter;
 use App\CRM\Adapter\Salesforce\AccountAdapter;
@@ -30,7 +31,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Log;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class SalesforceCRMService implements CRMService
@@ -43,6 +44,11 @@ class SalesforceCRMService implements CRMService
         private AuthTokenProviderInterface $authTokenProvider,
     ) {
         $this->setBasePath('services/data/v63.0');
+    }
+
+    private function logger(): LoggerInterface
+    {
+        return Log::channel('salesforce');
     }
 
     private function adapter(SalesforceObjectType $objectType): Adapter
@@ -64,6 +70,8 @@ class SalesforceCRMService implements CRMService
     {
         $user = $event->user;
         if (! $user instanceof User) {
+            $this->logger()->error('No User instance in Registered event');
+
             return false;
         }
 
@@ -99,12 +107,12 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function updateLead(string $leadId, User $user, array $data, ContactType $contactType = ContactType::User): bool
+    public function updateLead(string $leadId, User $user, array $data = [], ContactType $contactType = ContactType::User): bool
     {
         return $this->updateObject($leadId, $user, SalesforceObjectType::Lead, $data, $contactType);
     }
 
-    public function createContact(User $user, array $data, ContactType $contactType = ContactType::User): string
+    public function createContact(User $user, array $data = [], ContactType $contactType = ContactType::User): string
     {
         return $this->createObject($user, SalesforceObjectType::Contact, $data, $contactType);
     }
@@ -122,12 +130,12 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function updateContact(string $contactId, User $user, array $data, ContactType $contactType = ContactType::User): bool
+    public function updateContact(string $contactId, User $user, array $data = [], ContactType $contactType = ContactType::User): bool
     {
         return $this->updateObject($contactId, $user, SalesforceObjectType::Contact, $data, $contactType);
     }
 
-    public function createAccount(User $user, array $data, ContactType $contactType = ContactType::User): string
+    public function createAccount(User $user, array $data = [], ContactType $contactType = ContactType::User): string
     {
         return $this->createObject($user, SalesforceObjectType::Account, $data, $contactType);
     }
@@ -145,12 +153,12 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function updateAccount(string $accountId, User $user, array $data, ContactType $contactType = ContactType::User): bool
+    public function updateAccount(string $accountId, User $user, array $data = [], ContactType $contactType = ContactType::User): bool
     {
         return $this->updateObject($accountId, $user, SalesforceObjectType::Account, $data, $contactType);
     }
 
-    public function createTask(User $user, array $data): string
+    public function createTask(User $user, array $data = []): string
     {
         return $this->createObject($user, SalesforceObjectType::Task, $data);
     }
@@ -160,7 +168,7 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($taskId, SalesforceObjectType::Task);
     }
 
-    public function updateTask(string $taskId, User $user, array $data): bool
+    public function updateTask(string $taskId, User $user, array $data = []): bool
     {
         return $this->updateObject($taskId, $user, SalesforceObjectType::Task, $data);
     }
@@ -173,7 +181,7 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function createContentVersion(User $user, SpecificationDocument $document, array $data): string
+    public function createContentVersion(User $user, SpecificationDocument $document, array $data = []): string
     {
         $data = array_merge($data, [
             'VersionData' => $this->versionData($document),
@@ -201,7 +209,7 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($contentDocumentLinkId, SalesforceObjectType::ContentDocument);
     }
 
-    public function createContentDocumentLink(User $user, array $data): string
+    public function createContentDocumentLink(User $user, array $data = []): string
     {
         return $this->createObject($user, SalesforceObjectType::ContentDocumentLink, $data);
     }
@@ -296,9 +304,19 @@ class SalesforceCRMService implements CRMService
         return $this;
     }
 
-    private function requireId(Response $response): string
+    private function requireId(array|Response $response): string
     {
         return $this->requireField($response, 'id');
+    }
+
+    private function requireObjectType(array|Response $response): SalesforceObjectType
+    {
+        return SalesforceObjectType::from($this->requireField($response, 'attribute.type'));
+    }
+
+    private function requireObjectUrl(array|Response $response): string
+    {
+        return $this->requireField($response, 'attribute.url');
     }
 
     private function request(): PendingRequest
@@ -350,7 +368,7 @@ class SalesforceCRMService implements CRMService
 
     private function logMethod(string $method): static
     {
-        Log::debug($method);
+        $this->logger()->debug($method);
 
         return $this;
     }
@@ -358,13 +376,13 @@ class SalesforceCRMService implements CRMService
     private function logResponse(Response $response, string $requestInfo): static
     {
         if ($response->failed()) {
-            Log::error($requestInfo, [
+            $this->logger()->error($requestInfo, [
                 'error'   => $response->toException()?->getMessage(),
                 'headers' => $response->headers(),
                 'body'    => $response->body(),
             ]);
         } else {
-            Log::debug($requestInfo, [
+            $this->logger()->debug($requestInfo, [
                 'headers' => $response->headers(),
                 'body'    => $response->body(),
             ]);
@@ -373,22 +391,20 @@ class SalesforceCRMService implements CRMService
         return $this;
     }
 
-    private function requireField(Response $response, string $field): mixed
+    private function requireField(Response|array $response, string $field): mixed
     {
         $value = $this->getField($response, $field);
 
         if ($value === null) {
-            throw new AssertionError(sprintf("Response does not contain non-null '%s': %s", $field, $response->body()));
+            throw new AssertionError(sprintf("Data does not contain non-null '%s': %s", $field, json_encode($this->getData($response))));
         }
 
         return $value;
     }
 
-    private function getField(Response $response, string $field): mixed
+    private function getField(Response|array $response, string $field): mixed
     {
-        $this->requireSuccess($response, sprintf("Get '%s' on failed response", $field));
-
-        $data = $response->json();
+        $data = $this->getData($response);
 
         return Arr::get($data, $field);
     }
@@ -406,8 +422,19 @@ class SalesforceCRMService implements CRMService
             throw new RuntimeException("Failed to read specification document: $path");
         }
 
-        $versionData = base64_encode($contents);
+        return base64_encode($contents);
+    }
 
-        return $versionData;
+    private function getData(array|Response $response): array
+    {
+        if ($response instanceof Response) {
+            $this->requireSuccess($response, 'Get data on failed response');
+
+            $data = $response->json();
+        } else {
+            $data = $response;
+        }
+
+        return $data;
     }
 }

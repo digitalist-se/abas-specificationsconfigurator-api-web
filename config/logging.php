@@ -68,6 +68,25 @@ return [
             'days'   => 28,
         ],
 
+        'salesforce' => [
+            'driver'            => 'stack',
+            'channels'          => ['salesforce-debug', 'salesforce-error'],
+            'ignore_exceptions' => false,
+        ],
+
+        'salesforce-debug' => [
+            'driver' => 'daily',
+            'path'   => storage_path('logs/salesforce.log'),
+            'level'  => env('LOG_LEVEL', 'debug'),
+            'days'   => 28,
+        ],
+
+        'salesforce-error' => [
+            'driver' => 'single',
+            'path'   => storage_path('logs/salesforce.error.log'),
+            'level'  => 'error',
+        ],
+
         'slack' => [
             'driver'   => 'slack',
             'url'      => env('LOG_SLACK_WEBHOOK_URL'),
