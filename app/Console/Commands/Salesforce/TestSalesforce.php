@@ -183,10 +183,10 @@ class TestSalesforce extends Command
                 return $this->crmService->createTask($user, [
                     'Subject'      => SalesforceTaskSubject::FormReview->value,
                     'ActivityDate' => Carbon::now()->addDay()->format('Y-m-d'),
-                    //                    'OwnerId'      => $ownerId,
-                    'WhoId'    => $whoId,
-                    'Status'   => SalesforceTaskStatus::Open->value,
-                    'Priority' => SalesforceTaskPriority::High->value,
+                    'OwnerId'      => $ownerId,
+                    'WhoId'        => $whoId,
+                    'Status'       => SalesforceTaskStatus::Open->value,
+                    'Priority'     => SalesforceTaskPriority::High->value,
                 ]);
             }
             )(),
