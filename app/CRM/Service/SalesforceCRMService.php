@@ -11,6 +11,7 @@ use App\CRM\Adapter\Salesforce\ContentDocumentLinkAdapter;
 use App\CRM\Adapter\Salesforce\ContentVersionAdapter;
 use App\CRM\Adapter\Salesforce\LeadAdapter;
 use App\CRM\Adapter\Salesforce\TaskAdapter;
+use App\CRM\Enums\SalesforceContentDocumentLinkVisibility;
 use App\CRM\Enums\SalesforceLeadProductFamily;
 use App\CRM\Enums\SalesforceLeadSource;
 use App\CRM\Enums\SalesforceLeadStatus;
@@ -74,27 +75,11 @@ class SalesforceCRMService implements CRMService
     public function handleUserRegistered(Registered $event): bool
     {
         try {
-            $user = $event->user;
-            if (! $user instanceof User) {
-                $this->logger()->error('[UserRegistered] No User instance in Registered event');
-
-                return false;
-            }
+            $user = $this->requireUser($event);
 
             $person = $this->upsertPerson($user, ContactType::User);
 
-            $this->logger()->debug('[UserRegistered] Upserted person in Salesforce', $person);
-
-            $taskData = [
-                'Subject'      => $this->taskSubject(EventType::UserRegistration),
-                'ActivityDate' => $this->taskDueDate(EventType::UserRegistration),
-                'WhoId'        => $this->requireId($person),
-                'OwnerId'      => $this->requireOwnerId($person),
-                'Priority'     => $this->taskPriority(EventType::UserRegistration),
-                'Status'       => SalesforceTaskStatus::Open->value,
-            ];
-
-            $this->createTask($user, $taskData);
+            $this->upsertTask($user, $person, EventType::UserRegistration, true);
         } catch (Throwable $throwable) {
             $this->logger()->error('[UserRegistered] Failed', ['error' => $throwable->getMessage()]);
 
@@ -133,6 +118,31 @@ class SalesforceCRMService implements CRMService
         }
 
         return $this->getLead($leadId);
+    }
+
+    public function upsertTask(User $user, array $person, EventType $eventType, $forceCreate = false): string
+    {
+        $whoId = $this->requireId($person);
+        $subject = $this->taskSubject($eventType);
+
+        $taskId = $forceCreate ? null : $this->searchTaskBy($subject, $whoId, SalesforceTaskStatus::Open);
+
+        $taskData = [
+            'Subject'      => $subject->value,
+            'ActivityDate' => $this->taskDueDate($eventType),
+            'WhoId'        => $whoId,
+            'Priority'     => $this->taskPriority($eventType)->value,
+            'Status'       => SalesforceTaskStatus::Open->value,
+        ];
+
+        if ($taskId) {
+            $this->updateTask($taskId, $user, $taskData);
+        } else {
+            $createData = ['OwnerId' => $this->requireOwnerId($person)];
+            $taskId = $this->createTask($user, array_merge($taskData, $createData));
+        }
+
+        return $taskId;
     }
 
     public function createLead(User $user, array $data = [], ContactType $contactType = ContactType::User): string
