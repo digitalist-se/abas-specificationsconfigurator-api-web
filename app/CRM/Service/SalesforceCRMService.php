@@ -15,10 +15,12 @@ use App\CRM\Enums\SalesforceLeadProductFamily;
 use App\CRM\Enums\SalesforceLeadSource;
 use App\CRM\Enums\SalesforceLeadStatus;
 use App\CRM\Enums\SalesforceObjectType;
+use App\CRM\Enums\SalesforceTaskPriority;
 use App\CRM\Enums\SalesforceTaskStatus;
 use App\CRM\Enums\SalesforceTaskSubject;
 use App\CRM\Service\Auth\AuthTokenProviderInterface;
 use App\Enums\ContactType;
+use App\Enums\EventType;
 use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\User;
@@ -74,16 +76,27 @@ class SalesforceCRMService implements CRMService
         try {
             $user = $event->user;
             if (! $user instanceof User) {
-                $this->logger()->error('No User instance in Registered event');
+                $this->logger()->error('[UserRegistered] No User instance in Registered event');
 
                 return false;
             }
 
             $person = $this->upsertPerson($user, ContactType::User);
 
-            $this->logger()->debug('Upserted person in Salesforce', $person);
+            $this->logger()->debug('[UserRegistered] Upserted person in Salesforce', $person);
+
+            $taskData = [
+                'Subject'      => $this->taskSubject(EventType::UserRegistration),
+                'ActivityDate' => $this->taskDueDate(EventType::UserRegistration),
+                'WhoId'        => $this->requireId($person),
+                'OwnerId'      => $this->requireOwnerId($person),
+                'Priority'     => $this->taskPriority(EventType::UserRegistration),
+                'Status'       => SalesforceTaskStatus::Open->value,
+            ];
+
+            $this->createTask($user, $taskData);
         } catch (Throwable $throwable) {
-            $this->logger()->error('Failed to handle user registered', ['error' => $throwable->getMessage()]);
+            $this->logger()->error('[UserRegistered] Failed', ['error' => $throwable->getMessage()]);
 
             return false;
         }
@@ -330,9 +343,40 @@ class SalesforceCRMService implements CRMService
         return $this;
     }
 
+    private function taskSubject(EventType $eventType): string
+    {
+        return match ($eventType) {
+            EventType::UserRegistration => SalesforceTaskSubject::ChaseFormCompletion->value,
+            EventType::DocumentExport   => SalesforceTaskSubject::FormReview->value,
+        };
+    }
+
+    private function taskDueDate(EventType $eventType): string
+    {
+        $days = match ($eventType) {
+            EventType::UserRegistration => 7,
+            EventType::DocumentExport   => 1,
+        };
+
+        return now()->addDays($days)->startOfDay()->toDateString();
+    }
+
+    private function taskPriority(EventType $eventType): string
+    {
+        return match ($eventType) {
+            EventType::UserRegistration => SalesforceTaskPriority::Normal->value,
+            EventType::DocumentExport   => SalesforceTaskPriority::High->value,
+        };
+    }
+
     private function requireId(array|Response $response): string
     {
-        return $this->requireField($response, 'id');
+        return $this->requireField($response, 'Id', fn () => $this->getField($response, 'id'));
+    }
+
+    private function requireOwnerId(array|Response $response): string
+    {
+        return $this->requireField($response, 'OwnerId');
     }
 
     private function requireObjectType(array|Response $response): SalesforceObjectType
@@ -423,9 +467,9 @@ class SalesforceCRMService implements CRMService
         return $this;
     }
 
-    private function requireField(Response|array $response, string $field): mixed
+    private function requireField(Response|array $response, string $field, ?callable $default = null): mixed
     {
-        $value = $this->getField($response, $field);
+        $value = $this->getField($response, $field) ?? ($default ? $default() : null);
 
         if ($value === null) {
             throw new AssertionError(sprintf("Data does not contain non-null '%s': %s", $field, json_encode($this->getData($response))));

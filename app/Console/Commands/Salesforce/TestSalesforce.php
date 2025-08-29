@@ -14,6 +14,7 @@ use App\CRM\Service\Auth\SalesforceAuthService;
 use App\CRM\Service\Auth\SalesforceAuthTokenProvider;
 use App\CRM\Service\SalesforceCRMService;
 use App\Enums\ContactType;
+use App\Enums\EventType;
 use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\Salesforce;
