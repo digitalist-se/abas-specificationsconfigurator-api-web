@@ -145,6 +145,28 @@ class SalesforceCRMService implements CRMService
         return $taskId;
     }
 
+    public function uploadDocument(string $taskId, User $user, SpecificationDocument $document): string
+    {
+        $contentVersionId = $this->createContentVersion($user, $document, [
+            'Title'           => 'ERP-Form',
+            'PathOnClient'    => 'ERP-Form.xlsx',
+            'ContentLocation' => 'S',
+        ]);
+
+        $contentDocumentId = $this->searchContentVersionForContentDocumentBy($contentVersionId);
+        if (! $contentDocumentId) {
+            throw new RuntimeException("Failed to find ContentDocument for ContentVersion: $contentVersionId");
+        }
+
+        $this->createContentDocumentLink($user, [
+            'ContentDocumentId' => $contentDocumentId,
+            'LinkedEntityId'    => $taskId,
+            'Visibility'        => SalesforceContentDocumentLinkVisibility::AllUsers->value,
+        ]);
+
+        return $contentDocumentId;
+    }
+
     public function createLead(User $user, array $data = [], ContactType $contactType = ContactType::User): string
     {
         return $this->createObject(
