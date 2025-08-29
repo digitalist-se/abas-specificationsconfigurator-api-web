@@ -79,7 +79,7 @@ class TestSalesforce extends Command
             return 1;
         }
 
-        return match ($this->hasOption('event')) {
+        return match ((bool) $this->option('event')) {
             true  => $this->handleEvent(),
             false => $this->handleAction(),
         };
@@ -144,8 +144,13 @@ class TestSalesforce extends Command
             return 1;
         }
 
-        $userId = $this->option('user-id') ?? throw new RuntimeException('Missing --user-id option');
-        $user = User::find($userId);
+        $contactType = match ($eventType) {
+            EventType::UserRegistration => ContactType::User,
+            EventType::DocumentExport   => ContactType::Company,
+        };
+
+        $userId = $this->option('user-id');
+        $user = $userId ? User::find($userId) : $this->userFor(SalesforceObjectType::Lead, Action::Create, $contactType);
         if (! ($user instanceof User)) {
             $this->warn('User not found for event.');
 
@@ -156,8 +161,8 @@ class TestSalesforce extends Command
 
         $this->log("handle event {$eventType->value}", ['user_id' => $user->id]);
         match ($eventType) {
-            EventType::UserRegistered => $this->crmService->handleUserRegistered(new Registered($user)),
-            EventType::DocumentExport => $this->crmService->handleDocumentExport(
+            EventType::UserRegistration => $this->crmService->handleUserRegistered(new Registered($user)),
+            EventType::DocumentExport   => $this->crmService->handleDocumentExport(
                 new ExportedDocument($user, $this->generateSpecificationDocument($user))
             ),
         };
