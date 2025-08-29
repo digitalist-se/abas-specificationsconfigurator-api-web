@@ -127,7 +127,7 @@ class TestSalesforce extends Command
         match ($action) {
             Action::Create => $this->createObject($objectType, $user, $contactType),
             Action::Get    => $this->getObject($objectType, $user),
-            Action::Search => $this->searchObject($objectType, $user),
+            Action::Search => $this->searchObject($objectType, $user, $contactType),
             Action::Update => $this->updateObject($objectType, $user, $contactType),
         };
 
@@ -273,7 +273,7 @@ class TestSalesforce extends Command
         $this->log("got {$objectType->value}", $result, $dumpIt);
     }
 
-    private function searchObject(SalesforceObjectType $objectType, User $user = null, bool $dumpIt = true): void
+    private function searchObject(SalesforceObjectType $objectType, User $user, ContactType $contactType, bool $dumpIt = true): void
     {
         $searchValues = match ($objectType) {
             SalesforceObjectType::Account => [$this->shouldNotFind ? $this->faker()->company() : $user->company],
@@ -283,7 +283,8 @@ class TestSalesforce extends Command
                 SalesforceTaskStatus::Open,
             ],
             SalesforceObjectType::ContentVersion => [$this->shouldNotFind ? $this->faker()->uuid : $user->salesforce->content_version_id],
-            default                              => [$this->shouldNotFind ? $this->faker()->email : ($user->contact_email ?: $user->email)],
+            SalesforceObjectType::Lead           => [$this->shouldNotFind ? $this->faker()->email : ($user->getContactEmail($contactType)), SalesforceLeadStatus::PreLead],
+            default                              => [$this->shouldNotFind ? $this->faker()->email : ($user->getContactEmail($contactType))],
         };
 
         $this->log("search {$objectType->value}", ['search' => $searchValues], $dumpIt);

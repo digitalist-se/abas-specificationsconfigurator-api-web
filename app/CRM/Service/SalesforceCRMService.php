@@ -126,7 +126,7 @@ class SalesforceCRMService implements CRMService
             return $this->getContact($contactId);
         }
 
-        if ($leadId = $this->searchLeadBy($user->getContactEmail($contactType))) {
+        if ($leadId = $this->searchLeadBy($user->getContactEmail($contactType), SalesforceLeadStatus::PreLead)) {
             $this->updateLead($leadId, $user, $updateData, $contactType);
         } else {
             $leadId = $this->createLead($user, $createData, $contactType);
@@ -145,10 +145,10 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($leadId, SalesforceObjectType::Lead);
     }
 
-    public function searchLeadBy(string $email): ?string
+    public function searchLeadBy(string $email, SalesforceLeadStatus $leadStatus): ?string
     {
         return $this->search(
-            sprintf("SELECT Id FROM Lead WHERE Email = '%s'", $email),
+            sprintf("SELECT Id FROM Lead WHERE Email = '%s' AND Status = '%s'", $email, $leadStatus->value),
             SalesforceObjectType::Lead,
         );
     }
