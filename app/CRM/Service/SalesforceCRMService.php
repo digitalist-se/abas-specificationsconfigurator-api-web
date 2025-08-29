@@ -137,7 +137,13 @@ class SalesforceCRMService implements CRMService
 
     public function createLead(User $user, array $data = [], ContactType $contactType = ContactType::User): string
     {
-        return $this->createObject($user, SalesforceObjectType::Lead, $data, $contactType);
+        return $this->createObject(
+            $user,
+            SalesforceObjectType::Lead,
+            $data,
+            $contactType,
+            ['Sforce-Duplicate-Rule-Header' => 'allowSave=true']
+        );
     }
 
     public function getLead(string $leadId): array
@@ -280,7 +286,7 @@ class SalesforceCRMService implements CRMService
         return $response->json();
     }
 
-    private function createObject(User $user, SalesforceObjectType $objectType, array $data = [], ContactType $contactType = ContactType::User): string
+    private function createObject(User $user, SalesforceObjectType $objectType, array $data = [], ContactType $contactType = ContactType::User, array $headers = []): string
     {
         $scope = sprintf('create %s ', $objectType->value);
 
@@ -290,7 +296,9 @@ class SalesforceCRMService implements CRMService
 
         $data = $this->adapter($objectType)->toRequestBody($user, $data, $contactType);
 
-        $response = $this->request()->post($path, $data);
+        $response = $this->request()
+            ->withHeaders($headers)
+            ->post($path, $data);
 
         $id = $this
             ->requireSuccess($response, $scope)
