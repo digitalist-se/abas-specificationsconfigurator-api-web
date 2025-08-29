@@ -91,6 +91,31 @@ class SalesforceCRMService implements CRMService
 
     public function handleDocumentExport(ExportedDocument $event): bool
     {
+        try {
+            $user = $this->requireUser($event);
+            $document = $event->document;
+
+            $person = $this->upsertPerson($user, ContactType::Company);
+
+            $objectType = $this->requireObjectType($person);
+
+            if ($objectType === SalesforceObjectType::Contact) {
+                $this->updateAccount(
+                    $this->requireField($person, 'AccountId'),
+                    $user,
+                    contactType: ContactType::Company
+                );
+            }
+
+            $taskId = $this->upsertTask($user, $person, EventType::DocumentExport);
+
+            $this->uploadDocument($taskId, $user, $document);
+        } catch (Throwable $throwable) {
+            $this->logger()->error('[DocumentExport] Failed', ['error' => $throwable->getMessage()]);
+
+            return false;
+        }
+
         return true;
     }
 
@@ -383,11 +408,11 @@ class SalesforceCRMService implements CRMService
         return $this;
     }
 
-    private function taskSubject(EventType $eventType): string
+    private function taskSubject(EventType $eventType): SalesforceTaskSubject
     {
         return match ($eventType) {
-            EventType::UserRegistration => SalesforceTaskSubject::ChaseFormCompletion->value,
-            EventType::DocumentExport   => SalesforceTaskSubject::FormReview->value,
+            EventType::UserRegistration => SalesforceTaskSubject::ChaseFormCompletion,
+            EventType::DocumentExport   => SalesforceTaskSubject::FormReview,
         };
     }
 
@@ -401,12 +426,22 @@ class SalesforceCRMService implements CRMService
         return now()->addDays($days)->startOfDay()->toDateString();
     }
 
-    private function taskPriority(EventType $eventType): string
+    private function taskPriority(EventType $eventType): SalesforceTaskPriority
     {
         return match ($eventType) {
-            EventType::UserRegistration => SalesforceTaskPriority::Normal->value,
-            EventType::DocumentExport   => SalesforceTaskPriority::High->value,
+            EventType::UserRegistration => SalesforceTaskPriority::Normal,
+            EventType::DocumentExport   => SalesforceTaskPriority::High,
         };
+    }
+
+    private function requireUser(Registered|ExportedDocument $event): User
+    {
+        $user = $event->user;
+        if (! $user instanceof User) {
+            throw new AssertionError(sprintf('Require User instance in event %s', get_class($event)));
+        }
+
+        return $user;
     }
 
     private function requireId(array|Response $response): string
@@ -421,12 +456,12 @@ class SalesforceCRMService implements CRMService
 
     private function requireObjectType(array|Response $response): SalesforceObjectType
     {
-        return SalesforceObjectType::from($this->requireField($response, 'attribute.type'));
+        return SalesforceObjectType::from($this->requireField($response, 'attributes.type'));
     }
 
     private function requireObjectUrl(array|Response $response): string
     {
-        return $this->requireField($response, 'attribute.url');
+        return $this->requireField($response, 'attributes.url');
     }
 
     private function request(): PendingRequest
