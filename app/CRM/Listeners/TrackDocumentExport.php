@@ -16,5 +16,7 @@ class TrackDocumentExport
     public function handle(ExportedDocument $event)
     {
         CRM::handleDocumentExport($event);
+
+        $event->document->removeExcel();
     }
 }
