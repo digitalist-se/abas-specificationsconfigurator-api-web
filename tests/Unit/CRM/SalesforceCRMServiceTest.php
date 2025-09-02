@@ -84,7 +84,7 @@ class SalesforceCRMServiceTest extends TestCase
     {
         $this->assertTrue(
             collect($this->actionProtocol)->every(fn ($done) => $done),
-            'Not all expected actions were performed: '.json_encode(JSON_PRETTY_PRINT)
+            'Not all expected actions were performed: '.json_encode($this->actionProtocol, JSON_PRETTY_PRINT)
         );
 
         return $this;
@@ -270,6 +270,51 @@ class SalesforceCRMServiceTest extends TestCase
     /**
      * @test
      */
+    public function it_can_track_user_registered_and_updating_existing_lead()
+    {
+        $contactType = ContactType::User;
+        $user = $this->givenIsAUserWithContactData($contactType);
+        $service = $this->app->make(SalesforceCRMService::class);
+        $leadId = $this->faker->uuid;
+        $ownerId = $this->faker->uuid;
+        $taskId = $this->faker->uuid;
+
+        $expectations = [
+            [SalesforceObjectType::Contact, Action::Search],
+            [SalesforceObjectType::Lead, Action::Search],
+            [SalesforceObjectType::Lead, Action::Update],
+            [SalesforceObjectType::Lead, Action::Get],
+            [SalesforceObjectType::Task, Action::Create],
+        ];
+
+        $this->setActionProtocolExpectations($expectations);
+
+        Http::fake([
+            '*' => Http::sequence([
+                $this->mockResponseAuthToken(), // Auth
+                $this->mockResponseSearch(), // Search Contact by Email
+                $this->mockResponseSearch([['Id' => $leadId]]), // Search Lead by Email
+                $this->mockResponseUpdate($leadId), // Update Lead
+                $this->mockResponseGet($leadId, SalesforceObjectType::Lead, ['OwnerId' => $ownerId]), // Get Contact
+                $this->mockResponseCreate($taskId), // Create Task
+            ]),
+        ]);
+
+        $service->handleUserRegistered(new Registered($user));
+
+        $this
+            ->assertRequestContactSearch($user, $contactType)
+            ->assertRequestLeadSearch($user, $contactType)
+            ->assertRequestLeadUpdate($leadId, $user, $contactType)
+            ->assertRequestLeadGet($leadId)
+            ->assertRequestTaskCreationForUserRegistered($leadId, $ownerId)
+            ->assertActionProtocol()
+            ->assertSalesforceId($user, $expectations);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_track_user_registered_and_updating_existing_contact()
     {
         $contactType = ContactType::User;
@@ -425,7 +470,7 @@ class SalesforceCRMServiceTest extends TestCase
             SalesforceObjectType::Lead,
             Action::Create,
             null,
-            function (?Request $request) use ($user, $contactType) {
+            function (Request $request) use ($user, $contactType) {
                 $data = $request->data();
                 $this->assertEquals($user->getContactEmail($contactType), $data['Email']);
                 $this->assertEquals($user->getContactFirstName($contactType), $data['FirstName']);
@@ -435,6 +480,22 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->assertEquals(SalesforceLeadStatus::PreLead->value, $data['Status']);
                 $this->assertEquals(SalesforceLeadProductFamily::ABAS->value, $data['Product_Family__c']);
 
+            }
+        );
+    }
+
+    private function assertRequestLeadUpdate($leadId, $user, $contactType): self
+    {
+        return $this->assertRequest(
+            SalesforceObjectType::Lead,
+            Action::Update,
+            $leadId,
+            function (Request $request) use ($user, $contactType) {
+                $data = $request->data();
+                $this->assertEquals($user->getContactEmail($contactType), $data['Email']);
+                $this->assertEquals($user->getContactFirstName($contactType), $data['FirstName']);
+                $this->assertEquals($user->getContactLastName($contactType), $data['LastName']);
+                $this->assertEquals(SalesforceLeadSource::ERPPlanner->value, $data['LeadSource']);
             }
         );
     }
@@ -457,7 +518,7 @@ class SalesforceCRMServiceTest extends TestCase
             SalesforceObjectType::Contact,
             Action::Update,
             $contactId,
-            function (?Request $request) use ($user, $contactType) {
+            function (Request $request) use ($user, $contactType) {
                 $data = $request->data();
                 $this->assertEquals($user->getContactEmail($contactType), $data['Email']);
                 $this->assertEquals($user->getContactFirstName($contactType), $data['FirstName']);
@@ -522,7 +583,7 @@ class SalesforceCRMServiceTest extends TestCase
             SalesforceObjectType::ContentVersion,
             Action::Create,
             null,
-            function (?Request $request) {
+            function (Request $request) {
                 $data = $request->data();
                 $this->assertEquals('ERP-Form', $data['Title']);
                 $this->assertEquals('ERP-Form.xlsx', $data['PathOnClient']);
@@ -537,7 +598,7 @@ class SalesforceCRMServiceTest extends TestCase
             SalesforceObjectType::ContentDocumentLink,
             Action::Create,
             null,
-            function (?Request $request) use ($taskId, $contentDocumentId) {
+            function (Request $request) use ($taskId, $contentDocumentId) {
                 $data = $request->data();
                 $this->assertEquals($contentDocumentId, $data['ContentDocumentId']);
                 $this->assertEquals($taskId, $data['LinkedEntityId']);
