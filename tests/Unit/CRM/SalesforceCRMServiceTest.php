@@ -4,6 +4,8 @@ namespace Tests\Unit\CRM;
 
 use App\Console\Commands\Salesforce\Action;
 use App\CRM\Enums\SalesforceContentDocumentLinkVisibility;
+use App\CRM\Enums\SalesforceLeadProductFamily;
+use App\CRM\Enums\SalesforceLeadSource;
 use App\CRM\Enums\SalesforceLeadStatus;
 use App\CRM\Enums\SalesforceObjectType;
 use App\CRM\Enums\SalesforceTaskPriority;
@@ -168,6 +170,16 @@ class SalesforceCRMServiceTest extends TestCase
         $ownerId = $this->faker->uuid;
         $taskId = $this->faker->uuid;
 
+        $expectations = [
+            [SalesforceObjectType::Contact, Action::Search],
+            [SalesforceObjectType::Lead, Action::Search],
+            [SalesforceObjectType::Lead, Action::Create],
+            [SalesforceObjectType::Lead, Action::Get],
+            [SalesforceObjectType::Task, Action::Create],
+        ];
+
+        $this->setActionProtocolExpectations($expectations);
+
         Http::fake([
             '*' => Http::sequence([
                 $this->mockResponseAuthToken(), // Auth
@@ -178,15 +190,6 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->mockResponseCreate($taskId), // Create Task
             ]),
         ]);
-
-        $expectations = [
-            [SalesforceObjectType::Contact, Action::Search],
-            [SalesforceObjectType::Lead, Action::Search],
-            [SalesforceObjectType::Lead, Action::Create],
-            [SalesforceObjectType::Lead, Action::Get],
-            [SalesforceObjectType::Task, Action::Create],
-        ];
-        $this->setActionProtocolExpectations($expectations);
 
         $service->handleUserRegistered(new Registered($user));
 
@@ -216,6 +219,20 @@ class SalesforceCRMServiceTest extends TestCase
         $contentDocumentId = $this->faker->uuid;
         $contentDocumentLinkId = $this->faker->uuid;
 
+        $expectations = [
+            [SalesforceObjectType::Contact, Action::Search],
+            [SalesforceObjectType::Lead, Action::Search],
+            [SalesforceObjectType::Lead, Action::Create],
+            [SalesforceObjectType::Lead, Action::Get],
+            [SalesforceObjectType::Task, Action::Search],
+            [SalesforceObjectType::Task, Action::Create],
+            [SalesforceObjectType::ContentVersion, Action::Create],
+            [SalesforceObjectType::ContentVersion, Action::Search],
+            [SalesforceObjectType::ContentDocumentLink, Action::Create],
+        ];
+
+        $this->setActionProtocolExpectations($expectations);
+
         Http::fake([
             '*' => Http::sequence([
                 $this->mockResponseAuthToken(), // Auth
@@ -230,20 +247,6 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->mockResponseCreate($contentDocumentLinkId), // Create $contentDocumentLink
             ]),
         ]);
-
-        $expectations = [
-            [SalesforceObjectType::Contact, Action::Search],
-            [SalesforceObjectType::Lead, Action::Search],
-            [SalesforceObjectType::Lead, Action::Create],
-            [SalesforceObjectType::Lead, Action::Get],
-            [SalesforceObjectType::Task, Action::Search],
-            [SalesforceObjectType::Task, Action::Create],
-            [SalesforceObjectType::ContentVersion, Action::Create],
-            [SalesforceObjectType::ContentVersion, Action::Search],
-            [SalesforceObjectType::ContentDocumentLink, Action::Create],
-        ];
-
-        $this->setActionProtocolExpectations($expectations);
 
         $service->handleDocumentExport(new ExportedDocument($user, $document));
 
@@ -262,6 +265,48 @@ class SalesforceCRMServiceTest extends TestCase
 
         @unlink($document->outputExcelFilename());
         @unlink($document->outputZipFilename());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_track_user_registered_and_updating_existing_contact()
+    {
+        $contactType = ContactType::User;
+        $user = $this->givenIsAUserWithContactData($contactType);
+        $service = $this->app->make(SalesforceCRMService::class);
+        $contactId = $this->faker->uuid;
+        $ownerId = $this->faker->uuid;
+        $taskId = $this->faker->uuid;
+
+        $expectations = [
+            [SalesforceObjectType::Contact, Action::Search],
+            [SalesforceObjectType::Contact, Action::Update],
+            [SalesforceObjectType::Contact, Action::Get],
+            [SalesforceObjectType::Task, Action::Create],
+        ];
+
+        $this->setActionProtocolExpectations($expectations);
+
+        Http::fake([
+            '*' => Http::sequence([
+                $this->mockResponseAuthToken(), // Auth
+                $this->mockResponseSearch([['Id' => $contactId]]), // Search Contact by Email
+                $this->mockResponseUpdate($contactId), // Update Contact
+                $this->mockResponseGet($contactId, SalesforceObjectType::Contact, ['OwnerId' => $ownerId]), // Get Contact
+                $this->mockResponseCreate($taskId), // Create Task
+            ]),
+        ]);
+
+        $service->handleUserRegistered(new Registered($user));
+
+        $this
+            ->assertRequestContactSearch($user, $contactType)
+            ->assertRequestContactUpdate($contactId, $user, $contactType)
+            ->assertRequestContactGet($contactId)
+            ->assertRequestTaskCreationForUserRegistered($contactId, $ownerId)
+            ->assertActionProtocol()
+            ->assertSalesforceId($user, $expectations);
     }
 
     private function assertSalesforceId(User $user, array $expectations): self
@@ -386,6 +431,10 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->assertEquals($user->getContactFirstName($contactType), $data['FirstName']);
                 $this->assertEquals($user->getContactLastName($contactType), $data['LastName']);
                 $this->assertEquals($user->getContactCompany($contactType), $data['Company']);
+                $this->assertEquals(SalesforceLeadSource::ERPPlanner->value, $data['LeadSource']);
+                $this->assertEquals(SalesforceLeadStatus::PreLead->value, $data['Status']);
+                $this->assertEquals(SalesforceLeadProductFamily::ABAS->value, $data['Product_Family__c']);
+
             }
         );
     }
@@ -396,6 +445,34 @@ class SalesforceCRMServiceTest extends TestCase
             SalesforceObjectType::Lead,
             Action::Get,
             $leadId,
+            function (?Request $request) {
+                $this->assertEquals('GET', $request->toPsrRequest()->getMethod());
+            }
+        );
+    }
+
+    private function assertRequestContactUpdate($contactId, $user, $contactType): self
+    {
+        return $this->assertRequest(
+            SalesforceObjectType::Contact,
+            Action::Update,
+            $contactId,
+            function (?Request $request) use ($user, $contactType) {
+                $data = $request->data();
+                $this->assertEquals($user->getContactEmail($contactType), $data['Email']);
+                $this->assertEquals($user->getContactFirstName($contactType), $data['FirstName']);
+                $this->assertEquals($user->getContactLastName($contactType), $data['LastName']);
+                $this->assertEquals(SalesforceLeadSource::ERPPlanner->value, $data['LeadSource']);
+            }
+        );
+    }
+
+    private function assertRequestContactGet($contactId): self
+    {
+        return $this->assertRequest(
+            SalesforceObjectType::Contact,
+            Action::Get,
+            $contactId,
             function (?Request $request) {
                 $this->assertEquals('GET', $request->toPsrRequest()->getMethod());
             }
