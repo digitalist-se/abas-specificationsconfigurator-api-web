@@ -354,6 +354,70 @@ class SalesforceCRMServiceTest extends TestCase
             ->assertSalesforceId($user, $expectations);
     }
 
+    /**
+     * @test
+     */
+    public function it_can_track_document_export_and_update_existing_task(): void
+    {
+        $contactType = ContactType::Company;
+        $user = $this->givenIsAUserWithContactData($contactType);
+        $document = $this->givenIsASpecificationDocument($user);
+        $service = $this->app->make(SalesforceCRMService::class);
+        $leadId = $this->faker->uuid;
+        $ownerId = $this->faker->uuid;
+        $taskId = $this->faker->uuid;
+        $contentVersionId = $this->faker->uuid;
+        $contentDocumentId = $this->faker->uuid;
+        $contentDocumentLinkId = $this->faker->uuid;
+
+        $expectations = [
+            [SalesforceObjectType::Contact, Action::Search],
+            [SalesforceObjectType::Lead, Action::Search],
+            [SalesforceObjectType::Lead, Action::Create],
+            [SalesforceObjectType::Lead, Action::Get],
+            [SalesforceObjectType::Task, Action::Search],
+            [SalesforceObjectType::Task, Action::Update],
+            [SalesforceObjectType::ContentVersion, Action::Create],
+            [SalesforceObjectType::ContentVersion, Action::Search],
+            [SalesforceObjectType::ContentDocumentLink, Action::Create],
+        ];
+
+        $this->setActionProtocolExpectations($expectations);
+
+        Http::fake([
+            '*' => Http::sequence([
+                $this->mockResponseAuthToken(), // Auth
+                $this->mockResponseSearch(), // Search Contact by Email
+                $this->mockResponseSearch(), // Search Lead by Email
+                $this->mockResponseCreate($leadId), // Create Lead
+                $this->mockResponseGet($leadId, SalesforceObjectType::Lead, ['OwnerId' => $ownerId]), // Get Lead
+                $this->mockResponseSearch([['Id' => $taskId]]), // Search Task by Subject and WhoId
+                $this->mockResponseUpdate($taskId), // Update Task
+                $this->mockResponseCreate($contentVersionId), // Create ContentVersion
+                $this->mockResponseSearch([['ContentDocumentId' => $contentDocumentId]]), // Search ContentVersion
+                $this->mockResponseCreate($contentDocumentLinkId), // Create $contentDocumentLink
+            ]),
+        ]);
+
+        $service->handleDocumentExport(new ExportedDocument($user, $document));
+
+        $this
+            ->assertRequestContactSearch($user, $contactType)
+            ->assertRequestLeadSearch($user, $contactType)
+            ->assertRequestLeadCreation($user, $contactType)
+            ->assertRequestLeadGet($leadId)
+            ->assertRequestTaskSearch($leadId)
+            ->assertRequestTaskUpdateForDocumentExport($taskId, $leadId, $ownerId)
+            ->assertRequestContentVersionCreation()
+            ->assertRequestContentVersionSearch($contentVersionId)
+            ->assertRequestContentDocumentLinkCreation($taskId, $contentDocumentId)
+            ->assertActionProtocol()
+            ->assertSalesforceId($user, $expectations);
+
+        @unlink($document->outputExcelFilename());
+        @unlink($document->outputZipFilename());
+    }
+
     private function assertSalesforceId(User $user, array $expectations): self
     {
         $salesforce = $user->salesforce;
@@ -479,7 +543,6 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->assertEquals(SalesforceLeadSource::ERPPlanner->value, $data['LeadSource']);
                 $this->assertEquals(SalesforceLeadStatus::PreLead->value, $data['Status']);
                 $this->assertEquals(SalesforceLeadProductFamily::ABAS->value, $data['Product_Family__c']);
-
             }
         );
     }
@@ -575,6 +638,24 @@ class SalesforceCRMServiceTest extends TestCase
     private function assertRequestTaskCreationForDocumentExport($leadId, $ownerId): self
     {
         return $this->assertRequestTaskCreationForEventType($leadId, $ownerId, EventType::DocumentExport);
+    }
+
+    private function assertRequestTaskUpdateForDocumentExport($taskId, $leadId, $ownerId): self
+    {
+        return $this->assertRequest(
+            SalesforceObjectType::Task,
+            Action::Update,
+            $taskId,
+            function (Request $request) use ($leadId, $ownerId) {
+                $data = $request->data();
+                $this->assertEquals(SalesforceTaskSubject::FormReview->value, $data['Subject']);
+                $this->assertEquals(SalesforceTaskPriority::High->value, $data['Priority']);
+                $this->assertEquals(Carbon::now()->addDay()->toDateString(), $data['ActivityDate']);
+                $this->assertEquals(SalesforceTaskStatus::Open->value, $data['Status']);
+                $this->assertEquals($leadId, $data['WhoId']);
+                $this->assertNotContains('OwnerId', $data);
+            }
+        );
     }
 
     private function assertRequestContentVersionCreation(): self
