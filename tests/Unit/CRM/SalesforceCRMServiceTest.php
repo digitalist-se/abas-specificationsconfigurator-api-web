@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\CRM;
 
-use App\Console\Commands\Salesforce\Action;
 use App\CRM\Enums\SalesforceContentDocumentLinkVisibility;
 use App\CRM\Enums\SalesforceLeadProductFamily;
 use App\CRM\Enums\SalesforceLeadSource;
@@ -17,6 +16,7 @@ use App\Enums\EventType;
 use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\User;
+use Commands\Salesforce\Action;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\WithFaker;
