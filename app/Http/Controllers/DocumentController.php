@@ -34,7 +34,7 @@ class DocumentController extends Controller
         }
         $answers = $user->answers()->get();
         $specificationDocument = new SpecificationDocument($outputDir, $user, $answers);
-        $specificationDocument->save();
+        $specificationDocument->save(true);
 
         event(new ExportedDocument($user, $specificationDocument));
 

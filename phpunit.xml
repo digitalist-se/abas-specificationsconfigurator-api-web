@@ -29,6 +29,8 @@
         <env name="HUBSPOT_PRIVATE_APP_ACCESS_TOKEN" value="no-api-key"/>
         <env name="PARDOT_ENABLED" value="false"/>
         <env name="SALESFORCE_ENABLED" value="false"/>
+        <env name="SALESFORCE_BASEURL" value="https://salesforce.example.com/"/>
+        <env name="SALESFORCE_CLIENT_ID" value="no-client-id"/>
         <env name="SALESFORCE_CLIENT_SECRET" value="no-client-secret"/>
     </php>
 </phpunit>

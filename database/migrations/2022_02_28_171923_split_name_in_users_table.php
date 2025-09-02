@@ -31,7 +31,7 @@ class SplitNameInUsersTable extends Migration
         User::query()
             ->orderBy('id')
             ->chunk(20,
-                fn ($users)    => $users->each(
+                fn ($users) => $users->each(
                     fn ($user) => $this->migrateNames($user)
                 )
             );
@@ -81,7 +81,7 @@ class SplitNameInUsersTable extends Migration
         User::query()
             ->orderBy('id')
             ->chunk(20,
-                fn ($users)    => $users->each(
+                fn ($users) => $users->each(
                     fn ($user) => $this->revertNames($user)
                 )
             );
@@ -89,7 +89,7 @@ class SplitNameInUsersTable extends Migration
 
     protected function revertNames(User $user)
     {
-        \Illuminate\Support\Facades\DB::table('users')
+        Illuminate\Support\Facades\DB::table('users')
             ->where('id', '=', $user->id)
             ->update([
                 'name'    => $this->mergeName($user->first_name, $user->last_name),

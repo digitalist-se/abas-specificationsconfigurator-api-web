@@ -9,7 +9,7 @@ use Tests\TestCase;
 class NoteAdapterTest extends TestCase
 {
     /**
-     * @return \App\Models\User
+     * @return User
      */
     protected function user()
     {

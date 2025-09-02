@@ -11,37 +11,50 @@ use App\CRM\Adapter\Salesforce\ContentDocumentLinkAdapter;
 use App\CRM\Adapter\Salesforce\ContentVersionAdapter;
 use App\CRM\Adapter\Salesforce\LeadAdapter;
 use App\CRM\Adapter\Salesforce\TaskAdapter;
+use App\CRM\Enums\SalesforceContentDocumentLinkVisibility;
 use App\CRM\Enums\SalesforceLeadProductFamily;
 use App\CRM\Enums\SalesforceLeadSource;
 use App\CRM\Enums\SalesforceLeadStatus;
 use App\CRM\Enums\SalesforceObjectType;
+use App\CRM\Enums\SalesforceTaskPriority;
 use App\CRM\Enums\SalesforceTaskStatus;
 use App\CRM\Enums\SalesforceTaskSubject;
 use App\CRM\Service\Auth\AuthTokenProviderInterface;
+use App\Enums\ContactType;
+use App\Enums\EventType;
 use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\User;
 use Arr;
 use AssertionError;
 use Exception;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
 use Http;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Log;
+use Log;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Throwable;
 
 class SalesforceCRMService implements CRMService
 {
     /**
-     * @param array{'enabled': boolean, 'baseUrl': string, 'clientId': string, 'clientSecret': string} $options
+     * @param array{'enabled': bool, 'baseUrl': string, 'clientId': string, 'clientSecret': string} $options
      */
     public function __construct(
         private array $options,
         private AuthTokenProviderInterface $authTokenProvider,
     ) {
         $this->setBasePath('services/data/v63.0');
+    }
+
+    private function logger(): LoggerInterface
+    {
+        return Log::channel('salesforce');
     }
 
     private function adapter(SalesforceObjectType $objectType): Adapter
@@ -61,28 +74,133 @@ class SalesforceCRMService implements CRMService
 
     public function handleUserRegistered(Registered $event): bool
     {
-        $user = $event->user;
-        if (! $user instanceof User) {
+        try {
+            $user = $this->requireUser($event);
+
+            $person = $this->upsertPerson($user, ContactType::User);
+
+            $this->upsertTask($user, $person, EventType::UserRegistration, true);
+        } catch (Throwable $throwable) {
+            $this->logger()->error('[UserRegistered] Failed', ['error' => $throwable->getMessage()]);
+
             return false;
         }
 
-        $data = [
-            'Product_Family__c' => SalesforceLeadProductFamily::ABAS->value,
-            'Status'            => SalesforceLeadStatus::PreLead->value,
-            'LeadSource'        => SalesforceLeadSource::ERPPlanner->value,
-        ];
-
-        return $this->createLead($user, $data) !== null;
+        return true;
     }
 
     public function handleDocumentExport(ExportedDocument $event): bool
     {
+        try {
+            $user = $this->requireUser($event);
+            $document = $event->document;
+
+            $person = $this->upsertPerson($user, ContactType::Company);
+
+            $objectType = $this->requireObjectType($person);
+
+            if ($objectType === SalesforceObjectType::Contact) {
+                $this->updateAccount(
+                    $this->requireField($person, 'AccountId'),
+                    $user,
+                    contactType: ContactType::Company
+                );
+            }
+
+            $taskId = $this->upsertTask($user, $person, EventType::DocumentExport);
+
+            $this->uploadDocument($taskId, $user, $document);
+        } catch (Throwable $throwable) {
+            $this->logger()->error('[DocumentExport] Failed', ['error' => $throwable->getMessage()]);
+
+            return false;
+        }
+
         return true;
     }
 
-    public function createLead(User $user, array $data): string
+    public function upsertPerson(User $user, ContactType $contactType): array
     {
-        return $this->createObject($user, SalesforceObjectType::Lead, $data);
+        $updateData = [
+            'LeadSource' => SalesforceLeadSource::ERPPlanner->value,
+        ];
+
+        $createData = array_merge($updateData, [
+            'Product_Family__c' => SalesforceLeadProductFamily::ABAS->value,
+            'Status'            => SalesforceLeadStatus::PreLead->value,
+        ]);
+
+        if ($contactId = $this->searchContactBy($user->getContactEmail($contactType))) {
+            $this->updateContact($contactId, $user, $updateData, $contactType);
+
+            return $this->getContact($contactId);
+        }
+
+        if ($leadId = $this->searchLeadBy($user->getContactEmail($contactType), SalesforceLeadStatus::PreLead)) {
+            $this->updateLead($leadId, $user, $updateData, $contactType);
+        } else {
+            $leadId = $this->createLead($user, $createData, $contactType);
+        }
+
+        return $this->getLead($leadId);
+    }
+
+    public function upsertTask(User $user, array $person, EventType $eventType, $forceCreate = false): string
+    {
+        $whoId = $this->requireId($person);
+        $subject = $this->taskSubject($eventType);
+
+        $taskId = $forceCreate ? null : $this->searchTaskBy($subject, $whoId, SalesforceTaskStatus::Open);
+
+        $taskData = [
+            'Subject'      => $subject->value,
+            'ActivityDate' => $this->taskDueDate($eventType),
+            'WhoId'        => $whoId,
+            'Priority'     => $this->taskPriority($eventType)->value,
+            'Status'       => SalesforceTaskStatus::Open->value,
+        ];
+
+        if ($taskId) {
+            $this->updateTask($taskId, $user, $taskData);
+        } else {
+            $createData = ['OwnerId' => $this->requireOwnerId($person)];
+            $taskId = $this->createTask($user, array_merge($taskData, $createData));
+        }
+
+        return $taskId;
+    }
+
+    public function uploadDocument(string $taskId, User $user, SpecificationDocument $document): string
+    {
+        $contentVersionId = $this->createContentVersion($user, $document, [
+            'Title'           => 'ERP-Form',
+            'PathOnClient'    => 'ERP-Form.xlsx',
+            'ContentLocation' => 'S',
+        ]);
+
+        $contentDocumentId = $this->searchContentVersionForContentDocumentBy($contentVersionId);
+        if (! $contentDocumentId) {
+            throw new RuntimeException("Failed to find ContentDocument for ContentVersion: $contentVersionId");
+        }
+
+        $this->createContentDocumentLink($user, [
+            'ContentDocumentId' => $contentDocumentId,
+            'LinkedEntityId'    => $taskId,
+            'Visibility'        => SalesforceContentDocumentLinkVisibility::AllUsers->value,
+        ]);
+
+        return $contentDocumentId;
+    }
+
+    public function createLead(User $user, array $data = [], ContactType $contactType = ContactType::User): string
+    {
+        return $this->createObject(
+            $user,
+            SalesforceObjectType::Lead,
+            $data,
+            $contactType,
+            ['Sforce-Duplicate-Rule-Header' => 'allowSave=true']
+        );
     }
 
     public function getLead(string $leadId): array
@@ -90,22 +208,22 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($leadId, SalesforceObjectType::Lead);
     }
 
-    public function searchLeadBy(string $email): ?string
+    public function searchLeadBy(string $email, SalesforceLeadStatus $leadStatus): ?string
     {
         return $this->search(
-            sprintf("SELECT Id FROM Lead WHERE Email = '%s'", $email),
+            sprintf("SELECT Id FROM Lead WHERE Email = '%s' AND Status = '%s'", $email, $leadStatus->value),
             SalesforceObjectType::Lead,
         );
     }
 
-    public function updateLead(string $leadId, User $user, array $data): bool
+    public function updateLead(string $leadId, User $user, array $data = [], ContactType $contactType = ContactType::User): bool
     {
-        return $this->updateObject($leadId, $user, SalesforceObjectType::Lead, $data);
+        return $this->updateObject($leadId, $user, SalesforceObjectType::Lead, $data, $contactType);
     }
 
-    public function createContact(User $user, array $data): string
+    public function createContact(User $user, array $data = [], ContactType $contactType = ContactType::User): string
     {
-        return $this->createObject($user, SalesforceObjectType::Contact, $data);
+        return $this->createObject($user, SalesforceObjectType::Contact, $data, $contactType);
     }
 
     public function getContact(string $contactId): array
@@ -121,14 +239,14 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function updateContact(string $contactId, User $user, array $data): bool
+    public function updateContact(string $contactId, User $user, array $data = [], ContactType $contactType = ContactType::User): bool
     {
-        return $this->updateObject($contactId, $user, SalesforceObjectType::Contact, $data);
+        return $this->updateObject($contactId, $user, SalesforceObjectType::Contact, $data, $contactType);
     }
 
-    public function createAccount(User $user, array $data): string
+    public function createAccount(User $user, array $data = [], ContactType $contactType = ContactType::User): string
     {
-        return $this->createObject($user, SalesforceObjectType::Account, $data);
+        return $this->createObject($user, SalesforceObjectType::Account, $data, $contactType);
     }
 
     public function getAccount(string $accountId): array
@@ -144,12 +262,12 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function updateAccount(string $accountId, User $user, array $data): bool
+    public function updateAccount(string $accountId, User $user, array $data = [], ContactType $contactType = ContactType::User): bool
     {
-        return $this->updateObject($accountId, $user, SalesforceObjectType::Account, $data);
+        return $this->updateObject($accountId, $user, SalesforceObjectType::Account, $data, $contactType);
     }
 
-    public function createTask(User $user, array $data): string
+    public function createTask(User $user, array $data = []): string
     {
         return $this->createObject($user, SalesforceObjectType::Task, $data);
     }
@@ -159,7 +277,7 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($taskId, SalesforceObjectType::Task);
     }
 
-    public function updateTask(string $taskId, User $user, array $data): bool
+    public function updateTask(string $taskId, User $user, array $data = []): bool
     {
         return $this->updateObject($taskId, $user, SalesforceObjectType::Task, $data);
     }
@@ -172,7 +290,7 @@ class SalesforceCRMService implements CRMService
         );
     }
 
-    public function createContentVersion(User $user, SpecificationDocument $document, array $data): string
+    public function createContentVersion(User $user, SpecificationDocument $document, array $data = []): string
     {
         $data = array_merge($data, [
             'VersionData' => $this->versionData($document),
@@ -200,7 +318,7 @@ class SalesforceCRMService implements CRMService
         return $this->getObject($contentDocumentLinkId, SalesforceObjectType::ContentDocument);
     }
 
-    public function createContentDocumentLink(User $user, array $data): string
+    public function createContentDocumentLink(User $user, array $data = []): string
     {
         return $this->createObject($user, SalesforceObjectType::ContentDocumentLink, $data);
     }
@@ -220,14 +338,12 @@ class SalesforceCRMService implements CRMService
 
         $response = $this->request()->get($path);
 
-        $this
-            ->logResponse($response, "GET $path")
-            ->requireSuccess($response, $scope);
+        $this->requireSuccess($response, $scope);
 
         return $response->json();
     }
 
-    private function createObject(User $user, SalesforceObjectType $objectType, array $data): string
+    private function createObject(User $user, SalesforceObjectType $objectType, array $data = [], ContactType $contactType = ContactType::User, array $headers = []): string
     {
         $scope = sprintf('create %s ', $objectType->value);
 
@@ -235,12 +351,13 @@ class SalesforceCRMService implements CRMService
 
         $path = $this->path('sobjects', $objectType->value);
 
-        $data = $this->adapter($objectType)->toRequestBody($user, $data);
+        $data = $this->adapter($objectType)->toRequestBody($user, $data, $contactType);
 
-        $response = $this->request()->post($path, $data);
+        $response = $this->request()
+            ->withHeaders($headers)
+            ->post($path, $data);
 
         $id = $this
-            ->logResponse($response, "POST $path")
             ->requireSuccess($response, $scope)
             ->requireId($response);
 
@@ -249,7 +366,7 @@ class SalesforceCRMService implements CRMService
         return $id;
     }
 
-    private function updateObject(string $id, User $user, SalesforceObjectType $objectType, array $data): bool
+    private function updateObject(string $id, User $user, SalesforceObjectType $objectType, array $data = [], ContactType $contactType = ContactType::User): bool
     {
         $scope = sprintf('update %s ', $objectType->value);
 
@@ -257,13 +374,11 @@ class SalesforceCRMService implements CRMService
 
         $path = $this->path('sobjects', $objectType->value, $id);
 
-        $data = $this->adapter($objectType)->toRequestBody($user, $data);
+        $data = $this->adapter($objectType)->toRequestBody($user, $data, $contactType);
 
         $response = $this->request()->patch($path, $data);
 
-        $this
-            ->logResponse($response, "PATCH $path")
-            ->requireSuccess($response, $scope);
+        $this->requireSuccess($response, $scope);
 
         $user->salesforce->saveObjectId($id, $objectType);
 
@@ -272,15 +387,13 @@ class SalesforceCRMService implements CRMService
 
     private function search(string $query, SalesforceObjectType $objectType, string $attribute = 'Id'): ?string
     {
-        $this->logMethod(sprintf('search %s', $objectType->value));
+        $this->logMethod(sprintf('search %s: %s', $objectType->value, $query));
 
         $path = $this->path('query');
 
         $response = $this->request()->get($path, ['q' => $query]);
 
-        $this
-            ->logResponse($response, "GET $path")
-            ->requireSuccess($response, 'search object');
+        $this->requireSuccess($response, 'search object');
 
         return Arr::get($response, sprintf('records.0.%s', $attribute));
     }
@@ -295,9 +408,60 @@ class SalesforceCRMService implements CRMService
         return $this;
     }
 
-    private function requireId(Response $response): string
+    private function taskSubject(EventType $eventType): SalesforceTaskSubject
     {
-        return $this->requireField($response, 'id');
+        return match ($eventType) {
+            EventType::UserRegistration => SalesforceTaskSubject::ChaseFormCompletion,
+            EventType::DocumentExport   => SalesforceTaskSubject::FormReview,
+        };
+    }
+
+    private function taskDueDate(EventType $eventType): string
+    {
+        $days = match ($eventType) {
+            EventType::UserRegistration => 7,
+            EventType::DocumentExport   => 1,
+        };
+
+        return now()->addDays($days)->startOfDay()->toDateString();
+    }
+
+    private function taskPriority(EventType $eventType): SalesforceTaskPriority
+    {
+        return match ($eventType) {
+            EventType::UserRegistration => SalesforceTaskPriority::Normal,
+            EventType::DocumentExport   => SalesforceTaskPriority::High,
+        };
+    }
+
+    private function requireUser(Registered|ExportedDocument $event): User
+    {
+        $user = $event->user;
+        if (! $user instanceof User) {
+            throw new AssertionError(sprintf('Require User instance in event %s', get_class($event)));
+        }
+
+        return $user;
+    }
+
+    private function requireId(array|Response $response): string
+    {
+        return $this->requireField($response, 'Id', fn () => $this->getField($response, 'id'));
+    }
+
+    private function requireOwnerId(array|Response $response): string
+    {
+        return $this->requireField($response, 'OwnerId');
+    }
+
+    private function requireObjectType(array|Response $response): SalesforceObjectType
+    {
+        return SalesforceObjectType::from($this->requireField($response, 'attributes.type'));
+    }
+
+    private function requireObjectUrl(array|Response $response): string
+    {
+        return $this->requireField($response, 'attributes.url');
     }
 
     private function request(): PendingRequest
@@ -306,6 +470,12 @@ class SalesforceCRMService implements CRMService
             ->withToken(
                 $this->authTokenProvider->provide(),
                 $this->authTokenProvider->tokenType(),
+            )
+            ->withMiddleware(
+                Middleware::log(
+                    $this->logger(),
+                    new MessageFormatter(MessageFormatter::DEBUG)
+                )
             )
             ->retry(3, 200, function (Exception $exception, PendingRequest $request) {
                 if ($exception instanceof RequestException) {
@@ -349,7 +519,7 @@ class SalesforceCRMService implements CRMService
 
     private function logMethod(string $method): static
     {
-        Log::debug($method);
+        $this->logger()->debug($method);
 
         return $this;
     }
@@ -357,13 +527,13 @@ class SalesforceCRMService implements CRMService
     private function logResponse(Response $response, string $requestInfo): static
     {
         if ($response->failed()) {
-            Log::error($requestInfo, [
+            $this->logger()->error($requestInfo, [
                 'error'   => $response->toException()?->getMessage(),
                 'headers' => $response->headers(),
                 'body'    => $response->body(),
             ]);
         } else {
-            Log::debug($requestInfo, [
+            $this->logger()->debug($requestInfo, [
                 'headers' => $response->headers(),
                 'body'    => $response->body(),
             ]);
@@ -372,22 +542,20 @@ class SalesforceCRMService implements CRMService
         return $this;
     }
 
-    private function requireField(Response $response, string $field): mixed
+    private function requireField(Response|array $response, string $field, ?callable $default = null): mixed
     {
-        $value = $this->getField($response, $field);
+        $value = $this->getField($response, $field) ?? ($default ? $default() : null);
 
         if ($value === null) {
-            throw new AssertionError(sprintf("Response does not contain non-null '%s': %s", $field, $response->body()));
+            throw new AssertionError(sprintf("Data does not contain non-null '%s': %s", $field, json_encode($this->getData($response))));
         }
 
         return $value;
     }
 
-    private function getField(Response $response, string $field): mixed
+    private function getField(Response|array $response, string $field): mixed
     {
-        $this->requireSuccess($response, sprintf("Get '%s' on failed response", $field));
-
-        $data = $response->json();
+        $data = $this->getData($response);
 
         return Arr::get($data, $field);
     }
@@ -405,8 +573,19 @@ class SalesforceCRMService implements CRMService
             throw new RuntimeException("Failed to read specification document: $path");
         }
 
-        $versionData = base64_encode($contents);
+        return base64_encode($contents);
+    }
 
-        return $versionData;
+    private function getData(array|Response $response): array
+    {
+        if ($response instanceof Response) {
+            $this->requireSuccess($response, 'Get data on failed response');
+
+            $data = $response->json();
+        } else {
+            $data = $response;
+        }
+
+        return $data;
     }
 }

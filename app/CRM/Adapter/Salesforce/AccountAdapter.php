@@ -3,11 +3,12 @@
 namespace App\CRM\Adapter\Salesforce;
 
 use App\CRM\Adapter\Adapter;
+use App\Enums\ContactType;
 use App\Models\User;
 
 class AccountAdapter implements Adapter
 {
-    public function toRequestBody(User $user, array $customProperties = []): array
+    public function toRequestBody(User $user, array $customProperties = [], ContactType $contactType = ContactType::User): array
     {
         $properties = [
             'Name'              => $user->company,

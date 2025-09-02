@@ -7,11 +7,8 @@
 # deb http://deb.debian.org/debian buster-updates main
 
 # use DE mirror to speed things ups
-deb http://ftp.de.debian.org/debian/ buster main contrib non-free
-deb-src http://ftp.de.debian.org/debian/ buster main contrib non-free
+deb http://ftp.de.debian.org/debian/ bookworm main contrib non-free
+deb-src http://ftp.de.debian.org/debian/ bookworm main contrib non-free
 
-deb http://security.debian.org/debian-security buster/updates main contrib
-deb-src http://security.debian.org/debian-security buster/updates main contrib
-
-
-
+deb http://deb.debian.org/debian-security bookworm-security main contrib
+deb-src http://deb.debian.org/debian-security bookworm-security main contrib

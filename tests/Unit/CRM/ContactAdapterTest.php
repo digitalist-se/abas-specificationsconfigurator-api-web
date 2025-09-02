@@ -10,7 +10,7 @@ use Tests\TestCase;
 class ContactAdapterTest extends TestCase
 {
     /**
-     * @return \App\Models\User
+     * @return User
      */
     protected function user()
     {
@@ -21,7 +21,7 @@ class ContactAdapterTest extends TestCase
     {
         return [
             'no_custom_properties' => [[]],
-            'custom_properties'    => [['custum_prop' => 'custom_value']],
+            'custom_properties'    => [['custom_prop' => 'custom_value']],
         ];
     }
 

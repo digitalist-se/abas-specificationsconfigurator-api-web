@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 class SalesforceAuthService
 {
     /**
-     * @param array{'enabled': boolean, 'baseUrl': string, 'clientId': string, 'clientSecret': string} $options
+     * @param array{'enabled': bool, 'baseUrl': string, 'clientId': string, 'clientSecret': string} $options
      */
     public function __construct(private array $options = [])
     {

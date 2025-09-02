@@ -46,7 +46,7 @@ class UserFactory extends Factory
     /**
      * Define the model's unverified state.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     public function unverified()
     {

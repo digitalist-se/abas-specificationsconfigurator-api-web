@@ -16,6 +16,7 @@ trait AssertsCRMHandlesEvents
         $userPhone = Arr::get($userAttributes, 'phone');
         $crmService
             ->shouldReceive('handleUserRegistered')
+            ->once()
             ->withArgs(fn (Registered $event) => ($user = $event->user) instanceof User && $userPhone === $user->phone)
             ->andReturn(true);
     }
@@ -24,6 +25,7 @@ trait AssertsCRMHandlesEvents
     {
         $crmService
             ->shouldReceive('handleDocumentExport')
+            ->once()
             ->withArgs(fn (ExportedDocument $event) => $event->user->id === $user->id)
             ->andReturn(true);
     }
