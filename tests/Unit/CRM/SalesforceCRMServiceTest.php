@@ -143,7 +143,7 @@ class SalesforceCRMServiceTest extends TestCase
     }
 
     /**
-     * @param array<array{SalesforceObjectType, Action}> $expectations
+     * @param array<array{SalesforceObjectType, Action, ?SalesforceObjectType}> $expectations
      *
      * @return self
      */
@@ -227,7 +227,7 @@ class SalesforceCRMServiceTest extends TestCase
             [SalesforceObjectType::Task, Action::Search],
             [SalesforceObjectType::Task, Action::Create],
             [SalesforceObjectType::ContentVersion, Action::Create],
-            [SalesforceObjectType::ContentVersion, Action::Search],
+            [SalesforceObjectType::ContentVersion, Action::Search, SalesforceObjectType::ContentDocument],
             [SalesforceObjectType::ContentDocumentLink, Action::Create],
         ];
 
@@ -421,9 +421,15 @@ class SalesforceCRMServiceTest extends TestCase
     private function assertSalesforceId(User $user, array $expectations): self
     {
         $salesforce = $user->salesforce;
-        foreach ($expectations as [$objectType, $action]) {
-            if ($action === Action::Search) {
+        foreach ($expectations as $expectation) {
+            [$objectType, $action] = $expectation;
+            $forcedType = $expectation[2] ?? null;
+            if ($action === Action::Search && $forcedType === null) {
                 continue;
+            }
+
+            if ($forcedType !== null) {
+                $objectType = $forcedType;
             }
 
             $id = $salesforce->objectId($objectType);
@@ -698,15 +704,7 @@ class SalesforceCRMServiceTest extends TestCase
         };
     }
 
-    /**
-     * @param mixed $user
-     *
-     * @return SpecificationDocument
-     * @throws \App\Exceptions\GenerateExcelException
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     */
-    private function givenIsASpecificationDocument(mixed $user): SpecificationDocument
+    private function givenIsASpecificationDocument(User $user): SpecificationDocument
     {
         $outputDir = storage_path('app/export');
         $document = new SpecificationDocument($outputDir, $user, []);
