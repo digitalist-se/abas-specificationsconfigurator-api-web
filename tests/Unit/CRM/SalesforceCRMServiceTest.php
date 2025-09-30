@@ -198,7 +198,7 @@ class SalesforceCRMServiceTest extends TestCase
             ->assertRequestLeadSearch($user, $contactType)
             ->assertRequestLeadCreation($user, $contactType)
             ->assertRequestLeadGet($leadId)
-            ->assertRequestTaskCreationForUserRegistered($user, $leadId, $ownerId)
+            ->assertRequestTaskCreationForUserRegistered($leadId, $ownerId)
             ->assertActionProtocol()
             ->assertSalesforceId($user, $expectations);
     }
@@ -256,10 +256,10 @@ class SalesforceCRMServiceTest extends TestCase
             ->assertRequestLeadCreation($user, $contactType)
             ->assertRequestLeadGet($leadId)
             ->assertRequestTaskSearch($leadId)
-            ->assertRequestTaskCreationForDocumentExport($user, $leadId, $ownerId)
-            ->assertRequestContentVersionCreation($user)
+            ->assertRequestTaskCreationForDocumentExport($leadId, $ownerId)
+            ->assertRequestContentVersionCreation()
             ->assertRequestContentVersionSearch($contentVersionId)
-            ->assertRequestContentDocumentLinkCreation($user, $taskId, $contentDocumentId)
+            ->assertRequestContentDocumentLinkCreation($taskId, $contentDocumentId)
             ->assertActionProtocol()
             ->assertSalesforceId($user, $expectations);
 
@@ -307,7 +307,7 @@ class SalesforceCRMServiceTest extends TestCase
             ->assertRequestLeadSearch($user, $contactType)
             ->assertRequestLeadUpdate($leadId, $user, $contactType)
             ->assertRequestLeadGet($leadId)
-            ->assertRequestTaskCreationForUserRegistered($user, $leadId, $ownerId)
+            ->assertRequestTaskCreationForUserRegistered($leadId, $ownerId)
             ->assertActionProtocol()
             ->assertSalesforceId($user, $expectations);
     }
@@ -349,7 +349,7 @@ class SalesforceCRMServiceTest extends TestCase
             ->assertRequestContactSearch($user, $contactType)
             ->assertRequestContactUpdate($contactId, $user, $contactType)
             ->assertRequestContactGet($contactId)
-            ->assertRequestTaskCreationForUserRegistered($user, $contactId, $ownerId)
+            ->assertRequestTaskCreationForUserRegistered($contactId, $ownerId)
             ->assertActionProtocol()
             ->assertSalesforceId($user, $expectations);
     }
@@ -407,10 +407,10 @@ class SalesforceCRMServiceTest extends TestCase
             ->assertRequestLeadCreation($user, $contactType)
             ->assertRequestLeadGet($leadId)
             ->assertRequestTaskSearch($leadId)
-            ->assertRequestTaskUpdateForDocumentExport($user, $taskId, $leadId, $ownerId)
-            ->assertRequestContentVersionCreation($user)
+            ->assertRequestTaskUpdateForDocumentExport($taskId, $leadId, $ownerId)
+            ->assertRequestContentVersionCreation()
             ->assertRequestContentVersionSearch($contentVersionId)
-            ->assertRequestContentDocumentLinkCreation($user, $taskId, $contentDocumentId)
+            ->assertRequestContentDocumentLinkCreation($taskId, $contentDocumentId)
             ->assertActionProtocol()
             ->assertSalesforceId($user, $expectations);
 
@@ -543,7 +543,6 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->assertEquals(SalesforceLeadSource::ERPPlanner->value, $data['LeadSource']);
                 $this->assertEquals(SalesforceLeadStatus::PreLead->value, $data['Status']);
                 $this->assertEquals(SalesforceLeadProductFamily::ABAS->value, $data['Product_Family__c']);
-                $this->assertNotEmpty($user->salesforce->objectId(SalesforceObjectType::Lead), 'Salesforce Lead ID should be set after lead creation');
             }
         );
     }
@@ -560,7 +559,6 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->assertEquals($user->getContactFirstName($contactType), $data['FirstName']);
                 $this->assertEquals($user->getContactLastName($contactType), $data['LastName']);
                 $this->assertEquals(SalesforceLeadSource::ERPPlanner->value, $data['LeadSource']);
-                $this->assertNotEmpty($user->salesforce->objectId(SalesforceObjectType::Lead), 'Salesforce Lead ID should be set after lead update');
             }
         );
     }
@@ -589,7 +587,6 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->assertEquals($user->getContactFirstName($contactType), $data['FirstName']);
                 $this->assertEquals($user->getContactLastName($contactType), $data['LastName']);
                 $this->assertEquals(SalesforceLeadSource::ERPPlanner->value, $data['LeadSource']);
-                $this->assertNotEmpty($user->salesforce->objectId(SalesforceObjectType::Contact), 'Salesforce Contact ID should be set after contact update');
             }
         );
     }
@@ -606,13 +603,13 @@ class SalesforceCRMServiceTest extends TestCase
         );
     }
 
-    private function assertRequestTaskCreationForEventType(User $user, $leadId, $ownerId, EventType $eventType): self
+    private function assertRequestTaskCreationForEventType($leadId, $ownerId, EventType $eventType): self
     {
         return $this->assertRequest(
             SalesforceObjectType::Task,
             Action::Create,
             null,
-            function (Request $request) use ($user, $leadId, $ownerId, $eventType) {
+            function (Request $request) use ($leadId, $ownerId, $eventType) {
                 $data = $request->data();
                 if ($eventType === EventType::UserRegistration) {
                     $subject = SalesforceTaskSubject::ChaseFormCompletion->value;
@@ -629,28 +626,27 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->assertEquals(SalesforceTaskStatus::Open->value, $data['Status']);
                 $this->assertEquals($leadId, $data['WhoId']);
                 $this->assertEquals($ownerId, $data['OwnerId']);
-                $this->assertNotEmpty($user->salesforce->objectId(SalesforceObjectType::Task), 'Salesforce Task ID should be set after task creation');
             }
         );
     }
 
-    private function assertRequestTaskCreationForUserRegistered(User $user, $leadId, $ownerId): self
+    private function assertRequestTaskCreationForUserRegistered($leadId, $ownerId): self
     {
-        return $this->assertRequestTaskCreationForEventType($user, $leadId, $ownerId, EventType::UserRegistration);
+        return $this->assertRequestTaskCreationForEventType($leadId, $ownerId, EventType::UserRegistration);
     }
 
-    private function assertRequestTaskCreationForDocumentExport(User $user, $leadId, $ownerId): self
+    private function assertRequestTaskCreationForDocumentExport($leadId, $ownerId): self
     {
-        return $this->assertRequestTaskCreationForEventType($user, $leadId, $ownerId, EventType::DocumentExport);
+        return $this->assertRequestTaskCreationForEventType($leadId, $ownerId, EventType::DocumentExport);
     }
 
-    private function assertRequestTaskUpdateForDocumentExport(User $user, $taskId, $leadId, $ownerId): self
+    private function assertRequestTaskUpdateForDocumentExport($taskId, $leadId, $ownerId): self
     {
         return $this->assertRequest(
             SalesforceObjectType::Task,
             Action::Update,
             $taskId,
-            function (Request $request) use ($user, $leadId, $ownerId) {
+            function (Request $request) use ($leadId, $ownerId) {
                 $data = $request->data();
                 $this->assertEquals(SalesforceTaskSubject::FormReview->value, $data['Subject']);
                 $this->assertEquals(SalesforceTaskPriority::High->value, $data['Priority']);
@@ -658,39 +654,36 @@ class SalesforceCRMServiceTest extends TestCase
                 $this->assertEquals(SalesforceTaskStatus::Open->value, $data['Status']);
                 $this->assertEquals($leadId, $data['WhoId']);
                 $this->assertNotContains('OwnerId', $data);
-                $this->assertNotEmpty($user->salesforce->objectId(SalesforceObjectType::Task), 'Salesforce Task ID should be set after task update');
             }
         );
     }
 
-    private function assertRequestContentVersionCreation(User $user): self
+    private function assertRequestContentVersionCreation(): self
     {
         return $this->assertRequest(
             SalesforceObjectType::ContentVersion,
             Action::Create,
             null,
-            function (Request $request) use ($user) {
+            function (Request $request) {
                 $data = $request->data();
                 $this->assertEquals('ERP-Form', $data['Title']);
                 $this->assertEquals('ERP-Form.xlsx', $data['PathOnClient']);
                 $this->assertEquals('S', $data['ContentLocation']);
-                $this->assertNotEmpty($user->salesforce->objectId(SalesforceObjectType::ContentVersion), 'Salesforce Content Version ID should be set after content version creation');
             }
         );
     }
 
-    private function assertRequestContentDocumentLinkCreation(User $user, $taskId, $contentDocumentId): self
+    private function assertRequestContentDocumentLinkCreation($taskId, $contentDocumentId): self
     {
         return $this->assertRequest(
             SalesforceObjectType::ContentDocumentLink,
             Action::Create,
             null,
-            function (Request $request) use ($user, $taskId, $contentDocumentId) {
+            function (Request $request) use ($taskId, $contentDocumentId) {
                 $data = $request->data();
                 $this->assertEquals($contentDocumentId, $data['ContentDocumentId']);
                 $this->assertEquals($taskId, $data['LinkedEntityId']);
                 $this->assertEquals(SalesforceContentDocumentLinkVisibility::AllUsers->value, $data['Visibility']);
-                $this->assertNotEmpty($user->salesforce->objectId(SalesforceObjectType::ContentDocumentLink), 'Salesforce Content Document Link ID should be set after content version creation');
             }
         );
     }
