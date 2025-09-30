@@ -183,6 +183,8 @@ class SalesforceCRMService implements CRMService
             throw new RuntimeException("Failed to find ContentDocument for ContentVersion: $contentVersionId");
         }
 
+        $user->salesforce->saveObjectId($contentDocumentId, SalesforceObjectType::ContentDocument);
+
         $this->createContentDocumentLink($user, [
             'ContentDocumentId' => $contentDocumentId,
             'LinkedEntityId'    => $taskId,
