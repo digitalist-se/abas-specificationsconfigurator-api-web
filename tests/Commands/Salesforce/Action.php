@@ -1,6 +1,6 @@
 <?php
 
-namespace Commands\Salesforce;
+namespace Tests\Commands\Salesforce;
 
 enum Action: string
 {

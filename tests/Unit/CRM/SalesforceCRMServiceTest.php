@@ -16,7 +16,6 @@ use App\Enums\EventType;
 use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
 use App\Models\User;
-use Commands\Salesforce\Action;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,6 +25,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
+use Tests\Commands\Salesforce\Action;
 use Tests\TestCase;
 use Webmozart\Assert\Assert;
 

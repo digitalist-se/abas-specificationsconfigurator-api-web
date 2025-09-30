@@ -1,6 +1,6 @@
 <?php
 
-namespace Commands\Salesforce;
+namespace Tests\Commands\Salesforce;
 
 use App\CRM\Enums\SalesforceContentDocumentLinkVisibility;
 use App\CRM\Enums\SalesforceLeadProductFamily;
