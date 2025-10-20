@@ -3,8 +3,6 @@ Abas ERP Lastenheftgenerator - API
 
 [docs]: ./docs/index.md
 [dotenv]: ./.env
-[lldocker]: https://git.gal-digital.de/dimitri.pfaffenrodt/lldocker
-[lldocker-readme]: ./README[lldocker].md
 [laravel-passport]: https://laravel.com/docs/5.6/passport
 [docker]: https://www.docker.com/
 [vagrant]: https://www.vagrantup.com/
@@ -13,15 +11,14 @@ Abas ERP Lastenheftgenerator - API
 
 ## Setup
 
-The project uses [lldocker][lldocker] as the development environment, 
-therefore you have to install [Docker][docker.
+The project uses docker for development environment.
 
 ### First Install
 
 Clone repository
 
 ```bash
-git clone git@bitbucket.org:GALDigital/abas-specificationsconfigurator-api-web.git
+git clone git@github.com:digitalist-se/abas-specificationsconfigurator-api-web.git
 cd abas-specificationsconfigurator-api-web
 ```
 
@@ -32,11 +29,9 @@ make init-env
 make init
 ```
 
-Adapt your [.env][dotenv]
-
+Adapt your [.env][dotenv]:
 * add your ssh key to DOCKER_GIT_SSH_KEY
 * add mailtrap credentials MAIL_USERNAME, MAIL_PASSWORD 
-
 
 To access the API from your host system via `https://erpplanner.test`
 add the following to your `hosts` file
@@ -44,9 +39,8 @@ add the following to your `hosts` file
 ```
 127.0.0.1 erpplanner.test
 ```
-### Use the development environment
 
-See [REDMAE of lldocker][lldocker-readme].
+### Use the development environment
 
 ## Testing
 
