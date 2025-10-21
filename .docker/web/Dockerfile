@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-buster
+FROM php:8.1-fpm-bullseye
 
 ###########################################################################
 # userid of www-data (linux support file permissions)
@@ -9,12 +9,6 @@ ENV DOCKER_WWW_USER_ID $DOCKER_WWW_USER_ID
 ENV DOCKER_WWW_GROUP_ID $DOCKER_WWW_GROUP_ID
 RUN usermod --non-unique --uid ${DOCKER_WWW_USER_ID} www-data \
     && groupmod --gid ${DOCKER_WWW_GROUP_ID} www-data
-
-
-###########################################################################
-# apt sources:
-###########################################################################
-COPY ./apt.sources.list /etc/apt/sources.list
 
 ###########################################################################
 # nginx:
