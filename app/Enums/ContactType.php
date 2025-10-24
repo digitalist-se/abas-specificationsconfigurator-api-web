@@ -2,8 +2,8 @@
 
 namespace App\Enums;
 
-enum ContactType
+enum ContactType: string
 {
-    case User;
-    case Company;
+    case User = 'User';
+    case Company = 'Company';
 }

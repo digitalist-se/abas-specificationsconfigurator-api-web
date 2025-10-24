@@ -43,4 +43,14 @@ class NoOpCRMService implements CRMService
     {
         return true;
     }
+
+    public function handleUserRegistered(Registered $event): bool
+    {
+        return true;
+    }
+
+    public function handleDocumentExport(ExportedDocument $event): bool
+    {
+        return true;
+    }
 }

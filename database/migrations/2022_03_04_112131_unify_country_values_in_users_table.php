@@ -17,7 +17,7 @@ return new class extends Migration {
             ->get()
         ->pluck('country')
         ->each(function ($countryValue) {
-            $newCountryValue = \App\Models\Country::findMatch($countryValue)->value;
+            $newCountryValue = App\Models\Country::findMatch($countryValue)->value;
             if ($countryValue != $newCountryValue) {
                 DB::table('users')
                     ->where('country', '=', $countryValue)

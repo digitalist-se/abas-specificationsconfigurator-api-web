@@ -2,15 +2,14 @@
 
 namespace Tests\Unit\CRM;
 
-use App\CRM\Adapter\CompanyAdapter;
-use App\CRM\Adapter\UserNoteAdapter;
+use App\CRM\Adapter\Hubspot\UserNoteAdapter;
 use App\Models\User;
 use Tests\TestCase;
 
 class NoteAdapterTest extends TestCase
 {
     /**
-     * @return \App\Models\User
+     * @return User
      */
     protected function user()
     {

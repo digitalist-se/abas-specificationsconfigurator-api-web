@@ -2,21 +2,21 @@
 
 namespace App\CRM\Service;
 
-use Illuminate\Http\Client\PendingRequest;
 use function app;
 use App\CRM\Adapter\Adapter;
-use App\CRM\Adapter\CompanyAdapter;
-use App\CRM\Adapter\CompanyContactAdapter;
-use App\CRM\Adapter\EngagementNoteAdapter;
-use App\CRM\Adapter\TrackEventAdapter;
-use App\CRM\Adapter\UserContactAdapter;
-use App\CRM\Adapter\UserNoteAdapter;
+use App\CRM\Adapter\Hubspot\CompanyAdapter;
+use App\CRM\Adapter\Hubspot\CompanyContactAdapter;
+use App\CRM\Adapter\Hubspot\EngagementNoteAdapter;
+use App\CRM\Adapter\Hubspot\TrackEventAdapter;
+use App\CRM\Adapter\Hubspot\UserContactAdapter;
+use App\CRM\Adapter\Hubspot\UserNoteAdapter;
 use App\CRM\Enums\HubSpotEventType;
 use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Models\User;
 use Arr;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -106,12 +106,36 @@ class HubSpotCRMService implements CRMService
         return app()->make(TrackEventAdapter::class, ['eventName' => $eventName]);
     }
 
+    public function handleUserRegistered(Registered $event): bool
+    {
+        $user = $event->user;
+        if (! $user instanceof User) {
+            return false;
+        }
+
+        $this->upsertContact($user, ContactType::User, ['erp_registration_trigger' => true]);
+        $this->trackUserRegistered($event);
+
+        return true;
+    }
+
+    public function handleDocumentExport(ExportedDocument $event): bool
+    {
+        $this->upsertContact($event->user, ContactType::User, ['erp_lastenheft_trigger' => true]);
+        $this->updateCompany($event->user);
+        $this->upsertContact($event->user, ContactType::Company, []);
+
+        $this->trackDocumentExport($event);
+
+        return true;
+    }
+
     public function createContact(User $user, ContactType $type, array $customProperties = []): bool
     {
         $this->logMethod(__METHOD__);
 
         $adapter = $this->getContactAdapter($type);
-        $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
+        $requestBody = $adapter->toRequestBody($user, $customProperties);
         $url = $this->createUrl('/crm/v3/objects/contacts');
         $response = $this->request()->post($url, $requestBody);
 
@@ -142,7 +166,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $adapter = $this->getCompanyAdapter();
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toRequestBody($user);
         $url = $this->createUrl('/crm/v3/objects/companies/'.$companyId);
         $response = $this->request()->patch($url, $requestBody);
 
@@ -164,7 +188,7 @@ class HubSpotCRMService implements CRMService
         }
 
         $adapter = $this->getContactAdapter($type);
-        $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
+        $requestBody = $adapter->toRequestBody($user, $customProperties);
         $url = $this->createUrl('/crm/v3/objects/contacts/'.$crmContactId);
         $response = $this->request()->patch($url, $requestBody);
 
@@ -246,7 +270,7 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $event->user;
         $user->refresh();
         if (! $user->crm_user_contact_id) {
@@ -271,7 +295,7 @@ class HubSpotCRMService implements CRMService
         $this->logMethod(__METHOD__);
 
         $adapter = $this->getTrackEventAdapter($eventType);
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toRequestBody($user);
         $url = $this->createUrl('/events/v3/send');
         $response = $this->request()->withBody(json_encode($requestBody), 'application/json')
             ->post($url);
@@ -352,7 +376,7 @@ class HubSpotCRMService implements CRMService
     {
         $this->logMethod(__METHOD__);
 
-        $crmEmail = $user->getCrmEmail($type);
+        $crmEmail = $user->getContactEmail($type);
         if (! $crmEmail) {
             return null;
         }

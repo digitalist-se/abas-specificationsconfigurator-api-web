@@ -1,7 +1,8 @@
 <?php
 
-namespace App\CRM\Adapter;
+namespace App\CRM\Adapter\Hubspot;
 
+use App\CRM\Adapter\Adapter;
 use App\Models\User;
 
 class TrackEventAdapter implements Adapter
@@ -16,7 +17,7 @@ class TrackEventAdapter implements Adapter
         $this->eventName = $eventName;
     }
 
-    public function toCreateRequestBody(User $user): array
+    public function toRequestBody(User $user): array
     {
         return [
             'eventName'  => $this->eventName,

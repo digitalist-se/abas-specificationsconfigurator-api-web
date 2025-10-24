@@ -3,7 +3,7 @@
 namespace Tests\Unit\CRM;
 
 use App\CRM\Enums\HubSpotEventType;
-use App\CRM\Service\CRMService;
+use App\CRM\Service\HubSpotCRMService;
 use App\Enums\ContactType;
 use App\Events\ExportedDocument;
 use App\Http\Resources\SpecificationDocument;
@@ -56,7 +56,7 @@ class HubSpotCRMServiceTest extends TestCase
 
         $user = $this->givenIsAUserWithCrmIds();
 
-        $service = $this->app->make(CRMService::class);
+        $service = $this->app->make(HubSpotCRMService::class);
         $service->updateCompany($user);
 
         Http::assertSent(function (?Request $request, ?Response $response) {
@@ -77,8 +77,8 @@ class HubSpotCRMServiceTest extends TestCase
         Http::fake();
         $user = User::factory()->make();
         $document = $this->givenIsASpecificationDocument($user);
-        $this->app->make(CRMService::class);
-        $service = $this->app->make(CRMService::class);
+        $this->app->make(HubSpotCRMService::class);
+        $service = $this->app->make(HubSpotCRMService::class);
         $service->trackDocumentExport(new ExportedDocument($user, $document));
         Http::assertNothingSent();
     }
@@ -116,7 +116,7 @@ class HubSpotCRMServiceTest extends TestCase
         $user = $this->givenIsAUserWithCrmIds($crmUserContactId, $crmCompanyContactId);
         $document = $this->givenIsASpecificationDocument($user);
 
-        $service = $this->app->make(CRMService::class);
+        $service = $this->app->make(HubSpotCRMService::class);
         $service->trackDocumentExport(new ExportedDocument($user, $document));
 
         // Then we expect create event request
@@ -262,7 +262,7 @@ class HubSpotCRMServiceTest extends TestCase
 
         $user = $this->givenIsAUserWithCrmIds('xyz');
 
-        $service = $this->app->make(CRMService::class);
+        $service = $this->app->make(HubSpotCRMService::class);
         $service->trackUserRegistered(new Registered($user));
 
         Http::assertSent(function (?Request $request, ?Response $response) {
@@ -300,7 +300,7 @@ class HubSpotCRMServiceTest extends TestCase
 
         $user = $this->givenIsAUserWithCrmIds('xyz');
 
-        $service = $this->app->make(CRMService::class);
+        $service = $this->app->make(HubSpotCRMService::class);
         $service->updateCompany($user);
 
         Http::assertSent(function (?Request $request, ?Response $response) {
@@ -362,7 +362,7 @@ class HubSpotCRMServiceTest extends TestCase
             '*' => Http::sequence($httpSequence->toArray()),
         ]);
 
-        $service = $this->app->make(CRMService::class);
+        $service = $this->app->make(HubSpotCRMService::class);
         $service->upsertContact($user, $type);
 
         if (! $hasContactId) {
@@ -436,8 +436,8 @@ class HubSpotCRMServiceTest extends TestCase
             ]),
         ]);
 
-        // And given there is a CRMService istance
-        $service = $this->app->make(CRMService::class);
+        // And given there is a HubSpotCRMService istance
+        $service = $this->app->make(HubSpotCRMService::class);
 
         // When we upsert contact
         $service->upsertContact($user, $type, $customProperties);
@@ -514,7 +514,7 @@ class HubSpotCRMServiceTest extends TestCase
     /**
      * @param mixed $user
      *
-     * @return \App\Http\Resources\SpecificationDocument
+     * @return SpecificationDocument
      * @throws \App\Exceptions\GenerateExcelException
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception

@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\CRM;
 
-use App\CRM\Adapter\CompanyAdapter;
+use App\CRM\Adapter\Hubspot\CompanyAdapter;
 use App\Models\User;
 use Tests\TestCase;
 
 class CompanyAdapterTest extends TestCase
 {
     /**
-     * @return \App\Models\User
+     * @return User
      */
     protected function user()
     {
@@ -26,7 +26,7 @@ class CompanyAdapterTest extends TestCase
 
         // When we pass it to adapter
         $adapter = $this->app->make(CompanyAdapter::class);
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toRequestBody($user);
 
         // We expect that the request body contains expected data
         $this->assertEquals(

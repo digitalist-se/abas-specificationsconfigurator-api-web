@@ -1,7 +1,8 @@
 <?php
 
-namespace App\CRM\Adapter;
+namespace App\CRM\Adapter\Hubspot;
 
+use App\CRM\Adapter\Adapter;
 use App\Models\User;
 
 class CompanyContactAdapter implements Adapter
@@ -16,7 +17,7 @@ class CompanyContactAdapter implements Adapter
         'jobtitle'   => 'contact_function',
     ];
 
-    public function toCreateRequestBody(User $user): array
+    public function toRequestBody(User $user): array
     {
         $properties = [];
         foreach (self::PROPERTY_MAP as $propertyName => $attributeKey) {

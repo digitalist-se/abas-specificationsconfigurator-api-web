@@ -2,15 +2,15 @@
 
 namespace Tests\Unit\CRM;
 
-use App\CRM\Adapter\CompanyContactAdapter;
-use App\CRM\Adapter\UserContactAdapter;
+use App\CRM\Adapter\Hubspot\CompanyContactAdapter;
+use App\CRM\Adapter\Hubspot\UserContactAdapter;
 use App\Models\User;
 use Tests\TestCase;
 
 class ContactAdapterTest extends TestCase
 {
     /**
-     * @return \App\Models\User
+     * @return User
      */
     protected function user()
     {
@@ -21,7 +21,7 @@ class ContactAdapterTest extends TestCase
     {
         return [
             'no_custom_properties' => [[]],
-            'custom_properties'    => [['custum_prop' => 'custom_value']],
+            'custom_properties'    => [['custom_prop' => 'custom_value']],
         ];
     }
 
@@ -36,7 +36,7 @@ class ContactAdapterTest extends TestCase
 
         // When we pass it to adapter
         $adapter = $this->app->make(UserContactAdapter::class);
-        $requestBody = $adapter->toCreateRequestBody($user, $customProperties);
+        $requestBody = $adapter->toRequestBody($user, $customProperties);
 
         // We expect that the request body contains expected data
         $expectedProperties = array_merge([
@@ -61,7 +61,7 @@ class ContactAdapterTest extends TestCase
 
         // When we pass it to adapter
         $adapter = $this->app->make(CompanyContactAdapter::class);
-        $requestBody = $adapter->toCreateRequestBody($user);
+        $requestBody = $adapter->toRequestBody($user);
 
         // We expect that the request body contains expected data
         $this->assertEquals(

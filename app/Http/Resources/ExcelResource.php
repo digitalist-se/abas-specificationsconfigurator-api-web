@@ -159,17 +159,28 @@ abstract class ExcelResource implements Responsable
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws GenerateExcelException
      */
-    public function save()
+    public function save($keepXlsx = false)
     {
         if (! $this->saved) {
             try {
                 $this->saveDocument();
                 $this->zipDocument();
-                unlink($this->outputExcelFilename());
+                if (! $keepXlsx) {
+                    unlink($this->outputExcelFilename());
+                }
                 $this->saved = true;
             } catch (\Exception $exception) {
                 throw new GenerateExcelException($exception);
             }
         }
+    }
+
+    public function removeExcel(): bool
+    {
+        if (file_exists($this->outputExcelFilename())) {
+            return unlink($this->outputExcelFilename());
+        }
+
+        return true;
     }
 }
