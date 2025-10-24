@@ -10,7 +10,7 @@ trait CanHandleCsv
     protected function readCsv(string $sourcePath, string $separator = ',', bool $hasHeaderRow = true): array
     {
         $sourceData = array_map(fn ($line) => str_getcsv($line, $separator), file($sourcePath));
-        if (!$hasHeaderRow) {
+        if (! $hasHeaderRow) {
             return $sourceData;
         }
         array_walk($sourceData, static function (&$a) use ($sourceData) {

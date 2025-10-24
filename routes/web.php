@@ -28,7 +28,7 @@ Route::domain(config('app.app-www-url'))
     ->group(function () {
         Route::prefix('/{lang}')
             ->where(['lang' => '[A-Za-z]{2}'])
-            ->group(function ($lang = \App\Models\Locale::DE) {
+            ->group(function ($lang = App\Models\Locale::DE) {
                 Route::get('/')->name('landingpage');
                 Route::get('/imprint')->name('imprint');
                 Route::get('/privacy-policy')->name('privacy-policy');

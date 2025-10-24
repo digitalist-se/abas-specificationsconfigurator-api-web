@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\CRM\Service\CRMService;
 use App\Mail\LeadRegisterMail;
-use App\Models\BlacklistedEmailDomain;
 use App\Models\User;
 use App\Notifications\Register;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -42,6 +41,7 @@ class CreateUserTest extends TestCase
             'contact'                => $this->faker->name(),
             'contact_function'       => 'Geschäftsführer',
         ];
+
         $this->assertCRMServiceHandlesUserRegistered($this->mock(CRMService::class), $requestBody);
 
         $response = $this->postJson('/api/user', $requestBody);

@@ -15,11 +15,8 @@ trait AssertsCRMHandlesEvents
     {
         $userPhone = Arr::get($userAttributes, 'phone');
         $crmService
-            ->shouldReceive('upsertContact')
-            ->withArgs(fn (User $u, ContactType $type, array $props) => $u->phone === $userPhone && $type === ContactType::User && $props === ['erp_registration_trigger' => true])
-            ->andReturn(true);
-
-        $crmService->shouldReceive('trackUserRegistered')
+            ->shouldReceive('handleUserRegistered')
+            ->once()
             ->withArgs(fn (Registered $event) => ($user = $event->user) instanceof User && $userPhone === $user->phone)
             ->andReturn(true);
     }
@@ -27,23 +24,9 @@ trait AssertsCRMHandlesEvents
     protected function assertCRMServiceHandlesExportedDocument(MockInterface $crmService, User $user): void
     {
         $crmService
-            ->shouldReceive('upsertContact')
-            ->withArgs(fn (User $u, ContactType $type, array $props) => $u->id === $user->id && $type === ContactType::User && $props === ['erp_lastenheft_trigger' => true])
-            ->andReturn(true);
-
-        $crmService
-            ->shouldReceive('updateCompany')
-            ->withArgs(fn (User $u) => $u->id === $user->id)
-            ->andReturn(true);
-
-        $crmService
-            ->shouldReceive('upsertContact')
-            ->withArgs(fn (User $u, ContactType $type, array $props) => $u->id === $user->id && $type === ContactType::Company && empty($props))
-            ->andReturn(true);
-
-        $expectEvent = fn (ExportedDocument $event) => $event->user->id === $user->id;
-        $crmService->shouldReceive('trackDocumentExport')
-            ->withArgs($expectEvent)
+            ->shouldReceive('handleDocumentExport')
+            ->once()
+            ->withArgs(fn (ExportedDocument $event) => $event->user->id === $user->id)
             ->andReturn(true);
     }
 }

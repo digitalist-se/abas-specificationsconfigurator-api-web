@@ -90,7 +90,7 @@ return [
     |
     */
 
-    'locale' => \App\Models\Locale::DE,
+    'locale' => App\Models\Locale::DE,
 
     'activated_locales' => explode(',', env('ACTIVATED_LOCALES', config('app.locale'))),
 
@@ -105,7 +105,7 @@ return [
     |
     */
 
-    'fallback_locale' => \App\Models\Locale::EN,
+    'fallback_locale' => App\Models\Locale::EN,
 
     /*
    |--------------------------------------------------------------------------

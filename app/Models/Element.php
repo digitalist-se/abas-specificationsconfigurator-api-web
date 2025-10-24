@@ -46,7 +46,7 @@ class Element extends BaseModel
 
     public function choiceType()
     {
-        return $this->belongsTo(\App\Models\ChoiceType::class);
+        return $this->belongsTo(ChoiceType::class);
     }
 
     public function getDocumentCellAttribute()

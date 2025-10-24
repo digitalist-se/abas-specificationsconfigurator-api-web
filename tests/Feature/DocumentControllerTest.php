@@ -3,14 +3,12 @@
 namespace Tests\Feature;
 
 use App\CRM\Service\CRMService;
-use App\Events\ExportedDocument;
 use App\Mail\DocumentGeneratedMail;
 use App\Models\Answer;
 use App\Models\ChoiceType;
 use App\Models\Element;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Tests\PassportTestCase;
 use Tests\Traits\AssertsCRMHandlesEvents;

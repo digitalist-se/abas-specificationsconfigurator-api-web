@@ -51,13 +51,14 @@ class ApplyNameFixData extends Command
         $upsertData = User::whereKey($data->keys())
             ->whereNull(['first_name', 'last_name'])
             ->pluck('id')
-            ->map(fn ($id)  => $data->get($id))
+            ->map(fn ($id) => $data->get($id))
             ->map(fn ($row) => array_merge($row, $noInsertDefaults));
 
         $this->info("{$upsertData->count()} user rows should be updated");
 
-        if (!$this->confirm("Are you sure to apply data?")) {
-            $this->info("No user rows are updated");
+        if (! $this->confirm('Are you sure to apply data?')) {
+            $this->info('No user rows are updated');
+
             return 0;
         }
 

@@ -11,6 +11,6 @@ if (! function_exists('localizedImageAsset')) {
      */
     function localizedImageAsset(string $path, bool $secure = null): string
     {
-        return \App\Models\Locale::imageAsset($path, $secure);
+        return App\Models\Locale::imageAsset($path, $secure);
     }
 }

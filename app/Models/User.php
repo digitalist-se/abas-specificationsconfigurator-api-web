@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ContactType;
+use App\Models\Concerns\HasContactData;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Lang;
 use Laravel\Passport\HasApiTokens;
 
 /**
- * @property \App\Models\Role $role
+ * @property Role $role
  * @mixin IdeHelperUser
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -21,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens;
     use Notifiable;
     use HasFactory;
+    use HasContactData;
 
     const REQUIRED_FIELDS_FOR_SPECIFICATION = [
         'first_name',
@@ -122,6 +124,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Answer::class);
     }
 
+    public function salesforce()
+    {
+        return $this->hasOne(Salesforce::class)->withDefault();
+    }
+
     public function hasAllRequiredFieldsForSpecificationDocument()
     {
         foreach (self::REQUIRED_FIELDS_FOR_SPECIFICATION as $requiredField) {
@@ -209,14 +216,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return match ($type) {
             ContactType::User    => 'crm_user_contact_id',
             ContactType::Company => 'crm_company_contact_id',
-        };
-    }
-
-    public function getCrmEmail(ContactType $type): ?string
-    {
-        return match ($type) {
-            ContactType::User    => $this->email,
-            ContactType::Company => $this->contact_email,
         };
     }
 }
